@@ -1,0 +1,21 @@
+name: Devcontainer and public checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build devcontainer and run public checks
+        uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: bash scripts/check_public.sh

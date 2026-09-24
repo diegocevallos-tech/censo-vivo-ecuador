@@ -157,6 +157,63 @@
         }
       ],
       "published_to_private_release": true
+    },
+    {
+      "id": "cpv2022_dictionary_canton",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_CANTON.xlsx",
+      "filename": "DICCIONARIO_BDD_CANTON.xlsx",
+      "classification": "documentation",
+      "required": false,
+      "retrieved_at": "2026-09-24T19:27:22.215612+00:00",
+      "size_bytes": 152638,
+      "sha256": "16d6e810489f278f8c4f4ec997c8860e69ee4c3ffd93e6703040cbed98a4065f",
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "DICCIONARIO_BDD_CANTON.xlsx",
+          "size_bytes": 152638,
+          "sha256": "16d6e810489f278f8c4f4ec997c8860e69ee4c3ffd93e6703040cbed98a4065f"
+        }
+      ],
+      "published_to_private_release": false
+    },
+    {
+      "id": "cpv2022_sector_csv",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/bd-censo/sector/BDD_CPV2022_SECT_CSV.zip",
+      "filename": "BDD_CPV2022_SECT_CSV.zip",
+      "classification": "person_or_household_microdata",
+      "required": false,
+      "retrieved_at": "2026-09-24T19:27:22.714905+00:00",
+      "size_bytes": 594828566,
+      "sha256": "e1dd8c7cfefc388cba5765fa9e94d6865d2ae2bc81667051667d1cd0b786300f",
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "BDD_CPV2022_SECT_CSV.zip",
+          "size_bytes": 594828566,
+          "sha256": "e1dd8c7cfefc388cba5765fa9e94d6865d2ae2bc81667051667d1cd0b786300f"
+        }
+      ],
+      "published_to_private_release": false
+    },
+    {
+      "id": "cpv2022_canton_csv",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/bd-censo/cantonal/BDD_CPV2022_CANT_CSV.zip",
+      "filename": "BDD_CPV2022_CANT_CSV.zip",
+      "classification": "person_or_household_microdata",
+      "required": false,
+      "retrieved_at": "2026-09-24T19:27:24.981822+00:00",
+      "size_bytes": 692203199,
+      "sha256": "f7d8ff13bbdcf698a86bd5afba12b71055351b71f078e7435c0d605ba4bb6e3e",
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "BDD_CPV2022_CANT_CSV.zip",
+          "size_bytes": 692203199,
+          "sha256": "f7d8ff13bbdcf698a86bd5afba12b71055351b71f078e7435c0d605ba4bb6e3e"
+        }
+      ],
+      "published_to_private_release": false
     }
   ],
   "notes": "Originales oficiales verificados; microdatos solo en el Release privado. Las claves 888 se conservan agregadas sin geometría inventada.",
