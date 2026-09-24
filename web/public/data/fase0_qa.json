@@ -1,0 +1,228 @@
+{
+  "source": "INEC CPV 2022, MANLOC CSV; geometrías INEC de sector y respaldo 2021",
+  "national": {
+    "population": 16938986,
+    "dwellings": 6611555,
+    "matchable_manzanas": 211225,
+    "matched_manzanas": 209373,
+    "unmatched_manzanas": 1852
+  },
+  "provinces": [
+    {
+      "code": "01",
+      "matched_manzanas": 7493,
+      "matchable_manzanas": 7544,
+      "manzana_match_percent": 99.324,
+      "population_match_percent": 99.544,
+      "dwellings_match_percent": 99.539,
+      "unmatched_manzanas": 51
+    },
+    {
+      "code": "02",
+      "matched_manzanas": 2010,
+      "matchable_manzanas": 2019,
+      "manzana_match_percent": 99.554,
+      "population_match_percent": 99.322,
+      "dwellings_match_percent": 99.461,
+      "unmatched_manzanas": 9
+    },
+    {
+      "code": "03",
+      "matched_manzanas": 3323,
+      "matchable_manzanas": 3347,
+      "manzana_match_percent": 99.283,
+      "population_match_percent": 99.345,
+      "dwellings_match_percent": 99.384,
+      "unmatched_manzanas": 24
+    },
+    {
+      "code": "04",
+      "matched_manzanas": 2471,
+      "matchable_manzanas": 2479,
+      "manzana_match_percent": 99.677,
+      "population_match_percent": 99.719,
+      "dwellings_match_percent": 99.755,
+      "unmatched_manzanas": 8
+    },
+    {
+      "code": "05",
+      "matched_manzanas": 3659,
+      "matchable_manzanas": 3680,
+      "manzana_match_percent": 99.429,
+      "population_match_percent": 99.475,
+      "dwellings_match_percent": 99.621,
+      "unmatched_manzanas": 21
+    },
+    {
+      "code": "06",
+      "matched_manzanas": 5804,
+      "matchable_manzanas": 5820,
+      "manzana_match_percent": 99.725,
+      "population_match_percent": 99.652,
+      "dwellings_match_percent": 99.779,
+      "unmatched_manzanas": 16
+    },
+    {
+      "code": "07",
+      "matched_manzanas": 12332,
+      "matchable_manzanas": 12608,
+      "manzana_match_percent": 97.811,
+      "population_match_percent": 99.286,
+      "dwellings_match_percent": 99.144,
+      "unmatched_manzanas": 276
+    },
+    {
+      "code": "08",
+      "matched_manzanas": 7190,
+      "matchable_manzanas": 7242,
+      "manzana_match_percent": 99.282,
+      "population_match_percent": 99.251,
+      "dwellings_match_percent": 99.248,
+      "unmatched_manzanas": 52
+    },
+    {
+      "code": "09",
+      "matched_manzanas": 53052,
+      "matchable_manzanas": 53501,
+      "manzana_match_percent": 99.161,
+      "population_match_percent": 99.727,
+      "dwellings_match_percent": 99.614,
+      "unmatched_manzanas": 449
+    },
+    {
+      "code": "10",
+      "matched_manzanas": 6417,
+      "matchable_manzanas": 6435,
+      "manzana_match_percent": 99.72,
+      "population_match_percent": 99.677,
+      "dwellings_match_percent": 99.771,
+      "unmatched_manzanas": 18
+    },
+    {
+      "code": "11",
+      "matched_manzanas": 6591,
+      "matchable_manzanas": 6639,
+      "manzana_match_percent": 99.277,
+      "population_match_percent": 99.306,
+      "dwellings_match_percent": 99.499,
+      "unmatched_manzanas": 48
+    },
+    {
+      "code": "12",
+      "matched_manzanas": 10873,
+      "matchable_manzanas": 10987,
+      "manzana_match_percent": 98.962,
+      "population_match_percent": 99.44,
+      "dwellings_match_percent": 99.196,
+      "unmatched_manzanas": 114
+    },
+    {
+      "code": "13",
+      "matched_manzanas": 22491,
+      "matchable_manzanas": 22805,
+      "manzana_match_percent": 98.623,
+      "population_match_percent": 99.337,
+      "dwellings_match_percent": 99.289,
+      "unmatched_manzanas": 314
+    },
+    {
+      "code": "14",
+      "matched_manzanas": 2908,
+      "matchable_manzanas": 2950,
+      "manzana_match_percent": 98.576,
+      "population_match_percent": 97.843,
+      "dwellings_match_percent": 98.686,
+      "unmatched_manzanas": 42
+    },
+    {
+      "code": "15",
+      "matched_manzanas": 1642,
+      "matchable_manzanas": 1655,
+      "manzana_match_percent": 99.215,
+      "population_match_percent": 99.336,
+      "dwellings_match_percent": 99.527,
+      "unmatched_manzanas": 13
+    },
+    {
+      "code": "16",
+      "matched_manzanas": 1227,
+      "matchable_manzanas": 1260,
+      "manzana_match_percent": 97.381,
+      "population_match_percent": 97.81,
+      "dwellings_match_percent": 98.115,
+      "unmatched_manzanas": 33
+    },
+    {
+      "code": "17",
+      "matched_manzanas": 28096,
+      "matchable_manzanas": 28209,
+      "manzana_match_percent": 99.599,
+      "population_match_percent": 99.821,
+      "dwellings_match_percent": 99.809,
+      "unmatched_manzanas": 113
+    },
+    {
+      "code": "18",
+      "matched_manzanas": 5470,
+      "matchable_manzanas": 5487,
+      "manzana_match_percent": 99.69,
+      "population_match_percent": 99.789,
+      "dwellings_match_percent": 99.828,
+      "unmatched_manzanas": 17
+    },
+    {
+      "code": "19",
+      "matched_manzanas": 1980,
+      "matchable_manzanas": 2042,
+      "manzana_match_percent": 96.964,
+      "population_match_percent": 98.46,
+      "dwellings_match_percent": 98.192,
+      "unmatched_manzanas": 62
+    },
+    {
+      "code": "20",
+      "matched_manzanas": 717,
+      "matchable_manzanas": 717,
+      "manzana_match_percent": 100.0,
+      "population_match_percent": 99.623,
+      "dwellings_match_percent": 99.779,
+      "unmatched_manzanas": 0
+    },
+    {
+      "code": "21",
+      "matched_manzanas": 3202,
+      "matchable_manzanas": 3217,
+      "manzana_match_percent": 99.534,
+      "population_match_percent": 99.004,
+      "dwellings_match_percent": 99.231,
+      "unmatched_manzanas": 15
+    },
+    {
+      "code": "22",
+      "matched_manzanas": 2993,
+      "matchable_manzanas": 3030,
+      "manzana_match_percent": 98.779,
+      "population_match_percent": 98.071,
+      "dwellings_match_percent": 98.619,
+      "unmatched_manzanas": 37
+    },
+    {
+      "code": "23",
+      "matched_manzanas": 7203,
+      "matchable_manzanas": 7229,
+      "manzana_match_percent": 99.64,
+      "population_match_percent": 99.722,
+      "dwellings_match_percent": 99.759,
+      "unmatched_manzanas": 26
+    },
+    {
+      "code": "24",
+      "matched_manzanas": 10229,
+      "matchable_manzanas": 10323,
+      "manzana_match_percent": 99.089,
+      "population_match_percent": 99.134,
+      "dwellings_match_percent": 99.023,
+      "unmatched_manzanas": 94
+    }
+  ]
+}
