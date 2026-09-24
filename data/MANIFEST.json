@@ -175,7 +175,7 @@
           "sha256": "16d6e810489f278f8c4f4ec997c8860e69ee4c3ffd93e6703040cbed98a4065f"
         }
       ],
-      "published_to_private_release": false
+      "published_to_private_release": true
     },
     {
       "id": "cpv2022_sector_csv",
@@ -194,7 +194,7 @@
           "sha256": "e1dd8c7cfefc388cba5765fa9e94d6865d2ae2bc81667051667d1cd0b786300f"
         }
       ],
-      "published_to_private_release": false
+      "published_to_private_release": true
     },
     {
       "id": "cpv2022_canton_csv",
@@ -213,7 +213,7 @@
           "sha256": "f7d8ff13bbdcf698a86bd5afba12b71055351b71f078e7435c0d605ba4bb6e3e"
         }
       ],
-      "published_to_private_release": false
+      "published_to_private_release": true
     }
   ],
   "notes": "Originales oficiales verificados; microdatos solo en el Release privado. Las claves 888 se conservan agregadas sin geometría inventada.",
