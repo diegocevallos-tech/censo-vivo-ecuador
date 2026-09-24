@@ -10,7 +10,15 @@
       "retrieved_at": "2026-09-24T18:10:32.367467+00:00",
       "size_bytes": 151822,
       "sha256": "bb66f9a92f484c186c2698ffd070b067441e99513c71bdf465c844106c8feec0",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "DICCIONARIO_BDD_MANLOC.xlsx",
+          "size_bytes": 151822,
+          "sha256": "bb66f9a92f484c186c2698ffd070b067441e99513c71bdf465c844106c8feec0"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cpv2022_dictionary_sector",
@@ -21,7 +29,15 @@
       "retrieved_at": "2026-09-24T18:10:32.810111+00:00",
       "size_bytes": 160851,
       "sha256": "f2a3da8991b8eb6e7626a6c1b6b4edbdb5bb8b704fd60e2ae0ed2b7ed8372de0",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "DICCIONARIO_BDD_SECTOR.xlsx",
+          "size_bytes": 160851,
+          "sha256": "f2a3da8991b8eb6e7626a6c1b6b4edbdb5bb8b704fd60e2ae0ed2b7ed8372de0"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cpv2022_guide",
@@ -32,7 +48,15 @@
       "retrieved_at": "2026-09-24T18:10:33.318574+00:00",
       "size_bytes": 1998048,
       "sha256": "8b2ff54086b35b19afeebbce6b5d48ffc2f342b1b8934958a5e96315b6aef089",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "GUIA_BASE_CPV_2022.pdf",
+          "size_bytes": 1998048,
+          "sha256": "8b2ff54086b35b19afeebbce6b5d48ffc2f342b1b8934958a5e96315b6aef089"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cpv2022_guide_v6",
@@ -43,7 +67,15 @@
       "retrieved_at": "2026-09-24T17:34:06.988508+00:00",
       "size_bytes": 1998211,
       "sha256": "e9146b026c5af4c902005cd019ee8d2fd25cbdb3a0a7efd2684afa4d93be3497",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "5.GUIA_BASE_CPV_2022_v6.pdf",
+          "size_bytes": 1998211,
+          "sha256": "e9146b026c5af4c902005cd019ee8d2fd25cbdb3a0a7efd2684afa4d93be3497"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cartography_classifier_2022",
@@ -54,7 +86,15 @@
       "retrieved_at": "2026-09-24T17:34:08.191664+00:00",
       "size_bytes": 821767,
       "sha256": "c9aa54b820fe65137c0a224f614534396ff8f4cecb9f1a5d6898806a7a5230e0",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "CLASIFICADOR_GEOGRAFICO_2022.zip",
+          "size_bytes": 821767,
+          "sha256": "c9aa54b820fe65137c0a224f614534396ff8f4cecb9f1a5d6898806a7a5230e0"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cpv2022_manloc_csv",
@@ -65,7 +105,15 @@
       "retrieved_at": "2026-09-24T18:10:29.975494+00:00",
       "size_bytes": 597299031,
       "sha256": "65c2aeabd23f19e426ecfbac267418df8cb1559741a475b5f2be710f1d97de3f",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "BDD_CPV2022_MANLOC_CSV.zip",
+          "size_bytes": 597299031,
+          "sha256": "65c2aeabd23f19e426ecfbac267418df8cb1559741a475b5f2be710f1d97de3f"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cartography_sectors_anonymized",
@@ -76,7 +124,15 @@
       "retrieved_at": "2026-09-24T18:10:33.728030+00:00",
       "size_bytes": 423012724,
       "sha256": "ee8b376471de507ba5576ec995834dd0ce4c51d2cf27f09d7c75acc7cf20a16d",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "CapaSectores.zip",
+          "size_bytes": 423012724,
+          "sha256": "ee8b376471de507ba5576ec995834dd0ce4c51d2cf27f09d7c75acc7cf20a16d"
+        }
+      ],
+      "published_to_private_release": true
     },
     {
       "id": "cartography_geodatabase_2021_backup",
@@ -87,8 +143,39 @@
       "retrieved_at": "2026-09-24T17:57:56.061709+00:00",
       "size_bytes": 2949796967,
       "sha256": "8e2ffeec578fcebf179295f928728ce86c81f7a833b966c3ddfee4aa9ab5cd36",
-      "published_to_public_release": false
+      "published_to_public_release": false,
+      "release_assets": [
+        {
+          "name": "GEODATABASE_NACIONAL_2021.zip.part-00",
+          "size_bytes": 1572864000,
+          "sha256": "9ee97557dc31aa40aea377c1faef74e7184e3836c07650e580b419248ad2ae3b"
+        },
+        {
+          "name": "GEODATABASE_NACIONAL_2021.zip.part-01",
+          "size_bytes": 1376932967,
+          "sha256": "4da830dc6011cecf1012486b917660d5d51c2860af3ed489737fc73fa5c47f9f"
+        }
+      ],
+      "published_to_private_release": true
     }
   ],
-  "notes": "Se completa después de descargas y verificación SHA256; no incluye microdatos publicados."
+  "notes": "Originales oficiales verificados; microdatos solo en el Release privado. Las claves 888 se conservan agregadas sin geometría inventada.",
+  "private_release": {
+    "repo": "diegocevallos-tech/censo-vivo-ecuador-raw",
+    "tag": "data-raw-v1"
+  },
+  "deferred_sources": [
+    {
+      "id": "geofabrik_ecuador_osm",
+      "url": "https://download.geofabrik.de/south-america/ecuador-latest.osm.pbf",
+      "purpose": "Contexto visual opcional; no se necesita para validar el CPV 2022 en fase 0",
+      "status": "deferred"
+    },
+    {
+      "id": "cpv2010_manzana",
+      "url": "https://www.ecuadorencifras.gob.ec/base-de-datos-censo-de-poblacion-y-vivienda-2010-a-nivel-de-manzana/",
+      "purpose": "Cambio intercensal opcional de fase 5",
+      "status": "deferred"
+    }
+  ]
 }
