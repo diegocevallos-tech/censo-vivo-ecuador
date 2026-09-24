@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "cpv2022_dictionary_manloc",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "filename": "DICCIONARIO_BDD_MANLOC.xlsx",
+      "classification": "documentation",
+      "required": true,
+      "retrieved_at": "2026-09-24T17:34:04.017385+00:00",
+      "size_bytes": 151822,
+      "sha256": "bb66f9a92f484c186c2698ffd070b067441e99513c71bdf465c844106c8feec0",
+      "published_to_public_release": false
+    },
+    {
+      "id": "cpv2022_dictionary_sector",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_SECTOR.xlsx",
+      "filename": "DICCIONARIO_BDD_SECTOR.xlsx",
+      "classification": "documentation",
+      "required": true,
+      "retrieved_at": "2026-09-24T17:34:04.617085+00:00",
+      "size_bytes": 160851,
+      "sha256": "f2a3da8991b8eb6e7626a6c1b6b4edbdb5bb8b704fd60e2ae0ed2b7ed8372de0",
+      "published_to_public_release": false
+    },
+    {
+      "id": "cpv2022_guide",
+      "url": "https://www.censoecuador.gob.ec/wp-content/uploads/2024/12/GUIA_BASE_CPV_2022.pdf",
+      "filename": "GUIA_BASE_CPV_2022.pdf",
+      "classification": "documentation",
+      "required": true,
+      "retrieved_at": "2026-09-24T17:34:05.729612+00:00",
+      "size_bytes": 1998048,
+      "sha256": "8b2ff54086b35b19afeebbce6b5d48ffc2f342b1b8934958a5e96315b6aef089",
+      "published_to_public_release": false
+    },
+    {
+      "id": "cpv2022_guide_v6",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/bd-censo/5.GUIA_BASE_CPV_2022_v6.pdf",
+      "filename": "5.GUIA_BASE_CPV_2022_v6.pdf",
+      "classification": "documentation",
+      "required": false,
+      "retrieved_at": "2026-09-24T17:34:06.988508+00:00",
+      "size_bytes": 1998211,
+      "sha256": "e9146b026c5af4c902005cd019ee8d2fd25cbdb3a0a7efd2684afa4d93be3497",
+      "published_to_public_release": false
+    },
+    {
+      "id": "cartography_classifier_2022",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/Cartografia/Clasificador_Geografico/CLASIFICADOR%20GEOGRAFICO_2022.zip",
+      "filename": "CLASIFICADOR_GEOGRAFICO_2022.zip",
+      "classification": "geographic_classifier",
+      "required": false,
+      "retrieved_at": "2026-09-24T17:34:08.191664+00:00",
+      "size_bytes": 821767,
+      "sha256": "c9aa54b820fe65137c0a224f614534396ff8f4cecb9f1a5d6898806a7a5230e0",
+      "published_to_public_release": false
+    }
+  ],
+  "notes": "Se completa después de descargas y verificación SHA256; no incluye microdatos publicados."
+}

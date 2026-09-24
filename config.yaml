@@ -1,0 +1,8 @@
+project: censo-vivo-ecuador
+source_year: 2022
+source_agency: INEC Ecuador
+minimum_geography_match_percent: 95
+maximum_pages_site_bytes: 1000000000
+maximum_repository_file_bytes: 100000000
+maximum_release_asset_bytes: 2147483648
+published_data_classification: aggregate_only
