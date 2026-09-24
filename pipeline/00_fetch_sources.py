@@ -138,7 +138,7 @@ def download(session: requests.Session, source: dict) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("source", nargs="*", choices=tuple(SOURCES))
+    parser.add_argument("source", nargs="*", help="Source IDs to download")
     parser.add_argument("--required", action="store_true", help="Download every required source")
     args = parser.parse_args()
     selected = list(args.source)
@@ -146,6 +146,9 @@ def main() -> None:
         selected.extend(name for name, source in SOURCES.items() if source["required"])
     if not selected:
         parser.error("Select source IDs or --required")
+    unknown = set(selected) - set(SOURCES)
+    if unknown:
+        parser.error(f"Unknown source IDs: {', '.join(sorted(unknown))}")
 
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})

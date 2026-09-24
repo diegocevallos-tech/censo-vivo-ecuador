@@ -7,7 +7,7 @@
       "filename": "DICCIONARIO_BDD_MANLOC.xlsx",
       "classification": "documentation",
       "required": true,
-      "retrieved_at": "2026-09-24T17:34:04.017385+00:00",
+      "retrieved_at": "2026-09-24T18:10:32.367467+00:00",
       "size_bytes": 151822,
       "sha256": "bb66f9a92f484c186c2698ffd070b067441e99513c71bdf465c844106c8feec0",
       "published_to_public_release": false
@@ -18,7 +18,7 @@
       "filename": "DICCIONARIO_BDD_SECTOR.xlsx",
       "classification": "documentation",
       "required": true,
-      "retrieved_at": "2026-09-24T17:34:04.617085+00:00",
+      "retrieved_at": "2026-09-24T18:10:32.810111+00:00",
       "size_bytes": 160851,
       "sha256": "f2a3da8991b8eb6e7626a6c1b6b4edbdb5bb8b704fd60e2ae0ed2b7ed8372de0",
       "published_to_public_release": false
@@ -29,7 +29,7 @@
       "filename": "GUIA_BASE_CPV_2022.pdf",
       "classification": "documentation",
       "required": true,
-      "retrieved_at": "2026-09-24T17:34:05.729612+00:00",
+      "retrieved_at": "2026-09-24T18:10:33.318574+00:00",
       "size_bytes": 1998048,
       "sha256": "8b2ff54086b35b19afeebbce6b5d48ffc2f342b1b8934958a5e96315b6aef089",
       "published_to_public_release": false
@@ -62,7 +62,7 @@
       "filename": "BDD_CPV2022_MANLOC_CSV.zip",
       "classification": "person_or_household_microdata",
       "required": true,
-      "retrieved_at": "2026-09-24T17:48:59.105791+00:00",
+      "retrieved_at": "2026-09-24T18:10:29.975494+00:00",
       "size_bytes": 597299031,
       "sha256": "65c2aeabd23f19e426ecfbac267418df8cb1559741a475b5f2be710f1d97de3f",
       "published_to_public_release": false
@@ -73,7 +73,7 @@
       "filename": "CapaSectores.zip",
       "classification": "geometry",
       "required": true,
-      "retrieved_at": "2026-09-24T17:51:03.854685+00:00",
+      "retrieved_at": "2026-09-24T18:10:33.728030+00:00",
       "size_bytes": 423012724,
       "sha256": "ee8b376471de507ba5576ec995834dd0ce4c51d2cf27f09d7c75acc7cf20a16d",
       "published_to_public_release": false
