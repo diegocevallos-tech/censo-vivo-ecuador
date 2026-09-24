@@ -55,6 +55,39 @@
       "size_bytes": 821767,
       "sha256": "c9aa54b820fe65137c0a224f614534396ff8f4cecb9f1a5d6898806a7a5230e0",
       "published_to_public_release": false
+    },
+    {
+      "id": "cpv2022_manloc_csv",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/bd-censo/manzana/BDD_CPV2022_MANLOC_CSV.zip",
+      "filename": "BDD_CPV2022_MANLOC_CSV.zip",
+      "classification": "person_or_household_microdata",
+      "required": true,
+      "retrieved_at": "2026-09-24T17:48:59.105791+00:00",
+      "size_bytes": 597299031,
+      "sha256": "65c2aeabd23f19e426ecfbac267418df8cb1559741a475b5f2be710f1d97de3f",
+      "published_to_public_release": false
+    },
+    {
+      "id": "cartography_sectors_anonymized",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/capa/CapaSectores.zip",
+      "filename": "CapaSectores.zip",
+      "classification": "geometry",
+      "required": true,
+      "retrieved_at": "2026-09-24T17:51:03.854685+00:00",
+      "size_bytes": 423012724,
+      "sha256": "ee8b376471de507ba5576ec995834dd0ce4c51d2cf27f09d7c75acc7cf20a16d",
+      "published_to_public_release": false
+    },
+    {
+      "id": "cartography_geodatabase_2021_backup",
+      "url": "https://www.ecuadorencifras.gob.ec/documentos/web-inec/Geografia_Estadistica/Documentos/GEODATABASE_NACIONAL_2021.zip",
+      "filename": "GEODATABASE_NACIONAL_2021.zip",
+      "classification": "geometry_prior_year",
+      "required": false,
+      "retrieved_at": "2026-09-24T17:57:56.061709+00:00",
+      "size_bytes": 2949796967,
+      "sha256": "8e2ffeec578fcebf179295f928728ce86c81f7a833b966c3ddfee4aa9ab5cd36",
+      "published_to_public_release": false
     }
   ],
   "notes": "Se completa después de descargas y verificación SHA256; no incluye microdatos publicados."
