@@ -18,6 +18,7 @@
 - `indicators.yaml` declara 30 indicadores con `min_level` y `min_n`; 1 descartado y 13 pendientes están documentados. Documentación y casos de paridad se generan del catálogo.
 - Motor Python/TypeScript: 11 tests Python, 4 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos. `sector_disperso` se interpreta como nivel sector para disponibilidad.
 - CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
+- La CI y el devcontainer ejecutan también Vitest para exigir la paridad TypeScript además de pytest.
 - Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
 - Release público: https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1. Descarga remota, SHA256 e integridad exacta pasaron.
 - Workflow privado completado con éxito: https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216. Publicó artifact de agregados exactos y Release derivado privado. Rama y PR privado #4 abiertos.
