@@ -15,3 +15,6 @@ test-results/
 !/data/interim/.gitkeep
 /web/public/data/*
 !/web/public/data/.gitkeep
+!/web/public/data/sample/
+/web/public/data/sample/*
+!/web/public/data/sample/canton.parquet
