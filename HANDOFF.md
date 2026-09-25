@@ -16,14 +16,15 @@
 6. Release público publicado con cuatro tar.gz. Se descargó de nuevo y se restauraron 341 archivos con SHA256 coincidente; la QA aditiva completa, incluidas categorías y 96 chunks de conteo/análisis, pasó. El verificador de artefactos ahora extrae el esquema desde el AST sin depender de DuckDB en el runner.
 7. [Deploy de producción](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36185327073) exitoso tras permitir la rama exacta de 1B-3 en el environment `github-pages` (manteniendo `main`). Pages devuelve HTTP 206 y rango correcto para PMTiles y Parquet al pedir `Accept-Encoding: identity`. El navegador recorrió todos los niveles sin errores; [captura](docs/qa/fase1b3_pages.png).
 8. [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48) abierto. Su primer CI detectó que el runner no instalaba NumPy para `06_qa_chunks.py`; se añadió a las dependencias de CI. Verificar el nuevo run. La autorización vigente permite continuar con 2A y 2B en PRs separados y apilados.
+9. El PR #48 tiene los checks `build` y `checks` en verde tras incluir NumPy y Pandas. En 2A, `09_indicator_map_index.py` evaluó los 45 indicadores sobre 286.265 unidades oficiales y produjo 52 binarios (68.704.172 bytes). `09_qa_indicator_map.py` validó sus claves, longitudes y estados. El paquete v2a previsto suma 436.549.081 bytes de datos y mantiene chunks en 132.870.239/150.000.000 bytes.
 
 ## Siguiente comando exacto
 
 ```sh
-python -c "import json; d=json.load(open('web/src/generated/indicators.json',encoding='utf-8')); print(len(d['indicators']))"
+gh release create data-derived-v2a data/interim/release_public_v2a/*.tar.gz -R diegocevallos-tech/censo-vivo-ecuador --title "Datos derivados v2a" --notes "Agregados oficiales y 45 índices cartográficos por unidad; sin registros individuales."
 ```
 
-Implementar 2A: buscador, breadcrumb, selector de los 45 indicadores con `min_level`, coropleta con cuantiles/Jenks/desviación y datos por unidad. Probar en navegador y abrir PR 2A contra la rama 1B-3. 2B seguirá en su propia rama/PR. No tocar la auditoría independiente.
+Publicar el Release v2a, restaurarlo para probar SHA256 y la aplicación, corregir la UI si hace falta, documentar y abrir PR 2A contra la rama 1B-3. 2B seguirá en su propia rama/PR. No tocar la auditoría independiente.
 
 ## Archivos tocados en 1B-3
 

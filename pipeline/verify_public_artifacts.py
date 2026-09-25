@@ -135,8 +135,23 @@ def verify(root: Path) -> None:
             if path.open("rb").read(7) != b"PMTiles":
                 raise ValueError(f"Invalid PMTiles header: {path}")
         elif path.suffix.lower() == ".bin":
-            if path.open("rb").read(5) not in {b"CVEB1", b"CVEP1", b"CVEL1"}:
+            if path.open("rb").read(5) not in {b"CVEB1", b"CVEP1", b"CVEL1", b"CVEI1"}:
                 raise ValueError(f"Invalid binary chunk header: {path}")
+            if "indicator-maps" in path.parts:
+                import struct
+
+                schema = json.loads(
+                    (root / "indicator-maps/v2a/schema.json").read_text(encoding="utf-8")
+                )
+                relative = path.relative_to(root / "indicator-maps/v2a").as_posix()
+                info = schema["files"].get(relative)
+                with path.open("rb") as stream:
+                    header = stream.read(11)
+                rows, width = struct.unpack("<IH", header[5:])
+                if (not info or header[:5] != b"CVEI1" or
+                        width != len(schema["indicators"]) or rows != info["rows"] or
+                        size != 11 + rows * schema["stride"]):
+                    raise ValueError(f"Invalid indicator index schema or length: {path}")
         elif path.suffix.lower() == ".parquet":
             import pyarrow.parquet as parquet
 
