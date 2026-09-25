@@ -77,6 +77,8 @@ def evaluate(
     smoothing: bool = False,
     canton_prior: CantonPrior | None = None,
 ) -> IndicatorResult:
+    # A dispersed sector is the finest published unit for its area.
+    level = "sector" if level == "sector_disperso" else level
     if level not in LEVELS or definition["min_level"] not in LEVELS:
         raise ValueError("Unknown census level")
     if LEVELS.index(level) < LEVELS.index(definition["min_level"]):

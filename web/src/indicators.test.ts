@@ -36,4 +36,11 @@ describe('catalog-generated Python/TypeScript parity', () => {
     expect(prior).not.toBeNull()
     expect(prior!.mean).toBeGreaterThan(0)
   })
+
+  it('treats a dispersed sector as a sector for indicator availability', () => {
+    const definition = definitions.get('ethnic_diversity_shannon')!
+    const result = evaluate(definition, { counts: {}, quality: 'exacto', estimated_percent: 0 },
+      { level: 'sector_disperso' })
+    expect(result.unavailable_reason).toBeNull()
+  })
 })

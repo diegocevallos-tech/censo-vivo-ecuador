@@ -16,7 +16,7 @@
 - `verify_release_integrity.py` pasó con diferencia cero en todos los niveles y categorías tras restaurar los archivos del Release local y comprobar sus SHA256. Nacional: 16.938.986 personas y 6.611.555 viviendas. `verify_public_artifacts.py` confirmó ausencia de columnas personales.
 - `aggregation.py` y `web/src/aggregation.ts` suman unidades completas y ponderan por área solo cortes de borde; tests compartidos pasan a 1e-9.
 - `indicators.yaml` declara 30 indicadores con `min_level` y `min_n`; 1 descartado y 13 pendientes están documentados. Documentación y casos de paridad se generan del catálogo.
-- Motor Python/TypeScript: 10 tests Python, 3 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos.
+- Motor Python/TypeScript: 11 tests Python, 4 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos. `sector_disperso` se interpreta como nivel sector para disponibilidad.
 - CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
 - Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
 - Release público: https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1. Descarga remota, SHA256 e integridad exacta pasaron.

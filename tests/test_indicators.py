@@ -52,3 +52,9 @@ def test_small_n_not_ranked_and_smoothing_off_by_default() -> None:
     )
     assert smoothed.uncertainty is not None
     assert smoothed.small_n and not smoothed.rank_eligible
+
+
+def test_dispersed_sector_uses_sector_availability() -> None:
+    indicator = next(i for i in load()["indicators"] if i["id"] == "ethnic_diversity_shannon")
+    result = evaluate(indicator, Aggregate({}, "exacto", 0), level="sector_disperso")
+    assert result.unavailable_reason is None

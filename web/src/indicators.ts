@@ -52,7 +52,8 @@ export function evaluate(
   aggregate: Aggregate,
   options: { level?: string; smoothing?: boolean; cantonPrior?: CantonPrior } = {},
 ): IndicatorResult {
-  const level = options.level ?? 'manzana'
+  // Dispersed rural areas use the sector itself as their finest unit.
+  const level = options.level === 'sector_disperso' ? 'sector' : options.level ?? 'manzana'
   if (!levels.includes(level) || !levels.includes(definition.min_level)) throw new Error('Unknown census level')
   if (levels.indexOf(level) < levels.indexOf(definition.min_level)) {
     return { value: null, denominator: 0, quality: aggregate.quality,
