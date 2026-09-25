@@ -2,7 +2,7 @@
 
 ## Estado
 
-- Fase actual: **2A · mapa, navegación e indicadores**, rama `feat/fase-2a-mapa-indicadores`, [PR #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) apilado sobre el [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48). Ambos quedan abiertos. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
+- Fase actual: **2B · selección y análisis**, rama `feat/fase-2b-seleccion-analisis`, apilada sobre [PR 2A #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48). Ambos quedan abiertos. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
 - Pages se habilitó con `build_type: workflow` y el mapa mínimo de 1B-3 ya está publicado en [producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/).
 - Los datos pesados están ignorados en `data/interim/` y `web/public/data/`. El manifiesto `data/DERIVED_MANIFEST.json` versionado apunta al Release público [`data-derived-v1b`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b), ya publicado.
 
@@ -22,10 +22,10 @@
 ## Siguiente comando exacto
 
 ```sh
-git switch -c feat/fase-2b-seleccion-analisis
+python -c "import json; d=json.load(open('web/public/data/chunks/v1b/schema.json')); print(d['format'],len(d['chunks']))"
 ```
 
-Hacer commit y push de esta continuidad. Iniciar 2B como rama apilada sobre 2A para selección, paneles y controles. Mantener ambos PRs abiertos sin tocar la auditoría independiente.
+Implementar 2B: chunks de conteo bajo demanda, selección por círculo/lazo/clic/multi con KDBush y peso de área en bordes; panel de análisis, controles, URL y móvil. Medir respuesta y probar en navegador. Abrir PR apilado sobre 2A. Mantener los anteriores abiertos sin tocar la auditoría independiente.
 
 ## Archivos tocados en 1B-3
 
