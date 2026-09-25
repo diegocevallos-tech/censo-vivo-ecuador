@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import runpy
 from pathlib import Path
 
 from counts_schema import NUMERIC_FIELDS
@@ -28,6 +29,31 @@ CODEBOOK_FIELDS = {
     "variable_id", "category_id", "source_table", "variable",
     "category", "geom_version"
 }
+EXTRA_PARQUET = {
+    "mobility/v1b2/canton_net.parquet": {
+        "unit_key", "internal_arrivals", "internal_departures", "internal_net", "geom_version"
+    },
+    "mobility/v1b2/canton_origin_destination.parquet": {
+        "origin_canton", "destination_canton", "people", "geom_version"
+    },
+    "mobility/v1b2/death_profile_canton.parquet": {
+        "unit_key", "sex", "age_at_death", "death_year", "deaths", "geom_version"
+    },
+    "mobility/v1b2/emigrant_profile_parroquia.parquet": {
+        "unit_key", "destination_country", "departure_year", "sex",
+        "age_at_departure", "emigrants", "geom_version"
+    },
+    "geodemographics/v1b2/sector_clusters.parquet": {
+        "unit_key", "geom_version", "supergroup", "group", "population",
+        "rank_eligible", "sovi_pca"
+    },
+    "spatial/v1b2/dissimilarity_canton.parquet": {
+        "unit_key", "dissimilarity_education", "sectors", "geom_version"
+    },
+    "spatial/v1b2/moran_canton.parquet": {
+        "unit_key", "indicator", "sectors", "moran_i", "permutation_p", "geom_version"
+    },
+}
 
 
 def check_fields(value: object, path: Path) -> None:
@@ -42,11 +68,9 @@ def check_fields(value: object, path: Path) -> None:
             check_fields(item, path)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=Path, default=PUBLIC)
-    args = parser.parse_args()
-    root = args.root.resolve()
+def verify(root: Path) -> None:
+    root = root.resolve()
+    cross_fields = set(runpy.run_path(str(ROOT / "pipeline/03_cross_counts.py"))["NUMERATORS"])
     files = [path for path in root.rglob("*") if path.is_file() and path.name != ".gitkeep"]
     total = 0
     for path in files:
@@ -58,13 +82,16 @@ def main() -> None:
         total += size
         if path.suffix.lower() in {".json", ".geojson"}:
             check_fields(json.loads(path.read_text(encoding="utf-8")), path)
+        elif path.suffix.lower() == ".pmtiles":
+            if path.open("rb").read(7) != b"PMTiles":
+                raise ValueError(f"Invalid PMTiles header: {path}")
+        elif path.suffix.lower() == ".bin":
+            if path.open("rb").read(5) not in {b"CVEB1", b"CVEP1", b"CVEL1"}:
+                raise ValueError(f"Invalid binary chunk header: {path}")
         elif path.suffix.lower() == ".parquet":
             import pyarrow.parquet as parquet
 
-            if root.name != "sample" and "sample" not in path.parts:
-                parts = path.relative_to(root).parts
-                if parts[:2] != ("counts", "v1b1"):
-                    raise ValueError(f"Unexpected Parquet outside exact counts: {path}")
+            relative = path.relative_to(root).as_posix()
             columns = {name.lower() for name in parquet.read_schema(path).names}
             bad = columns & FORBIDDEN_FIELDS
             if bad:
@@ -85,9 +112,26 @@ def main() -> None:
                     raise ValueError(
                         f"Unexpected count Parquet schema in {path}: {sorted(columns)}"
                     )
+            elif relative.startswith("cross/v1b2/"):
+                required = {"unit_key", "geom_version"}
+                allowed = required | GEOGRAPHY_FIELDS | cross_fields
+                if not required <= columns or not columns <= allowed:
+                    raise ValueError(f"Unexpected cross-count columns: {relative}")
+            elif relative in EXTRA_PARQUET:
+                if columns != EXTRA_PARQUET[relative]:
+                    raise ValueError(f"Unexpected aggregate schema: {relative}")
+            elif "sample" not in path.parts:
+                raise ValueError(f"Unexpected Parquet: {relative}")
     if total > MAX_SITE_DATA:
         raise ValueError(f"Pages data exceeds 1 GB: {total}")
     print(f"Verified {len(files)} public aggregate assets, {total} bytes")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=Path, default=PUBLIC)
+    args = parser.parse_args()
+    verify(args.root)
 
 
 if __name__ == "__main__":
