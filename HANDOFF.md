@@ -13,6 +13,7 @@
 - Los derivados completos están en el Release público `data-derived-v1a`; git solo conserva el manifiesto y una muestra agregada.
 - El preview de Pages verificó el Release. El workflow `deploy.yml` quedó limitado a `workflow_dispatch`: no hay disparador por `push` ni job de publicación de producción.
 - PR privado #3 fusionado con squash en `0b62408fd952969d465ca3ef2cf17faf1196ac1d`.
+- Milestone público #7 «Fase 1A · Conteos geográficos» creado y asignado al PR #43; cerrarlo después del merge. El milestone #2 abarca toda la Fase 1 y sigue abierto.
 
 ## Siguiente comando exacto
 
