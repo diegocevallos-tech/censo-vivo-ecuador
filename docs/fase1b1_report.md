@@ -16,6 +16,8 @@ Los 93.102.177 registros categóricos del nivel fino son **celdas agregadas por 
 
 El mayor archivo navegador mide 30.201.346 bytes; el máximo permitido es 95.000.000. Los 153 archivos del paquete usan zstd, tipos enteros mínimos y suman 135,97 MB decimales. La eliminación de la copia sectorial no descarta observaciones: las categorías de sector se reconstruyen por suma exacta de `categories/finest/`; `P11R` se conserva aparte porque no existe a nivel manzana.
 
+Los tres archivos comprimidos están en el [Release público `data-derived-v1b1`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1). Se descargaron de GitHub tras publicarlos; sus SHA256 coincidieron con el manifiesto versionado y la prueba de aditividad volvió a dar diferencia cero.
+
 | Componente | Bytes |
 | --- | ---: |
 | Categorías finas completas | 122.687.539 |

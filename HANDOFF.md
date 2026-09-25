@@ -3,7 +3,7 @@
 ## Estado
 
 - Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR aún sin abrir.
-- Último paso cerrado: catálogo, motores Python/TypeScript, CI de integridad y paquete exacto regenerado y validados localmente.
+- Último paso cerrado: Release público `data-derived-v1b1` publicado y verificado por descarga remota; workflow privado 1B-1 lanzado.
 - Criterio definitivo del usuario: publicar conteos agregados completos en unidades oficiales del INEC, sin supresión, perturbación ni microzonas.
 
 ## Terminado
@@ -19,16 +19,18 @@
 - Motor Python/TypeScript: 10 tests Python, 3 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos.
 - CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
 - Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
+- Release público: https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1. Descarga remota, SHA256 e integridad exacta pasaron.
+- Workflow privado en curso: https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216. Rama privada `feat/fase-1b1-publicacion-exacta` publicada.
 
 ## Siguiente comando exacto
 
-Confirmar el commit y publicar la rama pública para ejecutar el workflow privado contra ella:
+Consultar el run privado y abrir los PR de 1B-1:
 
 ```sh
-git push -u origin feat/fase-1b1-indicadores
+gh run view 36127455216 -R diegocevallos-tech/censo-vivo-ecuador-raw
 ```
 
-Después, publicar `data-derived-v1b1`, ejecutar el workflow privado actualizado, abrir PR público 1B-1 y esperar aprobación. No iniciar 1B-2.
+Después, abrir PR público 1B-1 y PR privado del workflow, verificar CI y preview, y esperar aprobación. No iniciar 1B-2.
 
 ## Archivos tocados en este paso
 
@@ -41,5 +43,5 @@ Después, publicar `data-derived-v1b1`, ejecutar el workflow privado actualizado
 
 ## Decisiones pendientes
 
-- El paquete exacto ya cumple 150 MB; falta su publicación en Release público y el enlace de run de CI/preview en el PR.
+- El paquete exacto y Release público cumplen 150 MB; faltan PR, CI y run de preview.
 - El aviso «pocos casos» excluye índices con denominador bajo de rankings, percentiles y gemelos; Empirical Bayes queda apagado por defecto.
