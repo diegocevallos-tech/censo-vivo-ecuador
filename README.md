@@ -10,7 +10,7 @@ Cada fase se desarrolla en una rama y se presenta en un pull request antes de in
 
 La fuente estadística es el [INEC, Censo Ecuador 2022](https://www.censoecuador.gob.ec/data-censo-ecuador/). El [informe de la fase 0](docs/fase0_report.md) presenta el inventario de variables, la validación de los CSV con DuckDB y el match cartográfico por provincia. El código tiene licencia MIT; las condiciones aplicables a los datos se explican en [DATA_LICENSE.md](DATA_LICENSE.md).
 
-Este repositorio público publica únicamente **estadísticas agregadas**. No se distribuyen registros de personas ni hogares. El [informe de conteos](docs/fase1a_report.md) y el [esquema](docs/schema.md) explican los niveles, las variables y la QA. La [arquitectura de acceso](docs/data-access.md) separa los originales del INEC, el cálculo privado y la revisión por PR de los agregados que recibe GitHub Pages. Ningún workflow público tiene acceso a los originales.
+Este repositorio público publica únicamente **estadísticas agregadas**. No se distribuyen registros de personas ni hogares. El [informe de conteos](docs/fase1a_report.md) y el [esquema](docs/schema.md) explican los niveles, las variables y la QA. Los datos derivados completos se guardan en el [Release público `data-derived-v1a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1a); git conserva el [manifiesto con SHA256](data/DERIVED_MANIFEST.json) y una muestra pequeña para desarrollo. El despliegue restaura los agregados verificados en Pages. Ningún workflow público tiene acceso a los originales.
 
 ## Reproducibilidad
 

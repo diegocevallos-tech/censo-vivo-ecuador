@@ -6,3 +6,10 @@ maximum_pages_site_bytes: 1000000000
 maximum_repository_file_bytes: 100000000
 maximum_release_asset_bytes: 2147483648
 published_data_classification: aggregate_only
+derived_budget_bytes:
+  counts_parquet: 150000000
+  tiles: 450000000
+  binary_chunks: 150000000
+  app: 20000000
+  total_target: 800000000
+  maximum_browser_file: 95000000
