@@ -1,5 +1,5 @@
 archivo,antes_bytes,despues_bytes
-counts/v1a/canton/data.parquet,39119,36660
+counts/v1a/canton/data.parquet,39119,36625
 counts/v1a/categories/canton/01.parquet,0,79235
 counts/v1a/categories/canton/02.parquet,0,41987
 counts/v1a/categories/canton/03.parquet,0,43134
@@ -366,10 +366,10 @@ counts/v1a/finest/province_key=22/data_0.parquet,103530,0
 counts/v1a/finest/province_key=23/data_0.parquet,208766,0
 counts/v1a/finest/province_key=24/data_0.parquet,229012,0
 counts/v1a/nacion/data.parquet,9815,8037
-counts/v1a/parroquia/data.parquet,110001,108872
+counts/v1a/parroquia/data.parquet,110001,108793
 counts/v1a/provincia/data.parquet,16267,12995
-counts/v1a/qa.json,1659,6762
-counts/v1a/schema.json,2048,13173
+counts/v1a/qa.json,1659,6494
+counts/v1a/schema.json,2048,12783
 counts/v1a/sector/01.parquet,0,137605
 counts/v1a/sector/02.parquet,0,47513
 counts/v1a/sector/03.parquet,0,56663
@@ -419,4 +419,4 @@ counts/v1a/sector/province_key=22/data_0.parquet,43209,0
 counts/v1a/sector/province_key=23/data_0.parquet,74110,0
 counts/v1a/sector/province_key=24/data_0.parquet,61141,0
 fase0_qa.json,6334,6334
-TOTAL,470499294,117305961
+TOTAL,470499294,117305189

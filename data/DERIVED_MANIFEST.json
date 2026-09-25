@@ -6,24 +6,24 @@
     {
       "name": "counts-finest-v1a.tar.gz",
       "size_bytes": 59520338,
-      "sha256": "ff91608ebfe4718ab1fd4415a521c08ab83668933c159025abe2c296aa510f15"
+      "sha256": "0b1cb905ce7c8a96dd27c5ad85cdb35efa55d1e19944f0da73e97e181b4355c3"
     },
     {
       "name": "counts-sector-v1a.tar.gz",
       "size_bytes": 52145919,
-      "sha256": "0be12d22af18abb942bb06752da762a5803c7463e082e9f24d76d017f79f663c"
+      "sha256": "1a20a453a7dd0d2b011f6ca41cca4038135c1fb35b021c70a3d83e0b7f4cb58d"
     },
     {
       "name": "counts-other-v1a.tar.gz",
-      "size_bytes": 4196584,
-      "sha256": "7a3ea97b4a7d1953da61ea7cc675d0e343215a318444a0fd10fb453766cf5a37"
+      "size_bytes": 4196413,
+      "sha256": "0daeced32378c56f638ab2d639741bb3b986b4cbd185a101b6d71f673eeefe7d"
     }
   ],
   "files": [
     {
       "path": "counts/v1a/canton/data.parquet",
-      "size_bytes": 36660,
-      "sha256": "cd7b61f58e886608ce54efbf1d15694d62041a2289d16b1d2344a0cc7f04e986",
+      "size_bytes": 36625,
+      "sha256": "0a280da763ac9d464ee534f8b4c3a7b8519f7e8086940f7bd1396ef5f1622d55",
       "category": "counts_parquet",
       "asset": "counts-other-v1a.tar.gz"
     },
@@ -897,8 +897,8 @@
     },
     {
       "path": "counts/v1a/parroquia/data.parquet",
-      "size_bytes": 108872,
-      "sha256": "97f1e68c0f4ec7c2110c4768f78fbba20992b9f7cce0177cb27de8f78301d57f",
+      "size_bytes": 108793,
+      "sha256": "24f2f0061a6018e1e59a1fdd2af7f20cd82013fdc9f7b43da0726b6cf7f05b64",
       "category": "counts_parquet",
       "asset": "counts-other-v1a.tar.gz"
     },
@@ -911,15 +911,15 @@
     },
     {
       "path": "counts/v1a/qa.json",
-      "size_bytes": 6762,
-      "sha256": "4453376aff498125a9c6d0de91a01e66a516d30239d3eeaefb4d0cbc70bbd3a8",
+      "size_bytes": 6494,
+      "sha256": "97def26a135a801a688ba13adb3e14c3f55ecba8004405db1c8050adfacc4f3e",
       "category": "counts_parquet",
       "asset": "counts-other-v1a.tar.gz"
     },
     {
       "path": "counts/v1a/schema.json",
-      "size_bytes": 13173,
-      "sha256": "a4f1bcd91446d65497d252b00d96edde4dec4565d3135781ca74cef89eca86b3",
+      "size_bytes": 12783,
+      "sha256": "ff7d206c25e32b708bab4ed23289f473b3473a64939415720b1a780200b5a4d8",
       "category": "counts_parquet",
       "asset": "counts-other-v1a.tar.gz"
     },
