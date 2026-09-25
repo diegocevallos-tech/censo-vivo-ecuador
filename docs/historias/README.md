@@ -8,7 +8,7 @@ Este directorio reúne los guiones, consultas SQL reproducibles y estados de cá
 
 | ID | Título | Pasos | Giro Contraintuitivo | Indicador Principal (`indicators.yaml`) |
 |---|---|:---:|---|---|
-| `01_ecuador_envejece` | [El Ecuador que envejece](01_ecuador_envejece.md) | 7 | El envejecimiento no es solo rural: sectores urbanos de Iñaquito superan a parroquias rurales como Calderón en el mismo cantón Quito. | `aging_index` |
+| `01_ecuador_envejece` | [El Ecuador que envejece](01_ecuador_envejece.md) | 7 | Misma escala: la parroquia urbana Iñaquito (150,1) quintuplica el índice de la parroquia Calderón (30,11; 250.877 hab) en el mismo cantón Quito. | `aging_index` |
 | `02_los_que_se_fueron` | [Los que se fueron](02_los_que_se_fueron.md) | 8 | Asimetría de género en edades productivas: en Santa Isabel la razón de masculinidad (20-39 años) desciende a 69,99 varones por 100 mujeres. | `emigrant_households` / `male_ratio` |
 | `03_ciudad_vacia` | [La ciudad vacía](03_ciudad_vacia.md) | 7 | La mayor desocupación cantonal (V0201=4) se registra en Cañar (26,41%) y Suscal (23,12%), mientras Guayaquil noroeste sufre hacinamiento > 40%. | `vacant_private_dwellings` |
 | `04_brecha_digital` | [La brecha digital](04_brecha_digital.md) | 7 | Mismo universo de hogares: en Paján el 80,48% de hogares tiene celular pero solo el 22,64% internet fijo (brecha de 57,84 puntos). | `fixed_internet` |

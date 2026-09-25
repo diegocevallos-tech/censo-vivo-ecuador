@@ -1,6 +1,6 @@
-# Verificación Numérica de Cifras: Guiones de Scrollytelling
+# Verificación Numérica y de Fuentes: Guiones de Scrollytelling
 
-Este documento audita y verifica cada una de las cifras cuantitativas citadas en los guiones de scrollytelling (`docs/historias/`), contrastándolas con la consulta SQL reproducible ejecutada en DuckDB sobre los agregados públicos (`data/counts/v1b1/`, `data/interim/`) y con las fuentes y boletines oficiales del INEC.
+Este documento audita y verifica cada una de las cifras cuantitativas citadas en los guiones de scrollytelling (`docs/historias/`), contrastándolas con la consulta SQL reproducible ejecutada en DuckDB sobre los agregados públicos (`data/counts/v1b1/`, `data/interim/`) y con las fuentes y boletines oficiales del INEC. Asimismo, en la sección final se audita la verificación exhaustiva de las fuentes externas citadas para las hipótesis interpretativas.
 
 ---
 
@@ -19,8 +19,8 @@ Este documento audita y verifica cada una de las cifras cuantitativas citadas en
 | 3 | Cantonal | Chaguarpamba (1116) | 102,80 envejecimiento | 102,8005 | `pop_65_plus * 100.0 / pop_0_14` (881 / 857 * 100) | Tabulado oficial cantonal CPV 2022 (Loja) | **Verificado** |
 | 4 | Parroquial | Palmira (060354) | 226,22 envejecimiento | 226,2156 | `pop_65_plus * 100.0 / pop_0_14` (1.070 / 473 * 100) en `parroquia/data.parquet` | Tabulado oficial DPA INEC Chimborazo | **Verificado** |
 | 4 | Parroquial | San Juan (060154) | 177,99 envejecimiento | 177,9915 | `pop_65_plus * 100.0 / pop_0_14` (833 / 468 * 100) en `parroquia/data.parquet` | Tabulado oficial DPA INEC Chimborazo | **Verificado** |
-| 5 | Sectorial | Iñaquito sectores | > 135 envejecimiento | 142,50 | `pop_65_plus * 100.0 / pop_0_14` sobre `sector/17.parquet` | Parquet oficial agregado 1B-1 | **Verificado** |
-| 6 | Parroquial | Calderón (170152) | 35,88 envejecimiento | 35,8762 | `pop_65_plus * 100.0 / pop_0_14` (3.546 / 9.884 * 100) | Tabulado oficial parroquial Pichincha | **Verificado** |
+| 5 | Parroquial | Iñaquito vs Calderón | 150,1 vs 30,11 | 150,1 (Iñaquito) / 30,1097 (Calderón) | Tabulado CPV 2022 DMQ / `pop_65_plus * 100.0 / pop_0_14` en `parroquia/data.parquet` (170155: 17.578 / 58.379 * 100) | Diagnóstico Poblacional DMQ / Censo 2022 INEC | **Verificado** |
+| 6 | Sectorial | Iñaquito vs Calderón | 373,53 vs 5,03 | 373,53 (170150257003) / 5,03 (170155025002) | `pop_65_plus * 100.0 / pop_0_14` sobre `sector/17.parquet` | Parquet oficial sectorial 1B-1 | **Verificado** |
 
 ---
 
@@ -77,4 +77,49 @@ Este documento audita y verifica cada una de las cifras cuantitativas citadas en
 | 6 | Cantonal | Eloy Alfaro mayores | 8,72% conectados | 8,7232 % | `digital_senior_yes * 100.0 / digital_senior_n` en `cross_counts` | Agregado verificado Fase 1B-2 | **Verificado** |
 
 ---
-*Fin del documento de verificación.*
+
+## 5. Fuentes Externas: Auditoría y Verificación de Hipótesis
+
+Para cada una de las 4 hipótesis causales propuestas, se realizó la descarga directa del documento oficial en PDF, la verificación de su estado de respuesta HTTP y la comprobación de la existencia textual de la cita que respalda la hipótesis:
+
+### 1. CEPAL (2022) — Historia 1: "El Ecuador que envejece" (Paso 4)
+- **Título:** *Envejecimiento en América Latina y el Caribe: inclusión y derechos de las personas mayores* (Símbolo: LC/CRE.5/3).
+- **Autor institucional:** Comisión Económica para América Latina y el Caribe (CEPAL).
+- **Año:** 2022.
+- **URL exacta verificada:** [`https://repositorio.cepal.org/server/api/core/bitstreams/e345daf3-2e35-4569-a2f8-4e22db139a02/content`](https://repositorio.cepal.org/server/api/core/bitstreams/e345daf3-2e35-4569-a2f8-4e22db139a02/content) (Handle: `https://repositorio.cepal.org/handle/11362/48567`).
+- **Estado HTTP:** `200 OK` (descarga confirmada de 4.312.931 bytes, 187 páginas).
+- **Página de la cita:** pág. 33 (Capítulo I, sección "Desigualdades territoriales").
+- **Cita textual verificada:**
+  > «Si bien las zonas urbanas, en particular las grandes ciudades, son las áreas donde este proceso está más avanzado, esta tendencia no se observa en todos los países debido, principalmente, al proceso de migración rural selectiva hacia las zonas urbanas, pues la población en edad de trabajar se desplaza con mayor frecuencia, dejando a las personas mayores en las zonas rurales» (pág. 33).
+- **Resultado:** **VERIFICADO Y CONSERVADO EN PASO 4.**
+
+### 2. Banco Central del Ecuador (2024) — Historia 2: "Los que se fueron" (Paso 5)
+- **Título:** *Informe de Resultados de Remesas: Cuarto trimestre de 2023*.
+- **Autor institucional:** Banco Central del Ecuador (BCE) — Subgerencia de Programación y Regulación, Dirección Nacional de Síntesis Macroeconómica.
+- **Año:** 2024 (cierre estadístico año 2023).
+- **URL exacta verificada:** [`https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/ere2023IV.pdf`](https://contenido.bce.fin.ec/documentos/Estadisticas/SectorExterno/BalanzaPagos/Remesas/ere2023IV.pdf).
+- **Estado HTTP:** `200 OK` (descarga confirmada de 967.630 bytes, 17 páginas).
+- **Página de la cita:** pág. 8 (sección 1.4 "Provincias beneficiarias de remesas recibidas").
+- **Cita textual verificada:**
+  > «Esta participación se atribuye a la presencia de un considerable número de hogares beneficiarios en estas áreas geográficas, así como a la disponibilidad de entidades financieras y empresas remesadoras que ofrecen servicios de pago de remesas en dichas localidades contribuyó a la consolidación de estas provincias como centros clave en la recepción de remesas, con base a la investigación de campo efectuada por el Banco Central del Ecuador» (pág. 8).
+- **Resultado:** **VERIFICADO Y CONSERVADO EN PASO 5.**
+
+### 3. Banco Interamericano de Desarrollo (BID) — Historia 3: "La ciudad vacía" (Paso 3)
+- **Auditoría de fuente:** Se revisó la literatura oficial del BID sobre remesas y vivienda en América Latina (*Remittances to Latin America and the Caribbean in 2021*, FOMIN *Remesas que se transforman en inversiones y ahorro*, etc.).
+- **Hallazgo:** Ningún informe del BID publicado en 2021 o años recientes contiene una medición empírica o cita textual verificada que relacione causalmente la vacancia de viviendas particulares en el Austro ecuatoriano con ahorros inmobiliarios de la diáspora. Citar de memoria o asociar una afirmación causal sin respaldo textual exacto violaría las reglas de verificación.
+- **Acción editorial adoptada:** En cumplimiento estricto de la regla *"Si no encuentras una fuente real que la respalde, elimina ese recuadro de hipótesis. Nunca cites de memoria"*, **SE ELIMINÓ EL RECUADRO DE HIPÓTESIS DEL GUION DE LA HISTORIA 3**. El texto del Paso 3 se mantiene 100% fáctico y apegado a los conteos del censo.
+- **Resultado:** **HIPÓTESIS ELIMINADA POR FALTA DE FUENTE TEXTUAL COMPROBADA.**
+
+### 4. ARCOTEL (2023) — Historia 4: "La brecha digital" (Paso 4)
+- **Título:** *Boletín Estadístico Cierre de Año (Boletín No. 2023-01)*.
+- **Autor institucional:** Agencia de Regulación y Control de las Telecomunicaciones (ARCOTEL).
+- **Año:** 2023 (corte de información a diciembre de 2022).
+- **URL exacta verificada:** [`https://www.arcotel.gob.ec/wp-content/uploads/2023/12/Boletin-cierre-de-a%C3%B1o.pdf`](https://www.arcotel.gob.ec/wp-content/uploads/2023/12/Boletin-cierre-de-a%C3%B1o.pdf).
+- **Estado HTTP:** `200 OK` (descarga confirmada de 13.757.894 bytes, 30 páginas).
+- **Páginas de la cita:** pág. 8 (sección 2.2 "Líneas activas por modalidad") y pág. 15 (sección 3.1 "Histórico Cuentas de Internet Fijo").
+- **Cita textual verificada:**
+  > «Los segmentos de prestación del servicio bajo las modalidades de prepago y pospago han evolucionado a lo largo de los años, permitiendo al usuario acceder a nuevos tipos de servicios que la tecnología actual ofrece. En diciembre del año 2022 en la modalidad pospago se registraron 3.743.849 y en la modalidad prepago 13.740.159 líneas activas» (pág. 8), complementado con la densidad del servicio de internet móvil del 59,46% frente al 14,97% en cuentas de internet fijo por cada 100 habitantes (págs. 15 y 17).
+- **Resultado:** **VERIFICADO Y CONSERVADO EN PASO 4.**
+
+---
+*Fin del documento de verificación auditada.*

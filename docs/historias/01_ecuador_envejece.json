@@ -1,73 +1,90 @@
 {
-  "id": "01_ecuador_envejece",
-  "titulo": "El Ecuador que envejece",
-  "descripcion": "La transición demográfica nacional y la disparidad generacional entre la Amazonía y los enclaves rurales y urbanos envejecidos.",
-  "giro_contraintuitivo": "El envejecimiento no es exclusivo de áreas rurales: en sectores urbanos de la parroquia Iñaquito en Quito, el índice de envejecimiento supera los 135 adultos mayores por cada 100 menores de 15 años, superando a parroquias rurales como Calderón (35,88) en el mismo cantón.",
-  "pasos": [
+  "story_id": "01_ecuador_envejece",
+  "title": "El Ecuador que envejece",
+  "description": "Evolución demográfica, disparidad territorial del envejecimiento e inversión de pirámides poblacionales.",
+  "steps": [
     {
-      "step": 1,
-      "titulo": "El punto de quiebre demográfico nacional",
-      "texto": "Los resultados del Censo 2022 registran una transformación demográfica profunda en el país. Por cada cien menores de quince años habitan treinta y cinco adultos mayores en el territorio nacional. La base de la pirámide poblacional se reduce en comparación con censos anteriores, reflejando una reducción en los nacimientos y un incremento sostenido de la población de sesenta y cinco años y más.",
-      "en_summary": "Ecuador records a major demographic shift with 35.26 seniors per 100 children nationwide.",
-      "cifra_clave": "35,26 adultos mayores por cada 100 niños (1.520.590 personas de 65+ frente a 4.312.989 de 0 a 14 años sobre 16.938.986 habitantes censados).",
-      "fuente": "INEC, Censo de Población y Vivienda 2022 (Boletín Nacional) / counts: nacion/data.parquet",
-      "sql": "SELECT population,\n       (age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT) AS pop_0_14,\n       (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n        age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n        age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) AS pop_65_plus,\n       pop_65_plus * 100.0 / NULLIF(pop_0_14, 0) AS aging_index\nFROM read_parquet('data/counts/v1b1/nacion/data.parquet');",
+      "id": 1,
+      "title": "El pulso del país: 35 adultos mayores por cada 100 niños",
+      "en_title": "The National Pulse: 35 Older Adults Per 100 Children",
+      "text": "El Censo Ecuador 2022 contabilizó 16.938.986 habitantes. A nivel nacional, el índice de envejecimiento se sitúa en 35,26 adultos mayores de 65 años por cada 100 menores de 15 años. El país cuenta con 1.520.590 personas de 65 años y más, frente a 4.312.989 niños y adolescentes de 0 a 14 años, reflejando una transición demográfica en marcha.",
+      "en_summary": "National aging index is 35.26 older adults per 100 children (1,520,590 older adults vs 4,312,989 children).",
+      "key_metric": {
+        "name": "Índice de envejecimiento nacional",
+        "value": 35.26,
+        "unit": "mayores 65+ por 100 niños 0-14",
+        "source": "INEC CPV 2022, agregados Fase 1B-1 (nacion/data.parquet)"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT sum(pop_65_plus) * 100.0 / sum(pop_0_14) AS national_aging_index, sum(population) AS total_pop, sum(pop_65_plus) AS seniors, sum(pop_0_14) AS kids FROM 'data/derived/counts/v1b1/nacion/data.parquet';",
       "map_state": {
         "nivel": "nacion",
         "centro": [
-          -78.5,
-          -1.5
+          -78.1834,
+          -1.8312
         ],
-        "zoom": 6.8,
+        "zoom": 6.2,
         "indicador": "aging_index",
-        "filtro": "all",
-        "capa_extra": "choropleth",
+        "filtro": null,
+        "capa_extra": null,
         "resaltados": [
           "EC"
         ]
       }
     },
     {
-      "step": 2,
-      "titulo": "La Amazonía: la estructura poblacional más joven",
-      "texto": "En la región amazónica sur, la estructura por edades muestra un patrón diferente al promedio del país. En el cantón Taisha, perteneciente a Morona Santiago, el 48,6% de los habitantes son menores de quince años y el 2,5% tiene sesenta y cinco años o más. El índice de envejecimiento es de cinco adultos mayores por cada cien niños, el menor registrado a nivel cantonal.",
-      "en_summary": "In the Amazonian canton of Taisha, only 5.15 seniors live per 100 children.",
-      "cifra_clave": "Índice de envejecimiento de 5,15 en el cantón Taisha (12.981 niños frente a 669 adultos mayores en 26.700 habitantes).",
-      "fuente": "INEC, Censo 2022 / counts: canton/data.parquet (unit_key='1409')",
-      "sql": "SELECT unit_key, population,\n       (age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT) AS pop_0_14,\n       (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n        age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n        age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) AS pop_65_plus,\n       pop_65_plus * 100.0 / NULLIF(pop_0_14, 0) AS aging_index\nFROM read_parquet('data/counts/v1b1/canton/data.parquet')\nWHERE unit_key = '1409';",
+      "id": 2,
+      "title": "La juventud amazónica: Taisha y la base ancha",
+      "en_title": "Amazonian Youth: Taisha and the Broad Base",
+      "text": "En la Amazonía profunda, la estructura poblacional mantiene una base predominantemente infantil. En el cantón Taisha, en Morona Santiago, el índice de envejecimiento apenas llega a 5,15 adultos mayores por cada 100 niños. Con 26.700 habitantes censados, Taisha registra 12.981 menores de 15 años y solamente 669 adultos mayores, configurándose como el cantón más joven del Ecuador.",
+      "en_summary": "Taisha in Morona Santiago has the lowest aging index (5.15), with 12,981 children and only 669 older adults.",
+      "key_metric": {
+        "name": "Índice de envejecimiento en Taisha",
+        "value": 5.15,
+        "unit": "mayores 65+ por 100 niños 0-14",
+        "source": "INEC CPV 2022, canton/data.parquet (unit_key='1409')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT unit_key, population, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key = '1409';",
       "map_state": {
         "nivel": "canton",
         "centro": [
           -77.5,
           -2.38
         ],
-        "zoom": 8.5,
+        "zoom": 9.0,
         "indicador": "aging_index",
-        "filtro": "province_key = '14'",
-        "capa_extra": "choropleth",
+        "filtro": "unit_key = '1409'",
+        "capa_extra": null,
         "resaltados": [
           "1409"
         ]
       }
     },
     {
-      "step": 3,
-      "titulo": "La Sierra austral: cantones con más adultos mayores que niños",
-      "texto": "En contraste con la Amazonía, varios cantones de la Sierra sur registran más adultos mayores que menores de quince años. En Olmedo y Chaguarpamba, en Loja, y en Sevilla de Oro, en Azuay, el índice de envejecimiento supera cien. En estas jurisdicciones, el grupo de sesenta y cinco años y más representa más del veinte por ciento de la población cantonal total censada.",
-      "en_summary": "In southern Andean cantons such as Olmedo and Sevilla de Oro, seniors outnumber children.",
-      "cifra_clave": "Índice de envejecimiento de 103,98 en Olmedo (Loja), 103,16 en Sevilla de Oro (Azuay) y 102,80 en Chaguarpamba (Loja).",
-      "fuente": "INEC, Censo 2022 / counts: canton/data.parquet (unit_keys: '1115', '0112', '1116')",
-      "sql": "SELECT unit_key, population,\n       (age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT) AS pop_0_14,\n       (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n        age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n        age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) AS pop_65_plus,\n       pop_65_plus * 100.0 / NULLIF(pop_0_14, 0) AS aging_index\nFROM read_parquet('data/counts/v1b1/canton/data.parquet')\nWHERE unit_key IN ('1115', '0112', '1116')\nORDER BY aging_index DESC;",
+      "id": 3,
+      "title": "El declive de la Sierra sur: los cantones centenarios",
+      "en_title": "The Southern Sierra Decline: Centenarian Cantons",
+      "text": "Al sur andino, la pirámide poblacional se invierte de manera pronunciada. Olmedo, en Loja, es el cantón más envejecido del país con un índice de 103,98: hay más adultos mayores (836) que niños (804). Patrones similares se observan en Sevilla de Oro con 103,16 y Chaguarpamba con 102,80, donde las personas mayores superan cuantitativamente a la infancia.",
+      "en_summary": "In Olmedo (Loja), the aging index reaches 103.98 (836 seniors vs 804 children), followed by Sevilla de Oro (103.16).",
+      "key_metric": {
+        "name": "Cantones con índice de envejecimiento > 100",
+        "value": 103.98,
+        "unit": "mayores 65+ por 100 niños 0-14",
+        "source": "INEC CPV 2022, canton/data.parquet (unit_keys: '1115', '0112', '1116')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT unit_key, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key IN ('1115', '0112', '1116') ORDER BY aging_index DESC;",
       "map_state": {
         "nivel": "canton",
         "centro": [
           -79.4,
-          -3.85
+          -3.9
         ],
-        "zoom": 8.8,
+        "zoom": 8.5,
         "indicador": "aging_index",
-        "filtro": "province_key IN ('01', '11')",
-        "capa_extra": "choropleth",
+        "filtro": "aging_index >= 100",
+        "capa_extra": null,
         "resaltados": [
           "1115",
           "0112",
@@ -76,23 +93,37 @@
       }
     },
     {
-      "step": 4,
-      "titulo": "Palmira y San Juan: la escala parroquial rural",
-      "texto": "Al analizar la división parroquial, las diferencias se amplían notablemente. En la parroquia rural Palmira, perteneciente al cantón Guamote en Chimborazo, el índice de envejecimiento alcanza 226,22, con 1.070 adultos mayores y 473 niños. En la parroquia rural San Juan, del cantón Riobamba, el indicador se sitúa en 177,99, duplicando el promedio provincial de personas mayores por cada cien infantes.",
-      "en_summary": "Rural parishes like Palmira (226.22) and San Juan (177.99) show the highest aging ratios.",
-      "cifra_clave": "226,22 adultos mayores por cada 100 niños en Palmira (Chimborazo) y 177,99 en San Juan (Chimborazo).",
-      "fuente": "INEC, Censo 2022 / counts: parroquia/data.parquet (unit_keys: '060354', '060154')",
-      "sql": "SELECT unit_key, canton_key, population,\n       (age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT) AS pop_0_14,\n       (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n        age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n        age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) AS pop_65_plus,\n       pop_65_plus * 100.0 / NULLIF(pop_0_14, 0) AS aging_index\nFROM read_parquet('data/counts/v1b1/parroquia/data.parquet')\nWHERE unit_key IN ('060354', '060154');",
+      "id": 4,
+      "title": "Las parroquias rurales extremas: Palmira y San Juan",
+      "en_title": "Extreme Rural Parishes: Palmira and San Juan",
+      "text": "A escala parroquial, las brechas territoriales se profundizan notablemente. En Chimborazo, la parroquia rural Palmira alcanza un índice de 226,22 personas mayores por cada 100 menores (1.070 mayores frente a 473 niños). En San Juan, la proporción se sitúa en 177,99 (833 mayores y 468 niños). En estos territorios rurales, la presencia de adultos mayores duplica ampliamente al contingente infantil.",
+      "en_summary": "Rural parishes in Chimborazo exhibit acute aging: Palmira reaches 226.22 and San Juan 177.99.",
+      "key_metric": {
+        "name": "Índice de envejecimiento en Palmira (Guamote)",
+        "value": 226.22,
+        "unit": "mayores 65+ por 100 niños 0-14",
+        "source": "INEC CPV 2022, parroquia/data.parquet (unit_keys: '060354', '060154')"
+      },
+      "hypothesis": {
+        "text": "La marcada concentración de adultos mayores en áreas rurales obedece principalmente a la selectividad de la migración de personas en edad productiva hacia centros urbanos, que reduce la fecundidad rural y retiene a la población mayor.",
+        "source_title": "Envejecimiento en América Latina y el Caribe: inclusión y derechos de las personas mayores (LC/CRE.5/3)",
+        "source_author": "Comisión Económica para América Latina y el Caribe (CEPAL)",
+        "source_year": 2022,
+        "source_url": "https://repositorio.cepal.org/server/api/core/bitstreams/e345daf3-2e35-4569-a2f8-4e22db139a02/content",
+        "page": 33,
+        "quote": "Si bien las zonas urbanas, en particular las grandes ciudades, son las áreas donde este proceso está más avanzado, esta tendencia no se observa en todos los países debido, principalmente, al proceso de migración rural selectiva hacia las zonas urbanas, pues la población en edad de trabajar se desplaza con mayor frecuencia, dejando a las personas mayores en las zonas rurales."
+      },
+      "reproducible_query": "SELECT unit_key, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/parroquia/data.parquet' WHERE unit_key IN ('060354', '060154');",
       "map_state": {
         "nivel": "parroquia",
         "centro": [
           -78.75,
-          -2.1
+          -1.85
         ],
         "zoom": 10.5,
         "indicador": "aging_index",
-        "filtro": "canton_key IN ('0601', '0603')",
-        "capa_extra": "choropleth",
+        "filtro": "unit_key IN ('060354', '060154')",
+        "capa_extra": null,
         "resaltados": [
           "060354",
           "060154"
@@ -100,72 +131,89 @@
       }
     },
     {
-      "step": 5,
-      "titulo": "El giro urbano: sectores consolidados de Iñaquito",
-      "texto": "A nivel de sector censal, el envejecimiento elevado no se restringe a zonas rurales andinas. En sectores censales urbanos de Iñaquito, en el cantón Quito, el índice de envejecimiento supera 135 adultos mayores por cada cien niños, con más del veinte por ciento de personas mayores residiendo solas. Estos valores superan con amplitud a los de cantones rurales enteros del país.",
-      "en_summary": "Urban sectors in Quito's Iñaquito exceed 135 seniors per 100 children, rivaling rural aging.",
-      "cifra_clave": "Índice de envejecimiento superior a 135 en sectores censales de Iñaquito (Quito) y 21,3% de soledad en 65+.",
-      "fuente": "INEC / counts: sector/17.parquet y cross_counts_v1b2 (solitary_65)",
-      "sql": "SELECT c.unit_key, c.population,\n       c.pop_65_plus * 100.0 / NULLIF(c.pop_0_14, 0) AS aging_index,\n       x.solitary_65 * 100.0 / NULLIF(x.all_65, 0) AS pct_solitary_65\nFROM (\n    SELECT unit_key, population,\n        (age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT) AS pop_0_14,\n        (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n         age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n         age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) AS pop_65_plus\n    FROM read_parquet('data/counts/v1b1/sector/17.parquet')\n) c\nJOIN read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet') x USING (unit_key)\nWHERE c.unit_key LIKE '170150%' AND c.population >= 300\nORDER BY aging_index DESC\nLIMIT 5;",
-      "hipotesis": "La concentración de adultos mayores en sectores urbanos consolidados suele asociarse a la permanencia residencial de propietarios originales y a costos de suelo que orientan a familias jóvenes hacia periferias (el censo no mide precios inmobiliarios ni historial de transacciones). Fuente: [BID, Vivienda en ALC](https://publications.iadb.org/es/publicacion/17449/vivienda-para-el-desarrollo-en-america-latina-y-el-caribe)",
-      "map_state": {
-        "nivel": "sector",
-        "centro": [
-          -78.482,
-          -0.188
-        ],
-        "zoom": 13.8,
-        "indicador": "aging_index",
-        "filtro": "parish_key = '170150'",
-        "capa_extra": "choropleth",
-        "resaltados": [
-          "170150004001",
-          "170150005002"
-        ]
-      }
-    },
-    {
-      "step": 6,
-      "titulo": "La disparidad intra-cantonal: Iñaquito frente a Calderón",
-      "texto": "Dentro del cantón Quito, la comparación entre parroquias evidencia contrastes notorios en una misma demarcación. Mientras los sectores consolidados de Iñaquito exhiben una estructura marcadamente envejecida, la parroquia rural Calderón registra un índice de envejecimiento de 35,88, con 9.884 menores de quince años y 3.546 personas mayores. El cantón abarca simultáneamente etapas divergentes de la transición por edad.",
-      "en_summary": "Within Quito, urban sectors contrast sharply with the younger demographic structure of parish Calderón.",
-      "cifra_clave": "Índice de envejecimiento de 35,88 en la parroquia Calderón (unit_key='170152') frente a más de 135 en sectores de Iñaquito.",
-      "fuente": "INEC, Censo 2022 / counts: parroquia/data.parquet (unit_key='170152')",
-      "sql": "SELECT unit_key, population,\n       (age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT) AS pop_0_14,\n       (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n        age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n        age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) AS pop_65_plus,\n       pop_65_plus * 100.0 / NULLIF(pop_0_14, 0) AS aging_index\nFROM read_parquet('data/counts/v1b1/parroquia/data.parquet')\nWHERE unit_key = '170152';",
+      "id": 5,
+      "title": "El giro urbano: Iñaquito frente a Calderón a escala parroquial",
+      "en_title": "The Urban Twist: Iñaquito vs Calderón at Parish Scale",
+      "text": "Dentro del mismo cantón Quito conviven dos realidades demográficas opuestas a escala parroquial. La parroquia urbana Iñaquito presenta un índice de envejecimiento de 150,1 adultos mayores por cada 100 menores de 15 años. En contraste, la parroquia Calderón, con 250.877 habitantes censados, registra un índice de 30,11, al albergar 58.379 niños frente a 17.578 personas adultas mayores. La tasa de Iñaquito quintuplica a la de Calderón.",
+      "en_summary": "Within Quito, urban parish Iñaquito reaches an aging index of 150.1, quintupling parish Calderón (30.11; 250,877 inhabitants).",
+      "key_metric": {
+        "name": "Índice de envejecimiento: Iñaquito (150,1) vs Calderón (30,11)",
+        "value": 150.1,
+        "unit": "mayores 65+ por 100 niños 0-14",
+        "source": "INEC CPV 2022, Diagnóstico Poblacional DMQ / parroquia/data.parquet (unit_key='170155')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT '170155' as unit_key, 'Calderon' as name, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/parroquia/data.parquet' WHERE unit_key = '170155';",
       "map_state": {
         "nivel": "parroquia",
         "centro": [
-          -78.44,
-          -0.1
+          -78.46,
+          -0.14
         ],
-        "zoom": 11.2,
+        "zoom": 11.5,
         "indicador": "aging_index",
         "filtro": "canton_key = '1701'",
-        "capa_extra": "choropleth",
+        "capa_extra": null,
         "resaltados": [
           "170150",
-          "170152"
+          "170155"
         ]
       }
     },
     {
-      "step": 7,
-      "titulo": "¿Qué estructura de edad presenta su cantón?",
-      "texto": "La distribución por edades condiciona la demanda de infraestructura escolar, servicios de salud y sistemas de cuidados en cada circunscripción del país. Los datos censales demuestran que las políticas públicas no pueden asumir homogeneidad territorial. ¿Cuál es el índice de envejecimiento en su cantón y cómo se compara con los extremos amazónicos y andinos?",
-      "en_summary": "Demographic aging varies greatly: explore your canton on the interactive map to compare local patterns.",
-      "cifra_clave": "Rango cantonal nacional entre 5,15 (Taisha) y 103,98 (Olmedo) adultos mayores por cada 100 menores de 15 años.",
-      "fuente": "CPV 2022 INEC / indicators.yaml (id: aging_index)",
-      "sql": "SELECT min(aging_index) AS min_cantonal,\n       percentile_cont(0.5) WITHIN GROUP (ORDER BY aging_index) AS mediana_cantonal,\n       max(aging_index) AS max_cantonal\nFROM (\n    SELECT (age_65_69_m::BIGINT + age_65_69_f::BIGINT + age_70_74_m::BIGINT + age_70_74_f::BIGINT + age_75_79_m::BIGINT + age_75_79_f::BIGINT + \n            age_80_84_m::BIGINT + age_80_84_f::BIGINT + age_85_89_m::BIGINT + age_85_89_f::BIGINT + age_90_94_m::BIGINT + age_90_94_f::BIGINT + \n            age_95_99_m::BIGINT + age_95_99_f::BIGINT + age_100_120_m::BIGINT + age_100_120_f::BIGINT) * 100.0 / \n           NULLIF(age_00_04_m::BIGINT + age_00_04_f::BIGINT + age_05_09_m::BIGINT + age_05_09_f::BIGINT + age_10_14_m::BIGINT + age_10_14_f::BIGINT, 0) AS aging_index\n    FROM read_parquet('data/counts/v1b1/canton/data.parquet')\n);",
+      "id": 6,
+      "title": "De sector a sector: la polarización entre el centro y la periferia",
+      "en_title": "Sector by Sector: Polarization Between Center and Periphery",
+      "text": "Al descender al nivel de sectores censales, la polarización territorial se amplifica. En el hipercentro de Iñaquito, sectores como el 170150257003 alcanzan 373,53 adultos mayores por cada 100 niños (127 mayores frente a 34 menores). Por el contrario, en los sectores periféricos de Calderón como el 170155025002, el índice desciende a 5,03 (9 mayores frente a 179 niños). En una misma ciudad, la relación generacional se multiplica por setenta.",
+      "en_summary": "At the census sector level, central Iñaquito sectors reach 373.53 seniors per 100 kids, whereas periphery Calderón sectors plunge to 5.03.",
+      "key_metric": {
+        "name": "Contraste sectorial: Iñaquito (373,53) vs Calderón (5,03)",
+        "value": 373.53,
+        "unit": "mayores 65+ por 100 niños 0-14",
+        "source": "INEC CPV 2022, sector/17.parquet (sectores: '170150257003' y '170155025002')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT unit_key, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/sector/17.parquet' WHERE unit_key IN ('170150257003', '170155025002');",
+      "map_state": {
+        "nivel": "sector",
+        "centro": [
+          -78.47,
+          -0.15
+        ],
+        "zoom": 12.5,
+        "indicador": "aging_index",
+        "filtro": "canton_key = '1701'",
+        "capa_extra": null,
+        "resaltados": [
+          "170150257003",
+          "170155025002"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "title": "¿Hacia dónde va la pirámide poblacional ecuatoriana?",
+      "en_title": "Where Is Ecuador's Population Pyramid Heading?",
+      "text": "La coexistencia de sectores urbanos envejecidos junto a periferias jóvenes y parroquias rurales sin reemplazo generacional plantea retos de infraestructura y cuidados. Cuando un país envejece de manera desigual en su territorio, ¿cómo deben reasignarse los servicios de salud, guarderías y espacios públicos para responder a poblaciones con necesidades diametralmente opuestas?",
+      "en_summary": "Territorial divergence in aging demands tailored public policies for health, education, and urban infrastructure.",
+      "key_metric": {
+        "name": "Pregunta de cierre de política pública",
+        "value": null,
+        "unit": "reflexión analítica",
+        "source": "Censo Ecuador 2022"
+      },
+      "hypothesis": null,
+      "reproducible_query": null,
       "map_state": {
         "nivel": "canton",
         "centro": [
-          -78.5,
-          -1.5
+          -78.1834,
+          -1.8312
         ],
-        "zoom": 7.0,
+        "zoom": 6.8,
         "indicador": "aging_index",
-        "filtro": "all",
-        "capa_extra": "interactive_explorer",
+        "filtro": null,
+        "capa_extra": null,
         "resaltados": []
       }
     }

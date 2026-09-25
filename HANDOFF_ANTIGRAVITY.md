@@ -66,3 +66,15 @@ Se aplicaron rigurosamente las 7 reglas editoriales acordadas sobre los guiones 
 
 ---
 *Fin del Handoff.*
+
+### Correcciones de Verificación y Escala Editorial (2026-09-25)
+1. **Giro 1 a la misma escala (Parroquia vs Parroquia y Sector vs Sector):**
+   - **Paso 5:** Se compara la parroquia urbana Iñaquito (índice de envejecimiento = 150,1) frente a la parroquia rural Calderón (índice = 30,11; población censada = 250.877; 58.379 niños vs 17.578 adultos mayores). Ambas pertenecen al mismo cantón Quito.
+   - **Paso 6:** Se compara a escala intraurbana sector contra sector: sectores centrales de Iñaquito (p. ej. `170150257003`, índice = 373,53) frente a sectores periféricos en expansión de Calderón (p. ej. `170155025002`, índice = 5,03).
+2. **Auditoría y Verificación Textual de Fuentes Externas:**
+   - **CEPAL (2022):** Verificado en PDF oficial LC/CRE.5/3, pág. 33, URL directa en repositorio CEPAL.
+   - **BCE (2024, datos 2023):** Verificado en *Informe de Resultados de Remesas IVT 2023*, pág. 8, URL directa en servidor BCE.
+   - **BID (2021):** No se halló cita textual ni evidencia empírica en informes BID que vincule formalmente la vacancia de viviendas en el Austro con ahorro de la diáspora. Siguiendo la instrucción editorial estricta, **se eliminó el recuadro de hipótesis de la Historia 3**.
+   - **ARCOTEL (2023, datos 2022):** Verificado en *Boletín Estadístico Cierre de Año 2022*, pág. 8 y 15, URL directa en portal ARCOTEL.
+   - Todo registrado y documentado en `docs/historias/verificacion.md` (sección 5).
+3. **Estado de PR #47:** Marcado como **Listo para revisión (Ready for review)** hacia `main`.

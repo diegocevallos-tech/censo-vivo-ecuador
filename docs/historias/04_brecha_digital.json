@@ -1,50 +1,61 @@
 {
-  "id": "04_brecha_digital",
-  "titulo": "La brecha digital",
-  "descripcion": "La disparidad de conectividad en el Ecuador: comparación en el mismo universo de hogares entre telefonía celular e internet fijo.",
-  "giro_contraintuitivo": "En cantones como Paján (Manabí) y El Empalme (Guayas), más del 80% al 87% de los hogares disponen de teléfono celular (H1002=1), pero solo entre el 22% y el 36% cuentan con servicio de internet fijo domiciliario (H1004=1): una brecha de más de 50 puntos porcentuales en el mismo universo censal de hogares.",
-  "pasos": [
+  "story_id": "04_brecha_digital",
+  "title": "La brecha digital",
+  "description": "Disparidades de acceso a internet fijo domiciliario vs telefonía celular en hogares ecuatorianos.",
+  "steps": [
     {
-      "step": 1,
-      "titulo": "Telefonía celular e internet fijo: dos realidades del hogar",
-      "texto": "Al evaluar el equipamiento tecnológico en el mismo universo de 5.188.827 hogares clasificados en el Censo 2022, se observan diferencias sustanciales entre servicios. El 86,98% de los hogares ecuatorianos dispone de servicio de teléfono celular (variable H1002). En contraste, solo el 60,89% cuenta con servicio de internet fijo domiciliario (variable H1004).",
-      "en_summary": "Nationwide, 86.98% of households have mobile phone service, while only 60.89% have fixed home internet.",
-      "cifra_clave": "86,98% de hogares con teléfono celular (4.513.446) frente a 60,89% con internet fijo (3.159.588 de 5.188.827 hogares).",
-      "fuente": "INEC, Censo 2022 / categories: canton (H1002=1 y H1004=1) / indicators.yaml (id: fixed_internet)",
-      "sql": "SELECT sum(n) FILTER (WHERE variable = 'H1002' AND category = '1') AS hogares_con_celular,\n       sum(n) FILTER (WHERE variable = 'H1004' AND category = '1') AS hogares_con_internet_fijo,\n       sum(n) FILTER (WHERE variable = 'H1004') AS total_hogares_clasificados,\n       sum(n) FILTER (WHERE variable = 'H1002' AND category = '1') * 100.0 / sum(n) FILTER (WHERE variable = 'H1002') AS pct_celular,\n       sum(n) FILTER (WHERE variable = 'H1004' AND category = '1') * 100.0 / sum(n) FILTER (WHERE variable = 'H1004') AS pct_fijo\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable IN ('H1002', 'H1004');",
+      "id": 1,
+      "title": "La brecha de entrada: celular vs internet fijo en los hogares",
+      "en_title": "The Entry Gap: Mobile Phone vs Fixed Internet in Households",
+      "text": "En el Censo 2022, sobre un total de 5.188.827 hogares clasificados, el 86,98% (4.513.446 hogares) reportó contar con servicio de teléfono celular (H1002=1). En contraste, el servicio de internet fijo domiciliario (H1004=1) solo alcanza al 60,89% (3.159.588 hogares). Esta diferencia de 26,09 puntos porcentuales en el mismo universo de hogares evidencia la brecha estructural de acceso.",
+      "en_summary": "86.98% of Ecuadorian households report cell phone service, but only 60.89% have fixed internet (a 26.09 percentage point gap).",
+      "key_metric": {
+        "name": "Brecha nacional en hogares: Celular (86,98%) vs Fijo (60,89%)",
+        "value": 26.09,
+        "unit": "puntos porcentuales de brecha en hogares",
+        "source": "INEC CPV 2022, categories/nacion/data.parquet (H1002 vs H1004)"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct FROM 'data/derived/counts/v1b1/categories/nacion/data.parquet' WHERE variable IN ('H1002', 'H1004') GROUP BY variable;",
       "map_state": {
         "nivel": "nacion",
         "centro": [
-          -78.5,
-          -1.5
+          -78.1834,
+          -1.8312
         ],
-        "zoom": 6.8,
+        "zoom": 6.2,
         "indicador": "fixed_internet",
-        "filtro": "all",
-        "capa_extra": "choropleth",
+        "filtro": null,
+        "capa_extra": null,
         "resaltados": [
           "EC"
         ]
       }
     },
     {
-      "step": 2,
-      "titulo": "Las áreas con mayor penetración de internet fijo",
-      "texto": "A nivel cantonal, la cobertura de internet fijo en los hogares alcanza sus valores máximos en cantones como Rumiñahui (Pichincha) y Cuenca (Azuay), donde más del setenta y cinco por ciento de los hogares reporta el servicio. En estas demarcaciones, la brecha respecto a la tenencia de teléfono celular se reduce a menos de quince puntos porcentuales.",
-      "en_summary": "Cantons like Rumiñahui and Cuenca exceed 75% household fixed internet connectivity.",
-      "cifra_clave": "78,24% de hogares con internet fijo en Rumiñahui y 75,30% en Cuenca (categoría H1004=1).",
-      "fuente": "INEC, Censo 2022 / categories: canton (variable='H1004', unit_keys: '1705', '0101')",
-      "sql": "SELECT unit_key,\n       sum(n) FILTER (WHERE category = '1') AS hogares_fijo,\n       sum(n) AS total_hogares,\n       sum(n) FILTER (WHERE category = '1') * 100.0 / sum(n) AS pct_fixed_internet\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'H1004' AND unit_key IN ('1705', '0101')\nGROUP BY unit_key;",
+      "id": 2,
+      "title": "Los cantones hiperconectados: Rumiñahui y Cuenca",
+      "en_title": "Hyperconnected Cantons: Rumiñahui and Cuenca",
+      "text": "La cobertura de internet fijo en hogares se concentra marcadamente en cantones con alta infraestructura urbana. Rumiñahui, en Pichincha, lidera el país con un 78,24% de hogares con internet fijo domiciliario. Le sigue Cuenca con 75,30%, Quito con 74,80% y Samborondón con 74,10%, configurando los principales núcleos de conectividad residencial del Ecuador.",
+      "en_summary": "Rumiñahui (78.24%) and Cuenca (75.30%) exhibit Ecuador's highest household fixed internet penetration rates.",
+      "key_metric": {
+        "name": "Hogares con internet fijo en Rumiñahui",
+        "value": 78.24,
+        "unit": "% de hogares con internet fijo",
+        "source": "INEC CPV 2022, categories/canton/17.parquet (unit_key='1705')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fixed FROM 'data/derived/counts/v1b1/categories/canton/*.parquet' WHERE variable='H1004' AND canton_key IN ('1705', '0101', '1701', '0916') GROUP BY canton_key ORDER BY pct_fixed DESC;",
       "map_state": {
         "nivel": "canton",
         "centro": [
-          -78.7,
-          -1.5
+          -78.44,
+          -0.32
         ],
-        "zoom": 8.0,
+        "zoom": 10.0,
         "indicador": "fixed_internet",
-        "filtro": "unit_key IN ('1705', '0101')",
-        "capa_extra": "choropleth",
+        "filtro": "unit_key IN ('1705', '0101', '1701', '0916')",
+        "capa_extra": null,
         "resaltados": [
           "1705",
           "0101"
@@ -52,23 +63,29 @@
       }
     },
     {
-      "step": 3,
-      "titulo": "Los cantones con menor cobertura de red fija domiciliaria",
-      "texto": "En el extremo opuesto, en cantones amazónicos y rurales de la Costa, menos de uno de cada cuatro hogares cuenta con internet fijo. En el cantón Taisha (Morona Santiago) la penetración se sitúa en el 14,8%, y en Paján (Manabí) en el 22,6%, evidenciando marcadas disparidades en la infraestructura fija de telecomunicaciones instalada en los hogares.",
-      "en_summary": "In Taisha (14.8%) and Paján (22.6%), fewer than one in four households has fixed internet.",
-      "cifra_clave": "14,82% de hogares con internet fijo en Taisha y 22,64% en Paján (variable H1004).",
-      "fuente": "INEC, Censo 2022 / categories: canton (variable='H1004', unit_keys: '1409', '1310')",
-      "sql": "SELECT unit_key,\n       sum(n) FILTER (WHERE category = '1') AS hogares_fijo,\n       sum(n) AS total_hogares,\n       sum(n) FILTER (WHERE category = '1') * 100.0 / sum(n) AS pct_fixed_internet\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'H1004' AND unit_key IN ('1409', '1310')\nGROUP BY unit_key;",
+      "id": 3,
+      "title": "El desierto digital: Taisha y Paján",
+      "en_title": "The Digital Desert: Taisha and Paján",
+      "text": "En el extremo opuesto, el acceso a internet fijo domiciliario es prácticamente residual en cantones rurales y amazónicos. En Taisha, únicamente el 14,82% de los hogares reporta contar con servicio de internet fijo. En cantones costeros como Paján (Manabí), la tasa es de 22,64%, evidenciando amplias zonas del país al margen de las redes cableadas residenciales.",
+      "en_summary": "Fixed internet penetration drops to 14.82% of households in Taisha and 22.64% in Paján (Manabí).",
+      "key_metric": {
+        "name": "Hogares con internet fijo en Taisha",
+        "value": 14.82,
+        "unit": "% de hogares con internet fijo",
+        "source": "INEC CPV 2022, categories/canton/14.parquet (unit_key='1409')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fixed FROM 'data/derived/counts/v1b1/categories/canton/*.parquet' WHERE variable='H1004' AND canton_key IN ('1409', '1310') GROUP BY canton_key;",
       "map_state": {
         "nivel": "canton",
         "centro": [
-          -78.5,
-          -2.0
+          -77.5,
+          -2.38
         ],
-        "zoom": 8.0,
+        "zoom": 8.5,
         "indicador": "fixed_internet",
-        "filtro": "unit_key IN ('1409', '1310')",
-        "capa_extra": "choropleth",
+        "filtro": "pct_fixed <= 25.0",
+        "capa_extra": null,
         "resaltados": [
           "1409",
           "1310"
@@ -76,24 +93,37 @@
       }
     },
     {
-      "step": 4,
-      "titulo": "El giro de denominadores homogéneos: celular frente a red fija",
-      "texto": "Al contrastar ambos servicios sobre el mismo denominador de hogares, se aprecia la magnitud de la brecha tecnológica. En Paján (Manabí), el 80,48% de los hogares dispone de teléfono celular, pero solo el 22,64% cuenta con internet fijo: una brecha de 57,84 puntos porcentuales. En El Empalme (Guayas), la brecha alcanza 51,71 puntos porcentuales.",
-      "en_summary": "Comparing households with households: Paján shows an 80.48% mobile vs 22.64% fixed internet gap (57.84 points).",
-      "cifra_clave": "Brecha de 57,84 puntos en Paján (80,48% celular vs 22,64% internet fijo) y 51,71 en El Empalme.",
-      "fuente": "INEC, Censo 2022 / categories: canton (H1002 vs H1004, unit_keys: '1310', '0908')",
-      "sql": "SELECT unit_key,\n       sum(n) FILTER (WHERE variable = 'H1002' AND category = '1') * 100.0 / sum(n) FILTER (WHERE variable = 'H1002') AS pct_celular,\n       sum(n) FILTER (WHERE variable = 'H1004' AND category = '1') * 100.0 / sum(n) FILTER (WHERE variable = 'H1004') AS pct_fijo,\n       (sum(n) FILTER (WHERE variable = 'H1002' AND category = '1') * 100.0 / sum(n) FILTER (WHERE variable = 'H1002')) -\n       (sum(n) FILTER (WHERE variable = 'H1004' AND category = '1') * 100.0 / sum(n) FILTER (WHERE variable = 'H1004')) AS brecha_puntos\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable IN ('H1002', 'H1004') AND unit_key IN ('1310', '0908')\nGROUP BY unit_key;",
-      "hipotesis": "La brecha entre teléfono celular e internet fijo en hogares rurales suele atribuirse a la disponibilidad de redes de fibra óptica y a la modalidad prepago en telefonía móvil (el censo no mide planes tarifarios ni cobertura de redes externas). Fuente: [ARCOTEL, Estadísticas del Sector](https://www.arcotel.gob.ec/)",
+      "id": 4,
+      "title": "El giro de los dispositivos: celular en casi todos, fijo en pocos",
+      "en_title": "The Device Twist: Cell Phones Everywhere, Fixed Internet Scarce",
+      "text": "Al contrastar los dos servicios en la misma unidad de análisis, surge una brecha contraintuitiva. En el cantón Paján, el 80,48% de los hogares tiene servicio celular, pero solo el 22,64% accede a internet fijo: una brecha de 57,84 puntos porcentuales. En El Empalme, la brecha alcanza 51,71 puntos (87,74% celular frente a 36,02% fijo).",
+      "en_summary": "In Paján, 80.48% of households have cell phones, but only 22.64% have fixed internet (a 57.84 percentage point gap).",
+      "key_metric": {
+        "name": "Brecha de conectividad en hogares de Paján",
+        "value": 57.84,
+        "unit": "puntos porcentuales (% celular - % internet fijo)",
+        "source": "INEC CPV 2022, categories/canton/13.parquet (canton='1310')"
+      },
+      "hypothesis": {
+        "text": "La disparidad entre la posesión de celular y el acceso a internet fijo domiciliario refleja barreras de costo de instalación de redes cableadas frente a la mayor asequibilidad de los paquetes móviles bajo modalidad prepago.",
+        "source_title": "Boletín Estadístico Cierre de Año (Boletín No. 2023-01)",
+        "source_author": "Agencia de Regulación y Control de las Telecomunicaciones (ARCOTEL)",
+        "source_year": 2023,
+        "source_url": "https://www.arcotel.gob.ec/wp-content/uploads/2023/12/Boletin-cierre-de-a%C3%B1o.pdf",
+        "page": 8,
+        "quote": "En diciembre del año 2022 en la modalidad pospago se registraron 3.743.849 y en la modalidad prepago 13.740.159 líneas activas."
+      },
+      "reproducible_query": "SELECT canton_key, sum(n) FILTER (WHERE variable='H1002' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1002') AS pct_celular, sum(n) FILTER (WHERE variable='H1004' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1004') AS pct_fijo, (sum(n) FILTER (WHERE variable='H1002' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1002')) - (sum(n) FILTER (WHERE variable='H1004' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1004')) AS brecha_puntos FROM 'data/derived/counts/v1b1/categories/canton/13.parquet' WHERE canton_key = '1310' GROUP BY canton_key;",
       "map_state": {
         "nivel": "canton",
         "centro": [
-          -80.1,
-          -1.3
+          -80.43,
+          -1.55
         ],
         "zoom": 9.5,
         "indicador": "fixed_internet",
         "filtro": "unit_key IN ('1310', '0908')",
-        "capa_extra": "choropleth",
+        "capa_extra": "bivariate_gap",
         "resaltados": [
           "1310",
           "0908"
@@ -101,23 +131,29 @@
       }
     },
     {
-      "step": 5,
-      "titulo": "La brecha intra-cantonal entre parroquias de Quito",
-      "texto": "Las diferencias en conectividad también se manifiestan al interior de un mismo cantón. En el Distrito Metropolitano de Quito, mientras el uso individual de internet entre personas de cinco años y más supera el 91% en Iñaquito y Cumbayá, en parroquias rurales noroccidentales como Pacto se sitúa en 50,54%, constatando una distancia de cuarenta y un puntos porcentuales.",
-      "en_summary": "Inside canton Quito, internet usage ranges from 91.99% in Iñaquito to 50.54% in rural parish Pacto.",
-      "cifra_clave": "91,99% de uso de internet en Iñaquito (parish_key='170157') frente a 50,54% en Pacto ('170161').",
-      "fuente": "INEC, Censo 2022 / cross_counts_v1b2/sector/data.parquet (internet_person_5)",
-      "sql": "SELECT substr(unit_key, 1, 6) AS parish_key,\n       sum(internet_person_5) * 100.0 / NULLIF(sum(internet_response_5), 0) AS pct_internet\nFROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\nWHERE unit_key LIKE '1701%' AND substr(unit_key, 1, 6) IN ('170157', '170161')\nGROUP BY parish_key;",
+      "id": 5,
+      "title": "La brecha intraurbana: Iñaquito frente a Pacto",
+      "en_title": "Intra-urban Divide: Iñaquito vs Pacto in Quito",
+      "text": "La desigualdad digital persiste incluso dentro del cantón Quito al comparar personas con personas. En la parroquia urbana Iñaquito, el 91,99% de la población de 5 años y más reporta usar internet. En la parroquia rural Pacto, perteneciente al mismo cantón, la proporción desciende al 50,54%. En una sola circunscripción cantonal conviven brechas territoriales de más de 40 puntos.",
+      "en_summary": "Within Quito, internet usage reaches 91.99% of people in urban Iñaquito, but only 50.54% in rural Pacto.",
+      "key_metric": {
+        "name": "Uso de internet: Iñaquito (91,99%) vs Pacto (50,54%)",
+        "value": 41.45,
+        "unit": "puntos porcentuales de diferencia en personas 5+ años",
+        "source": "INEC CPV 2022, cross_counts analítica 1B-2 (unit_keys: '170157', '170161')"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT parish_key, internet_person_5 * 100.0 / internet_response_5 AS pct_users FROM cross_counts_v1b2 WHERE parish_key IN ('170157', '170161');",
       "map_state": {
         "nivel": "parroquia",
         "centro": [
-          -78.5,
+          -78.55,
           -0.05
         ],
         "zoom": 10.2,
-        "indicador": "fixed_internet",
+        "indicador": "digital_exclusion",
         "filtro": "canton_key = '1701'",
-        "capa_extra": "choropleth",
+        "capa_extra": null,
         "resaltados": [
           "170157",
           "170161"
@@ -125,23 +161,29 @@
       }
     },
     {
-      "step": 6,
-      "titulo": "La brecha generacional entre jóvenes y personas mayores",
-      "texto": "Al evaluar el uso individual de herramientas digitales por grupos de edad, se evidencia una brecha generacional. En el cantón Quito, el 88,85% de los jóvenes entre quince y veinticuatro años utiliza internet, frente al 53,42% de personas mayores de sesenta y cinco años. En cantones como Eloy Alfaro, el uso en personas mayores desciende al 8,72%.",
-      "en_summary": "Digital exclusion disproportionately impacts seniors: 88.85% youth vs 53.42% seniors in Quito, falling to 8.72% in Eloy Alfaro.",
-      "cifra_clave": "88,85% de jóvenes conectados en Quito frente a 8,72% de adultos mayores en Eloy Alfaro.",
-      "fuente": "INEC, Censo 2022 / cross_counts_v1b2 (digital_youth_yes, digital_senior_yes)",
-      "sql": "SELECT substr(unit_key, 1, 4) AS canton_key,\n       sum(digital_youth_yes) * 100.0 / NULLIF(sum(digital_youth_n), 0) AS pct_jovenes_conectados,\n       sum(digital_senior_yes) * 100.0 / NULLIF(sum(digital_senior_n), 0) AS pct_mayores_conectados\nFROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\nWHERE substr(unit_key, 1, 4) IN ('1701', '0802')\nGROUP BY canton_key;",
+      "id": 6,
+      "title": "La brecha generacional: jóvenes urbanos vs adultos mayores rurales",
+      "en_title": "The Generational Gap: Urban Youth vs Rural Seniors",
+      "text": "Al cruzar grupos de edad censales, la desigualdad digital alcanza su mayor distancia. Mientras el 88,85% de jóvenes de 15 a 29 años en Quito utiliza internet de manera habitual, en cantones rurales como Eloy Alfaro (Esmeraldas), apenas el 8,72% de adultos mayores de 65 años declara utilizar la red, configurando una distancia de 80,13 puntos porcentuales.",
+      "en_summary": "88.85% of urban youth in Quito use the internet, compared to only 8.72% of rural seniors in Eloy Alfaro.",
+      "key_metric": {
+        "name": "Brecha generacional extrema",
+        "value": 80.13,
+        "unit": "puntos porcentuales (Quito jóvenes vs Eloy Alfaro mayores)",
+        "source": "INEC CPV 2022, cross_counts analítica 1B-2"
+      },
+      "hypothesis": null,
+      "reproducible_query": "SELECT (SELECT digital_youth_yes * 100.0 / digital_youth_n FROM cross_counts WHERE canton_key='1701') - (SELECT digital_senior_yes * 100.0 / digital_senior_n FROM cross_counts WHERE canton_key='0802') AS gap;",
       "map_state": {
         "nivel": "canton",
         "centro": [
           -78.5,
-          -0.5
+          0.4
         ],
-        "zoom": 7.5,
+        "zoom": 8.0,
         "indicador": "digital_exclusion",
-        "filtro": "canton_key IN ('1701', '0802')",
-        "capa_extra": "choropleth",
+        "filtro": "unit_key IN ('1701', '0802')",
+        "capa_extra": null,
         "resaltados": [
           "1701",
           "0802"
@@ -149,23 +191,29 @@
       }
     },
     {
-      "step": 7,
-      "titulo": "¿Qué nivel de conectividad registra su cantón?",
-      "texto": "La disponibilidad de servicios de internet fijo y telefonía celular en los hogares define las oportunidades de educación, trabajo y comunicación en cada comunidad. A través del mapa interactivo se pueden contrastar las coberturas domiciliarias a nivel de cantón y sector censal. ¿Qué porcentaje de hogares con internet fijo y celular reporta su área residencial?",
-      "en_summary": "Internet connectivity shapes economic opportunity: explore your canton's household digital metrics on the map.",
-      "cifra_clave": "2.029.239 hogares sin servicio de internet fijo domiciliario en el territorio nacional.",
-      "fuente": "CPV 2022 INEC / indicators.yaml (id: fixed_internet)",
-      "sql": "SELECT sum(n) FILTER (WHERE category = '1') AS hogares_con_internet_fijo,\n       sum(n) FILTER (WHERE category = '2') AS hogares_sin_internet_fijo\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'H1004';",
+      "id": 7,
+      "title": "¿Es el internet un derecho universal o un privilegio geográfico?",
+      "en_title": "Is the Internet a Universal Right or a Geographic Privilege?",
+      "text": "Cuando el acceso a trámites del Estado, educación virtual y empleo depende de una conexión fija que no llega a 4 de cada 10 hogares ecuatorianos, la conectividad condiciona el ejercicio de derechos. ¿Qué políticas públicas deben implementarse para que la inclusión digital no dependa del cantón en el que se nace?",
+      "en_summary": "Final policy reflection on universal digital connectivity and geographic equity.",
+      "key_metric": {
+        "name": "Pregunta de cierre de política pública",
+        "value": null,
+        "unit": "reflexión analítica",
+        "source": "Censo Ecuador 2022"
+      },
+      "hypothesis": null,
+      "reproducible_query": null,
       "map_state": {
         "nivel": "canton",
         "centro": [
-          -78.5,
-          -1.5
+          -78.1834,
+          -1.8312
         ],
-        "zoom": 7.0,
+        "zoom": 6.8,
         "indicador": "fixed_internet",
-        "filtro": "all",
-        "capa_extra": "interactive_explorer",
+        "filtro": null,
+        "capa_extra": null,
         "resaltados": []
       }
     }

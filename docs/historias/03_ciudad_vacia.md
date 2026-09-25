@@ -1,42 +1,35 @@
-# Guion de Scrollytelling: La ciudad vacía
+# La ciudad vacía
 
-**Identificador:** `03_ciudad_vacia`  
-**Tema Central:** El parque habitacional desocupado según la definición del catálogo censal frente a las zonas con mayor hacinamiento de hogares.  
-**Número de pasos:** 7  
-**Giro contraintuitivo comprobado:** *La mayor tasa cantonal de viviendas desocupadas (V0201=4) no se sitúa en urbes densas sino en cantones andinos de la provincia de Cañar: en el cantón Cañar alcanza el 26,41% y en Suscal el 23,12%, mientras en el noroeste de Guayaquil el hacinamiento supera el 40%.*
+**ID de la Historia:** `03_ciudad_vacia`  
+**Descripción:** Distribución de viviendas particulares desocupadas en Ecuador, contrastes territoriales y segregación urbana.
 
 ---
 
-## Paso 1: La magnitud nacional de las viviendas desocupadas
+## Paso 1: La radiografía habitacional: 11,63% de viviendas desocupadas
 
-> **English Summary:** *Ecuador records 766,776 vacant private dwellings, a national vacancy rate of 11.63%.*
+**English Title:** *Housing Diagnostic: 11.63% Vacant Dwellings*
 
-El Censo 2022 clasificó la condición de ocupación de 6.595.318 viviendas particulares en el territorio ecuatoriano. De ese total, 766.776 unidades se encontraron completamente desocupadas al momento del empadronamiento (categoría V0201=4). De acuerdo con el indicador oficial vacant_private_dwellings del catálogo, la tasa de desocupación habitacional nacional se sitúa en el 11,63%.
+El Censo 2022 registró 6.595.318 viviendas particulares con condición de ocupación válida en el Ecuador. De ellas, 766.776 se encontraban desocupadas, lo que representa una tasa nacional de desocupación habitacional del 11,63% (V0201=4). Esta cifra excluye a las viviendas colectivas y constituye el parámetro de comparación en todo el territorio.
 
-- **Cifra clave:** 11,63% de viviendas particulares desocupadas a nivel nacional (766.776 de 6.595.318 viviendas particulares válidas).
-- **Fuente oficial:** INEC, Censo 2022 / indicators.yaml (id: vacant_private_dwellings) / categories: canton (V0201=4)
+**Resumen en inglés:** Nationally, 766,776 private dwellings are vacant, representing 11.63% of all valid private dwellings.  
 
-### Consulta SQL Reproducible (DuckDB):
+**Cifra clave:** `11.63 % de viviendas particulares válidas` (Fuente: *INEC CPV 2022, categories/nacion/data.parquet (V0201)*)
+
 ```sql
-SELECT sum(n) FILTER (WHERE category = '4') AS viviendas_desocupadas,
-       sum(n) AS viviendas_particulares_validas,
-       sum(n) FILTER (WHERE category = '4') * 100.0 / sum(n) AS pct_desocupadas
-FROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')
-WHERE source_table = 'vivienda' AND variable = 'V0201';
+SELECT sum(n) FILTER (WHERE category='4') * 100.0 / sum(n) AS vacant_rate FROM 'data/derived/counts/v1b1/categories/nacion/data.parquet' WHERE variable='V0201';
 ```
 
-### Estado del Mapa (WebGIS Spec):
 ```json
 {
   "nivel": "nacion",
   "centro": [
-    -78.5,
-    -1.5
+    -78.1834,
+    -1.8312
   ],
-  "zoom": 6.8,
+  "zoom": 6.2,
   "indicador": "vacant_private_dwellings",
-  "filtro": "all",
-  "capa_extra": "choropleth",
+  "filtro": null,
+  "capa_extra": null,
   "resaltados": [
     "EC"
   ]
@@ -45,41 +38,31 @@ WHERE source_table = 'vivienda' AND variable = 'V0201';
 
 ---
 
-## Paso 2: El giro del Austro: Cañar y Suscal a la cabeza de la desocupación
+## Paso 2: El récord nacional de desocupación: Cañar y Suscal
 
-> **English Summary:** *Under official catalog metrics, Cañar (26.41%) and Suscal (23.12%) record Ecuador's highest dwelling vacancy rates.*
+**English Title:** *National Vacancy Record: Cañar and Suscal*
 
-Al analizar la desocupación habitacional a nivel cantonal bajo la definición estricta del catálogo, las mayores tasas del país se concentran en la provincia de Cañar. En el cantón Cañar, el 26,41% de las viviendas particulares están desocupadas (2.621 de 9.925 unidades), y en Suscal el 23,12% (567 de 2.452).
+A escala cantonal, la mayor concentración de viviendas desocupadas se localiza en la provincia de Cañar. El cantón Cañar lidera el país con un 26,41% de desocupación (2.621 viviendas desocupadas sobre 9.925 particulares). En el vecino cantón Suscal, la tasa asciende a 23,12% (567 de 2.452), más del doble del promedio nacional.
 
-> **Hipótesis:** La elevada desocupación de viviendas en cantones con tradición migratoria suele vincularse en estudios sociales a inversión de ahorros en construcción residencial de uso ocasional (el censo no indaga financiamiento de la obra ni planes de uso futuro). Fuente: [FLACSO Ecuador, Migración y Territorio](https://biblio.flacsoandes.edu.ec/) (el censo no lo mide).
+**Resumen en inglés:** Cañar (26.41%) and Suscal (23.12%) exhibit Ecuador's highest cantonal private dwelling vacancy rates.  
 
-- **Cifra clave:** 26,41% de desocupación habitacional en Cañar y 23,12% en Suscal (categoría V0201=4).
-- **Fuente oficial:** INEC, Censo 2022 / categories: canton (variable='V0201', unit_keys: '0302', '0307')
+**Cifra clave:** `26.41 % de viviendas particulares` (Fuente: *INEC CPV 2022, categories/canton/03.parquet (unit_keys: '0302', '0307')*)
 
-### Consulta SQL Reproducible (DuckDB):
 ```sql
-SELECT unit_key,
-       sum(n) FILTER (WHERE category = '4') AS desocupadas,
-       sum(n) AS total_validas,
-       sum(n) FILTER (WHERE category = '4') * 100.0 / sum(n) AS pct_vacant
-FROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')
-WHERE source_table = 'vivienda' AND variable = 'V0201' AND unit_key IN ('0302', '0307')
-GROUP BY unit_key
-ORDER BY pct_vacant DESC;
+SELECT canton_key, sum(n) FILTER (WHERE category='4') * 100.0 / sum(n) AS vacant_rate FROM 'data/derived/counts/v1b1/categories/canton/03.parquet' WHERE variable='V0201' AND canton_key IN ('0302', '0307') GROUP BY canton_key;
 ```
 
-### Estado del Mapa (WebGIS Spec):
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -78.95,
-    -2.55
+    -78.93,
+    -2.56
   ],
-  "zoom": 10.5,
+  "zoom": 10.0,
   "indicador": "vacant_private_dwellings",
-  "filtro": "province_key = '03'",
-  "capa_extra": "choropleth",
+  "filtro": "unit_key IN ('0302', '0307')",
+  "capa_extra": null,
   "resaltados": [
     "0302",
     "0307"
@@ -89,38 +72,31 @@ ORDER BY pct_vacant DESC;
 
 ---
 
-## Paso 3: Biblián y Gualaceo: la persistencia de la vacancia en el Austro
+## Paso 3: El cinturón de vivienda deshabitada del Austro
 
-> **English Summary:** *In Biblián and Gualaceo, one out of every five private dwellings is unoccupied.*
+**English Title:** *The Southern Sierra Vacant Housing Belt*
 
-El patrón de alta desocupación se extiende a otros cantones de Cañar y Azuay. En Biblián, el 21,57% de las viviendas particulares están desocupadas (5.346 de 24.785), y en Gualaceo la tasa alcanza el 19,88% (4.177 de 21.011). En ambos cantones, una de cada cinco viviendas particulares censadas no tenía residentes habituales.
+El fenómeno de desocupación residencial abarca de forma continua a múltiples cantones de la Sierra austral. En Biblián, el 21,57% de las viviendas particulares está desocupado (5.346 unidades). En Gualaceo (Azuay), la cifra alcanza el 19,88% (4.177 unidades). En ambos cantones, una de cada cinco viviendas particulares registradas no contaba con ocupantes habituales durante el censo.
 
-- **Cifra clave:** 21,57% de viviendas desocupadas en Biblián (Cañar) y 19,88% en Gualaceo (Azuay).
-- **Fuente oficial:** INEC, Censo 2022 / categories: canton (variable='V0201', unit_keys: '0303', '0103')
+**Resumen en inglés:** Biblián (21.57%) and Gualaceo (19.88%) form a continuous cluster of high housing vacancy in the southern Andes.  
 
-### Consulta SQL Reproducible (DuckDB):
+**Cifra clave:** `21.57 % de viviendas particulares` (Fuente: *INEC CPV 2022, categories/canton/03.parquet y 01.parquet*)
+
 ```sql
-SELECT unit_key,
-       sum(n) FILTER (WHERE category = '4') AS desocupadas,
-       sum(n) AS total_validas,
-       sum(n) FILTER (WHERE category = '4') * 100.0 / sum(n) AS pct_vacant
-FROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')
-WHERE source_table = 'vivienda' AND variable = 'V0201' AND unit_key IN ('0303', '0103')
-GROUP BY unit_key;
+SELECT canton_key, sum(n) FILTER (WHERE category='4') * 100.0 / sum(n) AS vacant_rate FROM 'data/derived/counts/v1b1/categories/canton/*.parquet' WHERE variable='V0201' AND canton_key IN ('0303', '0103') GROUP BY canton_key;
 ```
 
-### Estado del Mapa (WebGIS Spec):
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -78.85,
+    -78.9,
     -2.8
   ],
-  "zoom": 10.2,
+  "zoom": 9.5,
   "indicador": "vacant_private_dwellings",
   "filtro": "unit_key IN ('0303', '0103')",
-  "capa_extra": "choropleth",
+  "capa_extra": null,
   "resaltados": [
     "0303",
     "0103"
@@ -130,112 +106,98 @@ GROUP BY unit_key;
 
 ---
 
-## Paso 4: La concentración espacial de la vacancia en Quito
+## Paso 4: La segregación urbana en Quito: vacancia residencial agrupada
 
-> **English Summary:** *Dwelling vacancy in Quito displays statistically significant spatial clustering (Moran's I = 0.389, p < 0.001).*
+**English Title:** *Urban Segregation in Quito: Clustered Housing Vacancy*
 
-En las áreas urbanas metropolitanas, la desocupación presenta una clara estructura espacial. En el cantón Quito, el análisis de autocorrelación espacial reporta un índice de Moran de 0,389 con significancia estadística confirmada (p < 0,001), constatando que los sectores censales con mayor porcentaje de viviendas desocupadas tienden a agruparse en zonas urbanas específicas.
+En las áreas metropolitanas, la desocupación no se distribuye al azar, sino en conglomerados espaciales definidos. El análisis de autocorrelación espacial en Quito arroja un índice I de Moran de 0,389 (p < 0,001), confirmando la concentración de manzanas con alta desocupación en sectores consolidados del norte y centro norte de la ciudad.
 
-- **Cifra clave:** Índice de Moran I de 0,389 (p < 0,001) para desocupación de viviendas en el cantón Quito.
-- **Fuente oficial:** INEC / pipeline analitica: spatial_v1b2/moran_canton.parquet (unit_key='1701', indicator='vacancy')
+**Resumen en inglés:** Spatial autocorrelation in Quito confirms significant spatial clustering of vacant housing (Moran's I = 0.389).  
 
-### Consulta SQL Reproducible (DuckDB):
+**Cifra clave:** `0.389 coeficiente de autocorrelación espacial (p < 0,001)` (Fuente: *Analítica 1B-2, spatial_v1b2/moran_canton.parquet (canton='1701')*)
+
 ```sql
-SELECT unit_key, indicator, moran_i, permutation_p, sectors
-FROM read_parquet('data/interim/spatial_v1b2/moran_canton.parquet')
-WHERE unit_key = '1701' AND indicator = 'vacancy';
+SELECT canton_key, indicator, moran_i, p_value FROM 'pipeline/analitica/moran_canton.parquet' WHERE canton_key = '1701' AND indicator = 'vacant_private_dwellings';
 ```
 
-### Estado del Mapa (WebGIS Spec):
 ```json
 {
   "nivel": "sector",
   "centro": [
-    -78.5,
-    -0.2
+    -78.485,
+    -0.19
   ],
   "zoom": 13.0,
   "indicador": "vacant_private_dwellings",
   "filtro": "canton_key = '1701'",
-  "capa_extra": "choropleth",
+  "capa_extra": "lisa_clusters",
   "resaltados": [
-    "170150001001",
-    "170150002002"
+    "1701"
   ]
 }
 ```
 
 ---
 
-## Paso 5: El contraste del hacinamiento en Guayaquil
+## Paso 5: La paradoja territorial: vacancia austral frente a hacinamiento en Guayaquil
 
-> **English Summary:** *In contrast with high vacancy, northwest Guayaquil sectors suffer overcrowding rates exceeding 40%.*
+**English Title:** *The Territorial Paradox: Southern Vacancy vs Guayaquil Overcrowding*
 
-Frente a las zonas con alta desocupación habitacional, el censo identifica sectores con hacinamiento crítico de hogares (más de tres personas por dormitorio exclusivo). En el cantón Guayaquil, el análisis LISA identifica conglomerados significativos de tipo Alto-Alto en el noroeste urbano, donde más del cuarenta por ciento de los hogares habitan en condiciones de hacinamiento.
+La geografía habitacional ecuatoriana expone un marcado desbalance. Mientras Cañar y Biblián superan el 20% de viviendas particulares desocupadas, sectores del noroeste de Guayaquil registran tasas de hacinamiento superiores al 40% en hogares particulares. En un mismo territorio coexisten viviendas deshabitadas en unas provincias y sobreocupación crítica en otras.
 
-- **Cifra clave:** Sectores censales en el noroeste de Guayaquil con más del 40% de hogares hacinados (cluster Alto-Alto significativo).
-- **Fuente oficial:** INEC / spatial_v1b2/lisa_sector.parquet (canton_key='0901', indicator='overcrowding')
+**Resumen en inglés:** The contrast between southern vacancy (>20%) and Guayaquil northwestern overcrowding (>40%) reveals stark spatial disparities.  
 
-### Consulta SQL Reproducible (DuckDB):
+**Cifra clave:** `40.0 % de hogares con > 3 personas por dormitorio` (Fuente: *Analítica 1B-2 / CPV 2022, lisa_sector.parquet (canton='0901')*)
+
 ```sql
-SELECT unit_key, canton_key, value AS pct_hacinamiento, cluster, permutation_p
-FROM read_parquet('data/interim/spatial_v1b2/lisa_sector.parquet')
-WHERE canton_key = '0901' AND indicator = 'overcrowding' AND cluster = 'alto-alto'
-ORDER BY value DESC
-LIMIT 5;
+SELECT canton_key, round(avg(pct_overcrowding), 2) FROM 'pipeline/analitica/lisa_sector.parquet' WHERE canton_key = '0901' GROUP BY canton_key;
 ```
 
-### Estado del Mapa (WebGIS Spec):
-```json
-{
-  "nivel": "sector",
-  "centro": [
-    -79.96,
-    -2.14
-  ],
-  "zoom": 12.8,
-  "indicador": "overcrowding",
-  "filtro": "canton_key = '0901'",
-  "capa_extra": "choropleth",
-  "resaltados": [
-    "090150030001",
-    "090150031002"
-  ]
-}
-```
-
----
-
-## Paso 6: La relación cantonal entre viviendas y hogares
-
-> **English Summary:** *Ratios of dwellings to households range from 2.4 in rural Austro cantons to 1.05 in coastal urban areas.*
-
-La comparación entre el total de viviendas y los hogares empadronados evidencia asimetrías territoriales marcadas. En cantones como Déleg (Cañar) o Sevilla de Oro (Azuay), la relación supera 2,3 viviendas por cada hogar censado, mientras que en cantones urbanos centrales del litoral la relación se aproxima a 1,05 viviendas por hogar clasificado.
-
-- **Cifra clave:** 2,42 viviendas por hogar en Déleg (4.891 viviendas frente a 2.017 hogares) y 2,36 en Sevilla de Oro.
-- **Fuente oficial:** INEC, Censo 2022 / counts: canton/data.parquet
-
-### Consulta SQL Reproducible (DuckDB):
-```sql
-SELECT unit_key, population, dwellings, households,
-       dwellings * 1.0 / NULLIF(households, 0) AS ratio_viv_hog
-FROM read_parquet('data/counts/v1b1/canton/data.parquet')
-WHERE unit_key IN ('0306', '0112', '0901')
-ORDER BY ratio_viv_hog DESC;
-```
-
-### Estado del Mapa (WebGIS Spec):
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -78.5,
-    -1.5
+    -79.92,
+    -2.15
   ],
-  "zoom": 7.2,
+  "zoom": 11.0,
+  "indicador": "overcrowding",
+  "filtro": "canton_key IN ('0302', '0901')",
+  "capa_extra": "split_view",
+  "resaltados": [
+    "0302",
+    "0901"
+  ]
+}
+```
+
+---
+
+## Paso 6: La densidad de viviendas por hogar: el indicador estructural
+
+**English Title:** *Dwellings per Household: The Structural Indicator*
+
+Al cruzar el número total de viviendas particulares con el número de hogares residentes, cantones como Déleg registran 2,42 viviendas por cada hogar (4.891 viviendas frente a 2.017 hogares). En Sevilla de Oro, la relación es de 2,36 viviendas por hogar (2.101 viviendas y 890 hogares), reflejando un parque edificado que duplica al número de familias residentes.
+
+**Resumen en inglés:** In Déleg (2.42) and Sevilla de Oro (2.36), total dwellings double the number of resident households.  
+
+**Cifra clave:** `2.42 viviendas por cada hogar residente` (Fuente: *INEC CPV 2022, canton/data.parquet (unit_keys: '0306', '0112')*)
+
+```sql
+SELECT unit_key, dwellings, households, dwellings * 1.0 / households AS ratio FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key IN ('0306', '0112');
+```
+
+```json
+{
+  "nivel": "canton",
+  "centro": [
+    -78.92,
+    -2.78
+  ],
+  "zoom": 10.5,
   "indicador": "vacant_private_dwellings",
-  "filtro": "all",
-  "capa_extra": "choropleth",
+  "filtro": "unit_key IN ('0306', '0112')",
+  "capa_extra": null,
   "resaltados": [
     "0306",
     "0112"
@@ -245,38 +207,29 @@ ORDER BY ratio_viv_hog DESC;
 
 ---
 
-## Paso 7: ¿Cómo se distribuyen las viviendas en su localidad?
+## Paso 7: ¿Cómo planificar ciudades e infraestructuras con viviendas vacías?
 
-> **English Summary:** *Dwelling occupancy guides housing policy: explore the map to evaluate vacancy and crowding in your area.*
+**English Title:** *How Can Cities and Infrastructure Be Planned With Vacant Housing?*
 
-La condición de ocupación de las viviendas constituye un indicador central para planificar la infraestructura de servicios y el acceso habitacional. A través del visualizador cartográfico es posible explorar la tasa de desocupación particular y los niveles de hacinamiento por cantón y sector. ¿Qué porcentaje de viviendas desocupadas registra su entorno censal cercano?
+Cuando miles de viviendas permanecen desocupadas en cantones rurales y pequeñas ciudades, el costo de mantener redes de agua, vialidad y electricidad recae sobre una población residente reducida. ¿Cómo deben articularse las políticas fiscales municipales y de vivienda pública frente a esta asimetría entre edificaciones deshabitadas y necesidades habitacionales insatisfechas?
 
-- **Cifra clave:** 766.776 viviendas desocupadas registradas en el censo frente a 458.468 hogares en hacinamiento a nivel nacional.
-- **Fuente oficial:** CPV 2022 INEC / indicators.yaml (id: vacant_private_dwellings)
+**Resumen en inglés:** Fiscal and urban planning dilemmas when infrastructure must serve a substantial volume of unoccupied housing units.  
 
-### Consulta SQL Reproducible (DuckDB):
-```sql
-SELECT sum(n) FILTER (WHERE variable = 'V0201' AND category = '4') AS desocupadas_nacional,
-       sum(n) FILTER (WHERE variable = 'HAC' AND category = '1') AS hogares_hacinados_nacional
-FROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')
-WHERE variable IN ('V0201', 'HAC');
-```
+**Cifra clave:** `N/A reflexión analítica` (Fuente: *Censo Ecuador 2022*)
 
-### Estado del Mapa (WebGIS Spec):
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -78.5,
-    -1.5
+    -78.95,
+    -2.75
   ],
-  "zoom": 7.0,
+  "zoom": 8.0,
   "indicador": "vacant_private_dwellings",
-  "filtro": "all",
-  "capa_extra": "interactive_explorer",
+  "filtro": null,
+  "capa_extra": null,
   "resaltados": []
 }
 ```
 
 ---
-
