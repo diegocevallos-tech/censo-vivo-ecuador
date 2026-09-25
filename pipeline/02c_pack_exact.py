@@ -6,6 +6,7 @@ Only the packed Parquet files in OUTPUT are eligible for public release.
 
 from __future__ import annotations
 
+import argparse
 import json
 import shutil
 from pathlib import Path
@@ -36,6 +37,33 @@ def count_type(maximum: int) -> str:
     if maximum <= 4_294_967_295:
         return "UINTEGER"
     raise ValueError(f"Count exceeds uint32: {maximum}")
+
+
+def prepare_ids(connection: duckdb.DuckDBPyConnection) -> None:
+    nation = sqlpath(FULL / "categories/nacion/data.parquet")
+    connection.execute(
+        f"""
+        CREATE OR REPLACE TABLE publication_codebook AS
+        SELECT source_table,variable,category,
+          (DENSE_RANK() OVER (ORDER BY source_table,variable)-1)::UTINYINT
+            AS variable_id,
+          (ROW_NUMBER() OVER (PARTITION BY source_table,variable
+                             ORDER BY category)-1)::USMALLINT AS category_id
+        FROM read_parquet('{nation}')
+        """
+    )
+    for level in LEVELS:
+        partition = "PARTITION BY province_key" if level not in {"provincia", "nacion"} else ""
+        connection.execute(
+            f"""
+            CREATE OR REPLACE TABLE publication_ids_{level} AS
+            SELECT unit_key,province_key,
+              (ROW_NUMBER() OVER ({partition} ORDER BY unit_key)-1)::USMALLINT
+                AS unit_index
+            FROM counts_{level}
+            """
+        )
+    print("Prepared deterministic unit and category ids", flush=True)
 
 
 def codebook(connection: duckdb.DuckDBPyConnection) -> None:
@@ -211,6 +239,13 @@ def deduplicate_sector_categories(connection: duckdb.DuckDBPyConnection) -> None
 
 
 def main() -> None:
+    global FULL, OUTPUT
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--full-root", type=Path, default=FULL)
+    parser.add_argument("--output", type=Path, default=OUTPUT)
+    args = parser.parse_args()
+    FULL = args.full_root.resolve()
+    OUTPUT = args.output.resolve()
     if not DB.is_file() or not (FULL / "qa.json").is_file():
         raise FileNotFoundError("Restore complete Phase 1A aggregates first")
     if OUTPUT.exists():
@@ -219,11 +254,12 @@ def main() -> None:
             raise ValueError("Unsafe exact output path")
         shutil.rmtree(OUTPUT)
     OUTPUT.mkdir(parents=True)
-    connection = duckdb.connect(str(DB), read_only=True)
+    connection = duckdb.connect(str(DB))
     connection.execute("SET memory_limit='4GB'")
     temp = ROOT / "data/interim/exact_pack_temp"
     temp.mkdir(parents=True, exist_ok=True)
     connection.execute(f"SET temp_directory='{sqlpath(temp)}'")
+    prepare_ids(connection)
     codebook(connection)
     types = pack_core(connection)
     category_types = pack_categories(connection)

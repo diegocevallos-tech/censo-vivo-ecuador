@@ -1,8 +1,10 @@
 # Fase 1A: conteos geográficos y publicación controlada
 
+> Informe histórico de 1A. La publicación vigente de 1B-1 usa los conteos exactos en unidades oficiales; véase el [informe actual](fase1b1_report.md). El empaquetador anterior fue retirado.
+
 ## Fuentes, geometría y flujo
 
-Los cinco CSV oficiales MANLOC del CPV 2022 se restauran desde `data-raw-v1` del [almacén privado](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw) y se comprueban con [`data/MANIFEST.json`](../data/MANIFEST.json). [`01_filter_to_parquet.py`](../pipeline/01_filter_to_parquet.py) crea intermedios privados con registros individuales; [`02_counts_by_unit.py`](../pipeline/02_counts_by_unit.py) calcula los agregados completos; [`07_qa.py`](../pipeline/07_qa.py) comprueba la aditividad y los totales oficiales; [`02b_pack_public.py`](../pipeline/02b_pack_public.py) aplica supresión y compresión antes de publicar. Los originales y los intermedios permanecen fuera de git y de Pages.
+Los cinco CSV oficiales MANLOC del CPV 2022 se restauran desde `data-raw-v1` del [almacén privado](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw) y se comprueban con [`data/MANIFEST.json`](../data/MANIFEST.json). [`01_filter_to_parquet.py`](../pipeline/01_filter_to_parquet.py) crea intermedios privados con registros individuales; [`02_counts_by_unit.py`](../pipeline/02_counts_by_unit.py) calcula los agregados completos; [`07_qa.py`](../pipeline/07_qa.py) comprueba la aditividad y los totales oficiales. El empaquetador histórico de 1A aplicaba supresión y fue retirado en 1B-1. Los originales y los intermedios permanecen fuera de git y de Pages.
 
 La unidad fina es manzana cuando existe polígono. Las localidades rurales dispersas, los códigos reservados `888` y las **1.852 manzanas reales sin polígono** contribuyen a su sector. Esas manzanas aportan **36.040 personas** y **18.701 viviendas**; ninguna se descarta. Los conteos se unen a la cartografía solo por clave y llevan `geom_version: "marco-2021"`. Una cartografía nueva requiere regenerar tiles, sin recalcular los conteos.
 

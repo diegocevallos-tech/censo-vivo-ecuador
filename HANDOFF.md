@@ -3,7 +3,7 @@
 ## Estado
 
 - Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR aún sin abrir.
-- Último paso cerrado: paquete exacto de 1B-1 reconstruido, compactado y validado localmente.
+- Último paso cerrado: catálogo, motores Python/TypeScript, CI de integridad y paquete exacto regenerado y validados localmente.
 - Criterio definitivo del usuario: publicar conteos agregados completos en unidades oficiales del INEC, sin supresión, perturbación ni microzonas.
 
 ## Terminado
@@ -15,16 +15,20 @@
 - `02c_pack_exact.py` produjo 153 archivos agregados, 135.974.755 bytes, máximo 30.201.346 bytes. El paquete inicial exacto ocupó 186.136.613 bytes; se ahorraron 50.161.858 bytes derivando categorías sectoriales de las finas y almacenando solo `P11R` por separado.
 - `verify_release_integrity.py` pasó con diferencia cero en todos los niveles y categorías tras restaurar los archivos del Release local y comprobar sus SHA256. Nacional: 16.938.986 personas y 6.611.555 viviendas. `verify_public_artifacts.py` confirmó ausencia de columnas personales.
 - `aggregation.py` y `web/src/aggregation.ts` suman unidades completas y ponderan por área solo cortes de borde; tests compartidos pasan a 1e-9.
+- `indicators.yaml` declara 30 indicadores con `min_level` y `min_n`; 1 descartado y 13 pendientes están documentados. Documentación y casos de paridad se generan del catálogo.
+- Motor Python/TypeScript: 10 tests Python, 3 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos.
+- CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
+- Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
 
 ## Siguiente comando exacto
 
-Con el paquete exacto en `data/interim/exact_public`, el manifiesto ya generado y los archivos comprimidos en `data/interim/release_public_v1b1`, comprobar todos los tests:
+Confirmar el commit y publicar la rama pública para ejecutar el workflow privado contra ella:
 
 ```sh
-.\.venv\Scripts\python.exe -m pytest tests -q
+git push -u origin feat/fase-1b1-indicadores
 ```
 
-Después, completar `indicators.yaml` y el motor Python/TypeScript con `min_n` y Empirical Bayes, cambiar CI a integridad del Release, publicar `data-derived-v1b1`, ejecutar el workflow privado actualizado, abrir PR público 1B-1 y esperar aprobación. No iniciar 1B-2.
+Después, publicar `data-derived-v1b1`, ejecutar el workflow privado actualizado, abrir PR público 1B-1 y esperar aprobación. No iniciar 1B-2.
 
 ## Archivos tocados en este paso
 
@@ -32,6 +36,8 @@ Después, completar `indicators.yaml` y el motor Python/TypeScript con `min_n` y
 - `pipeline/02c_pack_exact.py`, `pipeline/package_derived.py`, `pipeline/check_derived_manifest.py`, `pipeline/verify_public_artifacts.py`, `pipeline/verify_release_integrity.py`: generación y comprobación del paquete.
 - `pipeline/aggregation.py`, `web/src/aggregation.ts`, `tests/aggregation_cases.json`, `tests/test_aggregation.py`, `web/src/aggregation.test.ts`: suma directa y paridad.
 - `data/DERIVED_MANIFEST.json`: SHA256 y tamaño del nuevo paquete exacto.
+- `indicators.yaml`, `pipeline/indicators.py`, `web/src/indicators.ts`, generador y tests: catálogo y paridad.
+- `.github/workflows/ci.yml`, `pipeline/verify_public_artifacts.py`: integridad pública.
 
 ## Decisiones pendientes
 

@@ -1,4 +1,4 @@
-# Esquema de conteos geográficos · Fase 1A
+# Esquema de conteos geográficos · Fase 1B-1
 
 Los archivos del Release público `data-derived-v1b1` contienen **conteos agregados exactos**. Se generan con [`01_filter_to_parquet.py`](../pipeline/01_filter_to_parquet.py), [`02_counts_by_unit.py`](../pipeline/02_counts_by_unit.py), [`07_qa.py`](../pipeline/07_qa.py) y [`02c_pack_exact.py`](../pipeline/02c_pack_exact.py). El Parquet intermedio de `data/interim/filtered/` contiene registros originales y permanece fuera de git y del sitio. Los códigos y categorías proceden de los [diccionarios oficiales registrados en el manifiesto](../data/MANIFEST.json).
 

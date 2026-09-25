@@ -1,0 +1,1263 @@
+{
+  "schema_version": 2,
+  "geom_version": "marco-2021",
+  "indicators": [
+    {
+      "id": "median_age",
+      "name": {
+        "es": "Edad mediana aproximada",
+        "en": "Approximate median age"
+      },
+      "theme": "demografia",
+      "kind": "median_grouped",
+      "formula": "Interpolación lineal dentro del grupo quinquenal mediano",
+      "population_reference": "Personas con edad y sexo válidos",
+      "source_variables": [
+        "P03",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Grupo abierto 100–120 tratado como intervalo de 21 años; la mediana se interpola dentro del grupo.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "age_groups": [
+        [
+          "core:age_00_04_m",
+          "core:age_00_04_f"
+        ],
+        [
+          "core:age_05_09_m",
+          "core:age_05_09_f"
+        ],
+        [
+          "core:age_10_14_m",
+          "core:age_10_14_f"
+        ],
+        [
+          "core:age_15_19_m",
+          "core:age_15_19_f"
+        ],
+        [
+          "core:age_20_24_m",
+          "core:age_20_24_f"
+        ],
+        [
+          "core:age_25_29_m",
+          "core:age_25_29_f"
+        ],
+        [
+          "core:age_30_34_m",
+          "core:age_30_34_f"
+        ],
+        [
+          "core:age_35_39_m",
+          "core:age_35_39_f"
+        ],
+        [
+          "core:age_40_44_m",
+          "core:age_40_44_f"
+        ],
+        [
+          "core:age_45_49_m",
+          "core:age_45_49_f"
+        ],
+        [
+          "core:age_50_54_m",
+          "core:age_50_54_f"
+        ],
+        [
+          "core:age_55_59_m",
+          "core:age_55_59_f"
+        ],
+        [
+          "core:age_60_64_m",
+          "core:age_60_64_f"
+        ],
+        [
+          "core:age_65_69_m",
+          "core:age_65_69_f"
+        ],
+        [
+          "core:age_70_74_m",
+          "core:age_70_74_f"
+        ],
+        [
+          "core:age_75_79_m",
+          "core:age_75_79_f"
+        ],
+        [
+          "core:age_80_84_m",
+          "core:age_80_84_f"
+        ],
+        [
+          "core:age_85_89_m",
+          "core:age_85_89_f"
+        ],
+        [
+          "core:age_90_94_m",
+          "core:age_90_94_f"
+        ],
+        [
+          "core:age_95_99_m",
+          "core:age_95_99_f"
+        ],
+        [
+          "core:age_100_120_m",
+          "core:age_100_120_f"
+        ]
+      ]
+    },
+    {
+      "id": "aging_index",
+      "name": {
+        "es": "Índice de envejecimiento",
+        "en": "Ageing index"
+      },
+      "theme": "demografia",
+      "kind": "ratio",
+      "formula": "100 × población 65+ / población 0–14",
+      "population_reference": "Personas con edad válida",
+      "source_variables": [
+        "P03",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "worse",
+      "palette": "YlOrRd",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:age_65_69_m",
+        "core:age_65_69_f",
+        "core:age_70_74_m",
+        "core:age_70_74_f",
+        "core:age_75_79_m",
+        "core:age_75_79_f",
+        "core:age_80_84_m",
+        "core:age_80_84_f",
+        "core:age_85_89_m",
+        "core:age_85_89_f",
+        "core:age_90_94_m",
+        "core:age_90_94_f",
+        "core:age_95_99_m",
+        "core:age_95_99_f",
+        "core:age_100_120_m",
+        "core:age_100_120_f"
+      ],
+      "denominator": [
+        "core:age_00_04_m",
+        "core:age_00_04_f",
+        "core:age_05_09_m",
+        "core:age_05_09_f",
+        "core:age_10_14_m",
+        "core:age_10_14_f"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "youth_dependency",
+      "name": {
+        "es": "Dependencia juvenil",
+        "en": "Youth dependency"
+      },
+      "theme": "demografia",
+      "kind": "ratio",
+      "formula": "100 × población 0–14 / población 15–64",
+      "population_reference": "Personas con edad válida",
+      "source_variables": [
+        "P03",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:age_00_04_m",
+        "core:age_00_04_f",
+        "core:age_05_09_m",
+        "core:age_05_09_f",
+        "core:age_10_14_m",
+        "core:age_10_14_f"
+      ],
+      "denominator": [
+        "core:age_15_19_m",
+        "core:age_15_19_f",
+        "core:age_20_24_m",
+        "core:age_20_24_f",
+        "core:age_25_29_m",
+        "core:age_25_29_f",
+        "core:age_30_34_m",
+        "core:age_30_34_f",
+        "core:age_35_39_m",
+        "core:age_35_39_f",
+        "core:age_40_44_m",
+        "core:age_40_44_f",
+        "core:age_45_49_m",
+        "core:age_45_49_f",
+        "core:age_50_54_m",
+        "core:age_50_54_f",
+        "core:age_55_59_m",
+        "core:age_55_59_f",
+        "core:age_60_64_m",
+        "core:age_60_64_f"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "old_age_dependency",
+      "name": {
+        "es": "Dependencia de mayores",
+        "en": "Old-age dependency"
+      },
+      "theme": "demografia",
+      "kind": "ratio",
+      "formula": "100 × población 65+ / población 15–64",
+      "population_reference": "Personas con edad válida",
+      "source_variables": [
+        "P03",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "worse",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:age_65_69_m",
+        "core:age_65_69_f",
+        "core:age_70_74_m",
+        "core:age_70_74_f",
+        "core:age_75_79_m",
+        "core:age_75_79_f",
+        "core:age_80_84_m",
+        "core:age_80_84_f",
+        "core:age_85_89_m",
+        "core:age_85_89_f",
+        "core:age_90_94_m",
+        "core:age_90_94_f",
+        "core:age_95_99_m",
+        "core:age_95_99_f",
+        "core:age_100_120_m",
+        "core:age_100_120_f"
+      ],
+      "denominator": [
+        "core:age_15_19_m",
+        "core:age_15_19_f",
+        "core:age_20_24_m",
+        "core:age_20_24_f",
+        "core:age_25_29_m",
+        "core:age_25_29_f",
+        "core:age_30_34_m",
+        "core:age_30_34_f",
+        "core:age_35_39_m",
+        "core:age_35_39_f",
+        "core:age_40_44_m",
+        "core:age_40_44_f",
+        "core:age_45_49_m",
+        "core:age_45_49_f",
+        "core:age_50_54_m",
+        "core:age_50_54_f",
+        "core:age_55_59_m",
+        "core:age_55_59_f",
+        "core:age_60_64_m",
+        "core:age_60_64_f"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "male_ratio",
+      "name": {
+        "es": "Razón de masculinidad",
+        "en": "Sex ratio"
+      },
+      "theme": "demografia",
+      "kind": "ratio",
+      "formula": "100 × hombres / mujeres",
+      "population_reference": "Personas con sexo válido",
+      "source_variables": [
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:sex_male"
+      ],
+      "denominator": [
+        "core:sex_female"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "female_share",
+      "name": {
+        "es": "Proporción de mujeres",
+        "en": "Female share"
+      },
+      "theme": "demografia",
+      "kind": "ratio",
+      "formula": "100 × mujeres / (mujeres + hombres)",
+      "population_reference": "Personas con sexo válido",
+      "source_variables": [
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:sex_female"
+      ],
+      "denominator": [
+        "core:sex_male",
+        "core:sex_female"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "working_age_share",
+      "name": {
+        "es": "Ventana de edad activa",
+        "en": "Working-age share"
+      },
+      "theme": "demografia",
+      "kind": "ratio",
+      "formula": "100 × población 15–64 / población con edad válida",
+      "population_reference": "Personas con edad válida",
+      "source_variables": [
+        "P03",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:age_15_19_m",
+        "core:age_15_19_f",
+        "core:age_20_24_m",
+        "core:age_20_24_f",
+        "core:age_25_29_m",
+        "core:age_25_29_f",
+        "core:age_30_34_m",
+        "core:age_30_34_f",
+        "core:age_35_39_m",
+        "core:age_35_39_f",
+        "core:age_40_44_m",
+        "core:age_40_44_f",
+        "core:age_45_49_m",
+        "core:age_45_49_f",
+        "core:age_50_54_m",
+        "core:age_50_54_f",
+        "core:age_55_59_m",
+        "core:age_55_59_f",
+        "core:age_60_64_m",
+        "core:age_60_64_f"
+      ],
+      "denominator": [
+        "core:age_00_04_m",
+        "core:age_00_04_f",
+        "core:age_05_09_m",
+        "core:age_05_09_f",
+        "core:age_10_14_m",
+        "core:age_10_14_f",
+        "core:age_15_19_m",
+        "core:age_15_19_f",
+        "core:age_20_24_m",
+        "core:age_20_24_f",
+        "core:age_25_29_m",
+        "core:age_25_29_f",
+        "core:age_30_34_m",
+        "core:age_30_34_f",
+        "core:age_35_39_m",
+        "core:age_35_39_f",
+        "core:age_40_44_m",
+        "core:age_40_44_f",
+        "core:age_45_49_m",
+        "core:age_45_49_f",
+        "core:age_50_54_m",
+        "core:age_50_54_f",
+        "core:age_55_59_m",
+        "core:age_55_59_f",
+        "core:age_60_64_m",
+        "core:age_60_64_f",
+        "core:age_65_69_m",
+        "core:age_65_69_f",
+        "core:age_70_74_m",
+        "core:age_70_74_f",
+        "core:age_75_79_m",
+        "core:age_75_79_f",
+        "core:age_80_84_m",
+        "core:age_80_84_f",
+        "core:age_85_89_m",
+        "core:age_85_89_f",
+        "core:age_90_94_m",
+        "core:age_90_94_f",
+        "core:age_95_99_m",
+        "core:age_95_99_f",
+        "core:age_100_120_m",
+        "core:age_100_120_f"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "single_person_households",
+      "name": {
+        "es": "Hogares unipersonales",
+        "en": "Single-person households"
+      },
+      "theme": "hogar",
+      "kind": "ratio",
+      "formula": "100 × hogares unipersonales / hogares con tipo válido",
+      "population_reference": "Hogares con TIPO_HOGAR válido",
+      "source_variables": [
+        "TIPO_HOGAR"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:TIPO_HOGAR:1"
+      ],
+      "denominator": [
+        "cat:hogar:TIPO_HOGAR:1",
+        "cat:hogar:TIPO_HOGAR:2",
+        "cat:hogar:TIPO_HOGAR:3",
+        "cat:hogar:TIPO_HOGAR:4",
+        "cat:hogar:TIPO_HOGAR:5"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "average_household_size",
+      "name": {
+        "es": "Personas por hogar",
+        "en": "People per household"
+      },
+      "theme": "hogar",
+      "kind": "ratio",
+      "formula": "Población censada / hogares censados",
+      "population_reference": "Población censada y hogares censados",
+      "source_variables": [
+        "P02",
+        "H01"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Aproximación de área: la población incluye posibles residentes colectivos; no representa el promedio de personas en hogares particulares.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:population"
+      ],
+      "denominator": [
+        "core:households"
+      ],
+      "factor": 1
+    },
+    {
+      "id": "overcrowding",
+      "name": {
+        "es": "Hacinamiento",
+        "en": "Overcrowding"
+      },
+      "theme": "vivienda",
+      "kind": "ratio",
+      "formula": "100 × hogares HAC=1 / hogares HAC válidos",
+      "population_reference": "Hogares con HAC válido",
+      "source_variables": [
+        "HAC"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "worse",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:HAC:1"
+      ],
+      "denominator": [
+        "cat:hogar:HAC:1",
+        "cat:hogar:HAC:2"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "qualitative_housing_deficit",
+      "name": {
+        "es": "Déficit habitacional cualitativo",
+        "en": "Qualitative housing deficit"
+      },
+      "theme": "vivienda",
+      "kind": "ratio",
+      "formula": "100 × viviendas DEF_HAB=2 / viviendas clasificadas",
+      "population_reference": "Viviendas con DEF_HAB válido",
+      "source_variables": [
+        "DEF_HAB"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "worse",
+      "palette": "Viridis",
+      "methodological_note": "Se usa la categoría 2 oficial (déficit cualitativo); la categoría 3 cuantitativa queda en el denominador.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:vivienda:DEF_HAB:2"
+      ],
+      "denominator": [
+        "cat:vivienda:DEF_HAB:1",
+        "cat:vivienda:DEF_HAB:2",
+        "cat:vivienda:DEF_HAB:3"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "vacant_private_dwellings",
+      "name": {
+        "es": "Ciudad vacía: viviendas desocupadas",
+        "en": "Vacant private dwellings"
+      },
+      "theme": "vivienda",
+      "kind": "ratio",
+      "formula": "100 × V0201=4 / V0201 válido",
+      "population_reference": "Viviendas particulares con condición válida",
+      "source_variables": [
+        "V0201"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "PuRd",
+      "methodological_note": "V0201=4 indica desocupada; el censo no permite inferir especulación inmobiliaria a partir de este conteo.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:vivienda:V0201:4"
+      ],
+      "denominator": [
+        "cat:vivienda:V0201:1",
+        "cat:vivienda:V0201:2",
+        "cat:vivienda:V0201:3",
+        "cat:vivienda:V0201:4",
+        "cat:vivienda:V0201:5"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "owned_tenure",
+      "name": {
+        "es": "Tenencia propia",
+        "en": "Owner tenure"
+      },
+      "theme": "vivienda",
+      "kind": "ratio",
+      "formula": "100 × H09∈{1,2,3} / H09 válido",
+      "population_reference": "Hogares con tenencia válida",
+      "source_variables": [
+        "H09"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "better",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:H09:1",
+        "cat:hogar:H09:2",
+        "cat:hogar:H09:3"
+      ],
+      "denominator": [
+        "cat:hogar:H09:1",
+        "cat:hogar:H09:2",
+        "cat:hogar:H09:3",
+        "cat:hogar:H09:4",
+        "cat:hogar:H09:5",
+        "cat:hogar:H09:6"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "rented_tenure",
+      "name": {
+        "es": "Tenencia arrendada",
+        "en": "Rented tenure"
+      },
+      "theme": "vivienda",
+      "kind": "ratio",
+      "formula": "100 × H09=4 / H09 válido",
+      "population_reference": "Hogares con tenencia válida",
+      "source_variables": [
+        "H09"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:H09:4"
+      ],
+      "denominator": [
+        "cat:hogar:H09:1",
+        "cat:hogar:H09:2",
+        "cat:hogar:H09:3",
+        "cat:hogar:H09:4",
+        "cat:hogar:H09:5",
+        "cat:hogar:H09:6"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "fixed_internet",
+      "name": {
+        "es": "Hogares con internet fijo",
+        "en": "Households with fixed internet"
+      },
+      "theme": "digital",
+      "kind": "ratio",
+      "formula": "100 × H1004=1 / H1004 válido",
+      "population_reference": "Hogares con respuesta H1004",
+      "source_variables": [
+        "H1004"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "better",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:H1004:1"
+      ],
+      "denominator": [
+        "cat:hogar:H1004:1",
+        "cat:hogar:H1004:2"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "computer_access",
+      "name": {
+        "es": "Hogares con computadora",
+        "en": "Households with a computer"
+      },
+      "theme": "digital",
+      "kind": "ratio",
+      "formula": "100 × H1005=1 / H1005 válido",
+      "population_reference": "Hogares con respuesta H1005",
+      "source_variables": [
+        "H1005"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "better",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:H1005:1"
+      ],
+      "denominator": [
+        "cat:hogar:H1005:1",
+        "cat:hogar:H1005:2"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "digital_exclusion",
+      "name": {
+        "es": "Analfabetismo digital",
+        "en": "Digital exclusion"
+      },
+      "theme": "digital",
+      "kind": "ratio",
+      "formula": "100 × ANALF_DIG=1 / ANALF_DIG válido",
+      "population_reference": "Personas con ANALF_DIG válido",
+      "source_variables": [
+        "ANALF_DIG"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "worse",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:poblacion:ANALF_DIG:1"
+      ],
+      "denominator": [
+        "cat:poblacion:ANALF_DIG:1",
+        "cat:poblacion:ANALF_DIG:2"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "employment_rate",
+      "name": {
+        "es": "Ocupación en la fuerza de trabajo",
+        "en": "Employment among labour force"
+      },
+      "theme": "trabajo",
+      "kind": "ratio",
+      "formula": "100 × CONDACT1=2 / CONDACT1∈{2,3}",
+      "population_reference": "Personas ocupadas o desocupadas",
+      "source_variables": [
+        "CONDACT1"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "better",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:poblacion:CONDACT1:2"
+      ],
+      "denominator": [
+        "cat:poblacion:CONDACT1:2",
+        "cat:poblacion:CONDACT1:3"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "unemployment_rate",
+      "name": {
+        "es": "Desocupación",
+        "en": "Unemployment rate"
+      },
+      "theme": "trabajo",
+      "kind": "ratio",
+      "formula": "100 × CONDACT1=3 / CONDACT1∈{2,3}",
+      "population_reference": "Personas ocupadas o desocupadas",
+      "source_variables": [
+        "CONDACT1"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "worse",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:poblacion:CONDACT1:3"
+      ],
+      "denominator": [
+        "cat:poblacion:CONDACT1:2",
+        "cat:poblacion:CONDACT1:3"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "internal_arrivals_5y",
+      "name": {
+        "es": "Llegados de otro lugar del país",
+        "en": "Domestic arrivals in five years"
+      },
+      "theme": "movilidad",
+      "kind": "ratio",
+      "formula": "100 × P09=2 / P09∈{1,2,3}",
+      "population_reference": "Personas nacidas antes de 2017 con residencia previa válida",
+      "source_variables": [
+        "P09"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:poblacion:P09:2"
+      ],
+      "denominator": [
+        "cat:poblacion:P09:1",
+        "cat:poblacion:P09:2",
+        "cat:poblacion:P09:3"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "magnet_index",
+      "name": {
+        "es": "Índice imán: llegados en cinco años",
+        "en": "Magnet index: recent arrivals"
+      },
+      "theme": "movilidad",
+      "kind": "ratio",
+      "formula": "100 × P09∈{2,3} / P09∈{1,2,3}",
+      "population_reference": "Personas nacidas antes de 2017 con residencia previa válida",
+      "source_variables": [
+        "P09"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Mide llegadas desde otro lugar del país o del extranjero; no es migración neta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:poblacion:P09:2",
+        "cat:poblacion:P09:3"
+      ],
+      "denominator": [
+        "cat:poblacion:P09:1",
+        "cat:poblacion:P09:2",
+        "cat:poblacion:P09:3"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "emigrant_households",
+      "name": {
+        "es": "Hogares con emigrantes",
+        "en": "Households with emigrants"
+      },
+      "theme": "diaspora",
+      "kind": "ratio",
+      "formula": "100 × H12=1 / H12∈{1,2}",
+      "population_reference": "Hogares con H12 conocido",
+      "source_variables": [
+        "H12"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:hogar:H12:1"
+      ],
+      "denominator": [
+        "cat:hogar:H12:1",
+        "cat:hogar:H12:2"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "emigrants_per_1000",
+      "name": {
+        "es": "Emigrantes por 1.000 habitantes",
+        "en": "Emigrants per 1,000 residents"
+      },
+      "theme": "diaspora",
+      "kind": "ratio",
+      "formula": "1.000 × emigrantes / población censada",
+      "population_reference": "Personas censadas y emigrantes reportados",
+      "source_variables": [
+        "E01",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "El numerador es personas reportadas como emigrantes en hogares censados; no incluye emigración no reportada.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:emigrants"
+      ],
+      "denominator": [
+        "core:population"
+      ],
+      "factor": 1000
+    },
+    {
+      "id": "female_emigrants_share",
+      "name": {
+        "es": "Emigrantes mujeres",
+        "en": "Female share among emigrants"
+      },
+      "theme": "diaspora",
+      "kind": "ratio",
+      "formula": "100 × E02=2 / E02∈{1,2}",
+      "population_reference": "Emigrantes con sexo registrado",
+      "source_variables": [
+        "E02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cat:emigracion:E02:2"
+      ],
+      "denominator": [
+        "cat:emigracion:E02:1",
+        "cat:emigracion:E02:2"
+      ],
+      "factor": 100,
+      "bayesian": true
+    },
+    {
+      "id": "age_diversity_shannon",
+      "name": {
+        "es": "Diversidad de edades",
+        "en": "Age diversity"
+      },
+      "theme": "diversidad",
+      "kind": "shannon",
+      "formula": "Entropía Shannon normalizada de 21 grupos de edad",
+      "population_reference": "Personas con edad y sexo válidos",
+      "source_variables": [
+        "P03",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "categories": [
+        [
+          "core:age_00_04_m",
+          "core:age_00_04_f"
+        ],
+        [
+          "core:age_05_09_m",
+          "core:age_05_09_f"
+        ],
+        [
+          "core:age_10_14_m",
+          "core:age_10_14_f"
+        ],
+        [
+          "core:age_15_19_m",
+          "core:age_15_19_f"
+        ],
+        [
+          "core:age_20_24_m",
+          "core:age_20_24_f"
+        ],
+        [
+          "core:age_25_29_m",
+          "core:age_25_29_f"
+        ],
+        [
+          "core:age_30_34_m",
+          "core:age_30_34_f"
+        ],
+        [
+          "core:age_35_39_m",
+          "core:age_35_39_f"
+        ],
+        [
+          "core:age_40_44_m",
+          "core:age_40_44_f"
+        ],
+        [
+          "core:age_45_49_m",
+          "core:age_45_49_f"
+        ],
+        [
+          "core:age_50_54_m",
+          "core:age_50_54_f"
+        ],
+        [
+          "core:age_55_59_m",
+          "core:age_55_59_f"
+        ],
+        [
+          "core:age_60_64_m",
+          "core:age_60_64_f"
+        ],
+        [
+          "core:age_65_69_m",
+          "core:age_65_69_f"
+        ],
+        [
+          "core:age_70_74_m",
+          "core:age_70_74_f"
+        ],
+        [
+          "core:age_75_79_m",
+          "core:age_75_79_f"
+        ],
+        [
+          "core:age_80_84_m",
+          "core:age_80_84_f"
+        ],
+        [
+          "core:age_85_89_m",
+          "core:age_85_89_f"
+        ],
+        [
+          "core:age_90_94_m",
+          "core:age_90_94_f"
+        ],
+        [
+          "core:age_95_99_m",
+          "core:age_95_99_f"
+        ],
+        [
+          "core:age_100_120_m",
+          "core:age_100_120_f"
+        ]
+      ]
+    },
+    {
+      "id": "ethnic_diversity_shannon",
+      "name": {
+        "es": "Diversidad de autoidentificación cultural",
+        "en": "Cultural self-identification diversity"
+      },
+      "theme": "diversidad",
+      "kind": "shannon",
+      "formula": "Entropía Shannon normalizada de P11R 1–6",
+      "population_reference": "Personas con P11R válido",
+      "source_variables": [
+        "P11R"
+      ],
+      "min_level": "sector",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "P11R está disponible desde sector; el indicador se deshabilita al acercarse a manzana.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_SECTOR.xlsx",
+      "categories": [
+        [
+          "cat:poblacion_sector:P11R:1"
+        ],
+        [
+          "cat:poblacion_sector:P11R:2"
+        ],
+        [
+          "cat:poblacion_sector:P11R:3"
+        ],
+        [
+          "cat:poblacion_sector:P11R:4"
+        ],
+        [
+          "cat:poblacion_sector:P11R:5"
+        ],
+        [
+          "cat:poblacion_sector:P11R:6"
+        ]
+      ]
+    },
+    {
+      "id": "linguistic_diversity_shannon",
+      "name": {
+        "es": "Paisaje lingüístico",
+        "en": "Linguistic landscape"
+      },
+      "theme": "diversidad",
+      "kind": "shannon",
+      "formula": "Entropía Shannon normalizada de P10R 1–9",
+      "population_reference": "Personas con P10R válido",
+      "source_variables": [
+        "P10R"
+      ],
+      "min_level": "manzana",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Se calcula a partir de sumas de conteos de la selección; se excluyen códigos sin respuesta.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "categories": [
+        [
+          "cat:poblacion:P10R:1"
+        ],
+        [
+          "cat:poblacion:P10R:2"
+        ],
+        [
+          "cat:poblacion:P10R:3"
+        ],
+        [
+          "cat:poblacion:P10R:4"
+        ],
+        [
+          "cat:poblacion:P10R:5"
+        ],
+        [
+          "cat:poblacion:P10R:6"
+        ],
+        [
+          "cat:poblacion:P10R:7"
+        ],
+        [
+          "cat:poblacion:P10R:8"
+        ],
+        [
+          "cat:poblacion:P10R:9"
+        ]
+      ]
+    },
+    {
+      "id": "mean_parity",
+      "name": {
+        "es": "Paridez media registrada",
+        "en": "Mean lifetime live births"
+      },
+      "theme": "fecundidad",
+      "kind": "weighted_mean",
+      "formula": "Σ(k × P3203=k) / Σ(P3203=0..20)",
+      "population_reference": "Personas con P3203 válido",
+      "source_variables": [
+        "P3203"
+      ],
+      "min_level": "parroquia",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "P3203=99 (no sabe) se excluye. Se usa la población con respuesta válida, no todas las mujeres.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "source_table": "poblacion",
+      "source_variable": "P3203",
+      "valid_min": 0,
+      "valid_max": 20
+    },
+    {
+      "id": "crude_death_report_rate",
+      "name": {
+        "es": "Defunciones reportadas por 1.000 habitantes",
+        "en": "Reported deaths per 1,000 residents"
+      },
+      "theme": "mortalidad",
+      "kind": "ratio",
+      "formula": "1.000 × defunciones reportadas / población censada",
+      "population_reference": "Población censada y defunciones reportadas",
+      "source_variables": [
+        "M03",
+        "P02"
+      ],
+      "min_level": "canton",
+      "min_n": 1000,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Defunciones reportadas por hogares para el período censal, no tasa anual de registros vitales.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "core:deaths"
+      ],
+      "denominator": [
+        "core:population"
+      ],
+      "factor": 1000
+    },
+    {
+      "id": "mean_age_at_death",
+      "name": {
+        "es": "Edad media al morir (reportada)",
+        "en": "Mean reported age at death"
+      },
+      "theme": "mortalidad",
+      "kind": "weighted_mean",
+      "formula": "Σ(k × M03=k) / Σ(M03=0..120)",
+      "population_reference": "Defunciones con edad reportada válida",
+      "source_variables": [
+        "M03"
+      ],
+      "min_level": "canton",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "M03=999 (ignora edad) se excluye; se trata de defunciones informadas en el censo.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "source_table": "mortalidad",
+      "source_variable": "M03",
+      "valid_min": 0,
+      "valid_max": 120
+    }
+  ],
+  "discarded_indicators": [
+    {
+      "id": "health_insurance_coverage",
+      "reason": "El diccionario incluye P30 aportes a seguridad social, no cobertura de seguro de salud."
+    }
+  ],
+  "deferred_indicators": [
+    {
+      "id": "female_headship",
+      "reason": "Requiere cruce parentesco de jefatura × sexo; el agregado actual conserva marginales."
+    },
+    {
+      "id": "potential_solitude_65",
+      "reason": "Requiere edad × hogar unipersonal; el agregado actual conserva marginales."
+    },
+    {
+      "id": "mean_schooling_25_plus",
+      "reason": "Requiere edad × ESCOLA y universo 25+; no existe ese cruce agregado."
+    },
+    {
+      "id": "generational_education_jump",
+      "reason": "Requiere edad × ESCOLA para 25–34 y 55–64; no existe ese cruce agregado."
+    },
+    {
+      "id": "school_lag",
+      "reason": "Requiere edad × asistencia/nivel escolar; no existe ese cruce agregado."
+    },
+    {
+      "id": "digital_gap_by_sex_age",
+      "reason": "Requiere TIC × sexo/edad; no existe ese cruce agregado."
+    },
+    {
+      "id": "labour_gender_gap",
+      "reason": "Requiere CONDACT1 × sexo; no existe ese cruce agregado."
+    },
+    {
+      "id": "internal_net_migration",
+      "reason": "Requiere matriz origen-destino por cantón; el agregado actual contiene marginales y códigos previos."
+    },
+    {
+      "id": "canton_origin_destination",
+      "reason": "Requiere extracción explícita de flujos origen-destino del microdato privado."
+    },
+    {
+      "id": "adolescent_motherhood",
+      "reason": "Requiere edad × hijos nacidos vivos; no existe ese cruce agregado."
+    },
+    {
+      "id": "sovi_pca",
+      "reason": "Pesos PCA y estandarización nacional corresponden a 1B-2."
+    },
+    {
+      "id": "demographic_bonus_peak_distance",
+      "reason": "Un solo censo no define el pico temporal nacional de la proporción 15–64."
+    },
+    {
+      "id": "indigenous_language_speakers",
+      "reason": "P10R=9 agrupa combinaciones no separables en el agregado; requiere reconstrucción del indicador desde microdato."
+    }
+  ]
+}

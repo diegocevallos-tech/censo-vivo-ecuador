@@ -1,0 +1,4875 @@
+[
+  {
+    "id": "median_age",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 52.5,
+      "denominator": 4200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "median_age",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 52.5,
+      "denominator": 4200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "median_age",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 0.1,
+        "core:age_00_04_m": 0.1,
+        "core:age_05_09_f": 0.1,
+        "core:age_05_09_m": 0.1,
+        "core:age_100_120_f": 0.1,
+        "core:age_100_120_m": 0.1,
+        "core:age_10_14_f": 0.1,
+        "core:age_10_14_m": 0.1,
+        "core:age_15_19_f": 0.1,
+        "core:age_15_19_m": 0.1,
+        "core:age_20_24_f": 0.1,
+        "core:age_20_24_m": 0.1,
+        "core:age_25_29_f": 0.1,
+        "core:age_25_29_m": 0.1,
+        "core:age_30_34_f": 0.1,
+        "core:age_30_34_m": 0.1,
+        "core:age_35_39_f": 0.1,
+        "core:age_35_39_m": 0.1,
+        "core:age_40_44_f": 0.1,
+        "core:age_40_44_m": 0.1,
+        "core:age_45_49_f": 0.1,
+        "core:age_45_49_m": 0.1,
+        "core:age_50_54_f": 0.1,
+        "core:age_50_54_m": 0.1,
+        "core:age_55_59_f": 0.1,
+        "core:age_55_59_m": 0.1,
+        "core:age_60_64_f": 0.1,
+        "core:age_60_64_m": 0.1,
+        "core:age_65_69_f": 0.1,
+        "core:age_65_69_m": 0.1,
+        "core:age_70_74_f": 0.1,
+        "core:age_70_74_m": 0.1,
+        "core:age_75_79_f": 0.1,
+        "core:age_75_79_m": 0.1,
+        "core:age_80_84_f": 0.1,
+        "core:age_80_84_m": 0.1,
+        "core:age_85_89_f": 0.1,
+        "core:age_85_89_m": 0.1,
+        "core:age_90_94_f": 0.1,
+        "core:age_90_94_m": 0.1,
+        "core:age_95_99_f": 0.1,
+        "core:age_95_99_m": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 52.50000000000001,
+      "denominator": 4.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "median_age",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 52.5,
+      "denominator": 4200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "aging_index",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 266.66666666666663,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "aging_index",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 266.66666666666663,
+      "denominator": 600,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "aging_index",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 0.1,
+        "core:age_00_04_m": 0.1,
+        "core:age_05_09_f": 0.1,
+        "core:age_05_09_m": 0.1,
+        "core:age_100_120_f": 0.1,
+        "core:age_100_120_m": 0.1,
+        "core:age_10_14_f": 0.1,
+        "core:age_10_14_m": 0.1,
+        "core:age_65_69_f": 0.1,
+        "core:age_65_69_m": 0.1,
+        "core:age_70_74_f": 0.1,
+        "core:age_70_74_m": 0.1,
+        "core:age_75_79_f": 0.1,
+        "core:age_75_79_m": 0.1,
+        "core:age_80_84_f": 0.1,
+        "core:age_80_84_m": 0.1,
+        "core:age_85_89_f": 0.1,
+        "core:age_85_89_m": 0.1,
+        "core:age_90_94_f": 0.1,
+        "core:age_90_94_m": 0.1,
+        "core:age_95_99_f": 0.1,
+        "core:age_95_99_m": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 266.66666666666663,
+      "denominator": 0.6000000000000001,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "aging_index",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 266.66666666666663,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "youth_dependency",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 30.0,
+      "denominator": 2000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "youth_dependency",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 30.0,
+      "denominator": 2000,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "youth_dependency",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 0.1,
+        "core:age_00_04_m": 0.1,
+        "core:age_05_09_f": 0.1,
+        "core:age_05_09_m": 0.1,
+        "core:age_10_14_f": 0.1,
+        "core:age_10_14_m": 0.1,
+        "core:age_15_19_f": 0.1,
+        "core:age_15_19_m": 0.1,
+        "core:age_20_24_f": 0.1,
+        "core:age_20_24_m": 0.1,
+        "core:age_25_29_f": 0.1,
+        "core:age_25_29_m": 0.1,
+        "core:age_30_34_f": 0.1,
+        "core:age_30_34_m": 0.1,
+        "core:age_35_39_f": 0.1,
+        "core:age_35_39_m": 0.1,
+        "core:age_40_44_f": 0.1,
+        "core:age_40_44_m": 0.1,
+        "core:age_45_49_f": 0.1,
+        "core:age_45_49_m": 0.1,
+        "core:age_50_54_f": 0.1,
+        "core:age_50_54_m": 0.1,
+        "core:age_55_59_f": 0.1,
+        "core:age_55_59_m": 0.1,
+        "core:age_60_64_f": 0.1,
+        "core:age_60_64_m": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 30.000000000000004,
+      "denominator": 2.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "youth_dependency",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 30.0,
+      "denominator": 2000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "old_age_dependency",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 80.0,
+      "denominator": 2000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "old_age_dependency",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 80.0,
+      "denominator": 2000,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "old_age_dependency",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_100_120_f": 0.1,
+        "core:age_100_120_m": 0.1,
+        "core:age_15_19_f": 0.1,
+        "core:age_15_19_m": 0.1,
+        "core:age_20_24_f": 0.1,
+        "core:age_20_24_m": 0.1,
+        "core:age_25_29_f": 0.1,
+        "core:age_25_29_m": 0.1,
+        "core:age_30_34_f": 0.1,
+        "core:age_30_34_m": 0.1,
+        "core:age_35_39_f": 0.1,
+        "core:age_35_39_m": 0.1,
+        "core:age_40_44_f": 0.1,
+        "core:age_40_44_m": 0.1,
+        "core:age_45_49_f": 0.1,
+        "core:age_45_49_m": 0.1,
+        "core:age_50_54_f": 0.1,
+        "core:age_50_54_m": 0.1,
+        "core:age_55_59_f": 0.1,
+        "core:age_55_59_m": 0.1,
+        "core:age_60_64_f": 0.1,
+        "core:age_60_64_m": 0.1,
+        "core:age_65_69_f": 0.1,
+        "core:age_65_69_m": 0.1,
+        "core:age_70_74_f": 0.1,
+        "core:age_70_74_m": 0.1,
+        "core:age_75_79_f": 0.1,
+        "core:age_75_79_m": 0.1,
+        "core:age_80_84_f": 0.1,
+        "core:age_80_84_m": 0.1,
+        "core:age_85_89_f": 0.1,
+        "core:age_85_89_m": 0.1,
+        "core:age_90_94_f": 0.1,
+        "core:age_90_94_m": 0.1,
+        "core:age_95_99_f": 0.1,
+        "core:age_95_99_m": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 80.0,
+      "denominator": 2.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "old_age_dependency",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 80.0,
+      "denominator": 2000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "male_ratio",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 100,
+        "core:sex_male": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "male_ratio",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 100,
+        "core:sex_male": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "male_ratio",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 0.1,
+        "core:sex_male": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "male_ratio",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 100,
+        "core:sex_male": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_share",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 100,
+        "core:sex_male": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_share",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 100,
+        "core:sex_male": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_share",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 0.1,
+        "core:sex_male": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_share",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:sex_female": 100,
+        "core:sex_male": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "working_age_share",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 47.61904761904761,
+      "denominator": 4200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "working_age_share",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 47.61904761904761,
+      "denominator": 4200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "working_age_share",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 0.1,
+        "core:age_00_04_m": 0.1,
+        "core:age_05_09_f": 0.1,
+        "core:age_05_09_m": 0.1,
+        "core:age_100_120_f": 0.1,
+        "core:age_100_120_m": 0.1,
+        "core:age_10_14_f": 0.1,
+        "core:age_10_14_m": 0.1,
+        "core:age_15_19_f": 0.1,
+        "core:age_15_19_m": 0.1,
+        "core:age_20_24_f": 0.1,
+        "core:age_20_24_m": 0.1,
+        "core:age_25_29_f": 0.1,
+        "core:age_25_29_m": 0.1,
+        "core:age_30_34_f": 0.1,
+        "core:age_30_34_m": 0.1,
+        "core:age_35_39_f": 0.1,
+        "core:age_35_39_m": 0.1,
+        "core:age_40_44_f": 0.1,
+        "core:age_40_44_m": 0.1,
+        "core:age_45_49_f": 0.1,
+        "core:age_45_49_m": 0.1,
+        "core:age_50_54_f": 0.1,
+        "core:age_50_54_m": 0.1,
+        "core:age_55_59_f": 0.1,
+        "core:age_55_59_m": 0.1,
+        "core:age_60_64_f": 0.1,
+        "core:age_60_64_m": 0.1,
+        "core:age_65_69_f": 0.1,
+        "core:age_65_69_m": 0.1,
+        "core:age_70_74_f": 0.1,
+        "core:age_70_74_m": 0.1,
+        "core:age_75_79_f": 0.1,
+        "core:age_75_79_m": 0.1,
+        "core:age_80_84_f": 0.1,
+        "core:age_80_84_m": 0.1,
+        "core:age_85_89_f": 0.1,
+        "core:age_85_89_m": 0.1,
+        "core:age_90_94_f": 0.1,
+        "core:age_90_94_m": 0.1,
+        "core:age_95_99_f": 0.1,
+        "core:age_95_99_m": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 47.61904761904761,
+      "denominator": 4.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "working_age_share",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 47.325581395348834,
+      "denominator": 4200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 45.833408302458686,
+        "upper": 48.81775448823899,
+        "sd": 0.7613128024949775,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "single_person_households",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:TIPO_HOGAR:1": 100,
+        "cat:hogar:TIPO_HOGAR:2": 100,
+        "cat:hogar:TIPO_HOGAR:3": 100,
+        "cat:hogar:TIPO_HOGAR:4": 100,
+        "cat:hogar:TIPO_HOGAR:5": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 20.0,
+      "denominator": 500,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "single_person_households",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:TIPO_HOGAR:1": 100,
+        "cat:hogar:TIPO_HOGAR:2": 100,
+        "cat:hogar:TIPO_HOGAR:3": 100,
+        "cat:hogar:TIPO_HOGAR:4": 100,
+        "cat:hogar:TIPO_HOGAR:5": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 20.0,
+      "denominator": 500,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "single_person_households",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:TIPO_HOGAR:1": 0.1,
+        "cat:hogar:TIPO_HOGAR:2": 0.1,
+        "cat:hogar:TIPO_HOGAR:3": 0.1,
+        "cat:hogar:TIPO_HOGAR:4": 0.1,
+        "cat:hogar:TIPO_HOGAR:5": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 20.0,
+      "denominator": 0.5,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "single_person_households",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:TIPO_HOGAR:1": 100,
+        "cat:hogar:TIPO_HOGAR:2": 100,
+        "cat:hogar:TIPO_HOGAR:3": 100,
+        "cat:hogar:TIPO_HOGAR:4": 100,
+        "cat:hogar:TIPO_HOGAR:5": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 22.5,
+      "denominator": 500,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 19.16142647058441,
+        "upper": 25.838573529415594,
+        "sd": 1.7033538415385667,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "average_household_size",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:households": 100000,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "average_household_size",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:households": 100000,
+        "core:population": 100000
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "average_household_size",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:households": 100.0,
+        "core:population": 100.0
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "average_household_size",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:households": 100000,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "overcrowding",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "overcrowding",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "overcrowding",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 0.1,
+        "cat:hogar:HAC:2": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "overcrowding",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "qualitative_housing_deficit",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:DEF_HAB:1": 100,
+        "cat:vivienda:DEF_HAB:2": 100,
+        "cat:vivienda:DEF_HAB:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 33.33333333333333,
+      "denominator": 300,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "qualitative_housing_deficit",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:DEF_HAB:1": 100,
+        "cat:vivienda:DEF_HAB:2": 100,
+        "cat:vivienda:DEF_HAB:3": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 33.33333333333333,
+      "denominator": 300,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "qualitative_housing_deficit",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:DEF_HAB:1": 0.1,
+        "cat:vivienda:DEF_HAB:2": 0.1,
+        "cat:vivienda:DEF_HAB:3": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 33.33333333333333,
+      "denominator": 0.30000000000000004,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "qualitative_housing_deficit",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:DEF_HAB:1": 100,
+        "cat:vivienda:DEF_HAB:2": 100,
+        "cat:vivienda:DEF_HAB:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 33.75,
+      "denominator": 300,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 29.121782981743426,
+        "upper": 38.37821701825658,
+        "sd": 2.3613352133962127,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "vacant_private_dwellings",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:V0201:1": 100,
+        "cat:vivienda:V0201:2": 100,
+        "cat:vivienda:V0201:3": 100,
+        "cat:vivienda:V0201:4": 100,
+        "cat:vivienda:V0201:5": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 20.0,
+      "denominator": 500,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "vacant_private_dwellings",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:V0201:1": 100,
+        "cat:vivienda:V0201:2": 100,
+        "cat:vivienda:V0201:3": 100,
+        "cat:vivienda:V0201:4": 100,
+        "cat:vivienda:V0201:5": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 20.0,
+      "denominator": 500,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "vacant_private_dwellings",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:V0201:1": 0.1,
+        "cat:vivienda:V0201:2": 0.1,
+        "cat:vivienda:V0201:3": 0.1,
+        "cat:vivienda:V0201:4": 0.1,
+        "cat:vivienda:V0201:5": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 20.0,
+      "denominator": 0.5,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "vacant_private_dwellings",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:vivienda:V0201:1": 100,
+        "cat:vivienda:V0201:2": 100,
+        "cat:vivienda:V0201:3": 100,
+        "cat:vivienda:V0201:4": 100,
+        "cat:vivienda:V0201:5": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 22.5,
+      "denominator": 500,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 19.16142647058441,
+        "upper": 25.838573529415594,
+        "sd": 1.7033538415385667,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "owned_tenure",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 100,
+        "cat:hogar:H09:2": 100,
+        "cat:hogar:H09:3": 100,
+        "cat:hogar:H09:4": 100,
+        "cat:hogar:H09:5": 100,
+        "cat:hogar:H09:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "owned_tenure",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 100,
+        "cat:hogar:H09:2": 100,
+        "cat:hogar:H09:3": 100,
+        "cat:hogar:H09:4": 100,
+        "cat:hogar:H09:5": 100,
+        "cat:hogar:H09:6": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 600,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "owned_tenure",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 0.1,
+        "cat:hogar:H09:2": 0.1,
+        "cat:hogar:H09:3": 0.1,
+        "cat:hogar:H09:4": 0.1,
+        "cat:hogar:H09:5": 0.1,
+        "cat:hogar:H09:6": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.6000000000000001,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "owned_tenure",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 100,
+        "cat:hogar:H09:2": 100,
+        "cat:hogar:H09:3": 100,
+        "cat:hogar:H09:4": 100,
+        "cat:hogar:H09:5": 100,
+        "cat:hogar:H09:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 47.85714285714286,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 44.15913475700275,
+        "upper": 51.55515095728297,
+        "sd": 1.8867388266020961,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "rented_tenure",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 100,
+        "cat:hogar:H09:2": 100,
+        "cat:hogar:H09:3": 100,
+        "cat:hogar:H09:4": 100,
+        "cat:hogar:H09:5": 100,
+        "cat:hogar:H09:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 16.666666666666664,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "rented_tenure",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 100,
+        "cat:hogar:H09:2": 100,
+        "cat:hogar:H09:3": 100,
+        "cat:hogar:H09:4": 100,
+        "cat:hogar:H09:5": 100,
+        "cat:hogar:H09:6": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 16.666666666666664,
+      "denominator": 600,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "rented_tenure",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 0.1,
+        "cat:hogar:H09:2": 0.1,
+        "cat:hogar:H09:3": 0.1,
+        "cat:hogar:H09:4": 0.1,
+        "cat:hogar:H09:5": 0.1,
+        "cat:hogar:H09:6": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 16.666666666666664,
+      "denominator": 0.6000000000000001,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "rented_tenure",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H09:1": 100,
+        "cat:hogar:H09:2": 100,
+        "cat:hogar:H09:3": 100,
+        "cat:hogar:H09:4": 100,
+        "cat:hogar:H09:5": 100,
+        "cat:hogar:H09:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 19.28571428571429,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 16.364992900608353,
+        "upper": 22.20643567082022,
+        "sd": 1.490163971992823,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "fixed_internet",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1004:1": 100,
+        "cat:hogar:H1004:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "fixed_internet",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1004:1": 100,
+        "cat:hogar:H1004:2": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "fixed_internet",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1004:1": 0.1,
+        "cat:hogar:H1004:2": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "fixed_internet",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1004:1": 100,
+        "cat:hogar:H1004:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "computer_access",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1005:1": 100,
+        "cat:hogar:H1005:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "computer_access",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1005:1": 100,
+        "cat:hogar:H1005:2": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "computer_access",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1005:1": 0.1,
+        "cat:hogar:H1005:2": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "computer_access",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H1005:1": 100,
+        "cat:hogar:H1005:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_exclusion",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:ANALF_DIG:1": 100,
+        "cat:poblacion:ANALF_DIG:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_exclusion",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:ANALF_DIG:1": 100,
+        "cat:poblacion:ANALF_DIG:2": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_exclusion",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:ANALF_DIG:1": 0.1,
+        "cat:poblacion:ANALF_DIG:2": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_exclusion",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:ANALF_DIG:1": 100,
+        "cat:poblacion:ANALF_DIG:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "employment_rate",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 100,
+        "cat:poblacion:CONDACT1:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "employment_rate",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 100,
+        "cat:poblacion:CONDACT1:3": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "employment_rate",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 0.1,
+        "cat:poblacion:CONDACT1:3": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "employment_rate",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 100,
+        "cat:poblacion:CONDACT1:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "unemployment_rate",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 100,
+        "cat:poblacion:CONDACT1:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "unemployment_rate",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 100,
+        "cat:poblacion:CONDACT1:3": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "unemployment_rate",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 0.1,
+        "cat:poblacion:CONDACT1:3": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "unemployment_rate",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:CONDACT1:2": 100,
+        "cat:poblacion:CONDACT1:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_arrivals_5y",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 100,
+        "cat:poblacion:P09:2": 100,
+        "cat:poblacion:P09:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 33.33333333333333,
+      "denominator": 300,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_arrivals_5y",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 100,
+        "cat:poblacion:P09:2": 100,
+        "cat:poblacion:P09:3": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 33.33333333333333,
+      "denominator": 300,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_arrivals_5y",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 0.1,
+        "cat:poblacion:P09:2": 0.1,
+        "cat:poblacion:P09:3": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 33.33333333333333,
+      "denominator": 0.30000000000000004,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_arrivals_5y",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 100,
+        "cat:poblacion:P09:2": 100,
+        "cat:poblacion:P09:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 33.75,
+      "denominator": 300,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 29.121782981743426,
+        "upper": 38.37821701825658,
+        "sd": 2.3613352133962127,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "magnet_index",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 100,
+        "cat:poblacion:P09:2": 100,
+        "cat:poblacion:P09:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 66.66666666666666,
+      "denominator": 300,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "magnet_index",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 100,
+        "cat:poblacion:P09:2": 100,
+        "cat:poblacion:P09:3": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 66.66666666666666,
+      "denominator": 300,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "magnet_index",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 0.1,
+        "cat:poblacion:P09:2": 0.1,
+        "cat:poblacion:P09:3": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 66.66666666666666,
+      "denominator": 0.30000000000000004,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "magnet_index",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P09:1": 100,
+        "cat:poblacion:P09:2": 100,
+        "cat:poblacion:P09:3": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 58.75,
+      "denominator": 300,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 53.931633874465255,
+        "upper": 63.568366125534745,
+        "sd": 2.4583500640483416,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrant_households",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H12:1": 100,
+        "cat:hogar:H12:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrant_households",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H12:1": 100,
+        "cat:hogar:H12:2": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrant_households",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H12:1": 0.1,
+        "cat:hogar:H12:2": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrant_households",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:H12:1": 100,
+        "cat:hogar:H12:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrants_per_1000",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:emigrants": 100,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrants_per_1000",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:emigrants": 100,
+        "core:population": 100000
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrants_per_1000",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:emigrants": 0.1,
+        "core:population": 100.0
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "emigrants_per_1000",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:emigrants": 100,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_emigrants_share",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:emigracion:E02:1": 100,
+        "cat:emigracion:E02:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_emigrants_share",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:emigracion:E02:1": 100,
+        "cat:emigracion:E02:2": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_emigrants_share",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:emigracion:E02:1": 0.1,
+        "cat:emigracion:E02:2": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 50.0,
+      "denominator": 0.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_emigrants_share",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:emigracion:E02:1": 100,
+        "cat:emigracion:E02:2": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 45.0,
+      "denominator": 200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": {
+        "lower": 39.37968800005336,
+        "upper": 50.620311999946644,
+        "sd": 2.8675061224217546,
+        "prior_strength": 100.0
+      },
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "age_diversity_shannon",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 4200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "age_diversity_shannon",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 4200,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "age_diversity_shannon",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 0.1,
+        "core:age_00_04_m": 0.1,
+        "core:age_05_09_f": 0.1,
+        "core:age_05_09_m": 0.1,
+        "core:age_100_120_f": 0.1,
+        "core:age_100_120_m": 0.1,
+        "core:age_10_14_f": 0.1,
+        "core:age_10_14_m": 0.1,
+        "core:age_15_19_f": 0.1,
+        "core:age_15_19_m": 0.1,
+        "core:age_20_24_f": 0.1,
+        "core:age_20_24_m": 0.1,
+        "core:age_25_29_f": 0.1,
+        "core:age_25_29_m": 0.1,
+        "core:age_30_34_f": 0.1,
+        "core:age_30_34_m": 0.1,
+        "core:age_35_39_f": 0.1,
+        "core:age_35_39_m": 0.1,
+        "core:age_40_44_f": 0.1,
+        "core:age_40_44_m": 0.1,
+        "core:age_45_49_f": 0.1,
+        "core:age_45_49_m": 0.1,
+        "core:age_50_54_f": 0.1,
+        "core:age_50_54_m": 0.1,
+        "core:age_55_59_f": 0.1,
+        "core:age_55_59_m": 0.1,
+        "core:age_60_64_f": 0.1,
+        "core:age_60_64_m": 0.1,
+        "core:age_65_69_f": 0.1,
+        "core:age_65_69_m": 0.1,
+        "core:age_70_74_f": 0.1,
+        "core:age_70_74_m": 0.1,
+        "core:age_75_79_f": 0.1,
+        "core:age_75_79_m": 0.1,
+        "core:age_80_84_f": 0.1,
+        "core:age_80_84_m": 0.1,
+        "core:age_85_89_f": 0.1,
+        "core:age_85_89_m": 0.1,
+        "core:age_90_94_f": 0.1,
+        "core:age_90_94_m": 0.1,
+        "core:age_95_99_f": 0.1,
+        "core:age_95_99_m": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 4.2,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "age_diversity_shannon",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "core:age_00_04_f": 100,
+        "core:age_00_04_m": 100,
+        "core:age_05_09_f": 100,
+        "core:age_05_09_m": 100,
+        "core:age_100_120_f": 100,
+        "core:age_100_120_m": 100,
+        "core:age_10_14_f": 100,
+        "core:age_10_14_m": 100,
+        "core:age_15_19_f": 100,
+        "core:age_15_19_m": 100,
+        "core:age_20_24_f": 100,
+        "core:age_20_24_m": 100,
+        "core:age_25_29_f": 100,
+        "core:age_25_29_m": 100,
+        "core:age_30_34_f": 100,
+        "core:age_30_34_m": 100,
+        "core:age_35_39_f": 100,
+        "core:age_35_39_m": 100,
+        "core:age_40_44_f": 100,
+        "core:age_40_44_m": 100,
+        "core:age_45_49_f": 100,
+        "core:age_45_49_m": 100,
+        "core:age_50_54_f": 100,
+        "core:age_50_54_m": 100,
+        "core:age_55_59_f": 100,
+        "core:age_55_59_m": 100,
+        "core:age_60_64_f": 100,
+        "core:age_60_64_m": 100,
+        "core:age_65_69_f": 100,
+        "core:age_65_69_m": 100,
+        "core:age_70_74_f": 100,
+        "core:age_70_74_m": 100,
+        "core:age_75_79_f": 100,
+        "core:age_75_79_m": 100,
+        "core:age_80_84_f": 100,
+        "core:age_80_84_m": 100,
+        "core:age_85_89_f": 100,
+        "core:age_85_89_m": 100,
+        "core:age_90_94_f": 100,
+        "core:age_90_94_m": 100,
+        "core:age_95_99_f": 100,
+        "core:age_95_99_m": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 4200,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "ethnic_diversity_shannon",
+    "variant": "exact",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion_sector:P11R:1": 100,
+        "cat:poblacion_sector:P11R:2": 100,
+        "cat:poblacion_sector:P11R:3": 100,
+        "cat:poblacion_sector:P11R:4": 100,
+        "cat:poblacion_sector:P11R:5": 100,
+        "cat:poblacion_sector:P11R:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "ethnic_diversity_shannon",
+    "variant": "estimated",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion_sector:P11R:1": 100,
+        "cat:poblacion_sector:P11R:2": 100,
+        "cat:poblacion_sector:P11R:3": 100,
+        "cat:poblacion_sector:P11R:4": 100,
+        "cat:poblacion_sector:P11R:5": 100,
+        "cat:poblacion_sector:P11R:6": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 600,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "ethnic_diversity_shannon",
+    "variant": "small",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion_sector:P11R:1": 0.1,
+        "cat:poblacion_sector:P11R:2": 0.1,
+        "cat:poblacion_sector:P11R:3": 0.1,
+        "cat:poblacion_sector:P11R:4": 0.1,
+        "cat:poblacion_sector:P11R:5": 0.1,
+        "cat:poblacion_sector:P11R:6": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 0.6000000000000001,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "ethnic_diversity_shannon",
+    "variant": "smoothing",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion_sector:P11R:1": 100,
+        "cat:poblacion_sector:P11R:2": 100,
+        "cat:poblacion_sector:P11R:3": 100,
+        "cat:poblacion_sector:P11R:4": 100,
+        "cat:poblacion_sector:P11R:5": 100,
+        "cat:poblacion_sector:P11R:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 600,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "ethnic_diversity_shannon",
+    "variant": "below_level",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion_sector:P11R:1": 100,
+        "cat:poblacion_sector:P11R:2": 100,
+        "cat:poblacion_sector:P11R:3": 100,
+        "cat:poblacion_sector:P11R:4": 100,
+        "cat:poblacion_sector:P11R:5": 100,
+        "cat:poblacion_sector:P11R:6": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde sector"
+    }
+  },
+  {
+    "id": "linguistic_diversity_shannon",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P10R:1": 100,
+        "cat:poblacion:P10R:2": 100,
+        "cat:poblacion:P10R:3": 100,
+        "cat:poblacion:P10R:4": 100,
+        "cat:poblacion:P10R:5": 100,
+        "cat:poblacion:P10R:6": 100,
+        "cat:poblacion:P10R:7": 100,
+        "cat:poblacion:P10R:8": 100,
+        "cat:poblacion:P10R:9": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 900,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "linguistic_diversity_shannon",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P10R:1": 100,
+        "cat:poblacion:P10R:2": 100,
+        "cat:poblacion:P10R:3": 100,
+        "cat:poblacion:P10R:4": 100,
+        "cat:poblacion:P10R:5": 100,
+        "cat:poblacion:P10R:6": 100,
+        "cat:poblacion:P10R:7": 100,
+        "cat:poblacion:P10R:8": 100,
+        "cat:poblacion:P10R:9": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 900,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "linguistic_diversity_shannon",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P10R:1": 0.1,
+        "cat:poblacion:P10R:2": 0.1,
+        "cat:poblacion:P10R:3": 0.1,
+        "cat:poblacion:P10R:4": 0.1,
+        "cat:poblacion:P10R:5": 0.1,
+        "cat:poblacion:P10R:6": 0.1,
+        "cat:poblacion:P10R:7": 0.1,
+        "cat:poblacion:P10R:8": 0.1,
+        "cat:poblacion:P10R:9": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.9999999999999998,
+      "denominator": 0.9,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "linguistic_diversity_shannon",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P10R:1": 100,
+        "cat:poblacion:P10R:2": 100,
+        "cat:poblacion:P10R:3": 100,
+        "cat:poblacion:P10R:4": 100,
+        "cat:poblacion:P10R:5": 100,
+        "cat:poblacion:P10R:6": 100,
+        "cat:poblacion:P10R:7": 100,
+        "cat:poblacion:P10R:8": 100,
+        "cat:poblacion:P10R:9": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 900,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity",
+    "variant": "exact",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P3203:0": 100,
+        "cat:poblacion:P3203:1": 100,
+        "cat:poblacion:P3203:10": 100,
+        "cat:poblacion:P3203:11": 100,
+        "cat:poblacion:P3203:12": 100,
+        "cat:poblacion:P3203:13": 100,
+        "cat:poblacion:P3203:14": 100,
+        "cat:poblacion:P3203:15": 100,
+        "cat:poblacion:P3203:16": 100,
+        "cat:poblacion:P3203:17": 100,
+        "cat:poblacion:P3203:18": 100,
+        "cat:poblacion:P3203:19": 100,
+        "cat:poblacion:P3203:2": 100,
+        "cat:poblacion:P3203:20": 100,
+        "cat:poblacion:P3203:3": 100,
+        "cat:poblacion:P3203:4": 100,
+        "cat:poblacion:P3203:5": 100,
+        "cat:poblacion:P3203:6": 100,
+        "cat:poblacion:P3203:7": 100,
+        "cat:poblacion:P3203:8": 100,
+        "cat:poblacion:P3203:9": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 10.0,
+      "denominator": 2100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity",
+    "variant": "estimated",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P3203:0": 100,
+        "cat:poblacion:P3203:1": 100,
+        "cat:poblacion:P3203:10": 100,
+        "cat:poblacion:P3203:11": 100,
+        "cat:poblacion:P3203:12": 100,
+        "cat:poblacion:P3203:13": 100,
+        "cat:poblacion:P3203:14": 100,
+        "cat:poblacion:P3203:15": 100,
+        "cat:poblacion:P3203:16": 100,
+        "cat:poblacion:P3203:17": 100,
+        "cat:poblacion:P3203:18": 100,
+        "cat:poblacion:P3203:19": 100,
+        "cat:poblacion:P3203:2": 100,
+        "cat:poblacion:P3203:20": 100,
+        "cat:poblacion:P3203:3": 100,
+        "cat:poblacion:P3203:4": 100,
+        "cat:poblacion:P3203:5": 100,
+        "cat:poblacion:P3203:6": 100,
+        "cat:poblacion:P3203:7": 100,
+        "cat:poblacion:P3203:8": 100,
+        "cat:poblacion:P3203:9": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 10.0,
+      "denominator": 2100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity",
+    "variant": "small",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P3203:0": 0.1,
+        "cat:poblacion:P3203:1": 0.1,
+        "cat:poblacion:P3203:10": 0.1,
+        "cat:poblacion:P3203:11": 0.1,
+        "cat:poblacion:P3203:12": 0.1,
+        "cat:poblacion:P3203:13": 0.1,
+        "cat:poblacion:P3203:14": 0.1,
+        "cat:poblacion:P3203:15": 0.1,
+        "cat:poblacion:P3203:16": 0.1,
+        "cat:poblacion:P3203:17": 0.1,
+        "cat:poblacion:P3203:18": 0.1,
+        "cat:poblacion:P3203:19": 0.1,
+        "cat:poblacion:P3203:2": 0.1,
+        "cat:poblacion:P3203:20": 0.1,
+        "cat:poblacion:P3203:3": 0.1,
+        "cat:poblacion:P3203:4": 0.1,
+        "cat:poblacion:P3203:5": 0.1,
+        "cat:poblacion:P3203:6": 0.1,
+        "cat:poblacion:P3203:7": 0.1,
+        "cat:poblacion:P3203:8": 0.1,
+        "cat:poblacion:P3203:9": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 10.0,
+      "denominator": 2.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity",
+    "variant": "smoothing",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P3203:0": 100,
+        "cat:poblacion:P3203:1": 100,
+        "cat:poblacion:P3203:10": 100,
+        "cat:poblacion:P3203:11": 100,
+        "cat:poblacion:P3203:12": 100,
+        "cat:poblacion:P3203:13": 100,
+        "cat:poblacion:P3203:14": 100,
+        "cat:poblacion:P3203:15": 100,
+        "cat:poblacion:P3203:16": 100,
+        "cat:poblacion:P3203:17": 100,
+        "cat:poblacion:P3203:18": 100,
+        "cat:poblacion:P3203:19": 100,
+        "cat:poblacion:P3203:2": 100,
+        "cat:poblacion:P3203:20": 100,
+        "cat:poblacion:P3203:3": 100,
+        "cat:poblacion:P3203:4": 100,
+        "cat:poblacion:P3203:5": 100,
+        "cat:poblacion:P3203:6": 100,
+        "cat:poblacion:P3203:7": 100,
+        "cat:poblacion:P3203:8": 100,
+        "cat:poblacion:P3203:9": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 10.0,
+      "denominator": 2100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity",
+    "variant": "below_level",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:poblacion:P3203:0": 100,
+        "cat:poblacion:P3203:1": 100,
+        "cat:poblacion:P3203:10": 100,
+        "cat:poblacion:P3203:11": 100,
+        "cat:poblacion:P3203:12": 100,
+        "cat:poblacion:P3203:13": 100,
+        "cat:poblacion:P3203:14": 100,
+        "cat:poblacion:P3203:15": 100,
+        "cat:poblacion:P3203:16": 100,
+        "cat:poblacion:P3203:17": 100,
+        "cat:poblacion:P3203:18": 100,
+        "cat:poblacion:P3203:19": 100,
+        "cat:poblacion:P3203:2": 100,
+        "cat:poblacion:P3203:20": 100,
+        "cat:poblacion:P3203:3": 100,
+        "cat:poblacion:P3203:4": 100,
+        "cat:poblacion:P3203:5": 100,
+        "cat:poblacion:P3203:6": 100,
+        "cat:poblacion:P3203:7": 100,
+        "cat:poblacion:P3203:8": 100,
+        "cat:poblacion:P3203:9": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde parroquia"
+    }
+  },
+  {
+    "id": "crude_death_report_rate",
+    "variant": "exact",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:deaths": 100,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "crude_death_report_rate",
+    "variant": "estimated",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:deaths": 100,
+        "core:population": 100000
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "crude_death_report_rate",
+    "variant": "small",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:deaths": 0.1,
+        "core:population": 100.0
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "crude_death_report_rate",
+    "variant": "smoothing",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:deaths": 100,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "crude_death_report_rate",
+    "variant": "below_level",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "core:deaths": 100,
+        "core:population": 100000
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde canton"
+    }
+  },
+  {
+    "id": "mean_age_at_death",
+    "variant": "exact",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "cat:mortalidad:M03:0": 100,
+        "cat:mortalidad:M03:1": 100,
+        "cat:mortalidad:M03:10": 100,
+        "cat:mortalidad:M03:100": 100,
+        "cat:mortalidad:M03:101": 100,
+        "cat:mortalidad:M03:102": 100,
+        "cat:mortalidad:M03:103": 100,
+        "cat:mortalidad:M03:104": 100,
+        "cat:mortalidad:M03:105": 100,
+        "cat:mortalidad:M03:106": 100,
+        "cat:mortalidad:M03:107": 100,
+        "cat:mortalidad:M03:108": 100,
+        "cat:mortalidad:M03:109": 100,
+        "cat:mortalidad:M03:11": 100,
+        "cat:mortalidad:M03:110": 100,
+        "cat:mortalidad:M03:111": 100,
+        "cat:mortalidad:M03:112": 100,
+        "cat:mortalidad:M03:113": 100,
+        "cat:mortalidad:M03:114": 100,
+        "cat:mortalidad:M03:115": 100,
+        "cat:mortalidad:M03:116": 100,
+        "cat:mortalidad:M03:117": 100,
+        "cat:mortalidad:M03:118": 100,
+        "cat:mortalidad:M03:119": 100,
+        "cat:mortalidad:M03:12": 100,
+        "cat:mortalidad:M03:120": 100,
+        "cat:mortalidad:M03:13": 100,
+        "cat:mortalidad:M03:14": 100,
+        "cat:mortalidad:M03:15": 100,
+        "cat:mortalidad:M03:16": 100,
+        "cat:mortalidad:M03:17": 100,
+        "cat:mortalidad:M03:18": 100,
+        "cat:mortalidad:M03:19": 100,
+        "cat:mortalidad:M03:2": 100,
+        "cat:mortalidad:M03:20": 100,
+        "cat:mortalidad:M03:21": 100,
+        "cat:mortalidad:M03:22": 100,
+        "cat:mortalidad:M03:23": 100,
+        "cat:mortalidad:M03:24": 100,
+        "cat:mortalidad:M03:25": 100,
+        "cat:mortalidad:M03:26": 100,
+        "cat:mortalidad:M03:27": 100,
+        "cat:mortalidad:M03:28": 100,
+        "cat:mortalidad:M03:29": 100,
+        "cat:mortalidad:M03:3": 100,
+        "cat:mortalidad:M03:30": 100,
+        "cat:mortalidad:M03:31": 100,
+        "cat:mortalidad:M03:32": 100,
+        "cat:mortalidad:M03:33": 100,
+        "cat:mortalidad:M03:34": 100,
+        "cat:mortalidad:M03:35": 100,
+        "cat:mortalidad:M03:36": 100,
+        "cat:mortalidad:M03:37": 100,
+        "cat:mortalidad:M03:38": 100,
+        "cat:mortalidad:M03:39": 100,
+        "cat:mortalidad:M03:4": 100,
+        "cat:mortalidad:M03:40": 100,
+        "cat:mortalidad:M03:41": 100,
+        "cat:mortalidad:M03:42": 100,
+        "cat:mortalidad:M03:43": 100,
+        "cat:mortalidad:M03:44": 100,
+        "cat:mortalidad:M03:45": 100,
+        "cat:mortalidad:M03:46": 100,
+        "cat:mortalidad:M03:47": 100,
+        "cat:mortalidad:M03:48": 100,
+        "cat:mortalidad:M03:49": 100,
+        "cat:mortalidad:M03:5": 100,
+        "cat:mortalidad:M03:50": 100,
+        "cat:mortalidad:M03:51": 100,
+        "cat:mortalidad:M03:52": 100,
+        "cat:mortalidad:M03:53": 100,
+        "cat:mortalidad:M03:54": 100,
+        "cat:mortalidad:M03:55": 100,
+        "cat:mortalidad:M03:56": 100,
+        "cat:mortalidad:M03:57": 100,
+        "cat:mortalidad:M03:58": 100,
+        "cat:mortalidad:M03:59": 100,
+        "cat:mortalidad:M03:6": 100,
+        "cat:mortalidad:M03:60": 100,
+        "cat:mortalidad:M03:61": 100,
+        "cat:mortalidad:M03:62": 100,
+        "cat:mortalidad:M03:63": 100,
+        "cat:mortalidad:M03:64": 100,
+        "cat:mortalidad:M03:65": 100,
+        "cat:mortalidad:M03:66": 100,
+        "cat:mortalidad:M03:67": 100,
+        "cat:mortalidad:M03:68": 100,
+        "cat:mortalidad:M03:69": 100,
+        "cat:mortalidad:M03:7": 100,
+        "cat:mortalidad:M03:70": 100,
+        "cat:mortalidad:M03:71": 100,
+        "cat:mortalidad:M03:72": 100,
+        "cat:mortalidad:M03:73": 100,
+        "cat:mortalidad:M03:74": 100,
+        "cat:mortalidad:M03:75": 100,
+        "cat:mortalidad:M03:76": 100,
+        "cat:mortalidad:M03:77": 100,
+        "cat:mortalidad:M03:78": 100,
+        "cat:mortalidad:M03:79": 100,
+        "cat:mortalidad:M03:8": 100,
+        "cat:mortalidad:M03:80": 100,
+        "cat:mortalidad:M03:81": 100,
+        "cat:mortalidad:M03:82": 100,
+        "cat:mortalidad:M03:83": 100,
+        "cat:mortalidad:M03:84": 100,
+        "cat:mortalidad:M03:85": 100,
+        "cat:mortalidad:M03:86": 100,
+        "cat:mortalidad:M03:87": 100,
+        "cat:mortalidad:M03:88": 100,
+        "cat:mortalidad:M03:89": 100,
+        "cat:mortalidad:M03:9": 100,
+        "cat:mortalidad:M03:90": 100,
+        "cat:mortalidad:M03:91": 100,
+        "cat:mortalidad:M03:92": 100,
+        "cat:mortalidad:M03:93": 100,
+        "cat:mortalidad:M03:94": 100,
+        "cat:mortalidad:M03:95": 100,
+        "cat:mortalidad:M03:96": 100,
+        "cat:mortalidad:M03:97": 100,
+        "cat:mortalidad:M03:98": 100,
+        "cat:mortalidad:M03:99": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 60.0,
+      "denominator": 12100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_age_at_death",
+    "variant": "estimated",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "cat:mortalidad:M03:0": 100,
+        "cat:mortalidad:M03:1": 100,
+        "cat:mortalidad:M03:10": 100,
+        "cat:mortalidad:M03:100": 100,
+        "cat:mortalidad:M03:101": 100,
+        "cat:mortalidad:M03:102": 100,
+        "cat:mortalidad:M03:103": 100,
+        "cat:mortalidad:M03:104": 100,
+        "cat:mortalidad:M03:105": 100,
+        "cat:mortalidad:M03:106": 100,
+        "cat:mortalidad:M03:107": 100,
+        "cat:mortalidad:M03:108": 100,
+        "cat:mortalidad:M03:109": 100,
+        "cat:mortalidad:M03:11": 100,
+        "cat:mortalidad:M03:110": 100,
+        "cat:mortalidad:M03:111": 100,
+        "cat:mortalidad:M03:112": 100,
+        "cat:mortalidad:M03:113": 100,
+        "cat:mortalidad:M03:114": 100,
+        "cat:mortalidad:M03:115": 100,
+        "cat:mortalidad:M03:116": 100,
+        "cat:mortalidad:M03:117": 100,
+        "cat:mortalidad:M03:118": 100,
+        "cat:mortalidad:M03:119": 100,
+        "cat:mortalidad:M03:12": 100,
+        "cat:mortalidad:M03:120": 100,
+        "cat:mortalidad:M03:13": 100,
+        "cat:mortalidad:M03:14": 100,
+        "cat:mortalidad:M03:15": 100,
+        "cat:mortalidad:M03:16": 100,
+        "cat:mortalidad:M03:17": 100,
+        "cat:mortalidad:M03:18": 100,
+        "cat:mortalidad:M03:19": 100,
+        "cat:mortalidad:M03:2": 100,
+        "cat:mortalidad:M03:20": 100,
+        "cat:mortalidad:M03:21": 100,
+        "cat:mortalidad:M03:22": 100,
+        "cat:mortalidad:M03:23": 100,
+        "cat:mortalidad:M03:24": 100,
+        "cat:mortalidad:M03:25": 100,
+        "cat:mortalidad:M03:26": 100,
+        "cat:mortalidad:M03:27": 100,
+        "cat:mortalidad:M03:28": 100,
+        "cat:mortalidad:M03:29": 100,
+        "cat:mortalidad:M03:3": 100,
+        "cat:mortalidad:M03:30": 100,
+        "cat:mortalidad:M03:31": 100,
+        "cat:mortalidad:M03:32": 100,
+        "cat:mortalidad:M03:33": 100,
+        "cat:mortalidad:M03:34": 100,
+        "cat:mortalidad:M03:35": 100,
+        "cat:mortalidad:M03:36": 100,
+        "cat:mortalidad:M03:37": 100,
+        "cat:mortalidad:M03:38": 100,
+        "cat:mortalidad:M03:39": 100,
+        "cat:mortalidad:M03:4": 100,
+        "cat:mortalidad:M03:40": 100,
+        "cat:mortalidad:M03:41": 100,
+        "cat:mortalidad:M03:42": 100,
+        "cat:mortalidad:M03:43": 100,
+        "cat:mortalidad:M03:44": 100,
+        "cat:mortalidad:M03:45": 100,
+        "cat:mortalidad:M03:46": 100,
+        "cat:mortalidad:M03:47": 100,
+        "cat:mortalidad:M03:48": 100,
+        "cat:mortalidad:M03:49": 100,
+        "cat:mortalidad:M03:5": 100,
+        "cat:mortalidad:M03:50": 100,
+        "cat:mortalidad:M03:51": 100,
+        "cat:mortalidad:M03:52": 100,
+        "cat:mortalidad:M03:53": 100,
+        "cat:mortalidad:M03:54": 100,
+        "cat:mortalidad:M03:55": 100,
+        "cat:mortalidad:M03:56": 100,
+        "cat:mortalidad:M03:57": 100,
+        "cat:mortalidad:M03:58": 100,
+        "cat:mortalidad:M03:59": 100,
+        "cat:mortalidad:M03:6": 100,
+        "cat:mortalidad:M03:60": 100,
+        "cat:mortalidad:M03:61": 100,
+        "cat:mortalidad:M03:62": 100,
+        "cat:mortalidad:M03:63": 100,
+        "cat:mortalidad:M03:64": 100,
+        "cat:mortalidad:M03:65": 100,
+        "cat:mortalidad:M03:66": 100,
+        "cat:mortalidad:M03:67": 100,
+        "cat:mortalidad:M03:68": 100,
+        "cat:mortalidad:M03:69": 100,
+        "cat:mortalidad:M03:7": 100,
+        "cat:mortalidad:M03:70": 100,
+        "cat:mortalidad:M03:71": 100,
+        "cat:mortalidad:M03:72": 100,
+        "cat:mortalidad:M03:73": 100,
+        "cat:mortalidad:M03:74": 100,
+        "cat:mortalidad:M03:75": 100,
+        "cat:mortalidad:M03:76": 100,
+        "cat:mortalidad:M03:77": 100,
+        "cat:mortalidad:M03:78": 100,
+        "cat:mortalidad:M03:79": 100,
+        "cat:mortalidad:M03:8": 100,
+        "cat:mortalidad:M03:80": 100,
+        "cat:mortalidad:M03:81": 100,
+        "cat:mortalidad:M03:82": 100,
+        "cat:mortalidad:M03:83": 100,
+        "cat:mortalidad:M03:84": 100,
+        "cat:mortalidad:M03:85": 100,
+        "cat:mortalidad:M03:86": 100,
+        "cat:mortalidad:M03:87": 100,
+        "cat:mortalidad:M03:88": 100,
+        "cat:mortalidad:M03:89": 100,
+        "cat:mortalidad:M03:9": 100,
+        "cat:mortalidad:M03:90": 100,
+        "cat:mortalidad:M03:91": 100,
+        "cat:mortalidad:M03:92": 100,
+        "cat:mortalidad:M03:93": 100,
+        "cat:mortalidad:M03:94": 100,
+        "cat:mortalidad:M03:95": 100,
+        "cat:mortalidad:M03:96": 100,
+        "cat:mortalidad:M03:97": 100,
+        "cat:mortalidad:M03:98": 100,
+        "cat:mortalidad:M03:99": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 60.0,
+      "denominator": 12100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_age_at_death",
+    "variant": "small",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "cat:mortalidad:M03:0": 0.1,
+        "cat:mortalidad:M03:1": 0.1,
+        "cat:mortalidad:M03:10": 0.1,
+        "cat:mortalidad:M03:100": 0.1,
+        "cat:mortalidad:M03:101": 0.1,
+        "cat:mortalidad:M03:102": 0.1,
+        "cat:mortalidad:M03:103": 0.1,
+        "cat:mortalidad:M03:104": 0.1,
+        "cat:mortalidad:M03:105": 0.1,
+        "cat:mortalidad:M03:106": 0.1,
+        "cat:mortalidad:M03:107": 0.1,
+        "cat:mortalidad:M03:108": 0.1,
+        "cat:mortalidad:M03:109": 0.1,
+        "cat:mortalidad:M03:11": 0.1,
+        "cat:mortalidad:M03:110": 0.1,
+        "cat:mortalidad:M03:111": 0.1,
+        "cat:mortalidad:M03:112": 0.1,
+        "cat:mortalidad:M03:113": 0.1,
+        "cat:mortalidad:M03:114": 0.1,
+        "cat:mortalidad:M03:115": 0.1,
+        "cat:mortalidad:M03:116": 0.1,
+        "cat:mortalidad:M03:117": 0.1,
+        "cat:mortalidad:M03:118": 0.1,
+        "cat:mortalidad:M03:119": 0.1,
+        "cat:mortalidad:M03:12": 0.1,
+        "cat:mortalidad:M03:120": 0.1,
+        "cat:mortalidad:M03:13": 0.1,
+        "cat:mortalidad:M03:14": 0.1,
+        "cat:mortalidad:M03:15": 0.1,
+        "cat:mortalidad:M03:16": 0.1,
+        "cat:mortalidad:M03:17": 0.1,
+        "cat:mortalidad:M03:18": 0.1,
+        "cat:mortalidad:M03:19": 0.1,
+        "cat:mortalidad:M03:2": 0.1,
+        "cat:mortalidad:M03:20": 0.1,
+        "cat:mortalidad:M03:21": 0.1,
+        "cat:mortalidad:M03:22": 0.1,
+        "cat:mortalidad:M03:23": 0.1,
+        "cat:mortalidad:M03:24": 0.1,
+        "cat:mortalidad:M03:25": 0.1,
+        "cat:mortalidad:M03:26": 0.1,
+        "cat:mortalidad:M03:27": 0.1,
+        "cat:mortalidad:M03:28": 0.1,
+        "cat:mortalidad:M03:29": 0.1,
+        "cat:mortalidad:M03:3": 0.1,
+        "cat:mortalidad:M03:30": 0.1,
+        "cat:mortalidad:M03:31": 0.1,
+        "cat:mortalidad:M03:32": 0.1,
+        "cat:mortalidad:M03:33": 0.1,
+        "cat:mortalidad:M03:34": 0.1,
+        "cat:mortalidad:M03:35": 0.1,
+        "cat:mortalidad:M03:36": 0.1,
+        "cat:mortalidad:M03:37": 0.1,
+        "cat:mortalidad:M03:38": 0.1,
+        "cat:mortalidad:M03:39": 0.1,
+        "cat:mortalidad:M03:4": 0.1,
+        "cat:mortalidad:M03:40": 0.1,
+        "cat:mortalidad:M03:41": 0.1,
+        "cat:mortalidad:M03:42": 0.1,
+        "cat:mortalidad:M03:43": 0.1,
+        "cat:mortalidad:M03:44": 0.1,
+        "cat:mortalidad:M03:45": 0.1,
+        "cat:mortalidad:M03:46": 0.1,
+        "cat:mortalidad:M03:47": 0.1,
+        "cat:mortalidad:M03:48": 0.1,
+        "cat:mortalidad:M03:49": 0.1,
+        "cat:mortalidad:M03:5": 0.1,
+        "cat:mortalidad:M03:50": 0.1,
+        "cat:mortalidad:M03:51": 0.1,
+        "cat:mortalidad:M03:52": 0.1,
+        "cat:mortalidad:M03:53": 0.1,
+        "cat:mortalidad:M03:54": 0.1,
+        "cat:mortalidad:M03:55": 0.1,
+        "cat:mortalidad:M03:56": 0.1,
+        "cat:mortalidad:M03:57": 0.1,
+        "cat:mortalidad:M03:58": 0.1,
+        "cat:mortalidad:M03:59": 0.1,
+        "cat:mortalidad:M03:6": 0.1,
+        "cat:mortalidad:M03:60": 0.1,
+        "cat:mortalidad:M03:61": 0.1,
+        "cat:mortalidad:M03:62": 0.1,
+        "cat:mortalidad:M03:63": 0.1,
+        "cat:mortalidad:M03:64": 0.1,
+        "cat:mortalidad:M03:65": 0.1,
+        "cat:mortalidad:M03:66": 0.1,
+        "cat:mortalidad:M03:67": 0.1,
+        "cat:mortalidad:M03:68": 0.1,
+        "cat:mortalidad:M03:69": 0.1,
+        "cat:mortalidad:M03:7": 0.1,
+        "cat:mortalidad:M03:70": 0.1,
+        "cat:mortalidad:M03:71": 0.1,
+        "cat:mortalidad:M03:72": 0.1,
+        "cat:mortalidad:M03:73": 0.1,
+        "cat:mortalidad:M03:74": 0.1,
+        "cat:mortalidad:M03:75": 0.1,
+        "cat:mortalidad:M03:76": 0.1,
+        "cat:mortalidad:M03:77": 0.1,
+        "cat:mortalidad:M03:78": 0.1,
+        "cat:mortalidad:M03:79": 0.1,
+        "cat:mortalidad:M03:8": 0.1,
+        "cat:mortalidad:M03:80": 0.1,
+        "cat:mortalidad:M03:81": 0.1,
+        "cat:mortalidad:M03:82": 0.1,
+        "cat:mortalidad:M03:83": 0.1,
+        "cat:mortalidad:M03:84": 0.1,
+        "cat:mortalidad:M03:85": 0.1,
+        "cat:mortalidad:M03:86": 0.1,
+        "cat:mortalidad:M03:87": 0.1,
+        "cat:mortalidad:M03:88": 0.1,
+        "cat:mortalidad:M03:89": 0.1,
+        "cat:mortalidad:M03:9": 0.1,
+        "cat:mortalidad:M03:90": 0.1,
+        "cat:mortalidad:M03:91": 0.1,
+        "cat:mortalidad:M03:92": 0.1,
+        "cat:mortalidad:M03:93": 0.1,
+        "cat:mortalidad:M03:94": 0.1,
+        "cat:mortalidad:M03:95": 0.1,
+        "cat:mortalidad:M03:96": 0.1,
+        "cat:mortalidad:M03:97": 0.1,
+        "cat:mortalidad:M03:98": 0.1,
+        "cat:mortalidad:M03:99": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 59.99999999999999,
+      "denominator": 12.100000000000001,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_age_at_death",
+    "variant": "smoothing",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "cat:mortalidad:M03:0": 100,
+        "cat:mortalidad:M03:1": 100,
+        "cat:mortalidad:M03:10": 100,
+        "cat:mortalidad:M03:100": 100,
+        "cat:mortalidad:M03:101": 100,
+        "cat:mortalidad:M03:102": 100,
+        "cat:mortalidad:M03:103": 100,
+        "cat:mortalidad:M03:104": 100,
+        "cat:mortalidad:M03:105": 100,
+        "cat:mortalidad:M03:106": 100,
+        "cat:mortalidad:M03:107": 100,
+        "cat:mortalidad:M03:108": 100,
+        "cat:mortalidad:M03:109": 100,
+        "cat:mortalidad:M03:11": 100,
+        "cat:mortalidad:M03:110": 100,
+        "cat:mortalidad:M03:111": 100,
+        "cat:mortalidad:M03:112": 100,
+        "cat:mortalidad:M03:113": 100,
+        "cat:mortalidad:M03:114": 100,
+        "cat:mortalidad:M03:115": 100,
+        "cat:mortalidad:M03:116": 100,
+        "cat:mortalidad:M03:117": 100,
+        "cat:mortalidad:M03:118": 100,
+        "cat:mortalidad:M03:119": 100,
+        "cat:mortalidad:M03:12": 100,
+        "cat:mortalidad:M03:120": 100,
+        "cat:mortalidad:M03:13": 100,
+        "cat:mortalidad:M03:14": 100,
+        "cat:mortalidad:M03:15": 100,
+        "cat:mortalidad:M03:16": 100,
+        "cat:mortalidad:M03:17": 100,
+        "cat:mortalidad:M03:18": 100,
+        "cat:mortalidad:M03:19": 100,
+        "cat:mortalidad:M03:2": 100,
+        "cat:mortalidad:M03:20": 100,
+        "cat:mortalidad:M03:21": 100,
+        "cat:mortalidad:M03:22": 100,
+        "cat:mortalidad:M03:23": 100,
+        "cat:mortalidad:M03:24": 100,
+        "cat:mortalidad:M03:25": 100,
+        "cat:mortalidad:M03:26": 100,
+        "cat:mortalidad:M03:27": 100,
+        "cat:mortalidad:M03:28": 100,
+        "cat:mortalidad:M03:29": 100,
+        "cat:mortalidad:M03:3": 100,
+        "cat:mortalidad:M03:30": 100,
+        "cat:mortalidad:M03:31": 100,
+        "cat:mortalidad:M03:32": 100,
+        "cat:mortalidad:M03:33": 100,
+        "cat:mortalidad:M03:34": 100,
+        "cat:mortalidad:M03:35": 100,
+        "cat:mortalidad:M03:36": 100,
+        "cat:mortalidad:M03:37": 100,
+        "cat:mortalidad:M03:38": 100,
+        "cat:mortalidad:M03:39": 100,
+        "cat:mortalidad:M03:4": 100,
+        "cat:mortalidad:M03:40": 100,
+        "cat:mortalidad:M03:41": 100,
+        "cat:mortalidad:M03:42": 100,
+        "cat:mortalidad:M03:43": 100,
+        "cat:mortalidad:M03:44": 100,
+        "cat:mortalidad:M03:45": 100,
+        "cat:mortalidad:M03:46": 100,
+        "cat:mortalidad:M03:47": 100,
+        "cat:mortalidad:M03:48": 100,
+        "cat:mortalidad:M03:49": 100,
+        "cat:mortalidad:M03:5": 100,
+        "cat:mortalidad:M03:50": 100,
+        "cat:mortalidad:M03:51": 100,
+        "cat:mortalidad:M03:52": 100,
+        "cat:mortalidad:M03:53": 100,
+        "cat:mortalidad:M03:54": 100,
+        "cat:mortalidad:M03:55": 100,
+        "cat:mortalidad:M03:56": 100,
+        "cat:mortalidad:M03:57": 100,
+        "cat:mortalidad:M03:58": 100,
+        "cat:mortalidad:M03:59": 100,
+        "cat:mortalidad:M03:6": 100,
+        "cat:mortalidad:M03:60": 100,
+        "cat:mortalidad:M03:61": 100,
+        "cat:mortalidad:M03:62": 100,
+        "cat:mortalidad:M03:63": 100,
+        "cat:mortalidad:M03:64": 100,
+        "cat:mortalidad:M03:65": 100,
+        "cat:mortalidad:M03:66": 100,
+        "cat:mortalidad:M03:67": 100,
+        "cat:mortalidad:M03:68": 100,
+        "cat:mortalidad:M03:69": 100,
+        "cat:mortalidad:M03:7": 100,
+        "cat:mortalidad:M03:70": 100,
+        "cat:mortalidad:M03:71": 100,
+        "cat:mortalidad:M03:72": 100,
+        "cat:mortalidad:M03:73": 100,
+        "cat:mortalidad:M03:74": 100,
+        "cat:mortalidad:M03:75": 100,
+        "cat:mortalidad:M03:76": 100,
+        "cat:mortalidad:M03:77": 100,
+        "cat:mortalidad:M03:78": 100,
+        "cat:mortalidad:M03:79": 100,
+        "cat:mortalidad:M03:8": 100,
+        "cat:mortalidad:M03:80": 100,
+        "cat:mortalidad:M03:81": 100,
+        "cat:mortalidad:M03:82": 100,
+        "cat:mortalidad:M03:83": 100,
+        "cat:mortalidad:M03:84": 100,
+        "cat:mortalidad:M03:85": 100,
+        "cat:mortalidad:M03:86": 100,
+        "cat:mortalidad:M03:87": 100,
+        "cat:mortalidad:M03:88": 100,
+        "cat:mortalidad:M03:89": 100,
+        "cat:mortalidad:M03:9": 100,
+        "cat:mortalidad:M03:90": 100,
+        "cat:mortalidad:M03:91": 100,
+        "cat:mortalidad:M03:92": 100,
+        "cat:mortalidad:M03:93": 100,
+        "cat:mortalidad:M03:94": 100,
+        "cat:mortalidad:M03:95": 100,
+        "cat:mortalidad:M03:96": 100,
+        "cat:mortalidad:M03:97": 100,
+        "cat:mortalidad:M03:98": 100,
+        "cat:mortalidad:M03:99": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 60.0,
+      "denominator": 12100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_age_at_death",
+    "variant": "below_level",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cat:mortalidad:M03:0": 100,
+        "cat:mortalidad:M03:1": 100,
+        "cat:mortalidad:M03:10": 100,
+        "cat:mortalidad:M03:100": 100,
+        "cat:mortalidad:M03:101": 100,
+        "cat:mortalidad:M03:102": 100,
+        "cat:mortalidad:M03:103": 100,
+        "cat:mortalidad:M03:104": 100,
+        "cat:mortalidad:M03:105": 100,
+        "cat:mortalidad:M03:106": 100,
+        "cat:mortalidad:M03:107": 100,
+        "cat:mortalidad:M03:108": 100,
+        "cat:mortalidad:M03:109": 100,
+        "cat:mortalidad:M03:11": 100,
+        "cat:mortalidad:M03:110": 100,
+        "cat:mortalidad:M03:111": 100,
+        "cat:mortalidad:M03:112": 100,
+        "cat:mortalidad:M03:113": 100,
+        "cat:mortalidad:M03:114": 100,
+        "cat:mortalidad:M03:115": 100,
+        "cat:mortalidad:M03:116": 100,
+        "cat:mortalidad:M03:117": 100,
+        "cat:mortalidad:M03:118": 100,
+        "cat:mortalidad:M03:119": 100,
+        "cat:mortalidad:M03:12": 100,
+        "cat:mortalidad:M03:120": 100,
+        "cat:mortalidad:M03:13": 100,
+        "cat:mortalidad:M03:14": 100,
+        "cat:mortalidad:M03:15": 100,
+        "cat:mortalidad:M03:16": 100,
+        "cat:mortalidad:M03:17": 100,
+        "cat:mortalidad:M03:18": 100,
+        "cat:mortalidad:M03:19": 100,
+        "cat:mortalidad:M03:2": 100,
+        "cat:mortalidad:M03:20": 100,
+        "cat:mortalidad:M03:21": 100,
+        "cat:mortalidad:M03:22": 100,
+        "cat:mortalidad:M03:23": 100,
+        "cat:mortalidad:M03:24": 100,
+        "cat:mortalidad:M03:25": 100,
+        "cat:mortalidad:M03:26": 100,
+        "cat:mortalidad:M03:27": 100,
+        "cat:mortalidad:M03:28": 100,
+        "cat:mortalidad:M03:29": 100,
+        "cat:mortalidad:M03:3": 100,
+        "cat:mortalidad:M03:30": 100,
+        "cat:mortalidad:M03:31": 100,
+        "cat:mortalidad:M03:32": 100,
+        "cat:mortalidad:M03:33": 100,
+        "cat:mortalidad:M03:34": 100,
+        "cat:mortalidad:M03:35": 100,
+        "cat:mortalidad:M03:36": 100,
+        "cat:mortalidad:M03:37": 100,
+        "cat:mortalidad:M03:38": 100,
+        "cat:mortalidad:M03:39": 100,
+        "cat:mortalidad:M03:4": 100,
+        "cat:mortalidad:M03:40": 100,
+        "cat:mortalidad:M03:41": 100,
+        "cat:mortalidad:M03:42": 100,
+        "cat:mortalidad:M03:43": 100,
+        "cat:mortalidad:M03:44": 100,
+        "cat:mortalidad:M03:45": 100,
+        "cat:mortalidad:M03:46": 100,
+        "cat:mortalidad:M03:47": 100,
+        "cat:mortalidad:M03:48": 100,
+        "cat:mortalidad:M03:49": 100,
+        "cat:mortalidad:M03:5": 100,
+        "cat:mortalidad:M03:50": 100,
+        "cat:mortalidad:M03:51": 100,
+        "cat:mortalidad:M03:52": 100,
+        "cat:mortalidad:M03:53": 100,
+        "cat:mortalidad:M03:54": 100,
+        "cat:mortalidad:M03:55": 100,
+        "cat:mortalidad:M03:56": 100,
+        "cat:mortalidad:M03:57": 100,
+        "cat:mortalidad:M03:58": 100,
+        "cat:mortalidad:M03:59": 100,
+        "cat:mortalidad:M03:6": 100,
+        "cat:mortalidad:M03:60": 100,
+        "cat:mortalidad:M03:61": 100,
+        "cat:mortalidad:M03:62": 100,
+        "cat:mortalidad:M03:63": 100,
+        "cat:mortalidad:M03:64": 100,
+        "cat:mortalidad:M03:65": 100,
+        "cat:mortalidad:M03:66": 100,
+        "cat:mortalidad:M03:67": 100,
+        "cat:mortalidad:M03:68": 100,
+        "cat:mortalidad:M03:69": 100,
+        "cat:mortalidad:M03:7": 100,
+        "cat:mortalidad:M03:70": 100,
+        "cat:mortalidad:M03:71": 100,
+        "cat:mortalidad:M03:72": 100,
+        "cat:mortalidad:M03:73": 100,
+        "cat:mortalidad:M03:74": 100,
+        "cat:mortalidad:M03:75": 100,
+        "cat:mortalidad:M03:76": 100,
+        "cat:mortalidad:M03:77": 100,
+        "cat:mortalidad:M03:78": 100,
+        "cat:mortalidad:M03:79": 100,
+        "cat:mortalidad:M03:8": 100,
+        "cat:mortalidad:M03:80": 100,
+        "cat:mortalidad:M03:81": 100,
+        "cat:mortalidad:M03:82": 100,
+        "cat:mortalidad:M03:83": 100,
+        "cat:mortalidad:M03:84": 100,
+        "cat:mortalidad:M03:85": 100,
+        "cat:mortalidad:M03:86": 100,
+        "cat:mortalidad:M03:87": 100,
+        "cat:mortalidad:M03:88": 100,
+        "cat:mortalidad:M03:89": 100,
+        "cat:mortalidad:M03:9": 100,
+        "cat:mortalidad:M03:90": 100,
+        "cat:mortalidad:M03:91": 100,
+        "cat:mortalidad:M03:92": 100,
+        "cat:mortalidad:M03:93": 100,
+        "cat:mortalidad:M03:94": 100,
+        "cat:mortalidad:M03:95": 100,
+        "cat:mortalidad:M03:96": 100,
+        "cat:mortalidad:M03:97": 100,
+        "cat:mortalidad:M03:98": 100,
+        "cat:mortalidad:M03:99": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde canton"
+    }
+  }
+]

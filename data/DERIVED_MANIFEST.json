@@ -6,17 +6,17 @@
     {
       "name": "counts-finest-v1b1.tar.gz",
       "size_bytes": 127787084,
-      "sha256": "b4d68f91be0e4cebfdc3f9107b96f94f39db26309e550dc1a07083f9814fda59"
+      "sha256": "700c0d7201b3f62412282c9bfa269c4f00ef94a0431b5747d505267e586e6385"
     },
     {
       "name": "counts-sector-v1b1.tar.gz",
       "size_bytes": 2407404,
-      "sha256": "86a5d798fa307ae7b4bed5e3e59d91dc55c60f9e684475a7167f3f15a6289c86"
+      "sha256": "96747bbd4eafa0ddc1acccbdd90f019d17acfa21bbd20cea9ef1faa04c76da7a"
     },
     {
       "name": "counts-other-v1b1.tar.gz",
       "size_bytes": 4190540,
-      "sha256": "624f3700c8f2c6b234403a058985c9d933c03bbc2719c127f64fe3b4381c9900"
+      "sha256": "746dc18096da6f8226c2c9ea04373aecd64e0570758bbcacbd7f0d21990f2b7c"
     }
   ],
   "files": [
