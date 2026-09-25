@@ -1,26 +1,25 @@
 # Guion de Scrollytelling: Los que se fueron
 
 **Identificador:** `02_los_que_se_fueron`  
-**Tema Central:** La geografía del éxodo internacional y la movilidad territorial que reconfigura las comunidades ecuatorianas.  
-**Número de pasos:** 7  
-**Giro contraintuitivo clave:** *La emigración no vacía a las comunidades de forma homogénea: amputa selectivamente a los hombres jóvenes. En cantones del Austro como Santa Isabel (Azuay), la razón de masculinidad entre 20 y 39 años se derrumba a apenas 69,99 varones por cada 100 mujeres, dejando comunidades sostenidas primordialmente por mujeres jefas de hogar y abuelas.*
+**Tema Central:** La geografía del éxodo internacional y la movilidad territorial que reconfigura los hogares y la composición por sexo y edad en el Ecuador.  
+**Número de pasos:** 8  
+**Giro contraintuitivo comprobado:** *La emigración internacional muestra una fuerte asimetría demográfica: en cantones de alta emigración del Austro como Santa Isabel (Azuay), la razón de masculinidad entre 20 y 39 años desciende a 69,99 varones por cada 100 mujeres en la población residente.*
 
 ---
 
-## Paso 1: La huella invisible de las ausencias
+## Paso 1: El registro de las ausencias en el hogar
 
-> **English Summary:** *Census records reveal nearly one hundred thousand recent emigrants reported by households across Ecuador.*
+> **English Summary:** *Households across Ecuador reported 96,825 international emigrants in the 2022 Census.*
 
-Cada censo registra puntualmente a quienes habitan las viviendas de una nación, pero también guarda el eco conmovedor de quienes partieron. En el Censo 2022, casi cien mil hogares ecuatorianos reportaron con nombre y memoria que al menos uno de sus seres queridos había emigrado recientemente al extranjero, configurando un mapa de ausencias que atraviesa de norte a sur el territorio nacional.
+El Censo 2022 incluyó un módulo específico para registrar a miembros del hogar que salieron a residir fuera del país. En total, los hogares empadronados reportaron 96.825 personas que emigraron al exterior. Este recuento directo documenta las ausencias familiares recientes a lo largo de las veinticuatro provincias del territorio nacional.
 
-- **Cifra clave:** 96.825 emigrantes internacionales reportados directamente por sus hogares de origen.
-- **Fuente oficial:** INEC, Censo de Población y Vivienda 2022 / counts: nacion/data.parquet
+- **Cifra clave:** 96.825 personas reportadas como emigrantes internacionales por sus hogares de origen en el Ecuador.
+- **Fuente oficial:** INEC, Censo 2022 / counts: nacion/data.parquet (columna: emigrants)
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Emigrantes internacionales reportados a nivel nacional
-SELECT population, households, emigrants, 
-       emigrants * 1000.0 / population AS rate_per_1000
+SELECT population, households, emigrants,
+       emigrants * 1000.0 / NULLIF(population, 0) AS emig_rate_per_1000
 FROM read_parquet('data/counts/v1b1/nacion/data.parquet');
 ```
 
@@ -33,7 +32,7 @@ FROM read_parquet('data/counts/v1b1/nacion/data.parquet');
     -1.5
   ],
   "zoom": 6.8,
-  "indicador": "emigrants",
+  "indicador": "emigrant_households",
   "filtro": "all",
   "capa_extra": "choropleth",
   "resaltados": [
@@ -44,23 +43,22 @@ FROM read_parquet('data/counts/v1b1/nacion/data.parquet');
 
 ---
 
-## Paso 2: El corazón histórico del éxodo: Azuay y Cañar
+## Paso 2: La concentración del éxodo en Azuay y Cañar
 
-> **English Summary:** *In the southern Andes, Cañar and Azuay concentrate the highest rates of international emigration in Ecuador.*
+> **English Summary:** *Cañar (38.76 per 1,000) and Azuay (28.13 per 1,000) lead the nation in reported emigration rates.*
 
-La migración hacia el exterior no brota de forma homogénea en el mapa: hunde raíces seculares en el Austro andino. En Cañar y Azuay, la intensidad del éxodo prácticamente triplica el promedio de la República. Décadas de redes transnacionales consolidadas hacia Norteamérica y Europa han arraigado una cultura migratoria donde viajar al norte constituye el rito de paso obligado para generaciones de jóvenes.
+A escala provincial, las tasas más elevadas de emigración se localizan en el Austro. En Cañar se registraron 38,76 emigrantes por cada mil habitantes y en Azuay 28,13 por cada mil. Ambas provincias superan ampliamente la media nacional de 5,72 por mil, concentrando conjuntamente el 32,4% de todos los emigrantes reportados del país.
 
-- **Cifra clave:** 38,76 emigrantes por cada mil habitantes en Cañar (8.820 personas) y 28,13 en Azuay (22.550 personas).
+- **Cifra clave:** 38,76 emigrantes por cada 1.000 habitantes en Cañar (8.820 personas) y 28,13 en Azuay (22.550 personas).
 - **Fuente oficial:** INEC, Censo 2022 / counts: provincia/data.parquet (unit_keys: '03', '01')
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Tasa de emigración por provincia
 SELECT unit_key, population, emigrants,
-       emigrants * 1000.0 / population AS emig_rate_1000
+       emigrants * 1000.0 / NULLIF(population, 0) AS rate_1000,
+       emigrants * 100.0 / (SELECT sum(emigrants) FROM read_parquet('data/counts/v1b1/provincia/data.parquet')) AS pct_nacional
 FROM read_parquet('data/counts/v1b1/provincia/data.parquet')
-ORDER BY emig_rate_1000 DESC
-LIMIT 5;
+WHERE unit_key IN ('03', '01');
 ```
 
 ### Estado del Mapa (WebGIS Spec):
@@ -72,7 +70,7 @@ LIMIT 5;
     -2.8
   ],
   "zoom": 8.4,
-  "indicador": "emigrants",
+  "indicador": "emigrant_households",
   "filtro": "unit_key IN ('01', '03')",
   "capa_extra": "choropleth",
   "resaltados": [
@@ -84,23 +82,21 @@ LIMIT 5;
 
 ---
 
-## Paso 3: Chunchi: el récord nacional del desarraigo
+## Paso 3: Chunchi: el mayor porcentaje cantonal de emigrantes
 
-> **English Summary:** *Chunchi in Chimborazo holds Ecuador's record with over 7% of its resident population having emigrated.*
+> **English Summary:** *Chunchi in Chimborazo records Ecuador's highest canton emigration rate at 7.29% of its resident population.*
 
-Si existe un lugar donde la partida de los suyos se palpa en cada rincón, es Chunchi, en el austro de Chimborazo. Más del siete por ciento de toda la población censada en el cantón cuenta con parientes directos que marcharon al extranjero en los últimos años. Las calles empinadas y los campos labrados exhiben una sangría continua de brazos laborales indispensables.
+Entre los doscientos veintiún cantones del país, Chunchi, en la provincia de Chimborazo, presenta la mayor proporción de emigrantes respecto a su población residente. Con 775 personas reportadas fuera del país en una población censada de 10.635 habitantes, la tasa alcanza el 7,29%, superando a los cantones vecinos de Cañar y Azuay.
 
-- **Cifra clave:** 7,29% de emigración sobre la población residente en Chunchi (775 emigrantes en un cantón de 10.635 hab).
+- **Cifra clave:** 7,29% de emigrantes sobre la población censada en Chunchi (775 emigrantes en 10.635 habitantes).
 - **Fuente oficial:** INEC, Censo 2022 / counts: canton/data.parquet (unit_key='0605')
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Cantón Chunchi y top cantones con mayor porcentaje de emigrantes
 SELECT unit_key, population, households, emigrants,
-       emigrants * 100.0 / population AS pct_emig
+       emigrants * 100.0 / NULLIF(population, 0) AS pct_emig
 FROM read_parquet('data/counts/v1b1/canton/data.parquet')
-ORDER BY pct_emig DESC
-LIMIT 5;
+WHERE unit_key = '0605';
 ```
 
 ### Estado del Mapa (WebGIS Spec):
@@ -112,8 +108,8 @@ LIMIT 5;
     -2.29
   ],
   "zoom": 11.2,
-  "indicador": "emigrants",
-  "filtro": "province_key = '06'",
+  "indicador": "emigrant_households",
+  "filtro": "unit_key = '0605'",
   "capa_extra": "choropleth",
   "resaltados": [
     "0605"
@@ -123,26 +119,65 @@ LIMIT 5;
 
 ---
 
-## Paso 4: El giro demográfico: la amputación de los varones jóvenes
+## Paso 4: La tabla de emigración: perfil por sexo, edad y destino
 
-> **English Summary:** *Migration selectively extracts working-age men: Santa Isabel has only 70 men per 100 women aged 20-39.*
+> **English Summary:** *Detailed emigrant departure breakdowns require an upcoming cross-tabulation table [PENDING: Emigration aggregate].*
 
-Se asume con frecuencia que la emigración desplaza a familias de manera uniforme. Los datos revelan una distorsión profunda y dolorosa: el viaje es marcadamente selectivo por edad y sexo. En Santa Isabel (Azuay), la razón de masculinidad entre veinte y treinta y nueve años se derrumba a setenta varones por cada cien mujeres. Faltan tres de cada diez hombres jóvenes del cantón.
+El cuestionario censal recabó para cada persona emigrante su sexo, año y edad de salida y país de residencia actual. Sin embargo, en el Release público agregado actual data-derived-v1b1 únicamente se dispone del conteo total de emigrantes por unidad territorial [PENDIENTE: agregado de Emigración por cantón × sexo × edad de salida × país de destino].
 
-- **Cifra clave:** 69,99 hombres por cada 100 mujeres de 20 a 39 años en Santa Isabel (2.628 varones frente a 3.755 mujeres).
+- **Cifra clave:** [PENDIENTE: agregado de Emigración por cantón × sexo × edad de salida × país de destino (variables E01, E02, E03, E04)].
+- **Fuente oficial:** INEC, Censo 2022, Formulario Censal sección Emigración / [PENDIENTE]
+
+### Consulta SQL Reproducible (DuckDB):
+```sql
+-- [PENDIENTE: requiere cruce público de tabla Emigración: E02 (sexo) x E03 (edad salida) x E04 (país destino)]
+-- Consulta prevista una vez integrado el agregado en pipeline/:
+-- SELECT canton_key, sex, departure_age_group, destination_country, COUNT(*) as emigrants
+-- FROM read_parquet('data/counts/v1b2/emigration_by_canton.parquet')
+-- WHERE canton_key IN ('0109', '0303')
+-- GROUP BY ALL;
+```
+
+### Estado del Mapa (WebGIS Spec):
+```json
+{
+  "nivel": "canton",
+  "centro": [
+    -79.1,
+    -2.9
+  ],
+  "zoom": 9.2,
+  "indicador": "emigrant_households",
+  "filtro": "unit_key IN ('0109', '0303')",
+  "capa_extra": "choropleth",
+  "resaltados": [
+    "0109",
+    "0303"
+  ]
+}
+```
+
+---
+
+## Paso 5: El giro de la pirámide: la razón de masculinidad en jóvenes
+
+> **English Summary:** *In high-emigration Santa Isabel, resident sex ratio plunges to 69.99 men per 100 women aged 20-39.*
+
+La estructura por sexo de la población residente refleja la selectividad de los desplazamientos. En el cantón Santa Isabel (Azuay), la razón de masculinidad entre las edades de veinte a treinta y nueve años desciende a 69,99 varones por cada cien mujeres. En Biblián (Cañar), la relación es de 76,07 varones por cada cien mujeres.
+
+> **Hipótesis:** La menor presencia censal de varones jóvenes en cantones con elevada emigración se relaciona en la literatura demográfica con mayor participación masculina inicial en rutas migratorias laborales (el censo no indaga causas individuales del traslado). Fuente: [OIM Ecuador, Perfil Migratorio](https://ecuador.iom.int/es/recursos) (el censo no lo mide).
+
+- **Cifra clave:** 69,99 varones por cada 100 mujeres entre 20 y 39 años en Santa Isabel (2.628 hombres y 3.755 mujeres).
 - **Fuente oficial:** INEC, Censo 2022 / counts: canton/data.parquet (unit_key='0109')
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Razón de masculinidad en edades laborales jóvenes (20 a 39 años)
-SELECT unit_key, population, emigrants,
+SELECT unit_key, population,
        (age_20_24_m::BIGINT + age_25_29_m::BIGINT + age_30_34_m::BIGINT + age_35_39_m::BIGINT) AS men_20_39,
        (age_20_24_f::BIGINT + age_25_29_f::BIGINT + age_30_34_f::BIGINT + age_35_39_f::BIGINT) AS women_20_39,
        men_20_39 * 100.0 / NULLIF(women_20_39, 0) AS sex_ratio_20_39
 FROM read_parquet('data/counts/v1b1/canton/data.parquet')
-WHERE population >= 5000 AND emigrants * 100.0 / population >= 4.0
-ORDER BY sex_ratio_20_39 ASC
-LIMIT 5;
+WHERE unit_key = '0109';
 ```
 
 ### Estado del Mapa (WebGIS Spec):
@@ -158,28 +193,26 @@ LIMIT 5;
   "filtro": "province_key = '01'",
   "capa_extra": "choropleth",
   "resaltados": [
-    "0109",
-    "0103"
+    "0109"
   ]
 }
 ```
 
 ---
 
-## Paso 5: La nueva frontera amazónica de la migración
+## Paso 6: La tasa migratoria en Morona Santiago
 
-> **English Summary:** *Morona Santiago now ranks as Ecuador's third highest province in emigration rate, defying expectations.*
+> **English Summary:** *Morona Santiago ranks third nationally in emigration rate with 16.94 per 1,000 residents.*
 
-Un fenómeno contemporáneo que desafía las lecturas tradicionales es la inserción de la Amazonía en las rutas migratorias globales. Morona Santiago se sitúa hoy como la tercera provincia con mayor tasa de emigración del Ecuador, rebasando a bastiones históricos como Loja o Tungurahua. Comunidades rurales enteras financian peligrosos viajes irregulares, transformando la dinámica económica y social de la selva.
+En la región amazónica, Morona Santiago se sitúa como la tercera provincia con mayor tasa de emigrantes reportados respecto a su población: 16,94 por cada mil habitantes, con 3.261 personas censadas en el módulo de emigración. Esta tasa supera a las observadas en provincias andinas como Loja (8,67 por mil) o Tungurahua (14,03).
 
-- **Cifra clave:** Tasa provincial de 16,94 emigrantes por cada mil habitantes en Morona Santiago (3.261 personas censadas).
+- **Cifra clave:** Tasa provincial de 16,94 emigrantes por cada mil habitantes en Morona Santiago (3.261 personas reportadas).
 - **Fuente oficial:** INEC, Censo 2022 / counts: provincia/data.parquet (unit_key='14')
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Emigración en la provincia de Morona Santiago
 SELECT unit_key, population, emigrants,
-       emigrants * 1000.0 / population AS rate_1000
+       emigrants * 1000.0 / NULLIF(population, 0) AS rate_1000
 FROM read_parquet('data/counts/v1b1/provincia/data.parquet')
 WHERE unit_key = '14';
 ```
@@ -193,7 +226,7 @@ WHERE unit_key = '14';
     -2.3
   ],
   "zoom": 8.0,
-  "indicador": "emigrants",
+  "indicador": "emigrant_households",
   "filtro": "unit_key = '14'",
   "capa_extra": "choropleth",
   "resaltados": [
@@ -204,24 +237,22 @@ WHERE unit_key = '14';
 
 ---
 
-## Paso 6: El reflejo interior: las ciudades satélite receptoras
+## Paso 7: La movilidad interna hacia cantones satélite
 
-> **English Summary:** *Domestically, bedroom cantons like Daule absorb massive waves of internal migrants seeking opportunity.*
+> **English Summary:** *Internal mobility expands peripheral cantons: 15.6% of Daule's population moved from another canton recently.*
 
-Al tiempo que los campos se desangran hacia el exterior, la geografía nacional se reordena puertas adentro. Cantones periféricos y ciudades dormitorio como Daule en Guayas crecieron exponencialmente debido a oleadas de migración interna. Familias procedentes de diversas provincias se instalan en urbanizaciones y barrios suburbanos buscando refugio, empleo y conectividad en las coronas metropolitanas del país.
+De forma complementaria al desplazamiento externo, el censo mide la migración interna mediante la residencia cinco años antes. En el cantón Daule (Guayas), 34.664 personas declararon residir en otro cantón en 2017, lo que equivale al 15,6% de su población censada de cinco años y más, reflejando dinámicas de atracción residencial periurbana.
 
-- **Cifra clave:** Más del 15% de los residentes en cantones periféricos provienen de otro cantón en los últimos cinco años.
-- **Fuente oficial:** INEC / cross_counts_v1b2 (residence_other_canton_5)
+- **Cifra clave:** 34.664 personas residentes en Daule habitaban en otro cantón cinco años antes del censo.
+- **Fuente oficial:** INEC, Censo 2022 / cross_counts_v1b2/sector/data.parquet (residence_other_canton_5)
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Migración interna reciente (últimos 5 años) en Daule
-SELECT unit_key,
-       sum(residence_other_canton_5) AS personas_otro_canton,
-       sum(birth_other_canton) AS nacidos_otro_canton
+SELECT substr(unit_key, 1, 4) AS canton_key,
+       sum(residence_other_canton_5) AS residentes_otro_canton_5y
 FROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')
 WHERE unit_key LIKE '0906%'
-GROUP BY unit_key;
+GROUP BY canton_key;
 ```
 
 ### Estado del Mapa (WebGIS Spec):
@@ -233,46 +264,44 @@ GROUP BY unit_key;
     -1.98
   ],
   "zoom": 10.8,
-  "indicador": "internal_arrivals_5y",
-  "filtro": "province_key = '09'",
-  "capa_extra": "flow_arrows",
+  "indicador": "magnet_index",
+  "filtro": "unit_key = '0906'",
+  "capa_extra": "choropleth",
   "resaltados": [
-    "0906",
-    "0916"
+    "0906"
   ]
 }
 ```
 
 ---
 
-## Paso 7: ¿Qué vacío dejó la partida en tu comunidad?
+## Paso 8: ¿Cómo se manifiesta la movilidad en su territorio?
 
-> **English Summary:** *Migration shapes communities at home and abroad: explore the map to uncover the migration balance in your town.*
+> **English Summary:** *Migration shapes communities: explore the interactive map to inspect local mobility indicators.*
 
-La migración sostiene la economía nacional mediante un caudaloso flujo de remesas, pero su costo social no se compensa con dólares: familias divididas por océanos y territorios sin brazos productivos. ¿Cuál es la realidad de tu entorno? ¿Has visto partir a tus vecinos hacia destinos lejanos o convives con nuevos vecinos llegados desde otras provincias ecuatorianas?
+Los flujos de salida y llegada transforman la composición familiar, la estructura productiva y el relevo generacional en cada localidad. A través del mapa interactivo es posible consultar la cantidad de hogares con emigrantes y la proporción de residentes llegados recientemente. ¿Presenta su cantón un saldo de expulsión hacia el exterior o de atracción interna?
 
-- **Cifra clave:** Cerca de 100.000 hogares con ausencias directas narran la historia viva de la movilidad en el Ecuador.
-- **Fuente oficial:** CPV 2022 INEC / Explorador interactivo Censo Vivo
+- **Cifra clave:** 96.825 personas emigrantes registradas en 5.188.827 hogares a nivel nacional.
+- **Fuente oficial:** CPV 2022 INEC / indicators.yaml (id: emigrant_households)
 
 ### Consulta SQL Reproducible (DuckDB):
 ```sql
--- Resumen general de movilidad por provincia
-SELECT unit_key, population, emigrants,
-       emigrants * 100.0 / population AS pct_emig
-FROM read_parquet('data/counts/v1b1/provincia/data.parquet')
-ORDER BY pct_emig DESC;
+SELECT sum(emigrants) AS total_emigrantes,
+       sum(population) AS total_poblacion,
+       sum(emigrants) * 1000.0 / sum(population) AS tasa_nacional_por_mil
+FROM read_parquet('data/counts/v1b1/nacion/data.parquet');
 ```
 
 ### Estado del Mapa (WebGIS Spec):
 ```json
 {
-  "nivel": "provincia",
+  "nivel": "canton",
   "centro": [
     -78.5,
     -1.5
   ],
   "zoom": 7.0,
-  "indicador": "emigrants",
+  "indicador": "emigrant_households",
   "filtro": "all",
   "capa_extra": "interactive_explorer",
   "resaltados": []
