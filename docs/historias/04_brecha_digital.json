@@ -1,0 +1,174 @@
+{
+  "id": "04_brecha_digital",
+  "titulo": "La brecha digital",
+  "descripcion": "La desigualdad en la conectividad del siglo XXI: el espejismo de la telefonía móvil frente a la carencia de internet fijo en el hogar.",
+  "giro_contraintuitivo": "La trampa del celular prepago: el 69,40% de la población usa internet móvil, pero el internet fijo en el hogar apenas alcanza el 51,42% nacional y cae bajo el 35% en cantones rurales y suburbanos costeños (Balzar, El Empalme). Las familias sobreviven comprando recargas diarias de megas a costos elevados, sin red estable para educación o teletrabajo.",
+  "total_pasos": 7,
+  "pasos": [
+    {
+      "step": 1,
+      "titulo": "El espejismo de la sociedad hiperconectada",
+      "texto": "Casi siete de cada diez compatriotas de cinco años en adelante declaran utilizar internet en su vida habitual. A simple vista, el Ecuador aparenta ser una comunidad plenamente integrada al siglo digital. No obstante, al analizar la infraestructura que respalda esa conexión, el espejismo se disuelve: prácticamente la mitad de los hogares ecuatorianos carece de una red fija domiciliaria de banda ancha.",
+      "en_summary": "While nearly 70% of Ecuadorians use the internet, half of all households lack a fixed home broadband connection.",
+      "cifra_clave": "69,40% de uso individual de internet, pero solo 51,42% de hogares con internet fijo propio (2.667.864 de 5.188.827 hogares).",
+      "fuente": "INEC, Censo 2022 (Boletín Nacional) / categories: canton (H0801)",
+      "sql": "-- Internet fijo en el hogar a nivel nacional (H0801)\nSELECT sum(n) FILTER (WHERE category = '1') AS hogares_con_internet_fijo,\n       sum(n) AS hogares_clasificados,\n       sum(n) FILTER (WHERE category = '1') * 100.0 / sum(n) AS pct_internet_fijo\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'H0801';",
+      "map_state": {
+        "nivel": "nacion",
+        "centro": [
+          -78.5,
+          -1.5
+        ],
+        "zoom": 6.8,
+        "indicador": "fixed_internet",
+        "filtro": "all",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "EC"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "titulo": "Las cumbres digitales: Galápagos y los valles quiteños",
+      "texto": "En la cúspide de la conectividad se hallan el archipiélago de Galápagos y los valles residenciales de Pichincha. En cantones como San Cristóbal o Rumiñahui, cerca del noventa por ciento de los habitantes navega cotidianamente y la brecha digital entre jóvenes y adultos es la menor del país. Sus comunidades disfrutan de alta velocidad para teletrabajo, educación virtual y comercio electrónico.",
+      "en_summary": "Galapagos and suburban Quito lead Ecuador's digital connectivity, reaching nearly 90% regular internet use.",
+      "cifra_clave": "89,60% de uso individual de internet en San Cristóbal (Galápagos) y 87,56% en Rumiñahui (Pichincha).",
+      "fuente": "INEC / cross_counts_v1b2/sector/data.parquet (canton_keys: '2001', '1705')",
+      "sql": "-- Cantones líderes en uso individual de internet\nSELECT substr(unit_key, 1, 4) AS canton_key,\n       sum(internet_person_5) * 100.0 / NULLIF(sum(internet_response_5), 0) AS pct_internet\nFROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\nGROUP BY canton_key\nORDER BY pct_internet DESC\nLIMIT 5;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -90.5,
+          -0.6
+        ],
+        "zoom": 8.0,
+        "indicador": "internet_person_5",
+        "filtro": "canton_key IN ('2001', '1705')",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "2001",
+          "1705"
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "titulo": "El apagón informativo: la Amazonía profunda y el norte costero",
+      "texto": "Al descender hacia los cantones más rezagados de la Amazonía y del norte de Esmeraldas, el panorama muta a un aislamiento digital casi absoluto. En Taisha o Eloy Alfaro, menos de tres de cada diez personas han navegado alguna vez por internet. Para las infancias rurales de estas comarcas, las bibliotecas virtuales y las clases remotas pertenecen a un planeta inalcanzable.",
+      "en_summary": "In isolated areas like Taisha and Eloy Alfaro, under 30% of citizens have ever accessed the internet.",
+      "cifra_clave": "Apenas 19,74% de uso individual de internet en Taisha (Morona Santiago) y 28,26% en Eloy Alfaro (Esmeraldas).",
+      "fuente": "INEC / cross_counts_v1b2/sector/data.parquet (canton_keys: '1409', '0802')",
+      "sql": "-- Cantones con menor acceso individual a internet\nSELECT substr(unit_key, 1, 4) AS canton_key,\n       sum(internet_person_5) * 100.0 / NULLIF(sum(internet_response_5), 0) AS pct_internet\nFROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\nGROUP BY canton_key\nORDER BY pct_internet ASC\nLIMIT 5;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -77.5,
+          -2.4
+        ],
+        "zoom": 8.5,
+        "indicador": "internet_person_5",
+        "filtro": "canton_key IN ('1409', '0802')",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "1409",
+          "0802"
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "titulo": "El giro de la precariedad: la trampa de los megas prepago",
+      "texto": "Existe el mito de que poseer un celular básico resuelve la brecha de conectividad. Los microdatos revelan una trampa silenciosa: en cantones rurales y suburbanos de la Costa, más del sesenta por ciento de la población usa internet móvil, pero menos del treinta y cinco por ciento cuenta con red fija domiciliaria. Familias enteras gastan diariamente en recargas costosas que impiden el estudio simultáneo.",
+      "en_summary": "Mobile phones mask deep inequality: millions rely on costly prepaid daily megabytes with no home broadband.",
+      "cifra_clave": "Brecha de más de 30 puntos entre uso móvil e internet fijo domiciliario en cantones como Balzar o El Empalme.",
+      "fuente": "INEC / cross_counts_v1b2 vs categories: canton (H0801)",
+      "sql": "-- Disparidad entre uso personal de internet y red fija en cantones costeros\nSELECT c.canton_key,\n       c.pct_internet_person,\n       f.pct_fixed_internet,\n       (c.pct_internet_person - f.pct_fixed_internet) AS brecha_prepago\nFROM (\n    SELECT substr(unit_key, 1, 4) AS canton_key,\n           sum(internet_person_5) * 100.0 / NULLIF(sum(internet_response_5), 0) AS pct_internet_person\n    FROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\n    GROUP BY canton_key\n) c\nJOIN (\n    SELECT unit_key AS canton_key,\n           sum(n) FILTER (WHERE category = '1') * 100.0 / sum(n) AS pct_fixed_internet\n    FROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\n    WHERE variable = 'H0801'\n    GROUP BY unit_key\n) f USING (canton_key)\nWHERE c.canton_key IN ('0903', '0908', '0916')\nORDER BY brecha_prepago DESC;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -79.9,
+          -1.6
+        ],
+        "zoom": 9.5,
+        "indicador": "fixed_internet",
+        "filtro": "province_key = '09'",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "0903",
+          "0908",
+          "0916"
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "titulo": "La fractura invisible dentro de Quito",
+      "texto": "No es necesario internarse en la selva para encontrar la brecha digital. En el Distrito Metropolitano de Quito, mientras las parroquias urbanas como Iñaquito o Cumbayá rozan el noventa y dos por ciento de penetración, las parroquias del noroccidente rural como Pacto apenas alcanzan el cincuenta por ciento. En una misma jurisdicción municipal conviven la economía del conocimiento y la exclusión de red.",
+      "en_summary": "Inside Quito itself, connectivity plunges from 92% in Iñaquito to barely 50% in rural Pacto.",
+      "cifra_clave": "91,99% de conectividad en Iñaquito frente a 50,54% en Pacto dentro del mismo cantón Quito.",
+      "fuente": "INEC / cross_counts_v1b2/sector/data.parquet (parish_keys: '170157', '170161')",
+      "sql": "-- Brecha intra-cantonal de internet en el Distrito Metropolitano de Quito\nSELECT substr(unit_key, 1, 6) AS parish_key,\n       sum(internet_person_5) * 100.0 / NULLIF(sum(internet_response_5), 0) AS pct_internet\nFROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\nWHERE unit_key LIKE '1701%'\nGROUP BY parish_key\nHAVING sum(internet_response_5) >= 1000\nORDER BY pct_internet DESC;",
+      "map_state": {
+        "nivel": "parroquia",
+        "centro": [
+          -78.5,
+          -0.05
+        ],
+        "zoom": 10.2,
+        "indicador": "internet_person_5",
+        "filtro": "canton_key = '1701'",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "170157",
+          "170161"
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "titulo": "El analfabetismo digital de nuestros mayores",
+      "texto": "La fractura no es exclusivamente territorial; también es dolorosamente generacional. En sectores campesinos, mientras casi tres de cada cuatro jóvenes dominan el entorno web, menos del diez por ciento de los adultos mayores sabe interactuar con herramientas informáticas. En un Estado que digitaliza progresivamente trámites bancarios y médicos, nuestros abuelos rurales quedan sumidos en una silenciosa orfandad cívica.",
+      "en_summary": "A generational divide leaves rural seniors digitally illiterate: under 10% can navigate online services.",
+      "cifra_clave": "88,85% de jóvenes conectados en Quito frente a solo 8,72% de adultos mayores conectados en Eloy Alfaro.",
+      "fuente": "INEC / cross_counts_v1b2 (digital_senior_yes / digital_youth_yes)",
+      "sql": "-- Brecha generacional digital: jóvenes (15-24) vs adultos mayores (65+)\nSELECT substr(unit_key, 1, 4) AS canton_key,\n       sum(digital_youth_yes) * 100.0 / NULLIF(sum(digital_youth_n), 0) AS pct_jovenes_conectados,\n       sum(digital_senior_yes) * 100.0 / NULLIF(sum(digital_senior_n), 0) AS pct_mayores_conectados\nFROM read_parquet('data/interim/cross_counts_v1b2/sector/data.parquet')\nWHERE substr(unit_key, 1, 4) IN ('1701', '0802')\nGROUP BY canton_key;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -78.5,
+          -0.5
+        ],
+        "zoom": 7.5,
+        "indicador": "digital_senior_yes",
+        "filtro": "canton_key IN ('1701', '0802')",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "1701",
+          "0802"
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "titulo": "¿Qué tan libre es tu acceso al futuro?",
+      "texto": "En la sociedad del conocimiento, carecer de internet no significa únicamente estar desconectado: significa estar privado de telemedicina, educación de calidad y empleo productivo. ¿Cómo se navega en tu barrio o recinto? ¿Cuenta tu familia con una red fija estable para prosperar, o depende la comunidad de recargas transitorias para no quedar al margen del mundo contemporáneo?",
+      "en_summary": "Internet access is a basic modern right: explore your parish on the map to evaluate digital equity.",
+      "cifra_clave": "2,5 millones de hogares ecuatorianos sin internet fijo esperan políticas públicas de inclusión digital.",
+      "fuente": "CPV 2022 INEC / Explorador interactivo Censo Vivo",
+      "sql": "-- Consulta abierta: resumen nacional de brecha digital por hogares\nSELECT sum(n) FILTER (WHERE category = '1') AS hogares_conectados,\n       sum(n) FILTER (WHERE category = '2') AS hogares_desconectados\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'H0801';",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -78.5,
+          -1.5
+        ],
+        "zoom": 7.0,
+        "indicador": "fixed_internet",
+        "filtro": "all",
+        "capa_extra": "interactive_explorer",
+        "resaltados": []
+      }
+    }
+  ]
+}

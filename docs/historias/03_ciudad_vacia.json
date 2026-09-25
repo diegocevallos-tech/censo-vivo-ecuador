@@ -1,0 +1,172 @@
+{
+  "id": "03_ciudad_vacia",
+  "titulo": "La ciudad vacía",
+  "descripcion": "La paradoja del parque habitacional desocupado frente a la precariedad y el hacinamiento en el Ecuador.",
+  "giro_contraintuitivo": "Frente al supuesto de que las viviendas vacías son chozas rurales derruidas, cantones de emigración como Déleg (Cañar) exhiben un 57,58% de viviendas desocupadas o temporales: imponentes mansiones de remesas construidas con dólares de Nueva York que permanecen cerradas con candado, mientras en los márgenes de Guayaquil el hacinamiento crítico supera el 40%.",
+  "total_pasos": 7,
+  "pasos": [
+    {
+      "step": 1,
+      "titulo": "La paradoja de los techos deshabitados",
+      "texto": "En un país donde cientos de miles de familias se hacinan en cuartos precarios o carecen de vivienda digna, el Censo 2022 constató una realidad perturbadora: existen casi novecientas mil viviendas que no cuentan con residentes permanentes. Aproximadamente una de cada seis estructuras habitacionales del Ecuador permanece completamente desocupada o se utiliza únicamente de manera temporal.",
+      "en_summary": "Ecuador presents a striking housing paradox: nearly 900,000 dwellings sit vacant or temporarily occupied.",
+      "cifra_clave": "13,92% de viviendas desocupadas o en construcción a nivel nacional; más de 700.000 viviendas desocupadas (V0201=4).",
+      "fuente": "INEC, Censo 2022 (Boletín Nacional) / tabulados: vivienda.xlsx",
+      "sql": "-- Viviendas por condición de ocupación a nivel nacional\nSELECT category,\n       CASE category WHEN '1' THEN 'Ocupada con personas presentes'\n                     WHEN '2' THEN 'Ocupada con personas ausentes'\n                     WHEN '3' THEN 'Temporal / Vacacional'\n                     WHEN '4' THEN 'Desocupada'\n                     WHEN '5' THEN 'En construcción' END AS estado_vivienda,\n       sum(n) AS total_viviendas,\n       sum(n) * 100.0 / sum(sum(n)) OVER () AS porcentaje\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE source_table = 'vivienda' AND variable = 'V0201'\nGROUP BY category\nORDER BY category;",
+      "map_state": {
+        "nivel": "nacion",
+        "centro": [
+          -78.5,
+          -1.5
+        ],
+        "zoom": 6.8,
+        "indicador": "vacant_dwellings",
+        "filtro": "all",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "EC"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "titulo": "Los balnearios del litoral: pueblos fantasma diez meses al año",
+      "texto": "A lo largo de la costa del Pacífico, la desocupación adquiere la forma del turismo y la segunda residencia de fin de semana. En cantones balnearios como Atacames en Esmeraldas o Salinas en Santa Elena, más del cuarenta por ciento del parque inmobiliario pasa desierto la mayor parte del año, mientras las poblaciones nativas padecen desabastecimiento de agua potable.",
+      "en_summary": "Coastal resort cantons like Atacames see over 40% of their housing stock sit empty most of the year.",
+      "cifra_clave": "41,33% de viviendas desocupadas o temporales en Atacames (11.029 de 26.688 unidades censadas).",
+      "fuente": "INEC, Censo 2022 / categories: canton (variable='V0201', unit_key='0806')",
+      "sql": "-- Atacames: viviendas desocupadas y temporales\nSELECT unit_key,\n       sum(n) FILTER (WHERE category = '4') AS vacant,\n       sum(n) FILTER (WHERE category = '3') AS seasonal,\n       sum(n) AS total_dwellings,\n       (sum(n) FILTER (WHERE category IN ('3', '4'))) * 100.0 / sum(n) AS pct_unoccupied\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'V0201' AND unit_key = '0806'\nGROUP BY unit_key;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -79.84,
+          0.86
+        ],
+        "zoom": 11.2,
+        "indicador": "vacant_dwellings",
+        "filtro": "unit_key = '0806'",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "0806"
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "titulo": "El giro del Austro: las mansiones de remesas con candado",
+      "texto": "Suele asumirse que una casa desocupada es una choza ruinosa en un caserío abandonado. Los datos muestran la realidad opuesta: en cantones como Déleg, en Cañar, casi el cincuenta y ocho por ciento de las viviendas están vacías. Son imponentes construcciones de ladrillo y hormigón levantadas con remesas de emigrantes en Nueva York, cerradas a cal y canto esperando un retorno esquivo.",
+      "en_summary": "Contrary to expectations, Cañar's vacant homes are large remittance-funded houses sitting locked and empty.",
+      "cifra_clave": "57,58% de viviendas desocupadas o temporales en Déleg (2.816 de 4.891 viviendas totales).",
+      "fuente": "INEC, Censo 2022 / categories: canton (variable='V0201', unit_key='0306')",
+      "sql": "-- Cantón Déleg (Cañar): récord de viviendas desocupadas y temporales\nSELECT unit_key,\n       sum(n) FILTER (WHERE category = '4') AS desocupadas,\n       sum(n) FILTER (WHERE category = '3') AS temporales,\n       sum(n) AS total_viviendas,\n       (sum(n) FILTER (WHERE category IN ('3', '4'))) * 100.0 / sum(n) AS pct_vacias_o_temporales\nFROM read_parquet('data/interim/full_aggregate_v1a/counts/v1a/categories/canton/**/*.parquet')\nWHERE variable = 'V0201' AND unit_key = '0306'\nGROUP BY unit_key;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -78.92,
+          -2.78
+        ],
+        "zoom": 11.5,
+        "indicador": "vacant_dwellings",
+        "filtro": "unit_key = '0306'",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "0306"
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "titulo": "El vaciamiento de los centros metropolitanos",
+      "texto": "La desocupación también erosiona las áreas centrales de las grandes metrópolis. En el Centro Histórico y en barrios residenciales consolidados de Quito y Guayaquil, departamentos enteros se deshabitan por el traslado de familias acomodadas hacia los valles suburbanos. La ciudad desaprovecha redes de agua, transporte y alumbrado público ya instaladas, mientras expande su mancha urbana de forma desordenada.",
+      "en_summary": "Historical city centers in Quito and Guayaquil face depopulation as residents move to suburban valleys.",
+      "cifra_clave": "Autocorrelación espacial significativa de vacancia urbana en Quito (Moran I = 0,389, p < 0,001).",
+      "fuente": "INEC / pipeline analitica: spatial_v1b2/moran_canton.parquet (unit_key='1701')",
+      "sql": "-- Estadísticas de autocorrelación espacial de vacancia en Quito\nSELECT unit_key, indicator, moran_i, permutation_p\nFROM read_parquet('data/interim/spatial_v1b2/moran_canton.parquet')\nWHERE unit_key = '1701' AND indicator = 'vacancy';",
+      "map_state": {
+        "nivel": "sector",
+        "centro": [
+          -78.514,
+          -0.222
+        ],
+        "zoom": 13.8,
+        "indicador": "vacancy",
+        "filtro": "parish_key = '170150'",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "170150001001",
+          "170150002002"
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "titulo": "La otra cara de la moneda: el hacinamiento periférico",
+      "texto": "La injusticia habitacional se manifiesta en toda su crudeza al mirar la otra orilla urbana. Mientras miles de departamentos permanecen desocupados en las zonas céntricas, en los asentamientos periféricos de Guayaquil el hacinamiento supera el cuarenta por ciento. Familias enteras comparten un solo dormitorio improvisado en caña guadúa o bloque, sin ventilación adecuada ni servicios sanitarios básicos.",
+      "en_summary": "In sharp contrast, informal peripheries of Guayaquil suffer severe overcrowding exceeding 40%.",
+      "cifra_clave": "Clusters Alto-Alto de hacinamiento en el noroeste de Guayaquil con tasas superiores al 40% de hogares.",
+      "fuente": "INEC / spatial_v1b2/lisa_sector.parquet (cluster='alto-alto', canton_key='0901')",
+      "sql": "-- Sectores con clusters significativos de hacinamiento Alto-Alto en Guayaquil\nSELECT unit_key, canton_key, value AS pct_hacinamiento, cluster, permutation_p\nFROM read_parquet('data/interim/spatial_v1b2/lisa_sector.parquet')\nWHERE canton_key = '0901' AND indicator = 'overcrowding' AND cluster = 'alto-alto'\nORDER BY value DESC\nLIMIT 5;",
+      "map_state": {
+        "nivel": "sector",
+        "centro": [
+          -79.96,
+          -2.14
+        ],
+        "zoom": 12.8,
+        "indicador": "overcrowding",
+        "filtro": "canton_key = '0901'",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "090150030001",
+          "090150031002"
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "titulo": "La brecha territorial entre casas y hogares",
+      "texto": "Al confrontar el número de viviendas existentes contra los hogares reales en cada cantón, el mapa nacional evidencia un grave descalce territorial. Existen cantones con más de dos viviendas por cada hogar habitado, frente a cantones urbanos populares donde la presión habitacional es asfixiante. El país edifica techos donde no vive la gente y descuida donde la gente urge refugio.",
+      "en_summary": "Comparing homes to households reveals a distorted map: excess housing where few live, severe deficit where crowds reside.",
+      "cifra_clave": "Relación de hasta 2,4 viviendas por hogar en cantones de retiro/migración frente a 1,02 en urbes obreras.",
+      "fuente": "INEC, Censo 2022 / counts: canton/data.parquet",
+      "sql": "-- Ratio de viviendas por hogar a nivel cantonal\nSELECT unit_key, population, dwellings, households,\n       dwellings * 1.0 / NULLIF(households, 0) AS dwellings_per_hh\nFROM read_parquet('data/counts/v1b1/canton/data.parquet')\nORDER BY dwellings_per_hh DESC\nLIMIT 5;",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -78.5,
+          -1.5
+        ],
+        "zoom": 7.2,
+        "indicador": "dwellings",
+        "filtro": "all",
+        "capa_extra": "choropleth",
+        "resaltados": [
+          "0306",
+          "0112",
+          "0806"
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "titulo": "¿Cómo habitamos nuestro territorio?",
+      "texto": "Si sobran casas sin gente y abunda gente sin techo adecuado, el debate urbano no radica únicamente en construir más, sino en democratizar el acceso y regular el uso social del suelo. ¿Cuántas viviendas vacías hay en tu cantón o manzana? ¿Coexisten en tu barrio el confort de residencias vacantes con la precariedad de familias sin espacio?",
+      "en_summary": "With surplus empty houses alongside homelessness, explore the map to see how housing occupancy behaves in your city.",
+      "cifra_clave": "900.000 viviendas deshabitadas esperan un debate de fondo sobre justicia urbana en el Ecuador.",
+      "fuente": "CPV 2022 INEC / Explorador interactivo Censo Vivo",
+      "sql": "-- Consulta abierta: resumen nacional de condición de vivienda\nSELECT sum(dwellings) AS total_viviendas,\n       sum(households) AS total_hogares,\n       sum(dwellings) - sum(households) AS excedente_viviendas_bruto\nFROM read_parquet('data/counts/v1b1/nacion/data.parquet');",
+      "map_state": {
+        "nivel": "canton",
+        "centro": [
+          -78.5,
+          -1.5
+        ],
+        "zoom": 7.0,
+        "indicador": "vacant_dwellings",
+        "filtro": "all",
+        "capa_extra": "interactive_explorer",
+        "resaltados": []
+      }
+    }
+  ]
+}
