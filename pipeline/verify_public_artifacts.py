@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import json
-import runpy
 from pathlib import Path
 
 from counts_schema import NUMERIC_FIELDS
@@ -109,7 +109,17 @@ def check_fields(value: object, path: Path) -> None:
 
 def verify(root: Path) -> None:
     root = root.resolve()
-    cross_fields = set(runpy.run_path(str(ROOT / "pipeline/03_cross_counts.py"))["NUMERATORS"])
+    cross_source = ast.parse((ROOT / "pipeline/03_cross_counts.py").read_text(encoding="utf-8"))
+    cross_fields = set()
+    for statement in cross_source.body:
+        if isinstance(statement, ast.Assign) and any(
+            isinstance(target, ast.Name) and target.id == "NUMERATORS"
+            for target in statement.targets
+        ):
+            cross_fields = set(ast.literal_eval(statement.value))
+            break
+    if not cross_fields:
+        raise ValueError("Cross-count schema was not found")
     files = [path for path in root.rglob("*") if path.is_file() and path.name != ".gitkeep"]
     total = 0
     for path in files:
