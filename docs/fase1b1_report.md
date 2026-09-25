@@ -18,6 +18,8 @@ El mayor archivo navegador mide 30.201.346 bytes; el máximo permitido es 95.000
 
 Los tres archivos comprimidos están en el [Release público `data-derived-v1b1`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1). Se descargaron de GitHub tras publicarlos; sus SHA256 coincidieron con el manifiesto versionado y la prueba de aditividad volvió a dar diferencia cero.
 
+El [workflow privado de regeneración](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216) completó con éxito el pipeline completo sobre los originales del almacén privado y publicó únicamente un artifact de agregados. El [PR privado #4](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/pull/4) deja ese workflow revisable, sin tokens entre repositorios.
+
 | Componente | Bytes |
 | --- | ---: |
 | Categorías finas completas | 122.687.539 |

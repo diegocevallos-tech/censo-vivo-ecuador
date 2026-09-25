@@ -2,8 +2,8 @@
 
 ## Estado
 
-- Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR aún sin abrir.
-- Último paso cerrado: Release público `data-derived-v1b1` publicado y verificado por descarga remota; workflow privado 1B-1 lanzado.
+- Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR público #44 y privado #4 abiertos.
+- Último paso cerrado: workflow privado 1B-1 terminó con éxito; Release público verificado por descarga remota.
 - Criterio definitivo del usuario: publicar conteos agregados completos en unidades oficiales del INEC, sin supresión, perturbación ni microzonas.
 
 ## Terminado
@@ -20,17 +20,18 @@
 - CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
 - Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
 - Release público: https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1. Descarga remota, SHA256 e integridad exacta pasaron.
-- Workflow privado en curso: https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216. Rama privada `feat/fase-1b1-publicacion-exacta` publicada.
+- Workflow privado completado con éxito: https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216. Publicó artifact de agregados exactos y Release derivado privado. Rama y PR privado #4 abiertos.
+- CI pública inicial detectó diferencias de representación flotante entre Python de Windows/Linux y un error de tipo de TypeScript en fixtures compactos; ambos corregidos. Pendiente run final verde y preview.
 
 ## Siguiente comando exacto
 
-Consultar el run privado y abrir los PR de 1B-1:
+Confirmar CI pública y disparar de nuevo el preview desde el último commit:
 
 ```sh
-gh run view 36127455216 -R diegocevallos-tech/censo-vivo-ecuador-raw
+gh pr checks 44 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Después, abrir PR público 1B-1 y PR privado del workflow, verificar CI y preview, y esperar aprobación. No iniciar 1B-2.
+Después, agregar enlaces de CI y preview al informe y al PR; esperar aprobación. No iniciar 1B-2.
 
 ## Archivos tocados en este paso
 
@@ -43,5 +44,5 @@ Después, abrir PR público 1B-1 y PR privado del workflow, verificar CI y previ
 
 ## Decisiones pendientes
 
-- El paquete exacto y Release público cumplen 150 MB; faltan PR, CI y run de preview.
+- El paquete exacto y Release público cumplen 150 MB; faltan CI y run de preview verdes.
 - El aviso «pocos casos» excluye índices con denominador bajo de rankings, percentiles y gemelos; Empirical Bayes queda apagado por defecto.

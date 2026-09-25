@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import catalog from './generated/indicators.json'
 import cases from '../../tests/indicator_cases.json'
+import type { Aggregate } from './aggregation'
 import { evaluate, fitCantonPrior, type IndicatorDefinition } from './indicators'
 
 const definitions = new Map(catalog.indicators.map(item => [item.id, item as IndicatorDefinition]))
@@ -11,7 +12,7 @@ describe('catalog-generated Python/TypeScript parity', () => {
     for (const item of cases) {
       const definition = definitions.get(item.id)
       expect(definition).toBeDefined()
-      const result = evaluate(definition!, item.aggregate as { counts: Record<string, number>; quality: 'exacto' | 'estimado'; estimated_percent: number }, {
+      const result = evaluate(definition!, item.aggregate as unknown as Aggregate, {
         level: item.level, smoothing: item.smoothing,
         cantonPrior: item.prior ?? undefined,
       })
