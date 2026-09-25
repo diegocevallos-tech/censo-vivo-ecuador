@@ -34,7 +34,7 @@ La rama del PR se reescribió a partir de `origin/main` para retirar del histori
 
 El [workflow privado de generación](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36092934704) terminó correctamente. Se descargó su artifact agregado, se comprobó el esquema y se comparó el contenido de sus **151 Parquet** y dos JSON con la ejecución local; los valores fueron equivalentes. La diferencia de 791 bytes en el paquete total local se debe a la representación física de Parquet y JSON. El Release público se forma con los archivos del workflow privado, más el `fase0_qa.json` de Fase 0 previamente verificado por SHA256.
 
-La [prueba de despliegue del PR](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36092444786) descargó los tres assets del Release público, verificó tamaños y SHA256, reconstruyó los 154 archivos de datos y subió el artifact de Pages. El job de publicación quedó omitido porque fue un `workflow_dispatch` de preview: el sitio de producción permanece en la versión aprobada.
+La [prueba de despliegue del PR](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36094318385) descargó los tres assets del Release público, verificó tamaños y SHA256, reconstruyó los 154 archivos de datos y subió el artifact de Pages. El job de publicación quedó omitido porque fue un `workflow_dispatch` de preview: el sitio de producción permanece en la versión aprobada.
 
 ## Control estadístico
 
@@ -84,5 +84,6 @@ El resultado completo `counts/v1a/qa.json` está dentro del Release público. La
 | Unidades cuya pirámide no suma la población | 0 |
 
 El empaquetador vuelve a comparar los conteos y las categorías desde sector hasta nación, rechaza celdas finas positivas menores que 3 y rechaza cualquier desagregación publicada en una manzana marcada `detalle_en_sector`. El [verificador de artefactos](../pipeline/verify_public_artifacts.py) inspecciona extensiones, columnas y tamaños antes de preparar el Release.
+
 
 
