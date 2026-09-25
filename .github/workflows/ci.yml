@@ -42,6 +42,7 @@ jobs:
         run: |
           python pipeline/deploy_derived.py --dist /tmp/censo-release-check
           python pipeline/verify_release_integrity.py --root /tmp/censo-release-check/data
+          python pipeline/06_qa_chunks.py --root /tmp/censo-release-check/data
       - run: npm ci
         working-directory: web
       - run: npm test

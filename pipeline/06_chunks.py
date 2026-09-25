@@ -37,26 +37,38 @@ def build() -> dict:
         raise FileNotFoundError("Verified exact counts and 1B-2 crosses are required")
     OUTPUT.mkdir(parents=True, exist_ok=True)
     schema: dict = {
-        "format": "CVEB1", "geom_version": "marco-2021",
-        "key_bytes": KEY_BYTES, "byte_order": "little", "chunks": {},
+        "format": "CVEB1",
+        "geom_version": "marco-2021",
+        "key_bytes": KEY_BYTES,
+        "byte_order": "little",
+        "chunks": {},
     }
     sector_cross = pq.read_table(CROSS / "sector/data.parquet").to_pandas()
     for level in ("finest", "sector"):
         for province in PROVINCES:
             core = pq.read_table(CORE / level / f"{province}.parquet").to_pandas()
-            cross = (pq.read_table(CROSS / level / f"{province}.parquet").to_pandas()
-                     if level == "finest" else
-                     sector_cross[sector_cross.unit_key.str.startswith(province)].copy())
+            cross = (
+                pq.read_table(CROSS / level / f"{province}.parquet").to_pandas()
+                if level == "finest"
+                else sector_cross[sector_cross.unit_key.str.startswith(province)].copy()
+            )
             if core.unit_key.duplicated().any() or cross.unit_key.duplicated().any():
                 raise ValueError(f"Duplicate census key: {level}/{province}")
             if set(core.unit_key) != set(cross.unit_key):
                 raise ValueError(f"Cross/count key mismatch: {level}/{province}")
             cross = cross.set_index("unit_key").loc[core.unit_key].reset_index()
-            values = {name: core[name].to_numpy() for name in core.columns
-                      if np.issubdtype(core[name].dtype, np.integer)}
-            values.update({name: cross[name].to_numpy() for name in cross.columns
-                           if np.issubdtype(cross[name].dtype, np.integer)
-                           and name not in values})
+            values = {
+                name: core[name].to_numpy()
+                for name in core.columns
+                if np.issubdtype(core[name].dtype, np.integer)
+            }
+            values.update(
+                {
+                    name: cross[name].to_numpy()
+                    for name in cross.columns
+                    if np.issubdtype(cross[name].dtype, np.integer) and name not in values
+                }
+            )
             keys = core.unit_key.to_list()
             if any(len(key.encode("ascii")) > KEY_BYTES for key in keys):
                 raise ValueError(f"Oversized geographic key: {level}/{province}")
@@ -75,8 +87,14 @@ def build() -> dict:
                     array = source.astype(np.dtype("<" + np.dtype(kind).str[1:]), copy=False)
                     offset = stream.tell()
                     stream.write(array.tobytes(order="C"))
-                    columns.append({"name": name, "type": kind, "offset": offset,
-                                    "max": int(source.max(initial=0))})
+                    columns.append(
+                        {
+                            "name": name,
+                            "type": kind,
+                            "offset": offset,
+                            "max": int(source.max(initial=0)),
+                        }
+                    )
             relative = target.relative_to(OUTPUT).as_posix()
             schema["chunks"][relative] = {"rows": len(keys), "columns": columns}
             print(f"{relative}: {len(keys)} units, {target.stat().st_size} bytes", flush=True)

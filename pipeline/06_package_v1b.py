@@ -9,7 +9,6 @@ import tarfile
 from pathlib import Path
 
 import yaml
-
 from check_derived_manifest import check
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,13 +43,24 @@ def copy_tree(source: Path, destination: Path, allowed: set[str] | None = None) 
 
 
 def stage() -> None:
+    obsolete = (PUBLIC / "counts/v1a").resolve()
+    if not obsolete.is_relative_to(PUBLIC.resolve()):
+        raise ValueError("Unsafe obsolete package path")
+    if obsolete.is_dir():
+        shutil.rmtree(obsolete)
     copy_tree(INTERIM / "exact_public/counts/v1b1", PUBLIC / "counts/v1b1")
     copy_tree(INTERIM / "cross_counts_v1b2", PUBLIC / "cross/v1b2")
     copy_tree(INTERIM / "mobility_v1b2", PUBLIC / "mobility/v1b2")
-    copy_tree(INTERIM / "geodemographics_v1b2", PUBLIC / "geodemographics/v1b2",
-              {"clusters.json", "sector_clusters.parquet"})
-    copy_tree(INTERIM / "spatial_v1b2", PUBLIC / "spatial/v1b2",
-              {"moran_canton.parquet", "dissimilarity_canton.parquet"})
+    copy_tree(
+        INTERIM / "geodemographics_v1b2",
+        PUBLIC / "geodemographics/v1b2",
+        {"clusters.json", "sector_clusters.parquet"},
+    )
+    copy_tree(
+        INTERIM / "spatial_v1b2",
+        PUBLIC / "spatial/v1b2",
+        {"moran_canton.parquet", "dissimilarity_canton.parquet"},
+    )
     if not (PUBLIC / "tiles/v1b/catalog.json").is_file():
         raise FileNotFoundError("PMTiles catalog must be built before packaging")
     if not (PUBLIC / "chunks/v1b/schema.json").is_file():
@@ -75,17 +85,28 @@ def package() -> dict:
 
     verify(PUBLIC)
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    paths = sorted(path for path in PUBLIC.rglob("*") if path.is_file()
-                   and path.name != ".gitkeep" and "sample" not in path.relative_to(PUBLIC).parts)
+    paths = sorted(
+        path
+        for path in PUBLIC.rglob("*")
+        if path.is_file()
+        and path.name != ".gitkeep"
+        and "sample" not in path.relative_to(PUBLIC).parts
+    )
     by_group: dict[str, list[tuple[Path, Path]]] = {group: [] for group in GROUPS}
     files = []
     for path in paths:
         relative = path.relative_to(PUBLIC)
         group, category = group_for(relative)
         by_group[group].append((path, relative))
-        files.append({"path": relative.as_posix(), "size_bytes": path.stat().st_size,
-                      "sha256": sha256(path), "category": category,
-                      "asset": GROUPS[group]})
+        files.append(
+            {
+                "path": relative.as_posix(),
+                "size_bytes": path.stat().st_size,
+                "sha256": sha256(path),
+                "category": category,
+                "asset": GROUPS[group],
+            }
+        )
     assets = []
     for group, name in GROUPS.items():
         target = OUTPUT / name
@@ -97,16 +118,27 @@ def package() -> dict:
                 info.mtime = 0
                 with path.open("rb") as stream:
                     archive.addfile(info, stream)
-        assets.append({"name": name, "size_bytes": target.stat().st_size,
-                       "sha256": sha256(target)})
-    manifest = {"schema_version": 1, "release": "data-derived-v1b",
-                "geom_version": "marco-2021", "assets": assets, "files": files}
+        assets.append({"name": name, "size_bytes": target.stat().st_size, "sha256": sha256(target)})
+    manifest = {
+        "schema_version": 1,
+        "release": "data-derived-v1b",
+        "geom_version": "marco-2021",
+        "assets": assets,
+        "files": files,
+    }
     config = yaml.safe_load((ROOT / "config.yaml").read_text(encoding="utf-8"))
     totals = check(manifest, config)
-    MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-                        encoding="utf-8")
-    print(json.dumps({"files": len(files), "totals": totals,
-                      "asset_bytes": {a["name"]: a["size_bytes"] for a in assets}}), flush=True)
+    MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(
+        json.dumps(
+            {
+                "files": len(files),
+                "totals": totals,
+                "asset_bytes": {a["name"]: a["size_bytes"] for a in assets},
+            }
+        ),
+        flush=True,
+    )
     return manifest
 
 

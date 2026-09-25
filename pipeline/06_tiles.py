@@ -7,6 +7,7 @@ GeoJSON sequences and PMTiles live in ignored directories until Release upload.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import subprocess
 from collections import defaultdict
@@ -20,6 +21,7 @@ from shapely.geometry import mapping
 
 ROOT = Path(__file__).resolve().parents[1]
 GEOMETRY = ROOT / "data/raw/GEODATABASE_NACIONAL_2021/GEODATABASE_NACIONAL_2021.gpkg"
+UNMATCHED_REPORT = ROOT / "docs/qa/manzanas_sin_match.csv"
 COUNTS = ROOT / "data/interim/exact_public/counts/v1b1"
 SOURCE = ROOT / "data/interim/tiles_v1b/source"
 PUBLIC = ROOT / "web/public/data/tiles/v1b"
@@ -39,7 +41,11 @@ LEVELS = {
 
 def count_lookup(level: str) -> dict[str, tuple[int, int]]:
     root = COUNTS / ("finest" if level == "manzana" else level)
-    paths = sorted(root.glob("*.parquet")) if level in {"manzana", "sector"} else [root / "data.parquet"]
+    paths = (
+        sorted(root.glob("*.parquet"))
+        if level in {"manzana", "sector"}
+        else [root / "data.parquet"]
+    )
     result: dict[str, tuple[int, int]] = {}
     for path in paths:
         table = pq.read_table(path, columns=["unit_key", "population", "assigned_population"])
@@ -61,8 +67,13 @@ def area_km2(geometry: shapely.Geometry) -> float:
     return float(project(geometry, TO_EQUAL_AREA).area) / 1_000_000
 
 
-def feature(key: str, geometry: shapely.Geometry, area: float,
-            count: tuple[int, int] | None, tolerance: float) -> dict:
+def feature(
+    key: str,
+    geometry: shapely.Geometry,
+    area: float,
+    count: tuple[int, int] | None,
+    tolerance: float,
+) -> dict:
     shape = shapely.simplify(geometry, tolerance, preserve_topology=True)
     if shape.is_empty:
         shape = geometry
@@ -103,11 +114,19 @@ def prepare() -> dict:
         total = pyogrio.read_info(GEOMETRY, layer="sec_a")["features"]
         for start in range(0, total, 2_000):
             frame = pyogrio.read_dataframe(
-                GEOMETRY, layer="sec_a", columns=["sec"],
-                skip_features=start, max_features=2_000,
+                GEOMETRY,
+                layer="sec_a",
+                columns=["sec"],
+                skip_features=start,
+                max_features=2_000,
             )
             for key, geometry in zip(frame["sec"], frame.geometry, strict=True):
-                if not isinstance(key, str) or len(key) != 12 or geometry is None or geometry.is_empty:
+                if (
+                    not isinstance(key, str)
+                    or len(key) != 12
+                    or geometry is None
+                    or geometry.is_empty
+                ):
                     continue
                 province = key[:2]
                 if province not in sector_streams:
@@ -122,8 +141,9 @@ def prepare() -> dict:
                 write_feature(sector_streams[province], item)
                 # Bounds use the transformed polygon, independent of any counts.
                 extent = shapely.bounds(project(geometry, TO_WGS84))
-                old = province_bounds.setdefault(province, [float("inf"), float("inf"),
-                                                              float("-inf"), float("-inf")])
+                old = province_bounds.setdefault(
+                    province, [float("inf"), float("inf"), float("-inf"), float("-inf")]
+                )
                 old[0] = min(old[0], extent[0])
                 old[1] = min(old[1], extent[1])
                 old[2] = max(old[2], extent[2])
@@ -134,25 +154,31 @@ def prepare() -> dict:
             stream.close()
 
     province_geometries = []
-    for level, key_length in (("provincia", 2), ("canton", 4),
-                              ("parroquia", 6), ("nacion", 0)):
+    for level, key_length in (("provincia", 2), ("canton", 4), ("parroquia", 6), ("nacion", 0)):
         with (SOURCE / f"{level}.geojsonl").open("w", encoding="utf-8") as stream:
-            keys = ["EC"] if level == "nacion" else sorted(
-                key for key in sector_groups if len(key) == key_length
+            keys = (
+                ["EC"]
+                if level == "nacion"
+                else sorted(key for key in sector_groups if len(key) == key_length)
             )
             for key in keys:
                 geometries = province_geometries if level == "nacion" else sector_groups[key]
                 try:
                     geometry = shapely.union_all(geometries)
                 except shapely.GEOSException:
-                    geometry = shapely.union_all([shapely.make_valid(value) for value in geometries])
+                    geometry = shapely.union_all(
+                        [shapely.make_valid(value) for value in geometries]
+                    )
                 if level == "provincia":
                     province_geometries.append(geometry)
                 count = lookups[level].get(key)
                 matched[level] += count is not None
-                area = sum(area_sums[province] for province in PROVINCES) if level == "nacion" else area_sums[key]
-                write_feature(stream, feature(key, geometry, area,
-                                              count, LEVELS[level][2]))
+                area = (
+                    sum(area_sums[province] for province in PROVINCES)
+                    if level == "nacion"
+                    else area_sums[key]
+                )
+                write_feature(stream, feature(key, geometry, area, count, LEVELS[level][2]))
         print(f"Prepared {level}: {len(keys)} polygons", flush=True)
     sector_groups.clear()
 
@@ -164,11 +190,19 @@ def prepare() -> dict:
         total = pyogrio.read_info(GEOMETRY, layer="man_a")["features"]
         for start in range(0, total, 5_000):
             frame = pyogrio.read_dataframe(
-                GEOMETRY, layer="man_a", columns=["man"],
-                skip_features=start, max_features=5_000,
+                GEOMETRY,
+                layer="man_a",
+                columns=["man"],
+                skip_features=start,
+                max_features=5_000,
             )
             for key, geometry in zip(frame["man"], frame.geometry, strict=True):
-                if not isinstance(key, str) or len(key) != 15 or geometry is None or geometry.is_empty:
+                if (
+                    not isinstance(key, str)
+                    or len(key) != 15
+                    or geometry is None
+                    or geometry.is_empty
+                ):
                     continue
                 province = key[:2]
                 if province not in manzana_streams:
@@ -184,13 +218,17 @@ def prepare() -> dict:
         for stream in manzana_streams.values():
             stream.close()
 
+    with UNMATCHED_REPORT.open(encoding="utf-8", newline="") as stream:
+        assigned_manzanas = len(list(csv.DictReader(stream)))
     catalog = {
         "geom_version": GEOM_VERSION,
-        "levels": {level: {"minzoom": low, "maxzoom": high} for level, (low, high, _) in LEVELS.items()},
+        "levels": {
+            level: {"minzoom": low, "maxzoom": high} for level, (low, high, _) in LEVELS.items()
+        },
         "province_bounds": province_bounds,
         "matched_geometries": matched,
         "census_units": {level: len(lookup) for level, lookup in lookups.items()},
-        "assigned_manzanas_without_polygon": 1_852,
+        "assigned_manzanas_without_polygon": assigned_manzanas,
     }
     (SOURCE / "catalog.json").write_text(
         json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -213,13 +251,28 @@ def tile() -> None:
                 continue
             destination = PUBLIC / level / f"{province or 'data'}.pmtiles"
             destination.parent.mkdir(parents=True, exist_ok=True)
-            subprocess.run([
-                "tippecanoe", "-f", "-P", "-o", str(destination),
-                "-l", level, "-Z", str(minimum), "-z", str(maximum),
-                "--no-feature-limit", "--no-tile-size-limit",
-                "-A", "INEC CPV 2022; geometría Marco 2021",
-                str(source),
-            ], check=True)
+            subprocess.run(
+                [
+                    "tippecanoe",
+                    "-Q",
+                    "-f",
+                    "-P",
+                    "-o",
+                    str(destination),
+                    "-l",
+                    level,
+                    "-Z",
+                    str(minimum),
+                    "-z",
+                    str(maximum),
+                    "--no-feature-limit",
+                    "--no-tile-size-limit",
+                    "-A",
+                    "INEC CPV 2022; geometría Marco 2021",
+                    str(source),
+                ],
+                check=True,
+            )
             if destination.stat().st_size > 90_000_000:
                 raise ValueError(f"Tile exceeds 90 MB; split level/province: {destination}")
             catalog["tile_files"][level].append(province or "data")

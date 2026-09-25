@@ -1,10 +1,12 @@
 name: Deploy public site
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       preview:
-        description: Build and verify the Pages artifact without publishing
+        description: Build and verify without publishing (set false for production)
         type: boolean
         default: true
 
@@ -33,6 +35,20 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python pipeline/deploy_derived.py
       - run: python pipeline/check_derived_manifest.py --app-dir web/dist
+      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
+  deploy:
+    if: github.event_name == 'push' || inputs.preview == false
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

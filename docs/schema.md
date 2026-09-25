@@ -1,5 +1,7 @@
 # Esquema de conteos geográficos · Fase 1B-1
 
+> El Release `data-derived-v1b` conserva estos Parquet exactos y añade cartografía y chunks descritos al final de este documento.
+
 Los archivos del Release público `data-derived-v1b1` contienen **conteos agregados exactos**. Se generan con [`01_filter_to_parquet.py`](../pipeline/01_filter_to_parquet.py), [`02_counts_by_unit.py`](../pipeline/02_counts_by_unit.py), [`07_qa.py`](../pipeline/07_qa.py) y [`02c_pack_exact.py`](../pipeline/02c_pack_exact.py). El Parquet intermedio de `data/interim/filtered/` contiene registros originales y permanece fuera de git y del sitio. Los códigos y categorías proceden de los [diccionarios oficiales registrados en el manifiesto](../data/MANIFEST.json).
 
 ## Niveles y claves
@@ -104,3 +106,18 @@ El codebook contiene `variable_id`, `category_id`, `source_table`, `variable`, `
 | `birth_other_canton`, `residence_other_canton_5` | uint32 | Personas nacidas o residentes antes en otro cantón del país | P08/P08C, P09/P09C |
 
 Las matrices `canton_origin_destination.parquet` (origen, destino, personas), `canton_net.parquet` (entradas, salidas, saldo), `emigrant_profile_parroquia.parquet` y `death_profile_canton.parquet` contienen solo conteos por geografía y dimensiones públicas. `sector_clusters.parquet`, `twin_profiles.parquet`, `moran_canton.parquet`, `lisa_sector.parquet` y `dissimilarity_canton.parquet` son salidas calculadas a partir de esos agregados. No contienen `ID_PER`, `ID_HOG` ni `ID_VIV`.
+
+# Paquete web · Fase 1B-3
+
+El Release `data-derived-v1b` conserva los Parquet de `counts/v1b1/` y publica además `cross/v1b2/`, `mobility/v1b2/`, `geodemographics/v1b2/` y `spatial/v1b2/`. Los perfiles de gemelos y LISA se convierten a chunks binarios para respetar el presupuesto de Parquet; sus Parquet intermedios no forman parte del sitio. Todos los Parquet públicos contienen una unidad censal oficial o una combinación de dimensiones agregadas por ella.
+
+| Ruta | Unidad y contenido | Esquema / acceso |
+| --- | --- | --- |
+| `tiles/v1b/{nacion,provincia,canton,parroquia}/data.pmtiles` | Polígonos Marco 2021 | MVT `unit_key`, `population`, `assigned_population`, `area_km2`, `density`, `geom_version` |
+| `tiles/v1b/{sector,manzana}/{provincia}.pmtiles` | Sectores y manzanas, particionados en 24 provincias | Mismos atributos; polígonos sin clave censal tienen `population` y `density` nulos |
+| `tiles/v1b/catalog.json` | Niveles, extensiones provinciales, conteos de match y rutas existentes | Metadatos de carga del visor |
+| `chunks/v1b/{finest,sector}/{provincia}.bin` | Conteos básicos y 46 cruces, por provincia | `CVEB1`: cabecera ASCII de 5 bytes, filas `uint32` little-endian, claves ASCII de 15 bytes rellenadas con cero y columnas contiguas de tipos mínimos; offsets en `chunks/v1b/schema.json` |
+| `chunks/v1b/analysis/profiles_{provincia}.bin` | Perfil estandarizado del gemelo por sector | `CVEP1`: claves de 12 bytes, elegibilidad `uint8`, matriz `float32` por fila; campos en `analysis/schema.json` |
+| `chunks/v1b/analysis/lisa_{provincia}.bin` | Seis indicadores LISA por sector | `CVEL1`: clave de 12 bytes, indicador y cluster `uint8`, valor, I local y p como `float32`; códigos en `analysis/schema.json` |
+
+La densidad se calcula como `population / area_km2`, donde el área del polígono original se mide en la proyección equivalente EPSG:6933. La geometría se simplifica solo para dibujar; los conteos no se recalculan. Las 1.852 manzanas sin polígono se conservan en `assigned_population` del sector. Para una manzana con geometría, `population` es el conteo exacto; para un sector, el total incluye la población asignada. El visor consulta PMTiles desde Pages mediante solicitudes HTTP range al mismo origen. El archivo del Release se copia y verifica durante el build; el navegador nunca lo descarga del Release.

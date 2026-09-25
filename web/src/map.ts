@@ -1,5 +1,6 @@
 import * as maplibregl from 'maplibre-gl'
 import type { Map } from 'maplibre-gl'
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { Protocol } from 'pmtiles'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './style.css'
@@ -36,7 +37,7 @@ app.innerHTML = `
     </section>
     <div class="scale-rail"><span>NACIONAL</span><div class="rail"><i id="scale-marker"></i></div><span>MANZANA</span></div>
     <footer class="footnote"><span class="signal"></span><span>Fuente: INEC, CPV 2022 · Geometría: Marco 2021</span>
-      <span class="foot-sep">/</span><span>1.852 manzanas sin polígono: población asignada a nivel de sector</span></footer>
+      <span class="foot-sep">/</span><span id="assignment-note">Manzanas sin polígono: población asignada a nivel de sector</span></footer>
     <div class="status" id="status" role="status" aria-live="polite">Preparando cartografía…</div>
   </div>`
 
@@ -59,6 +60,7 @@ const color: maplibregl.ExpressionSpecification = [
 const integer = new Intl.NumberFormat('es-EC')
 const decimal = new Intl.NumberFormat('es-EC', { maximumFractionDigits: 1 })
 const protocol = new Protocol()
+maplibregl.setWorkerUrl(workerUrl)
 maplibregl.addProtocol('pmtiles', protocol.tile)
 
 async function start() {
@@ -66,16 +68,16 @@ async function start() {
   if (!response.ok) throw new Error(`Catálogo no disponible (${response.status})`)
   const catalog = await response.json() as Catalog
   if (catalog.geom_version !== 'marco-2021') throw new Error('Versión geométrica desconocida')
+  document.querySelector<HTMLElement>('#assignment-note')!.textContent =
+    `${integer.format(catalog.assigned_manzanas_without_polygon)} manzanas sin polígono: población asignada a nivel de sector`
   const map: Map = new maplibregl.Map({
     container: 'map', center: [-79.45, -1.52], zoom: 5, minZoom: 2, maxZoom: 16.5,
     attributionControl: false,
     style: {
       version: 8,
-      sources: { carto: { type: 'raster',
-        tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
-        tileSize: 256, attribution: '© OpenStreetMap contributors · © CARTO' } },
-      layers: [{ id: 'basemap', type: 'raster', source: 'carto',
-        paint: { 'raster-opacity': 0.73 } }],
+      sources: {},
+      layers: [{ id: 'background', type: 'background',
+        paint: { 'background-color': '#101d2c' } }],
     },
   })
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right')
@@ -115,19 +117,6 @@ async function start() {
       map.addLayer({ id: `${id}-outline`, type: 'line', source: id,
         'source-layer': level, paint: { 'line-color': '#8da4b2',
           'line-opacity': 0.27, 'line-width': level === 'manzana' ? 0.5 : 0.8 } })
-      map.on('click', `${id}-fill`, event => {
-        const p = event.features?.[0]?.properties
-        if (!p) return
-        const people = p.population == null ? 'Sin dato' : integer.format(Number(p.population))
-        const density = p.density == null ? 'Sin dato' : decimal.format(Number(p.density))
-        const assigned = Number(p.assigned_population) > 0
-          ? `<div class="popup-note">${integer.format(Number(p.assigned_population))} personas de manzanas sin polígono asignadas al sector</div>` : ''
-        new maplibregl.Popup({ maxWidth: '280px' }).setLngLat(event.lngLat)
-          .setHTML(`<div class="popup"><small>${names[level]} · ${p.unit_key}</small><strong>${people}</strong><span>personas</span><div>${density} hab./km²</div>${assigned}</div>`)
-          .addTo(map)
-      })
-      map.on('mouseenter', `${id}-fill`, () => { map.getCanvas().style.cursor = 'pointer' })
-      map.on('mouseleave', `${id}-fill`, () => { map.getCanvas().style.cursor = '' })
       active.add(id)
     }
     levelEl.textContent = names[level]
@@ -137,6 +126,25 @@ async function start() {
   }
   map.on('load', sync)
   map.on('moveend', sync)
+  map.on('mousemove', event => {
+    const layers = [...active].map(id => `${id}-fill`)
+    map.getCanvas().style.cursor = layers.length && map.queryRenderedFeatures(event.point, { layers }).length
+      ? 'pointer' : ''
+  })
+  map.on('click', event => {
+    const layers = [...active].map(id => `${id}-fill`)
+    if (!layers.length) return
+    const p = map.queryRenderedFeatures(event.point, { layers })[0]?.properties
+    if (!p) return
+    const level = zoomLevel(map.getZoom())
+    const people = p.population == null ? 'Sin dato' : integer.format(Number(p.population))
+    const density = p.density == null ? 'Sin dato' : decimal.format(Number(p.density))
+    const assigned = Number(p.assigned_population) > 0
+      ? `<div class="popup-note">${integer.format(Number(p.assigned_population))} personas de manzanas sin polígono asignadas al sector</div>` : ''
+    new maplibregl.Popup({ maxWidth: '280px' }).setLngLat(event.lngLat)
+      .setHTML(`<div class="popup"><small>${names[level]} · ${p.unit_key}</small><strong>${people}</strong><span>personas</span><div>${density} hab./km²</div>${assigned}</div>`)
+      .addTo(map)
+  })
   map.on('error', event => { statusEl.textContent = `Error de cartografía: ${event.error?.message ?? 'desconocido'}` })
 }
 

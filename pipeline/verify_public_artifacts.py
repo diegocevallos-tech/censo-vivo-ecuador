@@ -16,42 +16,81 @@ FORBIDDEN_FIELDS = {"id_per", "id_hog", "id_viv", "i10", "p00"}
 MAX_FILE = 95_000_000
 MAX_SITE_DATA = 1_000_000_000
 GEOGRAPHY_FIELDS = {
-    "unit_key", "unit_level", "province_key", "canton_key", "parish_key",
-    "sector_key", "geom_version"
+    "unit_key",
+    "unit_level",
+    "province_key",
+    "canton_key",
+    "parish_key",
+    "sector_key",
+    "geom_version",
 }
-EXACT_CORE_FIELDS = GEOGRAPHY_FIELDS | set(NUMERIC_FIELDS) | {
-    "asignado_a_sector", "sector_disperso", "geografia_oculta", "unit_index"
-}
-CATEGORY_FIELDS = {
-    "unit_index", "variable_id", "category_id", "n", "geom_version"
-}
+EXACT_CORE_FIELDS = (
+    GEOGRAPHY_FIELDS
+    | set(NUMERIC_FIELDS)
+    | {"asignado_a_sector", "sector_disperso", "geografia_oculta", "unit_index"}
+)
+CATEGORY_FIELDS = {"unit_index", "variable_id", "category_id", "n", "geom_version"}
 CODEBOOK_FIELDS = {
-    "variable_id", "category_id", "source_table", "variable",
-    "category", "geom_version"
+    "variable_id",
+    "category_id",
+    "source_table",
+    "variable",
+    "category",
+    "geom_version",
 }
 EXTRA_PARQUET = {
     "mobility/v1b2/canton_net.parquet": {
-        "unit_key", "internal_arrivals", "internal_departures", "internal_net", "geom_version"
+        "unit_key",
+        "internal_arrivals",
+        "internal_departures",
+        "internal_net",
+        "geom_version",
     },
     "mobility/v1b2/canton_origin_destination.parquet": {
-        "origin_canton", "destination_canton", "people", "geom_version"
+        "origin_canton",
+        "destination_canton",
+        "people",
+        "geom_version",
     },
     "mobility/v1b2/death_profile_canton.parquet": {
-        "unit_key", "sex", "age_at_death", "death_year", "deaths", "geom_version"
+        "unit_key",
+        "sex",
+        "age_at_death",
+        "death_year",
+        "deaths",
+        "geom_version",
     },
     "mobility/v1b2/emigrant_profile_parroquia.parquet": {
-        "unit_key", "destination_country", "departure_year", "sex",
-        "age_at_departure", "emigrants", "geom_version"
+        "unit_key",
+        "destination_country",
+        "departure_year",
+        "sex",
+        "age_at_departure",
+        "emigrants",
+        "geom_version",
     },
     "geodemographics/v1b2/sector_clusters.parquet": {
-        "unit_key", "geom_version", "supergroup", "group", "population",
-        "rank_eligible", "sovi_pca"
+        "unit_key",
+        "geom_version",
+        "supergroup",
+        "group",
+        "population",
+        "rank_eligible",
+        "sovi_pca",
     },
     "spatial/v1b2/dissimilarity_canton.parquet": {
-        "unit_key", "dissimilarity_education", "sectors", "geom_version"
+        "unit_key",
+        "dissimilarity_education",
+        "sectors",
+        "geom_version",
     },
     "spatial/v1b2/moran_canton.parquet": {
-        "unit_key", "indicator", "sectors", "moran_i", "permutation_p", "geom_version"
+        "unit_key",
+        "indicator",
+        "sectors",
+        "moran_i",
+        "permutation_p",
+        "geom_version",
     },
 }
 
@@ -105,8 +144,12 @@ def verify(root: Path) -> None:
                 else:
                     allowed = EXACT_CORE_FIELDS
                     required = {
-                        "unit_index", "unit_key", "population", "dwellings",
-                        "households", "geom_version"
+                        "unit_index",
+                        "unit_key",
+                        "population",
+                        "dwellings",
+                        "households",
+                        "geom_version",
                     }
                 if not required <= columns or not columns <= allowed:
                     raise ValueError(

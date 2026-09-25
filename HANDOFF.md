@@ -2,38 +2,36 @@
 
 ## Estado
 
-- Fase actual: 1B-3, rama `feat/fase-1b3-tiles-paquete-web`. [PR público #45](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/45) fusionado por squash y tag `fase-1b2` publicado. No tocar la rama de auditoría independiente `feat/auditoria-1b2`.
-- Fase 1B-1 cerrada: PR privado #4 y público #44 fusionados por squash en ese orden, ramas eliminadas, tag `fase-1b1` en ambos repos.
-- El usuario autorizó producción de Pages en 1B-3 para el mapa mínimo multinivel de densidad. Los Parquet nuevos siguen ignorados bajo `data/interim/`; se publicarán como assets agregados del Release público.
+- Fase actual: **1B-3 · tiles y paquete web**, rama `feat/fase-1b3-tiles-paquete-web`. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
+- Pages se habilitó con `build_type: workflow`, sin despliegue de producción aún. El usuario autorizó publicar el mapa mínimo en producción durante 1B-3.
+- Los datos pesados están ignorados en `data/interim/` y `web/public/data/`. El manifiesto `data/DERIVED_MANIFEST.json` versionado apunta al Release público `data-derived-v1b`, que aún debe crearse.
 
 ## Pasos terminados
 
-1. Primer commit `1532927`: [inventario de 13 pendientes y un descarte](docs/qa/indicadores_pendientes.md), [51 comparaciones INEC](docs/qa/validacion_inec.md) y script reproducible. Cumple el orden pedido antes de implementar 1B-2.
-2. Cruces por unidad censal oficial: 46 campos aditivos, diferencia cero desde unidad fina hasta nación. Flujos inter-cantonales: 604.723, saldo nacional cero. Perfiles de emigración: 124.992; mortalidad: 250.746, idénticos a 1B-1.
-3. Catálogo: 45 indicadores con `min_level` y `min_n`, incluido SoVI con cargas PCA publicadas. Queda diferida la distancia temporal al pico del bono demográfico; seguro de salud sigue descartado. Python y TypeScript usan la misma fórmula sobre sumas.
-4. Geodemografía: 40 rasgos, k=4 elegido con silhouette/gap, 8 grupos con retratos y 53.513 sectores. Hay 50.353 perfiles aptos para gemelos; los sectores de pocos casos no entran en comparaciones.
-5. Moran/LISA para seis índices en 221 cantones; disimilitud educativa en 221 cantones. Match Marco 2021: 52.864/53.513 sectores (98,787 %). QA de diez puntajes SoVI frente al catálogo pasó.
-6. [Informe 1B-2](docs/fase1b2_report.md) con método, cifras, límites y tamaños. Ningún dato pesado entró en Git.
-7. PR #45 fusionado con squash (`9fc13528`), rama remota y local eliminadas, tag `fase-1b2` publicado. Rama nueva 1B-3 creada desde `main`.
-8. Geometrías del Marco 2021 cruzadas solo por clave con los conteos exactos: 24 provincias, 221 cantones, 1.042 parroquias, 52.864 sectores y 209.373 manzanas con polígono y conteo. Fuentes GeoJSONL locales ignoradas; no entran a Git.
-9. Chunks binarios por provincia para conteos y perfiles 1B-2 generados localmente. Mapa mínimo de densidad por nivel creado y `npm run build` pasa. Falta ejecutar tippecanoe, empaquetar Release y desplegar Pages.
+1. Unión por clave de conteos CPV 2022 y Marco 2021: 24 provincias, 221 cantones, 1.042 parroquias, 52.864 sectores y 209.373 manzanas con geometría y conteo. Las 1.852 manzanas sin polígono permanecen en el sector.
+2. Tippecanoe v2.79.0 generó 52 PMTiles, total 154.511.848 bytes; máximo por archivo 14.637.118 bytes. Fuentes GeoJSONL agregadas y tiles se generaron en un Codespace de 4 CPU, 16 GB RAM, 32 GB de almacenamiento y se trasladaron localmente; no entraron al historial Git.
+3. Chunks binarios por provincia: 64.162.668 bytes. [`06_qa_chunks.py`](pipeline/06_qa_chunks.py) comparó población y jefatura femenina de 48 chunks y 284.977 unidades con los Parquet.
+4. Paquete `data-derived-v1b` preparado: conteos y Parquet 149.130.353 bytes, tiles 154.511.848, chunks 64.162.668, total de datos 367.804.869. Manifest y cuatro tar.gz con SHA256 ya generados localmente. QA aditiva de conteos: diferencia cero; 11 tests Python y 4 TypeScript pasan.
+5. Mapa mínimo multinivel renderizado en prueba local; se corrigió el worker de MapLibre v6. CARTO Dark Matter respondió «API key required», por lo que se usa fondo oscuro propio. [Captura](docs/qa/fase1b3_mapa.png) e [informe](docs/fase1b3_report.md).
 
 ## Siguiente comando exacto
 
 ```sh
-gh codespace create -R diegocevallos-tech/censo-vivo-ecuador -b feat/fase-1b3-tiles-paquete-web -d censo-vivo-fase-1b3-tiles
+gh release create data-derived-v1b data/interim/release_public_v1b/counts-finest-v1b.tar.gz data/interim/release_public_v1b/counts-other-v1b.tar.gz data/interim/release_public_v1b/tiles-v1b.tar.gz data/interim/release_public_v1b/chunks-v1b.tar.gz -R diegocevallos-tech/censo-vivo-ecuador --target feat/fase-1b3-tiles-paquete-web --title "CPV 2022 · paquete web 1B-3" --notes "Agregados por unidad censal oficial, PMTiles y chunks binarios; SHA256 en data/DERIVED_MANIFEST.json"
 ```
 
-Transferir las fuentes GeoJSONL agregadas al Codespace con tippecanoe; generar PMTiles, verificar límites, empaquetar Release público, activar Pages en producción y abrir PR 1B-3.
+Antes, hacer commit y push de los cambios pendientes del manifiesto, workflow, informe y visor. Luego restaurar el Release para verificar hashes; despachar `deploy.yml` con `preview=false`, comprobar Pages y abrir PR 1B-3. Mantener el PR abierto para revisión. Después seguir 2A y 2B según la autorización vigente sin tocar la auditoría independiente.
 
-## Archivos tocados
+## Archivos tocados en 1B-3
 
-- `HANDOFF.md`, `pipeline/06_tiles.py`, `pipeline/06_chunks.py`, `pipeline/06_aux_binary.py`, `pipeline/06_package_v1b.py`, `pipeline/verify_public_artifacts.py`, `web/src/main.ts`, `web/src/map.ts`, `web/src/style.css`, `web/src/vite-env.d.ts`
-- `pipeline/03_cross_counts.py`, `03b_mobility.py`, `03d_qa.py`, `04_geodemographics.py`, `05_spatial_stats.py`, `06_qa_phase1b2.py`, `08_validate_inec.py`, `indicators.py`, `generate_indicators.py`
-- `indicators.yaml`, `tests/indicator_cases.json`, `tests/test_indicators.py`, `web/src/indicators.ts`, `web/src/generated/indicators.json`
+- `HANDOFF.md`, `data/DERIVED_MANIFEST.json`
+- `pipeline/06_tiles.py`, `06_chunks.py`, `06_aux_binary.py`, `06_package_v1b.py`, `06_qa_chunks.py`, `verify_public_artifacts.py`
+- `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`
+- `web/src/main.ts`, `web/src/map.ts`, `web/src/style.css`, `web/src/vite-env.d.ts`
+- `README.md`, `docs/schema.md`, `docs/data-access.md`, `docs/fase1b3_report.md`, `docs/qa/fase1b3_mapa.png`
 
 ## Decisiones pendientes
 
-- La distancia al pico del bono demográfico requiere una serie comparable; permanece para Fase 5 opcional.
-- El paquete local adicional de 21.992.240 bytes deberá compactarse y categorizarse según el presupuesto de 1B-3 antes de entrar a Pages. No se publica en esta fase.
-- La secuencia precisa de 2A y 2B se reconstruirá de issues y del plan vigente al concluir 1B-3. No alterar la rama de auditoría 1B-2.
+- La distancia al pico temporal del bono demográfico sigue diferida a la Fase 5 opcional. Cobertura de seguro de salud sigue descartada por variable inexistente.
+- La capa de fondo oscuro usa un color propio hasta encontrar un basemap externo sin token que permita uso en producción. El mapa censal no depende de un proveedor externo.
+- El «último plan» no está archivado literalmente en el repo; 2A se interpreta como mapa, navegación, indicadores y coropleta (issues #14–15); 2B como selección, paneles, controles y accesibilidad (issues #16–18). Conservar PRs separados.
