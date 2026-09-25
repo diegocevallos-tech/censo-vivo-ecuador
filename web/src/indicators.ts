@@ -2,11 +2,15 @@ import type { Aggregate } from './aggregation'
 
 export interface IndicatorDefinition {
   id: string
-  kind: 'ratio' | 'shannon' | 'median_grouped' | 'weighted_mean'
+  kind: 'ratio' | 'difference_of_ratios' | 'pca' | 'shannon' | 'median_grouped' | 'weighted_mean'
   min_level: string
   min_n: number
   numerator?: string[]
   denominator?: string[]
+  first_numerator?: string[]
+  first_denominator?: string[]
+  second_numerator?: string[]
+  second_denominator?: string[]
   factor?: number
   categories?: string[][]
   age_groups?: string[][]
@@ -15,6 +19,11 @@ export interface IndicatorDefinition {
   valid_min?: number
   valid_max?: number
   bayesian?: boolean
+  components?: Array<{
+    numerator: string[]; denominator: string[]
+    second_numerator?: string[]; second_denominator?: string[]
+    mean: number; scale: number; lower: number; upper: number; weight: number
+  }>
 }
 
 export interface CantonPrior { mean: number; strength: number }
@@ -69,6 +78,34 @@ export function evaluate(
     numerator = sum(counts, definition.numerator ?? [])
     denominator = sum(counts, definition.denominator ?? [])
     if (denominator > 0) value = numerator / denominator * (definition.factor ?? 1)
+  } else if (definition.kind === 'difference_of_ratios') {
+    const firstN = sum(counts, definition.first_numerator ?? [])
+    const firstD = sum(counts, definition.first_denominator ?? [])
+    const secondN = sum(counts, definition.second_numerator ?? [])
+    const secondD = sum(counts, definition.second_denominator ?? [])
+    denominator = Math.min(firstD, secondD)
+    if (denominator > 0) value = (firstN / firstD - secondN / secondD) * (definition.factor ?? 1)
+  } else if (definition.kind === 'pca') {
+    const pieces: number[] = []
+    const sizes: number[] = []
+    for (const component of definition.components ?? []) {
+      const firstD = sum(counts, component.denominator)
+      sizes.push(firstD)
+      if (firstD === 0) break
+      let raw = sum(counts, component.numerator) / firstD
+      if (component.second_numerator && component.second_denominator) {
+        const secondD = sum(counts, component.second_denominator)
+        sizes.push(secondD)
+        if (secondD === 0) break
+        raw -= sum(counts, component.second_numerator) / secondD
+      }
+      const clipped = Math.min(component.upper, Math.max(component.lower, raw))
+      pieces.push(component.weight * (clipped - component.mean) / component.scale)
+    }
+    denominator = sizes.length ? Math.min(...sizes) : 0
+    if (pieces.length === (definition.components ?? []).length) {
+      value = pieces.reduce((a, b) => a + b, 0)
+    }
   } else if (definition.kind === 'shannon' || definition.kind === 'median_grouped') {
     const groups = definition.kind === 'shannon' ? definition.categories ?? [] : definition.age_groups ?? []
     const values = groups.map(group => sum(counts, group))

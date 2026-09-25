@@ -1198,6 +1198,551 @@
       "source_variable": "M03",
       "valid_min": 0,
       "valid_max": 120
+    },
+    {
+      "id": "female_headship",
+      "name": {
+        "es": "Jefatura femenina",
+        "en": "Female household headship"
+      },
+      "theme": "hogar",
+      "kind": "ratio",
+      "formula": "100 × female_heads / all_heads",
+      "population_reference": "Representantes de hogar con sexo válido",
+      "source_variables": [
+        "P01",
+        "P02"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:female_heads"
+      ],
+      "denominator": [
+        "cross:all_heads"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "potential_solitude_65",
+      "name": {
+        "es": "Soledad potencial 65+",
+        "en": "Potential solitude 65+"
+      },
+      "theme": "hogar",
+      "kind": "ratio",
+      "formula": "100 × solitary_65 / all_65",
+      "population_reference": "Personas de 65+; numerador representante de hogar unipersonal",
+      "source_variables": [
+        "P01",
+        "P03",
+        "TIPO_HOGAR"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:solitary_65"
+      ],
+      "denominator": [
+        "cross:all_65"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "mean_schooling_25_plus",
+      "name": {
+        "es": "Escolaridad media 25+",
+        "en": "Mean schooling 25+"
+      },
+      "theme": "educacion",
+      "kind": "ratio",
+      "formula": "1 × school_years_25 / school_n_25",
+      "population_reference": "Personas 25+ con años de escolaridad válidos",
+      "source_variables": [
+        "P03",
+        "ESCOLA"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:school_years_25"
+      ],
+      "denominator": [
+        "cross:school_n_25"
+      ],
+      "factor": 1
+    },
+    {
+      "id": "generational_education_jump",
+      "name": {
+        "es": "Salto educativo generacional",
+        "en": "Generational education jump"
+      },
+      "theme": "educacion",
+      "kind": "difference_of_ratios",
+      "formula": "1 × (school_years_25_34/school_n_25_34 − school_years_55_64/school_n_55_64)",
+      "population_reference": "Personas 25–34 y 55–64 con escolaridad válida",
+      "source_variables": [
+        "P03",
+        "ESCOLA"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "RdBu",
+      "methodological_note": "Diferencia de razones de sumas; cada universo se calcula por separado.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "first_numerator": [
+        "cross:school_years_25_34"
+      ],
+      "first_denominator": [
+        "cross:school_n_25_34"
+      ],
+      "second_numerator": [
+        "cross:school_years_55_64"
+      ],
+      "second_denominator": [
+        "cross:school_n_55_64"
+      ],
+      "factor": 1
+    },
+    {
+      "id": "school_lag",
+      "name": {
+        "es": "Rezago escolar aproximado",
+        "en": "Approximate school lag"
+      },
+      "theme": "educacion",
+      "kind": "ratio",
+      "formula": "100 × school_lag / school_lag_n",
+      "population_reference": "Personas 8–17 con escolaridad válida",
+      "source_variables": [
+        "P03",
+        "ESCOLA"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Al menos dos años aprobados menos que la expectativa edad−6. Aproximación: no usa trayectoria escolar individual.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:school_lag"
+      ],
+      "denominator": [
+        "cross:school_lag_n"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "digital_gap_by_sex_age",
+      "name": {
+        "es": "Brecha digital por sexo",
+        "en": "Digital gender gap"
+      },
+      "theme": "digital",
+      "kind": "difference_of_ratios",
+      "formula": "100 × (digital_male_score/digital_male_max − digital_female_score/digital_female_max)",
+      "population_reference": "Hombres y mujeres 5+ con respuestas válidas de alfabetismo digital, internet y computadora",
+      "source_variables": [
+        "P02",
+        "P03",
+        "P2102",
+        "P2103",
+        "ANALF_DIG"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "RdBu",
+      "methodological_note": "Diferencia de razones de sumas; cada universo se calcula por separado.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "first_numerator": [
+        "cross:digital_male_score"
+      ],
+      "first_denominator": [
+        "cross:digital_male_max"
+      ],
+      "second_numerator": [
+        "cross:digital_female_score"
+      ],
+      "second_denominator": [
+        "cross:digital_female_max"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "digital_age_gap",
+      "name": {
+        "es": "Brecha digital por edad",
+        "en": "Digital age gap"
+      },
+      "theme": "digital",
+      "kind": "difference_of_ratios",
+      "formula": "100 × (digital_youth_score/digital_youth_max − digital_senior_score/digital_senior_max)",
+      "population_reference": "Personas 5–29 y 65+ con respuestas válidas de alfabetismo digital, internet y computadora",
+      "source_variables": [
+        "P03",
+        "P2102",
+        "P2103",
+        "ANALF_DIG"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "RdBu",
+      "methodological_note": "Diferencia de razones de sumas; cada universo se calcula por separado.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "first_numerator": [
+        "cross:digital_youth_score"
+      ],
+      "first_denominator": [
+        "cross:digital_youth_max"
+      ],
+      "second_numerator": [
+        "cross:digital_senior_score"
+      ],
+      "second_denominator": [
+        "cross:digital_senior_max"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "labour_gender_gap",
+      "name": {
+        "es": "Brecha de empleo en fuerza laboral",
+        "en": "Employment gender gap"
+      },
+      "theme": "trabajo",
+      "kind": "difference_of_ratios",
+      "formula": "100 × (labour_male_employed/labour_male_force − labour_female_employed/labour_female_force)",
+      "population_reference": "Fuerza de trabajo masculina y femenina",
+      "source_variables": [
+        "P02",
+        "CONDACT1"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "RdBu",
+      "methodological_note": "Diferencia de razones de sumas; cada universo se calcula por separado.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "first_numerator": [
+        "cross:labour_male_employed"
+      ],
+      "first_denominator": [
+        "cross:labour_male_force"
+      ],
+      "second_numerator": [
+        "cross:labour_female_employed"
+      ],
+      "second_denominator": [
+        "cross:labour_female_force"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "adolescent_motherhood",
+      "name": {
+        "es": "Maternidad adolescente 15–19",
+        "en": "Adolescent motherhood 15–19"
+      },
+      "theme": "fecundidad",
+      "kind": "ratio",
+      "formula": "100 × adolescent_mothers / adolescent_women",
+      "population_reference": "Mujeres 15–19 con respuesta de hijos nacidos vivos",
+      "source_variables": [
+        "P02",
+        "P03",
+        "P3203"
+      ],
+      "min_level": "parroquia",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:adolescent_mothers"
+      ],
+      "denominator": [
+        "cross:adolescent_women"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "indigenous_language_speakers",
+      "name": {
+        "es": "Hablantes de lengua indígena",
+        "en": "Indigenous language speakers"
+      },
+      "theme": "diversidad",
+      "kind": "ratio",
+      "formula": "100 × indigenous_language / language_eligible",
+      "population_reference": "Personas 5+; P1001=1 indica que habla o se comunica en idioma indígena",
+      "source_variables": [
+        "P1001",
+        "P03"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:indigenous_language"
+      ],
+      "denominator": [
+        "cross:language_eligible"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "illiteracy_15_plus",
+      "name": {
+        "es": "Analfabetismo 15+",
+        "en": "Illiteracy 15+"
+      },
+      "theme": "educacion",
+      "kind": "ratio",
+      "formula": "100 × illiterate_15 / literacy_response_15",
+      "population_reference": "Personas 15+ con condición de alfabetismo válida",
+      "source_variables": [
+        "P03",
+        "ANALF"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:illiterate_15"
+      ],
+      "denominator": [
+        "cross:literacy_response_15"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "internet_use_5_plus",
+      "name": {
+        "es": "Uso individual de internet 5+",
+        "en": "Internet use 5+"
+      },
+      "theme": "digital",
+      "kind": "ratio",
+      "formula": "100 × internet_person_5 / internet_response_5",
+      "population_reference": "Personas 5+ con respuesta de uso de internet",
+      "source_variables": [
+        "P03",
+        "P2102"
+      ],
+      "min_level": "manzana",
+      "min_n": 30,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:internet_person_5"
+      ],
+      "denominator": [
+        "cross:internet_response_5"
+      ],
+      "factor": 100
+    },
+    {
+      "id": "mean_parity_women_15_49",
+      "name": {
+        "es": "Paridez media de mujeres 15–49",
+        "en": "Mean parity women 15–49"
+      },
+      "theme": "fecundidad",
+      "kind": "ratio",
+      "formula": "1 × children_born_15_49 / women_children_response_15_49",
+      "population_reference": "Mujeres 15–49 con hijos nacidos vivos válidos",
+      "source_variables": [
+        "P02",
+        "P03",
+        "P3203"
+      ],
+      "min_level": "parroquia",
+      "min_n": 100,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Cruce aditivo por unidad oficial; se excluyen las respuestas no válidas.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:children_born_15_49"
+      ],
+      "denominator": [
+        "cross:women_children_response_15_49"
+      ],
+      "factor": 1
+    },
+    {
+      "id": "internal_net_migration",
+      "name": {
+        "es": "Migración interna neta entre cantones",
+        "en": "Net inter-canton migration"
+      },
+      "theme": "movilidad",
+      "kind": "ratio",
+      "formula": "1000 × internal_net / population",
+      "population_reference": "Población censada en el cantón; entradas menos salidas observadas",
+      "source_variables": [
+        "P09C",
+        "I01",
+        "I02"
+      ],
+      "min_level": "canton",
+      "min_n": 1000,
+      "direction": "neutral",
+      "palette": "Viridis",
+      "methodological_note": "Flujos internos según residencia hace cinco años. Excluye movimientos internacionales y personas no nacidas en 2017.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022, https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_MANLOC.xlsx",
+      "numerator": [
+        "cross:internal_net"
+      ],
+      "denominator": [
+        "core:population"
+      ],
+      "factor": 1000
+    },
+    {
+      "id": "sovi_pca",
+      "name": {
+        "es": "Vulnerabilidad sociodemográfica exploratoria",
+        "en": "Exploratory sociodemographic vulnerability"
+      },
+      "theme": "compuesto",
+      "kind": "pca",
+      "formula": "Σ peso_j × (clip(tasa_j, p1, p99) − media_j) / desviación_j",
+      "population_reference": "Cruces válidos de 6 dimensiones sociales en el sector",
+      "source_variables": [
+        "ESCOLA",
+        "ANALF",
+        "HAC",
+        "P01",
+        "P03",
+        "P3203",
+        "P2102",
+        "P02"
+      ],
+      "min_level": "sector",
+      "min_n": 100,
+      "direction": "worse",
+      "palette": "PuRd",
+      "methodological_note": "PCA exploratorio ajustado en sectores con ≥100 personas. Componente 1 explica 40.02% de varianza; signo orientado hacia mayor rezago. Los pesos, centros, escalas y límites de recorte se publican abajo; no es una clasificación oficial del INEC.",
+      "bibliography": "INEC (2022), Diccionario de Variables CPV 2022; Cutter et al. (2003), Social Vulnerability to Environmental Hazards",
+      "components": [
+        {
+          "feature": "low_school_share",
+          "numerator": [
+            "cross:school_low_25"
+          ],
+          "denominator": [
+            "cross:school_n_25"
+          ],
+          "mean": 0.4335457549675961,
+          "scale": 0.22267158179513974,
+          "lower": 0.04008995983935743,
+          "upper": 0.9082905198776761,
+          "weight": 0.5724453926086426
+        },
+        {
+          "feature": "illiteracy_15_share",
+          "numerator": [
+            "cross:illiterate_15"
+          ],
+          "denominator": [
+            "cross:literacy_response_15"
+          ],
+          "mean": 0.04408654176477389,
+          "scale": 0.051170133843098,
+          "lower": 0.0,
+          "upper": 0.26436781609195403,
+          "weight": 0.5081089735031128
+        },
+        {
+          "feature": "overcrowded_share",
+          "numerator": [
+            "cat:hogar:HAC:1"
+          ],
+          "denominator": [
+            "cat:hogar:HAC:1",
+            "cat:hogar:HAC:2"
+          ],
+          "mean": 0.08988303981956582,
+          "scale": 0.07281274237452344,
+          "lower": 0.0,
+          "upper": 0.34146341463414637,
+          "weight": 0.43762868642807007
+        },
+        {
+          "feature": "solitude_65_share",
+          "numerator": [
+            "cross:solitary_65"
+          ],
+          "denominator": [
+            "cross:all_65"
+          ],
+          "mean": 0.19052161162707884,
+          "scale": 0.10711927403528526,
+          "lower": 0.0,
+          "upper": 0.5294117647058824,
+          "weight": 0.20783719420433044
+        },
+        {
+          "feature": "adolescent_mother_share",
+          "numerator": [
+            "cross:adolescent_mothers"
+          ],
+          "denominator": [
+            "cross:adolescent_women"
+          ],
+          "mean": 0.09898533110092235,
+          "scale": 0.11276317910730536,
+          "lower": 0.0,
+          "upper": 0.5,
+          "weight": 0.4150460958480835
+        },
+        {
+          "feature": "digital_gender_gap",
+          "numerator": [
+            "cross:digital_male_score"
+          ],
+          "denominator": [
+            "cross:digital_male_max"
+          ],
+          "mean": 0.013562047486121907,
+          "scale": 0.04486407510954757,
+          "lower": -0.09354502001947049,
+          "upper": 0.13694074596452185,
+          "weight": -0.08457604050636292,
+          "second_numerator": [
+            "cross:digital_female_score"
+          ],
+          "second_denominator": [
+            "cross:digital_female_max"
+          ]
+        }
+      ]
     }
   ],
   "discarded_indicators": [
@@ -1208,56 +1753,8 @@
   ],
   "deferred_indicators": [
     {
-      "id": "female_headship",
-      "reason": "Requiere cruce parentesco de jefatura × sexo; el agregado actual conserva marginales."
-    },
-    {
-      "id": "potential_solitude_65",
-      "reason": "Requiere edad × hogar unipersonal; el agregado actual conserva marginales."
-    },
-    {
-      "id": "mean_schooling_25_plus",
-      "reason": "Requiere edad × ESCOLA y universo 25+; no existe ese cruce agregado."
-    },
-    {
-      "id": "generational_education_jump",
-      "reason": "Requiere edad × ESCOLA para 25–34 y 55–64; no existe ese cruce agregado."
-    },
-    {
-      "id": "school_lag",
-      "reason": "Requiere edad × asistencia/nivel escolar; no existe ese cruce agregado."
-    },
-    {
-      "id": "digital_gap_by_sex_age",
-      "reason": "Requiere TIC × sexo/edad; no existe ese cruce agregado."
-    },
-    {
-      "id": "labour_gender_gap",
-      "reason": "Requiere CONDACT1 × sexo; no existe ese cruce agregado."
-    },
-    {
-      "id": "internal_net_migration",
-      "reason": "Requiere matriz origen-destino por cantón; el agregado actual contiene marginales y códigos previos."
-    },
-    {
-      "id": "canton_origin_destination",
-      "reason": "Requiere extracción explícita de flujos origen-destino del microdato privado."
-    },
-    {
-      "id": "adolescent_motherhood",
-      "reason": "Requiere edad × hijos nacidos vivos; no existe ese cruce agregado."
-    },
-    {
-      "id": "sovi_pca",
-      "reason": "Pesos PCA y estandarización nacional corresponden a 1B-2."
-    },
-    {
       "id": "demographic_bonus_peak_distance",
       "reason": "Un solo censo no define el pico temporal nacional de la proporción 15–64."
-    },
-    {
-      "id": "indigenous_language_speakers",
-      "reason": "P10R=9 agrupa combinaciones no separables en el agregado; requiere reconstrucción del indicador desde microdato."
     }
   ]
 }

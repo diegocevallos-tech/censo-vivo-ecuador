@@ -20,3 +20,7 @@ El catálogo de 1B-1 conserva 13 indicadores diferidos y uno descartado. La clas
 | `health_insurance_coverage` | variable inexistente | Descartado | P30 mide aportes a seguridad social, no cobertura de seguro de salud. |
 
 Emigración y mortalidad ya aportan indicadores en 1B-1; sus cruces disponibles se revisarán en 1B-2. El detalle por categoría solo se publicará como agregados por unidad censal oficial.
+
+## Resolución en 1B-2
+
+Los cruces `female_headship`, `potential_solitude_65`, `mean_schooling_25_plus`, `generational_education_jump`, `school_lag`, `digital_gap_by_sex_age`, `labour_gender_gap`, `adolescent_motherhood` e `indigenous_language_speakers` ya se definen en [`indicators.yaml`](../../indicators.yaml). La matriz `canton_origin_destination` y el saldo `internal_net_migration` se derivan en [`03b_mobility.py`](../../pipeline/03b_mobility.py). Los pesos de `sovi_pca` se publican en el catálogo y en los retratos de cluster. Se añadieron los indicadores verificables de analfabetismo 15+, uso individual de internet 5+, brecha digital por edad y paridez de mujeres 15–49. La distancia al pico del bono demográfico continúa diferida a la Fase 5 opcional; el seguro de salud permanece descartado.

@@ -83,3 +83,24 @@ Cada fila siguiente identifica **dos columnas enteras sin signo distintas**, una
 
 El codebook contiene `variable_id`, `category_id`, `source_table`, `variable`, `category` y `geom_version`; sus códigos de categoría se toman de las fuentes, sin inventar etiquetas. No hay identificadores de persona, hogar ni vivienda, ni cruces de categorías por individuo. [`verify_public_artifacts.py`](../pipeline/verify_public_artifacts.py) comprueba extensiones, columnas prohibidas y el tope de 95 MB por archivo; [`verify_release_integrity.py`](../pipeline/verify_release_integrity.py) comprueba aditividad exacta y [`check_derived_manifest.py`](../pipeline/check_derived_manifest.py) comprueba hashes y presupuesto del sitio.
 
+# Cruces y salidas de la Fase 1B-2
+
+[`03_cross_counts.py`](../pipeline/03_cross_counts.py) genera Parquet zstd por unidad censal oficial. Los campos `unit_key` y `geom_version` identifican la unidad y el Marco 2021; en la unidad fina aparecen además `province_key`, `canton_key`, `parish_key` y `sector_key`. Todos los campos de medición son sumas enteras sin signo. La tabla siguiente documenta los grupos de columnas; los sufijos `_n`, `_max`, `_response` y `_force` indican su denominador.
+
+| Columnas | Tipo | Población de referencia | Variable fuente |
+| --- | --- | --- | --- |
+| `female_heads`, `all_heads` | uint32 | Representantes del hogar | P01 × P02 |
+| `solitary_65`, `all_65` | uint32 | Personas de 65+; representantes de hogar unipersonal | P01 × P03 × TIPO_HOGAR |
+| `school_years_25`, `school_n_25`, `school_low_25`, `school_high_25`, `school_years_25_34`, `school_n_25_34`, `school_years_55_64`, `school_n_55_64` | uint32 | Escolaridad válida de personas en la franja de edad indicada | P03 × ESCOLA |
+| `school_lag`, `school_lag_n` | uint32 | Personas de 8–17 con escolaridad válida | P03 × ESCOLA |
+| `digital_*_yes`, `digital_*_n` | uint32 | Uso individual de internet según sexo/edad | P02 × P03 × P2102 |
+| `digital_*_score`, `digital_*_max` | uint32 | Suma de tres respuestas binarias / triple de personas válidas según sexo/edad | P02 × P03 × ANALF_DIG × P2102 × P2103 |
+| `labour_*_employed`, `labour_*_force` | uint32 | Fuerza de trabajo según sexo | P02 × CONDACT1 |
+| `adolescent_mothers`, `adolescent_women` | uint32 | Mujeres 15–19 con hijos nacidos vivos válidos | P02 × P03 × P3203 |
+| `indigenous_language`, `language_eligible` | uint32 | Personas 5+ | P1001 × P03 |
+| `illiterate_15`, `literacy_response_15` | uint32 | Personas 15+ con alfabetismo válido | P03 × ANALF |
+| `internet_person_5`, `internet_response_5` | uint32 | Personas 5+ con uso de internet válido | P03 × P2102 |
+| `children_born_15_49`, `women_children_response_15_49` | uint32 | Mujeres 15–49 con hijos nacidos vivos válidos | P02 × P03 × P3203 |
+| `birth_other_canton`, `residence_other_canton_5` | uint32 | Personas nacidas o residentes antes en otro cantón del país | P08/P08C, P09/P09C |
+
+Las matrices `canton_origin_destination.parquet` (origen, destino, personas), `canton_net.parquet` (entradas, salidas, saldo), `emigrant_profile_parroquia.parquet` y `death_profile_canton.parquet` contienen solo conteos por geografía y dimensiones públicas. `sector_clusters.parquet`, `twin_profiles.parquet`, `moran_canton.parquet`, `lisa_sector.parquet` y `dissimilarity_canton.parquet` son salidas calculadas a partir de esos agregados. No contienen `ID_PER`, `ID_HOG` ni `ID_VIV`.

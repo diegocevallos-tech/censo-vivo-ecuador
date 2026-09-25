@@ -29,6 +29,7 @@ OFFICIAL = {
     "Guayas": [4391923, 1319163, 1289733, 3.3, 29, 96, 16.8, 67.4, 17.1, 81.0, 50.9],
     "Azuay": [801609, 246867, 242168, 3.2, 30, 89, 16.8, 58.7, 27.0, 94.7, 53.0],
 }
+HEADSHIP_OFFICIAL = {"Nacional": 38.5, "Pichincha": 37.5, "Guayas": 40.3, "Azuay": 40.7}
 METRICS = [
     ("Población censada", "personas"),
     ("Hogares clasificados H09", "hogares"),
@@ -66,7 +67,7 @@ def fmt(value: float, unit: str) -> str:
     return f"{value:,.0f}" if unit in {"personas", "hogares", "viviendas"} else f"{value:.3f}"
 
 
-def build(base: Path) -> str:
+def build(base: Path, cross: Path | None = None) -> str:
     db = duckdb.connect()
     definitions = {item["id"]: item for item in yaml.safe_load(
         (ROOT / "indicators.yaml").read_text(encoding="utf-8")
@@ -74,7 +75,8 @@ def build(base: Path) -> str:
     lines = [
         "# Validación externa con cifras del CPV 2022 del INEC",
         "",
-        "Se usan los Parquet agregados exactos del Release `data-derived-v1b1`; "
+        "Se usan los Parquet agregados exactos del Release `data-derived-v1b1` "
+        "y los cruces agregados de 1B-2; "
         "este script no abre filas por persona. El valor oficial de hogares corresponde "
         "a hogares clasificados (`H09=1..6`); el conteo operativo `core:households` "
         "incluye también registros sin clasificación. Las fichas provinciales y el "
@@ -117,6 +119,33 @@ def build(base: Path) -> str:
             )
             if abs(delta) > 0.5 or (official and abs(delta / official) > .01):
                 flagged.append((name, label, current, official, delta))
+        if cross is not None:
+            file = (cross / level / "data.parquet").as_posix()
+            query = f"SELECT * FROM read_parquet('{file}') WHERE unit_key=?"
+            row = db.execute(query, [key])
+            extra = dict(zip(
+                (column[0] for column in row.description), row.fetchone(), strict=True
+            ))
+            comparisons = [
+                ("Jefatura femenina (%)", 100 * extra["female_heads"] / extra["all_heads"],
+                 HEADSHIP_OFFICIAL[name]),
+            ]
+            if name == "Nacional":
+                comparisons.extend([
+                    ("Analfabetismo 15+ (%)",
+                     100 * extra["illiterate_15"] / extra["literacy_response_15"], 3.7),
+                    ("Uso individual de internet 5+ (%)",
+                     100 * extra["internet_person_5"] / extra["internet_response_5"], 69.4),
+                    ("Hacinamiento (%)", calc("overcrowding"), 8.8),
+                ])
+            for label, current, official in comparisons:
+                delta = current - official
+                lines.append(
+                    f"| {name} | {label} | {current:.3f} | {official:.3f} | "
+                    f"[INEC]({SOURCES[name]}) | {delta:+.3f} |"
+                )
+                if abs(delta) > .5 or abs(delta / official) > .01:
+                    flagged.append((name, label, current, official, delta))
     lines += [
         "", "## Diferencias que superan 0,5 puntos/unidades o 1 % relativo", "",
     ]
@@ -130,6 +159,11 @@ def build(base: Path) -> str:
             "el catálogo usa población total (incluida población colectiva) y todos "
             "los hogares operativos, no solo personas de hogares particulares." 
             if label == "Personas por hogar" else
+            "El valor propio 3,7401 % redondea a 3,7 % con un decimal, igual al "
+            "dato INEC. La condición ANALF y el universo de 15+ están verificados "
+            "contra el diccionario; el umbral relativo de 1 % resulta menor que "
+            "el intervalo de redondeo de la publicación."
+            if label.startswith("Analfabetismo") else
             "La ficha publica el porcentaje con un decimal y el cociente aquí usa "
             "todos los registros con categoría válida; comprobar definición y denominador." 
         )
@@ -147,10 +181,8 @@ def build(base: Path) -> str:
         "(https://www.censoecuador.gob.ec/public/Boletin_Nacional.htm) "
         "mide uso individual desde los 5 años. `fixed_internet` mide hogares con "
         "internet fijo (60,892 % nacional); no son el mismo indicador.",
-        "- **Analfabetismo 15+ y jefatura femenina:** el INEC publica 3,7 % y "
-        "38,5 % nacionales en el mismo boletín. El agregado de 1B-1 carece de "
-        "edad × alfabetismo y parentesco × sexo; quedan pendientes para 1B-2 "
-        "y no se han fabricado valores propios.",
+        "- **Analfabetismo 15+ y jefatura femenina:** sus valores propios "
+        "proceden de cruces aditivos nuevos de 1B-2, no de los marginales de 1B-1.",
         "- **Viviendas ocupadas:** los recuentos de las fichas provinciales coinciden "
         "con `V0201=1+2`. Algunas fichas los describen como «con personas presentes»; "
         "la categoría 2 corresponde a ocupada con personas ausentes. Se valida el "
@@ -160,6 +192,7 @@ def build(base: Path) -> str:
         "", "```sh",
         "python pipeline/08_validate_inec.py \\",
         "  --base data/interim/exact_public/counts/v1b1 \\",
+        "  --cross data/interim/cross_counts_v1b2 \\",
         "  --write docs/qa/validacion_inec.md",
         "```", "",
     ]
@@ -169,9 +202,10 @@ def build(base: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base", type=Path, required=True)
+    parser.add_argument("--cross", type=Path)
     parser.add_argument("--write", type=Path, required=True)
     args = parser.parse_args()
-    result = build(args.base)
+    result = build(args.base, args.cross)
     args.write.parent.mkdir(parents=True, exist_ok=True)
     args.write.write_text(result, encoding="utf-8")
     print(f"Wrote {args.write}")
