@@ -2,35 +2,32 @@
 
 ## Estado
 
-- Fase actual: cierre de Fase 1A; siguiente fase autorizada: 1B-1 Indicadores.
-- PR público actual: [#43](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/43), rama `feat/fase-1a-conteos`.
-- PR privado [#3](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/pull/3): fusionado con squash; rama remota borrada.
-- Paso actual: esperar CI del PR público #43 y fusionarlo con squash.
+- Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR aún sin abrir.
+- Último paso cerrado: PR privado #3 y público #43 fusionados con squash, ramas borradas, tag `fase-1a` en ambos repos y milestone 1A cerrado.
+- Criterio definitivo del usuario: publicar conteos agregados completos en unidades oficiales del INEC, sin supresión, perturbación ni microzonas.
 
 ## Terminado
 
-- Fase 1A validada: conteos aditivos, QA oficial, supresión de manzanas pequeñas y categorías de sectores dispersos.
-- Los derivados completos están en el Release público `data-derived-v1a`; git solo conserva el manifiesto y una muestra agregada.
-- El preview de Pages verificó el Release. El workflow `deploy.yml` quedó limitado a `workflow_dispatch`: no hay disparador por `push` ni job de publicación de producción.
-- PR privado #3 fusionado con squash en `0b62408fd952969d465ca3ef2cf17faf1196ac1d`.
-- Milestone público #7 «Fase 1A · Conteos geográficos» creado y asignado al PR #43; cerrarlo después del merge. El milestone #2 abarca toda la Fase 1 y sigue abierto.
+- Rama 1B-1 reiniciada desde `origin/main` antes de publicarse para retirar código experimental de supresión, recodificación e IPF que el usuario reemplazó.
+- Se constató que 1.333 sectores tienen menos de 50 personas o 15 viviendas ocupadas; la idea de microzonas fue descartada por instrucción posterior del usuario.
+- `deploy.yml` solo permite preview manual. Producción de Pages continúa desactivada hasta Fase 2.
+- El Release histórico `data-derived-v1a` contiene agregados suprimidos; el nuevo Release de 1B-1 deberá reemplazarlo en el manifiesto y el deploy.
 
 ## Siguiente comando exacto
 
-Desde el repositorio público, después de confirmar la CI del PR #43:
+Con el agregado completo en `data/interim/full_aggregate_v1a` y la base `data/interim/counts_v1a.duckdb`:
 
 ```sh
-gh pr merge 43 --repo diegocevallos-tech/censo-vivo-ecuador --squash --delete-branch
+.\.venv\Scripts\python.exe pipeline/02c_pack_exact.py
 ```
 
-Luego crear `fase-1a` en ambos repos, cerrar el milestone específico de 1A y abrir `feat/fase-1b1-indicadores`. No cerrar el milestone general «Fase 1 · Pipeline e índices» hasta terminar toda la Fase 1B.
+El empaquetador aún debe implementarse. Después, ejecutar QA de aditividad exacta, ausencia de columnas personales, presupuesto ≤150 MB, motor Python/TypeScript, CI, Release público y PR. No iniciar 1B-2.
 
 ## Archivos tocados en este paso
 
-- `.github/workflows/deploy.yml`: solo preview manual.
-- `HANDOFF.md`: estado y siguiente comando.
+- `HANDOFF.md`: decisión definitiva y punto de reanudación.
 
 ## Decisiones pendientes
 
-- En 1B-1, calcular `docs/qa/supresion_impacto.md`. Si alguna variable supera 20 % de celdas de manzana suprimidas, presentar umbral alternativo con tabla de riesgo/beneficio y esperar decisión antes de cambiarlo.
-- Mantener producción de Pages desactivada hasta la Fase 2.
+- Si los conteos completos no caben en 150 MB pese a la compresión y los tipos mínimos, detener publicación y presentar tamaños y opciones sin perder variables.
+- El aviso «pocos casos» excluye índices con denominador bajo de rankings, percentiles y gemelos; Empirical Bayes queda apagado por defecto.
