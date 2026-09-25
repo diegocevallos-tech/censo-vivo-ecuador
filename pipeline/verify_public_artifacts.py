@@ -5,12 +5,24 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from counts_schema import NUMERIC_FIELDS
+
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / "web/public/data"
 ALLOWED = {".json", ".geojson", ".bin", ".pmtiles", ".parquet"}
 FORBIDDEN_FIELDS = {"id_per", "id_hog", "id_viv", "i10", "p00"}
 MAX_FILE = 100_000_000
 MAX_SITE_DATA = 900_000_000
+GEOGRAPHY_FIELDS = {
+    "unit_key", "unit_level", "province_key", "canton_key", "parish_key",
+    "sector_key", "geom_version"
+}
+CORE_FIELDS = GEOGRAPHY_FIELDS | set(NUMERIC_FIELDS) | {
+    "asignado_a_sector", "sector_disperso", "geografia_oculta"
+}
+CATEGORY_FIELDS = GEOGRAPHY_FIELDS | {
+    "source_table", "variable", "category", "n"
+}
 
 
 def check_fields(value: object, path: Path) -> None:
@@ -44,6 +56,20 @@ def main() -> None:
             bad = columns & FORBIDDEN_FIELDS
             if bad:
                 raise ValueError(f"Possible record identifier in {path}: {sorted(bad)}")
+            if "counts" in path.parts and "v1a" in path.parts:
+                if "categories" in path.parts:
+                    allowed = CATEGORY_FIELDS
+                    required = {
+                        "unit_key", "source_table", "variable", "category",
+                        "n", "geom_version"
+                    }
+                else:
+                    allowed = CORE_FIELDS
+                    required = {"unit_key", "population", "dwellings", "geom_version"}
+                if not required <= columns or not columns <= allowed:
+                    raise ValueError(
+                        f"Unexpected count Parquet schema in {path}: {sorted(columns)}"
+                    )
     if total > MAX_SITE_DATA:
         raise ValueError(f"Pages data exceeds 900 MB: {total}")
     print(f"Verified {len(files)} public aggregate assets, {total} bytes")
