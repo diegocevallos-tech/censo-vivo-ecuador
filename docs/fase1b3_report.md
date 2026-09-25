@@ -36,6 +36,8 @@ El [workflow de despliegue](../.github/workflows/deploy.yml) descarga los assets
 
 ![Mapa mínimo de densidad, nivel provincia](qa/fase1b3_mapa.png)
 
+La [publicación de producción](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36185327073) terminó correctamente en [GitHub Pages](https://diegocevallos-tech.github.io/censo-vivo-ecuador/). En el sitio publicado, una prueba de navegador recorrió provincia → cantón → parroquia → sector → manzana sin errores de consola ni respuestas de datos fallidas. [Captura de producción](qa/fase1b3_pages.png). Las peticiones con `Range: bytes=0-15` y `Accept-Encoding: identity` devolvieron HTTP 206, 16 bytes y `Content-Range` correcto para PMTiles de provincia y Parquet de cantón. La cabecera `identity` evita que el CDN comprima una respuesta parcial binaria.
+
 ## Reproducibilidad local
 
 Con las salidas verificadas de 1B-1 y 1B-2 en `data/interim/` y el Marco 2021 extraído en `data/raw/`:
