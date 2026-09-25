@@ -27,7 +27,7 @@ jobs:
       - run: python -m pytest tests -q
       - name: Check local-path leaks in Markdown
         run: |
-          if rg -n -g '*.md' 'C:[/\\]|/Users/' .; then
+          if grep -R -n -F --include='*.md' -e 'C:/' -e 'C:\' -e '/Users/' .; then
             echo 'Absolute local path found in Markdown' >&2
             exit 1
           else
