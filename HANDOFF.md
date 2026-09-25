@@ -2,7 +2,7 @@
 
 ## Estado
 
-- Fase actual: **1B-3 · tiles y paquete web**, rama `feat/fase-1b3-tiles-paquete-web`, [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48) abierto. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
+- Fase actual: **2A · mapa, navegación e indicadores**, rama `feat/fase-2a-mapa-indicadores`, apilada sobre el [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), que permanece abierto. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
 - Pages se habilitó con `build_type: workflow` y el mapa mínimo de 1B-3 ya está publicado en [producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/).
 - Los datos pesados están ignorados en `data/interim/` y `web/public/data/`. El manifiesto `data/DERIVED_MANIFEST.json` versionado apunta al Release público [`data-derived-v1b`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b), ya publicado.
 
@@ -15,15 +15,15 @@
 5. Mapa mínimo multinivel renderizado en prueba local; se corrigió el worker de MapLibre v6. CARTO Dark Matter respondió «API key required», por lo que se usa fondo oscuro propio. [Captura](docs/qa/fase1b3_mapa.png) e [informe](docs/fase1b3_report.md).
 6. Release público publicado con cuatro tar.gz. Se descargó de nuevo y se restauraron 341 archivos con SHA256 coincidente; la QA aditiva completa, incluidas categorías y 96 chunks de conteo/análisis, pasó. El verificador de artefactos ahora extrae el esquema desde el AST sin depender de DuckDB en el runner.
 7. [Deploy de producción](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36185327073) exitoso tras permitir la rama exacta de 1B-3 en el environment `github-pages` (manteniendo `main`). Pages devuelve HTTP 206 y rango correcto para PMTiles y Parquet al pedir `Accept-Encoding: identity`. El navegador recorrió todos los niveles sin errores; [captura](docs/qa/fase1b3_pages.png).
-8. [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48) abierto. Su primer CI detectó que el runner no instalaba NumPy para `06_qa_chunks.py`; se añadió a las dependencias de CI. Verificar el nuevo run antes de continuar.
+8. [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48) abierto. Su primer CI detectó que el runner no instalaba NumPy para `06_qa_chunks.py`; se añadió a las dependencias de CI. Verificar el nuevo run. La autorización vigente permite continuar con 2A y 2B en PRs separados y apilados.
 
 ## Siguiente comando exacto
 
 ```sh
-gh pr checks 48 -R diegocevallos-tech/censo-vivo-ecuador
+python -c "import json; d=json.load(open('web/src/generated/indicators.json',encoding='utf-8')); print(len(d['indicators']))"
 ```
 
-Hacer commit y push de la corrección de CI, esperar sus checks. Mantener PR 1B-3 abierto para revisión. Después seguir 2A y 2B en ramas separadas según la autorización vigente sin tocar la auditoría independiente.
+Implementar 2A: buscador, breadcrumb, selector de los 45 indicadores con `min_level`, coropleta con cuantiles/Jenks/desviación y datos por unidad. Probar en navegador y abrir PR 2A contra la rama 1B-3. 2B seguirá en su propia rama/PR. No tocar la auditoría independiente.
 
 ## Archivos tocados en 1B-3
 
