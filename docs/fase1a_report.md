@@ -34,6 +34,8 @@ La rama del PR se reescribió a partir de `origin/main` para retirar del histori
 
 El [workflow privado de generación](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36091057990) terminó correctamente. Se descargó su artifact agregado, se comprobó el esquema y se comparó el contenido de sus **151 Parquet** y dos JSON con la ejecución local; los valores fueron equivalentes. La diferencia de 772 bytes en el paquete total local se debe a la representación física de Parquet y JSON. El Release público se forma con los archivos del workflow privado, más el `fase0_qa.json` de Fase 0 previamente verificado por SHA256.
 
+La [prueba de despliegue del PR](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36092444786) descargó los tres assets del Release público, verificó tamaños y SHA256, reconstruyó los 154 archivos de datos y subió el artifact de Pages. El job de publicación quedó omitido porque fue un `workflow_dispatch` de preview: el sitio de producción permanece en la versión aprobada.
+
 ## Control estadístico
 
 La [metodología](metodologia.md) explica supresión primaria y secundaria. Una manzana con menos de 10 personas o menos de 3 viviendas ocupadas publica solo sus tres totales: población, viviendas y hogares. Sus desagregaciones permanecen en sector y lleva `detalle_en_sector`. En las otras manzanas se retienen las celdas positivas de 1 o 2; se retiene una segunda celda cuando existe un único valor primariamente suprimido que podría obtenerse restando del sector. Las banderas distinguen detalle retenido de ceros reales.
