@@ -216,11 +216,12 @@ def pack_fine_categories(
           WITH marked AS (
             SELECT a.unit_key, a.sector_key, a.source_table, a.variable,
               a.category, a.n, i.unit_index,
-              (p.full_suppression OR a.n<3) AS is_primary
+              (p.unit_level='manzana' AND
+                (p.full_suppression OR a.n<3)) AS is_primary
             FROM read_parquet([{source}], hive_partitioning=false) a
             JOIN privacy_units p USING (unit_key)
             JOIN publication_ids_finest i USING (unit_key)
-            WHERE p.unit_level='manzana'
+            WHERE p.unit_level IN ('manzana','sector_disperso')
           ), ranked AS (
             SELECT *,
               SUM(is_primary::INT) OVER (
@@ -461,24 +462,40 @@ def validate_packed(connection: duckdb.DuckDBPyConnection) -> None:
     ).fetchone()[0]
     if small_core_cells:
         raise AssertionError(f"{small_core_cells} fine detail cells below 3")
-    fine_cat = sqlpath(PACKED / "categories/finest/*.parquet")
-    small_cells = connection.execute(
-        f"SELECT COUNT(*) FROM read_parquet('{fine_cat}') WHERE n<3"
-    ).fetchone()[0]
-    if small_cells:
-        raise AssertionError(f"{small_cells} fine category cells below 3")
     for province in PROVINCES:
         file = sqlpath(PACKED / f"categories/finest/{province}.parquet")
-        leaked = connection.execute(
+        leaked, small, rural_rows, rural_sum = connection.execute(
             f"""
-            SELECT COUNT(*) FROM read_parquet('{file}') a
-            JOIN publication_ids_finest i USING (unit_index)
+            SELECT
+              COUNT(*) FILTER (WHERE p.full_suppression),
+              COUNT(*) FILTER (WHERE p.unit_level='manzana' AND a.n<3),
+              COUNT(*) FILTER (WHERE p.unit_level='sector_disperso'),
+              SUM(a.n) FILTER (WHERE p.unit_level='sector_disperso')
+            FROM read_parquet('{file}') a
+            JOIN publication_ids_finest i
+              ON a.unit_index=i.unit_index AND i.province_key='{province}'
             JOIN privacy_units p USING (unit_key)
-            WHERE i.province_key='{province}' AND p.full_suppression
             """
-        ).fetchone()[0]
-        if leaked:
-            raise AssertionError(f"{province}: {leaked} small-manzana categories leaked")
+        ).fetchone()
+        if leaked or small:
+            raise AssertionError(
+                f"{province}: {leaked} small-manzana categories or {small} cells below 3"
+            )
+        sources = sorted((FULL / "categories/finest").glob(f"*/{province}.parquet"))
+        source = ",".join(f"'{sqlpath(path)}'" for path in sources)
+        expected = connection.execute(
+            f"""
+            SELECT COUNT(*), SUM(a.n)
+            FROM read_parquet([{source}], hive_partitioning=false) a
+            JOIN privacy_units p USING (unit_key)
+            WHERE p.unit_level='sector_disperso'
+            """
+        ).fetchone()
+        if (rural_rows, rural_sum) != expected:
+            raise AssertionError(
+                f"{province}: sector-disperso categories missing: "
+                f"{(rural_rows, rural_sum)} != {expected}"
+            )
 
 
 def main() -> None:
