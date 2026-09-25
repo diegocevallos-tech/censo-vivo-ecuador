@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "release": "data-derived-v1b",
+  "release": "data-derived-v2a",
   "geom_version": "marco-2021",
   "assets": [
     {
@@ -22,6 +22,11 @@
       "name": "chunks-v1b.tar.gz",
       "size_bytes": 29407390,
       "sha256": "46a83df573984084a53709ffae5b29fff1fa430c264fcf40794dd2947d4e78eb"
+    },
+    {
+      "name": "indicators-v2a.tar.gz",
+      "size_bytes": 27198307,
+      "sha256": "f5a5d0823953947cbb9969ed02094370b6b93228fe29c37d5454b3bd4a14c7d8"
     }
   ],
   "files": [
@@ -2411,6 +2416,377 @@
       "sha256": "42592aab889793de43d310003f41657ee0f273d427285b168ba3327a605f201c",
       "category": "tiles",
       "asset": "tiles-v1b.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/canton/data.bin",
+      "size_bytes": 53051,
+      "sha256": "3d88b606e91e7c07725a5eebda8295599bad83f00532aa4217af38d9e8db6a94",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/01.bin",
+      "size_bytes": 2268491,
+      "sha256": "42f5bb54f8f414912d05ee8d8df3e7297015c094cc4caeef0838f115c4b7fe63",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/02.bin",
+      "size_bytes": 640331,
+      "sha256": "0a6ed8a22e26623c7e97e91a1f8d7610a217109996b9aa5c6c53c4cee23c21f1",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/03.bin",
+      "size_bytes": 981611,
+      "sha256": "3d8f28f3e810f24b6bce4a5ca273c8e14f2397e47725c27283783b7975049d1e",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/04.bin",
+      "size_bytes": 663851,
+      "sha256": "6b0f866ef42111c1025bd206e78bda56ba5462929d5ef6780003a5222b78634d",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/05.bin",
+      "size_bytes": 1231691,
+      "sha256": "a6fd7293083f12725cb720ae4fe1be026828cf3cf8b14b9e5d589981207cc794",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/06.bin",
+      "size_bytes": 1734251,
+      "sha256": "d64d03114f7b6433c2e7194a1a780708b0c54835aa55a64fa1928e2715bda1e3",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/07.bin",
+      "size_bytes": 3125531,
+      "sha256": "dab3a3568abc11bab9d75cec05200bde6ffc2024ecd4993e794a01c90d348938",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/08.bin",
+      "size_bytes": 1928171,
+      "sha256": "a28d09f99039959d043bac02e2e2828fd0db9495b8128ede7bbcc7c323fc169c",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/09.bin",
+      "size_bytes": 13260491,
+      "sha256": "fc9684a3db98bd8cd1f3b911b92f35b623d0267435998d153fe9fc053ea5cd4e",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/10.bin",
+      "size_bytes": 1685531,
+      "sha256": "194812ba7960e43ddf2afe6a0896ec85d15cfa9ece7f4f447259ddec42c9c6b7",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/11.bin",
+      "size_bytes": 1835771,
+      "sha256": "0f1146c0005ff8c3780adc07cb767992e88b141bd51b7cd7a83deae18b7ed39b",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/12.bin",
+      "size_bytes": 2940971,
+      "sha256": "a7422dcb054cdfa0f9cb0ec31503c841a6ced7a9ef29d386dd42460bb4290e9b",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/13.bin",
+      "size_bytes": 5981051,
+      "sha256": "a19a701ee7ddf5c01c8a30da3b2203b9991167bc81a3e9be5486359da03f7922",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/14.bin",
+      "size_bytes": 873131,
+      "sha256": "10e2f4c353f4118aa062dad626ad0c6910b74bb7ddd1071124719d80949e7170",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/15.bin",
+      "size_bytes": 477851,
+      "sha256": "f7b407db0009c1f6a544aa55d068fdce49b2b5839de07b7c279bb8908b63493d",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/16.bin",
+      "size_bytes": 366491,
+      "sha256": "b1dac886d4d1290e624fdb71ed47bc1f36af91c11f58eec49c4d64ba4b7a88ee",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/17.bin",
+      "size_bytes": 7107131,
+      "sha256": "1fd7801a4a869a7c0e18de62f0238bcb9f5f59c7e40e0b5af255856524b4851e",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/18.bin",
+      "size_bytes": 1632011,
+      "sha256": "0859e5d3e9351617cfe746b6a92e0966b765819aed7590a6cb2d1b46e012e8bc",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/19.bin",
+      "size_bytes": 553691,
+      "sha256": "e58d4671d70e5b8a4c8a1b19b8dca33bae8e1d7a948185da61fad710a1a82b81",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/20.bin",
+      "size_bytes": 180731,
+      "sha256": "617434b23a97bc667ced9df49e198a94b449eeb76fc3701e066442ef89efd247",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/21.bin",
+      "size_bytes": 876251,
+      "sha256": "12989f30e7edbc34065a371545a8857ca942d0388e007f486595b10b02b9217b",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/22.bin",
+      "size_bytes": 827051,
+      "sha256": "bfb61d0d6937943bba4b3628d24c4d6e78013ca6a85574098641a5d400538e0f",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/23.bin",
+      "size_bytes": 1836251,
+      "sha256": "35d80ded79ae2427561e43122f9e8b4e0bd914e4aef26ca726a5ee8c37d6b108",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/finest/24.bin",
+      "size_bytes": 2543291,
+      "sha256": "228f642e9f8cb761ce1137e9fcaf2ca54beff2f34d01932ca217a4c4df6316fb",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/nacion/data.bin",
+      "size_bytes": 251,
+      "sha256": "18a6144d057fd1f99db19762e0f98c041fb16020e542823e560c1bad6cbc4d16",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/parroquia/data.bin",
+      "size_bytes": 250091,
+      "sha256": "ab45eb68288082c54f32f2630408bead2dae306380419a703e443fff67ffc306",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/provincia/data.bin",
+      "size_bytes": 5771,
+      "sha256": "583728badb6bb6ebd82fb9456ab7b0bb43f54d295a60c0e9bcdebbcbd3bc33b7",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/schema.json",
+      "size_bytes": 3399,
+      "sha256": "e816ee22d52be200a283cf322201c0d91fe7c4bd5633b7f5a2435c675ebb3af7",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/01.bin",
+      "size_bytes": 804011,
+      "sha256": "45d24a6ae3cf66d1536cd58934c3823e308cad4ac048f74d823e9e9279cb86b1",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/02.bin",
+      "size_bytes": 210011,
+      "sha256": "3f5c8be6b39d43c1a18cf624ee431c4fd6145ee5b4bb24384aa41f1680941c5f",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/03.bin",
+      "size_bytes": 266411,
+      "sha256": "50b401d124b45db9d30246249fe4ff4fbc38521037ef38c706528948618e6437",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/04.bin",
+      "size_bytes": 137531,
+      "sha256": "5f00fde9f029478bafd37f91a85cbc6df92f4f5280898ed3fe152c4a1b7e741d",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/05.bin",
+      "size_bytes": 473531,
+      "sha256": "48b5883939b0d7ba9c6b46f395740f098b6e7c5fdf91a2401b347889d83a8a6b",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/06.bin",
+      "size_bytes": 528491,
+      "sha256": "6fbeb3feed14a37892da4867da7933066b8525c2e9a9f62125ddb3fa7b36e2bf",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/07.bin",
+      "size_bytes": 516731,
+      "sha256": "3913b0c257f2cefbeddba9948dfd5ae2ff22d3e1d6653ae7f4020a1db47d453c",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/08.bin",
+      "size_bytes": 425531,
+      "sha256": "a364f7e3d58ec7cd25af5573e5625081b8c8f47674ecafec3dde93f0b1a87575",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/09.bin",
+      "size_bytes": 2762651,
+      "sha256": "0ed59d0f469835eca0487b48734805e5fafc93c30ec96f7dfd5dc0fff646df63",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/10.bin",
+      "size_bytes": 345611,
+      "sha256": "08bad852d4020744194e6f96b5b9e6c05bf33040b3dcc51d97fbb79379148bfc",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/11.bin",
+      "size_bytes": 451451,
+      "sha256": "9ba5853e4c54d3c6aa7a250beca60d477b051f4cdf0ff3c65fceca2c918a1f8c",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/12.bin",
+      "size_bytes": 650891,
+      "sha256": "50d5746fa68c1824672f2c4b64d99bae5fdb6a1fbb12ee932c1ce4fef6d66f89",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/13.bin",
+      "size_bytes": 1157771,
+      "sha256": "7646be954b48278fba51884e35701ccadf8d6dd8af614bf590f80828d51b42b3",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/14.bin",
+      "size_bytes": 222731,
+      "sha256": "03545cd3568dc81592726f1e811c88b7673648d5f383ee05ec78859cb1e0b37e",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/15.bin",
+      "size_bytes": 115691,
+      "sha256": "069bc98a741a81a2322211309cbeec0d669d5ee1596cee26046d756886a3ead1",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/16.bin",
+      "size_bytes": 105851,
+      "sha256": "8679b3ac0fbfb495c651a255c321640e85f756abfbc7023aa67376beeed30dca",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/17.bin",
+      "size_bytes": 2043131,
+      "sha256": "dd08a2a386dd21a6a8913c03ef79b4709d0d491d58407acb2d8568e1bba47f6f",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/18.bin",
+      "size_bytes": 539291,
+      "sha256": "b06cc426520db35736fb9c47a55105fdbeb118b22d192a2e5c1a0ecbeb233d54",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/19.bin",
+      "size_bytes": 117851,
+      "sha256": "b385bf0e9a004f6b5c3e8a9649b1689184e8c0c0f4905e3073c569db42b803fa",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/20.bin",
+      "size_bytes": 28571,
+      "sha256": "883346b68f4a13f01cf621bcdc9d4abf72b3fb5fbfe2cb7fd79e40e5f82f5416",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/21.bin",
+      "size_bytes": 178091,
+      "sha256": "afe723946a71c40f24ebb446bc27fca48833693d5578101d103fc21e7d62ce3b",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/22.bin",
+      "size_bytes": 158411,
+      "sha256": "9441934238e016a86c3b63a92e6d0178db45501c3e27c5231a9eb597127d4f98",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/23.bin",
+      "size_bytes": 346331,
+      "sha256": "9f0246a181d3a794d00acaa84a2ded3295aa2731561011fe826a700a19461da0",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
+    },
+    {
+      "path": "indicator-maps/v2a/sector/24.bin",
+      "size_bytes": 256811,
+      "sha256": "962d8838ebb4e00e66daf947deb7186f29da8092f36b8c3fc3d1b9d39332f9c1",
+      "category": "binary_chunks",
+      "asset": "indicators-v2a.tar.gz"
     }
   ]
 }
