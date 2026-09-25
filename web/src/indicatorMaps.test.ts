@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { classifyBreaks } from './indicatorMaps'
+import { availableAtLevel, classifyBreaks } from './indicatorMaps'
 
 describe('choropleth breaks', () => {
+  it('enables indicators at their minimum scale and coarser scales', () => {
+    expect(availableAtLevel('sector', 'provincia')).toBe(true)
+    expect(availableAtLevel('sector', 'sector')).toBe(true)
+    expect(availableAtLevel('sector', 'manzana')).toBe(false)
+  })
   it('keeps quantile thresholds in data order', () => {
     expect(classifyBreaks([9, 1, 7, 3, 5, 2, 4, 6, 8, 10], 'quantile'))
       .toEqual([3, 5, 7, 9])

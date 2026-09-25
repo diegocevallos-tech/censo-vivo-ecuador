@@ -27,6 +27,7 @@ h1,h2,p{margin:0}h1,h2{font-family:'Space Grotesk',sans-serif}h1{font-size:29px;
 .data-card #indicator-select{min-height:35px;color:#f5b82e;font-weight:700}
 .data-card h2{margin-top:13px}.data-card .break-control{display:flex;align-items:center;gap:11px;margin-top:15px}.break-control label{font-size:10px;color:#b9c9d0;white-space:nowrap}.break-control select{min-height:30px;font-size:11px}
 .data-card .availability{min-height:14px;color:#f5b82e;font-size:10px;margin-top:8px}.data-card .availability:empty{display:none}
+.data-card .break-scope{color:#a9bcc4;font-size:10px;margin-top:4px}
 .data-card .ticks{gap:4px}.data-card .ticks span{min-width:0;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:700px){.masthead{top:16px;left:16px;gap:11px}.mark{width:34px;height:34px;font-size:28px;margin-top:4px}h1{font-size:22px}.masthead p{font-size:10px}.eyebrow{font-size:8px}.status{top:96px;right:16px;font-size:9px}.data-card{left:12px;bottom:80px;width:calc(100vw - 24px);padding:17px}.data-card h2{font-size:19px;margin-top:13px}.data-card .hint{display:none}.divider{margin:12px 0}.footnote{left:16px;bottom:14px;right:68px;font-size:9px}.foot-sep{display:none}.scale-rail{display:none}.maplibregl-ctrl-bottom-right{right:7px!important;bottom:270px!important}}
 @media(max-width:1000px){.search-box{top:104px;left:16px;width:330px;max-width:calc(100vw - 110px)}.breadcrumb{top:150px;left:16px;max-width:calc(100vw - 32px)}.language{top:105px;right:16px}.status{top:26px;right:16px}}

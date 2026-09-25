@@ -1,5 +1,10 @@
 export type Level = 'nacion' | 'provincia' | 'canton' | 'parroquia' | 'sector' | 'manzana'
 export type BreakMode = 'quantile' | 'jenks' | 'stddev'
+const scale: Level[] = ['nacion', 'provincia', 'canton', 'parroquia', 'sector', 'manzana']
+
+export function availableAtLevel(minLevel: Level, level: Level): boolean {
+  return scale.indexOf(level) <= scale.indexOf(minLevel)
+}
 
 interface IndexSchema {
   format: 'CVEI1'

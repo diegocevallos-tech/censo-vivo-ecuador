@@ -4,7 +4,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { Protocol } from 'pmtiles'
 import indicatorCatalog from './generated/indicators.json'
 import placeCatalog from './generated/places.json'
-import { classifyBreaks, indicatorFile } from './indicatorMaps'
+import { availableAtLevel, classifyBreaks, indicatorFile } from './indicatorMaps'
 import type { BreakMode, Level } from './indicatorMaps'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './style.css'
@@ -23,7 +23,6 @@ const definitions = indicatorCatalog.indicators
 const byId = new Map(definitions.map(definition => [definition.id, definition]))
 const places = placeCatalog.places
 const placeByKey = new Map(places.map(place => [place.key, place]))
-const levels: Level[] = ['nacion', 'provincia', 'canton', 'parroquia', 'sector', 'manzana']
 const params = new URLSearchParams(location.hash.slice(1))
 let language: 'es' | 'en' = params.get('lang') === 'en' ? 'en' : 'es'
 let indicator = byId.has(params.get('indicator') ?? '') ? params.get('indicator')! : 'density'
@@ -64,6 +63,7 @@ app.innerHTML = `
       <h2 id="indicator-title">Densidad de población</h2><p id="indicator-description">Habitantes por kilómetro cuadrado de la unidad censal.</p>
       <div class="break-control"><label for="break-mode" id="break-label">Cortes</label>
         <select id="break-mode"><option value="quantile">Cuantiles</option><option value="jenks">Jenks</option><option value="stddev">Desviación estándar</option></select></div>
+      <p class="break-scope" id="break-scope"></p>
       <div class="ramp" aria-hidden="true"></div>
       <div class="ticks" id="legend-ticks"><span>0</span><span>50</span><span>200</span><span>1 mil</span><span>5 mil</span><span>15 mil+</span></div>
       <p id="availability" class="availability" role="status"></p>
@@ -88,6 +88,7 @@ const indicatorDescription = document.querySelector<HTMLElement>('#indicator-des
 const availabilityEl = document.querySelector<HTMLElement>('#availability')!
 const breaksEl = document.querySelector<HTMLSelectElement>('#break-mode')!
 const legendEl = document.querySelector<HTMLElement>('#legend-ticks')!
+const breakScopeEl = document.querySelector<HTMLElement>('#break-scope')!
 const placeSearch = document.querySelector<HTMLInputElement>('#place-search')!
 const placeResults = document.querySelector<HTMLElement>('#place-results')!
 const breadcrumbEl = document.querySelector<HTMLElement>('#breadcrumb')!
@@ -106,7 +107,17 @@ const color: maplibregl.ExpressionSpecification = [
 ]
 const integer = new Intl.NumberFormat('es-EC')
 const decimal = new Intl.NumberFormat('es-EC', { maximumFractionDigits: 1 })
-const palette = ['#203650', '#2a6575', '#48a292', '#c0c470', '#f4a944']
+const palettes: Record<string, string[]> = {
+  density: ['#203650', '#2a6575', '#48a292', '#c0c470', '#f4a944'],
+  Viridis: ['#440154', '#3b528b', '#21918c', '#5ec962', '#fde725'],
+  PuRd: ['#f1eef6', '#d7b5d8', '#df65b0', '#dd1c77', '#980043'],
+  RdBu: ['#2166ac', '#92c5de', '#f7f7f7', '#f4a582', '#b2182b'],
+  YlOrRd: ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'],
+}
+function activePalette(): string[] {
+  return indicator === 'density' ? palettes.density :
+    palettes[byId.get(indicator)!.palette] ?? palettes.Viridis
+}
 const formatValue = (value: number): string => new Intl.NumberFormat(language === 'es' ? 'es-EC' : 'en-US',
   { maximumFractionDigits: Math.abs(value) < 10 ? 2 : 1 }).format(value)
 const norm = (value: string): string => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
@@ -138,7 +149,7 @@ function renderBreadcrumb() {
 }
 
 function indicatorAvailable(minLevel: string, level: Level): boolean {
-  return levels.indexOf(level) >= levels.indexOf(minLevel as Level)
+  return availableAtLevel(minLevel as Level, level)
 }
 
 function renderControls(level: Level) {
@@ -186,6 +197,13 @@ function renderControls(level: Level) {
   availabilityEl.textContent = indicator !== 'density' &&
     !indicatorAvailable(byId.get(indicator)!.min_level, level)
     ? `${t.from} ${byId.get(indicator)!.min_level}` : ''
+  breakScopeEl.textContent = language === 'es'
+    ? (indicator === 'density' ? 'Cortes del mapa visible.'
+      : level === 'sector' || level === 'manzana' ? 'Cortes de las provincias cargadas.'
+        : 'Cortes nacionales.')
+    : (indicator === 'density' ? 'Breaks use visible map units.'
+      : level === 'sector' || level === 'manzana' ? 'Breaks use loaded provinces.'
+        : 'Nationwide breaks.')
   renderBreadcrumb()
 }
 const protocol = new Protocol()
@@ -218,20 +236,30 @@ async function start() {
   let currentLevel = zoomLevel(map.getZoom())
   let paintGeneration = 0
   let paintedKey = ''
+  let densityPaintKey = ''
 
   function fillExpression(breaks: number[]): maplibregl.ExpressionSpecification {
-    if (indicator === 'density') return color
+    const palette = activePalette()
     const distinct = [...new Set(breaks)].sort((a, b) => a - b)
     const step: unknown[] = ['step', ['to-number', ['feature-state', 'value'], 0], palette[0]]
     distinct.forEach((breakpoint, index) => step.push(breakpoint,
       palette[Math.min(palette.length - 1, index + 1)]))
+    if (indicator === 'density') {
+      step[1] = ['to-number', ['get', 'density'], 0]
+      return ['case', ['has', 'density'], step, '#354050'] as unknown as maplibregl.ExpressionSpecification
+    }
     return ['case', ['in', ['feature-state', 'status'], ['literal', [0, 1]]],
       step, '#354050'] as unknown as maplibregl.ExpressionSpecification
   }
 
   async function colorize(level: Level, provinces: string[]) {
     const generation = ++paintGeneration
+    const ramp = document.querySelector<HTMLElement>('.ramp')!
+    const colors = activePalette()
+    ramp.style.background = `linear-gradient(90deg, ${colors.map((hex, index) =>
+      `${hex} ${index * 20}%,${hex} ${(index + 1) * 20}%`).join(',')})`
     if (indicator === 'density') {
+      densityPaintKey = ''
       for (const id of active) {
         map.setPaintProperty(`${id}-fill`, 'fill-color', color)
         map.setPaintProperty(`${id}-fill`, 'fill-opacity', 0.79)
@@ -281,6 +309,33 @@ async function start() {
     } catch (error) {
       if (generation === paintGeneration) statusEl.textContent = String(error)
     }
+  }
+
+  function updateDensityBreaks() {
+    if (indicator !== 'density' || !active.size) return
+    const seen = new Set<string>()
+    const values: number[] = []
+    for (const id of active) {
+      const level = zoomLevel(map.getZoom())
+      for (const feature of map.querySourceFeatures(id, { sourceLayer: level })) {
+        const key = String(feature.properties.unit_key)
+        const density = Number(feature.properties.density)
+        if (!seen.has(key) && Number.isFinite(density)) {
+          values.push(density)
+          seen.add(key)
+        }
+      }
+    }
+    if (values.length < 5) return
+    const breaks = classifyBreaks(values, breakMode).map(value => Math.max(0, value))
+    const next = `${zoomLevel(map.getZoom())}:${breakMode}:${breaks.join(',')}`
+    if (next === densityPaintKey) return
+    densityPaintKey = next
+    const expression = fillExpression(breaks)
+    for (const id of active) map.setPaintProperty(`${id}-fill`, 'fill-color', expression)
+    legendEl.replaceChildren(...breaks.map(value => {
+      const span = document.createElement('span'); span.textContent = formatValue(value); return span
+    }))
   }
 
   function visibleProvinces(level: Level): string[] {
@@ -383,6 +438,7 @@ async function start() {
   })
   map.on('load', sync)
   map.on('moveend', sync)
+  map.on('idle', updateDensityBreaks)
   map.on('mousemove', event => {
     const layers = [...active].map(id => `${id}-fill`)
     map.getCanvas().style.cursor = layers.length && map.queryRenderedFeatures(event.point, { layers }).length
