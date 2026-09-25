@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import asdict
 from pathlib import Path
 
@@ -115,6 +116,23 @@ def render_fixtures(catalog: dict) -> str:
     return json.dumps(cases, ensure_ascii=False, indent=2) + "\n"
 
 
+def equivalent(actual: object, expected: object) -> bool:
+    """Ignore harmless libm float rendering differences across CI platforms."""
+    if isinstance(actual, dict) and isinstance(expected, dict):
+        return actual.keys() == expected.keys() and all(
+            equivalent(actual[key], expected[key]) for key in actual
+        )
+    if isinstance(actual, list) and isinstance(expected, list):
+        return len(actual) == len(expected) and all(
+            equivalent(left, right) for left, right in zip(actual, expected, strict=True)
+        )
+    if isinstance(actual, bool) or isinstance(expected, bool):
+        return actual is expected
+    if isinstance(actual, (int, float)) and isinstance(expected, (int, float)):
+        return math.isclose(actual, expected, rel_tol=1e-12, abs_tol=1e-9)
+    return actual == expected
+
+
 def generate(*, check: bool = False) -> None:
     catalog = load()
     browser = json.dumps(catalog, ensure_ascii=False, indent=2) + "\n"
@@ -133,9 +151,12 @@ def generate(*, check: bool = False) -> None:
             name for name, actual, expected in (
                 ("browser catalog", TYPESCRIPT.read_text(encoding="utf-8"), browser),
                 ("methodology", current, document),
-                ("parity fixtures", FIXTURES.read_text(encoding="utf-8"), fixtures),
             ) if actual != expected
         ]
+        if not equivalent(
+            json.loads(FIXTURES.read_text(encoding="utf-8")), json.loads(fixtures)
+        ):
+            stale.append("parity fixtures")
         if stale:
             raise ValueError(f"Generated files are stale: {', '.join(stale)}")
         return
