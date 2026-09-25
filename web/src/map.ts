@@ -308,6 +308,9 @@ async function start() {
   let densityOn = true
   let unitsOn = true
   let mode3d = false
+  let sectorFallback = false
+  const effectiveLevel = (): Level => sectorFallback && zoomLevel(map.getZoom()) === 'manzana'
+    ? 'sector' : zoomLevel(map.getZoom())
 
   function applySelectionPaint() {
     for (const id of active) {
@@ -492,7 +495,7 @@ async function start() {
     const seen = new Set<string>()
     const values: number[] = []
     for (const id of active) {
-      const level = zoomLevel(map.getZoom())
+      const level = currentLevel
       for (const feature of map.querySourceFeatures(id, { sourceLayer: level })) {
         const key = String(feature.properties.unit_key)
         const density = Number(feature.properties.density)
@@ -504,7 +507,7 @@ async function start() {
     }
     if (values.length < 5) return
     const breaks = classifyBreaks(values, breakMode).map(value => Math.max(0, value))
-    const next = `${zoomLevel(map.getZoom())}:${breakMode}:${breaks.join(',')}`
+    const next = `${currentLevel}:${breakMode}:${breaks.join(',')}`
     if (next === densityPaintKey) return
     densityPaintKey = next
     const expression = fillExpression(breaks)
@@ -526,7 +529,7 @@ async function start() {
   }
 
   function sync() {
-    const level = zoomLevel(map.getZoom())
+    const level = effectiveLevel()
     const provinces = visibleProvinces(level)
     const wanted = new Set(provinces.map(p => `${level}-${p}`))
     for (const id of active) {
@@ -562,8 +565,8 @@ async function start() {
       void colorize(level, provinces)
     }
     if (currentLevel !== level) {
-      selection.clear()
       currentLevel = level
+      selection.clear()
       renderControls(level)
       renderThemes()
     }
@@ -637,12 +640,12 @@ async function start() {
   indicatorSelect.addEventListener('change', () => {
     indicator = indicatorSelect.value
     paintedKey = ''
-    renderControls(zoomLevel(map.getZoom()))
+    renderControls(currentLevel)
     renderThemes()
     sync()
     void refreshAnalysis()
   })
-  indicatorSearch.addEventListener('input', () => renderControls(zoomLevel(map.getZoom())))
+  indicatorSearch.addEventListener('input', () => renderControls(currentLevel))
   breaksEl.addEventListener('change', () => {
     breakMode = breaksEl.value as BreakMode
     paintedKey = ''
@@ -653,7 +656,7 @@ async function start() {
     document.querySelector<HTMLElement>('#assignment-note')!.textContent = language === 'es'
       ? `${integer.format(catalog.assigned_manzanas_without_polygon)} manzanas sin polígono: población asignada a nivel de sector`
       : `${integer.format(catalog.assigned_manzanas_without_polygon)} blocks without polygons: population assigned at sector level`
-    renderControls(zoomLevel(map.getZoom()))
+    renderControls(currentLevel)
     renderThemes()
     saveHash(map)
     void refreshAnalysis()
@@ -689,8 +692,19 @@ async function start() {
     if (event.key === 'Enter') placeResults.querySelector<HTMLButtonElement>('button')?.click()
   })
   map.on('load', sync)
-  map.on('moveend', sync)
-  map.on('idle', updateDensityBreaks)
+  map.on('moveend', () => { sectorFallback = false; sync() })
+  map.on('idle', () => {
+    updateDensityBreaks()
+    if (zoomLevel(map.getZoom()) !== 'manzana' || sectorFallback || currentLevel !== 'manzana'
+      || !active.size || ![...active].every(id => map.isSourceLoaded(id))) return
+    const canvas = map.getCanvas()
+    const visibleBlocks = map.queryRenderedFeatures([[0, 0], [canvas.clientWidth, canvas.clientHeight]],
+      { layers: [...active].map(id => `${id}-fill`) })
+    if (!visibleBlocks.length) {
+      sectorFallback = true
+      sync()
+    }
+  })
   map.on('mousemove', event => {
     if (selection.mode === 'circle' || selection.mode === 'lasso') return
     const layers = [...active].map(id => `${id}-fill`)
@@ -706,7 +720,7 @@ async function start() {
     if (!p) return
     await selection.click(feature)
     if (selection.mode === 'multi') return
-    const level = zoomLevel(map.getZoom())
+    const level = currentLevel
     selectedKey = String(p.unit_key)
     renderBreadcrumb()
     saveHash(map)
