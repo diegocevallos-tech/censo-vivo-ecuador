@@ -1,1102 +1,1095 @@
 {
   "schema_version": 1,
-  "release": "data-derived-v1a",
+  "release": "data-derived-v1b1",
   "geom_version": "marco-2021",
   "assets": [
     {
-      "name": "counts-finest-v1a.tar.gz",
-      "size_bytes": 78187628,
-      "sha256": "ff469c5a2859e1e2ca8d5449b8681ba8004ddaaa7b3f10ec096468bd806560b8"
+      "name": "counts-finest-v1b1.tar.gz",
+      "size_bytes": 127787084,
+      "sha256": "700c0d7201b3f62412282c9bfa269c4f00ef94a0431b5747d505267e586e6385"
     },
     {
-      "name": "counts-sector-v1a.tar.gz",
-      "size_bytes": 52145919,
-      "sha256": "55568986bf147747f3282fcadc600107a3282a8a6d7ec31e69d08a9a6d2e840e"
+      "name": "counts-sector-v1b1.tar.gz",
+      "size_bytes": 2407404,
+      "sha256": "96747bbd4eafa0ddc1acccbdd90f019d17acfa21bbd20cea9ef1faa04c76da7a"
     },
     {
-      "name": "counts-other-v1a.tar.gz",
-      "size_bytes": 4196423,
-      "sha256": "44b2f039760da80e00824de3b908d56aec1adc1deac9ec4f0fa0bedf1ec910a4"
+      "name": "counts-other-v1b1.tar.gz",
+      "size_bytes": 4190540,
+      "sha256": "746dc18096da6f8226c2c9ea04373aecd64e0570758bbcacbd7f0d21990f2b7c"
     }
   ],
   "files": [
     {
-      "path": "counts/v1a/canton/data.parquet",
-      "size_bytes": 36641,
-      "sha256": "24a7985ed42e6b9e703e37fc696eb3be6867e478b09594ed5f7689717489cd6f",
+      "path": "counts/v1b1/canton/data.parquet",
+      "size_bytes": 36660,
+      "sha256": "234c5ff55b64c1916bde6b24e7dbaee3d78a04b0eec84c8399519e31276c3b1e",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/01.parquet",
+      "path": "counts/v1b1/categories/canton/01.parquet",
       "size_bytes": 79235,
-      "sha256": "d6732114f19b5134326712ef779615107d22c1fb8edf9b84916c2ea0729222d0",
+      "sha256": "29855f1fb9c3973a5251a234867784c7e821e24ed73269fce498d3b85b8e8e4a",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/02.parquet",
+      "path": "counts/v1b1/categories/canton/02.parquet",
       "size_bytes": 41987,
-      "sha256": "f1161364cb2f9f11bb9a4720f8dc80874802eeeacedd11c42c3daff1a501516c",
+      "sha256": "b0f310d7ae2b6f6a748d3e2ae6ec57df2cea848491a8ed70705eec2ecaebf786",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/03.parquet",
+      "path": "counts/v1b1/categories/canton/03.parquet",
       "size_bytes": 43134,
-      "sha256": "7b5d6af06dba016dd829c499f66e5fa4bcb78b66aa8f340beac7d6fed46069e0",
+      "sha256": "19c9792ea11cc6e8794e87f8d0d737e148b6d4b25f73eaeced4863830fcdc9d2",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/04.parquet",
+      "path": "counts/v1b1/categories/canton/04.parquet",
       "size_bytes": 35263,
-      "sha256": "5e6548dba2d198f1f1871f65cd8118731b8fa605cd0f42707af0c18bba11b281",
+      "sha256": "0ed52875c08dfbba23511f869ab73d1edcdbf5627cc3c2a499f6d9ecdd1a3bcd",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/05.parquet",
+      "path": "counts/v1b1/categories/canton/05.parquet",
       "size_bytes": 52401,
-      "sha256": "eb7a05782a0b2002ce4b9319d8eb82aa35d7e02321e9ea903e764e44d425e35d",
+      "sha256": "968184f98985ac38eb0c3d3422e055fcd08039ea8322d1d6fd4f35e0bfb2aedd",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/06.parquet",
+      "path": "counts/v1b1/categories/canton/06.parquet",
       "size_bytes": 59796,
-      "sha256": "f15397cd4daca30f3e68f74007108645726041e88b218645efcde6e304bfa492",
+      "sha256": "1ffcf4980a77ea9b61c1ea31d22fdd850c7a942970f682db419c7826816ba7ce",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/07.parquet",
+      "path": "counts/v1b1/categories/canton/07.parquet",
       "size_bytes": 83812,
-      "sha256": "b0e9ab036ca29ae2599ba9b0f758c8dca0f3d8b16230fbd1aa62b44544bf08d0",
+      "sha256": "4e0b24f00c6cb6fd2f4d925de4aeca70c85a5461776bd4d65dcfa403d90abd96",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/08.parquet",
+      "path": "counts/v1b1/categories/canton/08.parquet",
       "size_bytes": 50580,
-      "sha256": "11d3f952e28faba4caf11f8648f0a14d70a83fd466e88d3ce6844332bc172b1a",
+      "sha256": "f5fb5f14fee7c13d78aa80f1d64bbadc71cd8ebeabc59dbaa1d3c58297b07ebc",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/09.parquet",
+      "path": "counts/v1b1/categories/canton/09.parquet",
       "size_bytes": 160580,
-      "sha256": "e8f1209b8ed79f2383c79e091ccf598bb61371bbb07e81016955a7d9df5f1d46",
+      "sha256": "810dd5a9118f5fc1a6c9e4885463a19a5d190778c597d2bae7505a7417e3897c",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/10.parquet",
+      "path": "counts/v1b1/categories/canton/10.parquet",
       "size_bytes": 47600,
-      "sha256": "c84dc7bc1a94e81065a34141274a3af2b0d4d0658c2ea15c2954a26349dfe55e",
+      "sha256": "fc315ac501a4a1caabdda44f6fde4cacce6cf9ff131e22a200b23c1722953718",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/11.parquet",
+      "path": "counts/v1b1/categories/canton/11.parquet",
       "size_bytes": 76570,
-      "sha256": "d7a3096bd109c655bb3be1df3139f0d10c3b03b493731bca38440b30a498eace",
+      "sha256": "071132e732259e6a8982000deb0f416acb94534a33d4ac9c36a5d3787fcf75f4",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/12.parquet",
+      "path": "counts/v1b1/categories/canton/12.parquet",
       "size_bytes": 83298,
-      "sha256": "13ba612850d200af866f3a9a1e740efd2356f7217809e53ed7bc8390fb9693b8",
+      "sha256": "3b5cce1589b0dbed10551392cd23a97ba331e65041653c9b2fab04e5a92c87ed",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/13.parquet",
+      "path": "counts/v1b1/categories/canton/13.parquet",
       "size_bytes": 129232,
-      "sha256": "85a0edbb319321e0605836b384f018aa0e372dd3b556d288f1035d2d7b0147a0",
+      "sha256": "91c602b5a214e453622500c6cf886e7283708f9ca0bd40ab101fa4bbc73edb82",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/14.parquet",
+      "path": "counts/v1b1/categories/canton/14.parquet",
       "size_bytes": 58004,
-      "sha256": "f178e559ac7de54acdc3fd1faacca55343ef4e224423ff4b27a0e70f73036a4d",
+      "sha256": "dc57815c06f001efc0e7743475ebc8129136088526fdf3e747452c08e7407ba3",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/15.parquet",
+      "path": "counts/v1b1/categories/canton/15.parquet",
       "size_bytes": 35203,
-      "sha256": "11928a5ea41933f6b971266e5a68c9a78f3becceb04119b9ca44e2534b74ca8d",
+      "sha256": "be6711a165c180370f7074a5568f38de88038558b5eaaaab96ae05bc3e54c6ad",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/16.parquet",
+      "path": "counts/v1b1/categories/canton/16.parquet",
       "size_bytes": 28823,
-      "sha256": "b8a8fb205e954c93c91edd20092ee85f120105440174770462bf159b2dc12fd2",
+      "sha256": "23f7061e2b81a0a7a492b4901fbd974d7d3334a2ef1b045b7754c1733d8628f5",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/17.parquet",
+      "path": "counts/v1b1/categories/canton/17.parquet",
       "size_bytes": 77168,
-      "sha256": "2ea3bb342032744db94cab5b34f07274696bfe055a63e702f7d5b80e6ed64eb5",
+      "sha256": "2539cd0c97ea1d649773fd4d3f134926b66f8ef552be7c11102ce788cc8a0a30",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/18.parquet",
+      "path": "counts/v1b1/categories/canton/18.parquet",
       "size_bytes": 58262,
-      "sha256": "5f2f5f35b5e3c469d71dc2ea0dcdff28b728faa20e40ec951a9581aef7d4d3db",
+      "sha256": "34be963e81ec86fb8a5ca8605ec73fb5d7fc86544aa78b1a2e011db0fbca62a4",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/19.parquet",
+      "path": "counts/v1b1/categories/canton/19.parquet",
       "size_bytes": 45770,
-      "sha256": "68497efb70183eee0acbd3666ca743eb2bf4a34cc45103b49c87bcd43ff20389",
+      "sha256": "37c2065d07d601b918657878b8e5b6baec72e74b0b589f1d91503a664abbe1b4",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/20.parquet",
+      "path": "counts/v1b1/categories/canton/20.parquet",
       "size_bytes": 21565,
-      "sha256": "f17cfe0aacf3195324857a849cac92d246e1a31c06f0fafd590040154c18c8fd",
+      "sha256": "61e4b99dc82710b7bd6ee6f74a4d67c07d787308f9b01a5d9d88068b8d4ca62a",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/21.parquet",
+      "path": "counts/v1b1/categories/canton/21.parquet",
       "size_bytes": 47021,
-      "sha256": "8eba798e3bfb5e37b6ad1ccbceac2dff61a123f11a6f12e527e0b22e3ee59740",
+      "sha256": "32a765568b2589198ec01d4967b41098601533330f01551aaad95ac285b1aa47",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/22.parquet",
+      "path": "counts/v1b1/categories/canton/22.parquet",
       "size_bytes": 36363,
-      "sha256": "29dbf0d027da251c95b9680e037b7037cc1c8368e2fef845a5056e8c24f1fbc3",
+      "sha256": "0fbe23eeb1f729cb92d231e959a26c9935048304974aa5c49c207cbbe4707860",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/23.parquet",
+      "path": "counts/v1b1/categories/canton/23.parquet",
       "size_bytes": 22258,
-      "sha256": "0bc64644dafa5156d97092a6599e28ebada22c6c4da3faa2170f5d66c6128469",
+      "sha256": "e525e913f42a3b7166d122770c68389614ccdb73c78e600a4e0ace8a98d32ae8",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/canton/24.parquet",
+      "path": "counts/v1b1/categories/canton/24.parquet",
       "size_bytes": 25142,
-      "sha256": "ae751e5a580ac9bf50db015d75905dcd3da2b554e05469416ea5e8a4fce6d0d4",
+      "sha256": "3bf2bb6f3567ba15b7fe9536013d79fea087eaa672a5e19dd05371aa232a5cab",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/codebook.parquet",
-      "size_bytes": 12073,
-      "sha256": "72f2dd776c813a3f78a30533fde329b4d7cfd0e88a892d22ab1ec7fe34cd2b19",
+      "path": "counts/v1b1/categories/codebook.parquet",
+      "size_bytes": 10500,
+      "sha256": "ea1af78a70deed8fcf2207075fdb8d40491c8efc17e1b1252469c8c5f7c84cef",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/01.parquet",
-      "size_bytes": 3628316,
-      "sha256": "f05b12db207464a47f426e9a5621aa12cbc007384e644b93b17586c43a6dc318",
+      "path": "counts/v1b1/categories/finest/01.parquet",
+      "size_bytes": 5487612,
+      "sha256": "1b60e6628da5b93c0c78e04bec7fb074c2a5701b65096efb84b57b17f7ad4251",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/02.parquet",
-      "size_bytes": 995591,
-      "sha256": "660a8258cf93e63119473ad82555ce85617cf7a42dcf82ebab5c721f54ef181f",
+      "path": "counts/v1b1/categories/finest/02.parquet",
+      "size_bytes": 1458438,
+      "sha256": "91fb715f885c6daed13e627a1c9dfdbc165ed7fe1e462cbd926ed3ab9f459b84",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/03.parquet",
-      "size_bytes": 1238355,
-      "sha256": "2ab855c703f596fcba29aa1081b86cb451ee27406f47c0cc9ecc71b686241c44",
+      "path": "counts/v1b1/categories/finest/03.parquet",
+      "size_bytes": 1954640,
+      "sha256": "8d370b1cee4d0cb465fec810a88e7e0b88704b76cfdf1041e351da3fcddd0222",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/04.parquet",
-      "size_bytes": 870977,
-      "sha256": "9ba7aed467b7df424339020338034acdef9424d58ea5c688932d367fe4dcf632",
+      "path": "counts/v1b1/categories/finest/04.parquet",
+      "size_bytes": 1448837,
+      "sha256": "ec2a2aafea3b41b6e90d3e39adc8014cdae88d310715f058dce168015650e17f",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/05.parquet",
-      "size_bytes": 2119588,
-      "sha256": "c7fbfa252362dcfa00873275355abceddab9af0013691ab219605e66191a8036",
+      "path": "counts/v1b1/categories/finest/05.parquet",
+      "size_bytes": 3008800,
+      "sha256": "5605212b8f36697a94137b87c066b7b146533ab03bbfe70be60c38883dc5fabf",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/06.parquet",
-      "size_bytes": 2394369,
-      "sha256": "ba2bb144461faff980648d3ccf5ef36f624562c471b298e1970eff36bb06ec72",
+      "path": "counts/v1b1/categories/finest/06.parquet",
+      "size_bytes": 3811768,
+      "sha256": "5b97ba5a45d7c18eaf4cbf828bf406607aecbd807817226afc0a50b0127d1dbe",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/07.parquet",
-      "size_bytes": 3415764,
-      "sha256": "bbaa5aa5b27eafe377ed6fa3be61e17ade277f55aeb1a3336b96b7333e084160",
+      "path": "counts/v1b1/categories/finest/07.parquet",
+      "size_bytes": 6217092,
+      "sha256": "c767132a23cceb9f59b213bcdf05de86ef434431bf7a909fac0fc0edd03d9afd",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/08.parquet",
-      "size_bytes": 2528332,
-      "sha256": "75fede802d80220733ab98cf02ee84aec0ecf81e96365169396fef5968ee37fd",
+      "path": "counts/v1b1/categories/finest/08.parquet",
+      "size_bytes": 4129348,
+      "sha256": "9a262411b3b50a19bb7be1247f3a5cd4f341f136c747b1c7dd7563ac677477b4",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/09.parquet",
-      "size_bytes": 17220603,
-      "sha256": "00cee8a1688656195b56ae0d0c4689460a7bed478d2de8eebfa6243878cd3b68",
+      "path": "counts/v1b1/categories/finest/09.parquet",
+      "size_bytes": 30201346,
+      "sha256": "de5166f2ab8543798e24e53172f24585e85a3e8f88e5674621b49eb3ed8ba323",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/10.parquet",
-      "size_bytes": 2155980,
-      "sha256": "045b920a2f429814ea1d18d5fd4c37f0dc04e69bb8a32d0aa4ad6c9dc7a6b86f",
+      "path": "counts/v1b1/categories/finest/10.parquet",
+      "size_bytes": 3717535,
+      "sha256": "d06a1c64bed922dc62a801dc46d7023799a553968c70d9285e3d043ebf0655c5",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/11.parquet",
-      "size_bytes": 2333557,
-      "sha256": "5fa471b04f21d193d5561f288a231929e560a00dcb9d2f67c51ae62fab7fce2a",
+      "path": "counts/v1b1/categories/finest/11.parquet",
+      "size_bytes": 3899260,
+      "sha256": "840626b7f673e16537f0945bb1d49449913c45243f749a3f242b2b3d5ae89dfc",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/12.parquet",
-      "size_bytes": 4016895,
-      "sha256": "2be43dc34bebca1497e7c75c7146f9e5207d9d93736d6bd265257708d0a2ba84",
+      "path": "counts/v1b1/categories/finest/12.parquet",
+      "size_bytes": 6320790,
+      "sha256": "23546ddc8c657eeae08ab74a1086b51a0296157f90fc4563254bcf5a5f60be22",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/13.parquet",
-      "size_bytes": 7120340,
-      "sha256": "9a66ee3a29bc402476f1cb80524b43b942810ef681991052f6f3c10cf61df4a8",
+      "path": "counts/v1b1/categories/finest/13.parquet",
+      "size_bytes": 12173157,
+      "sha256": "c6cc1b36147e665e405335db9b28551abccba6f1e56e274ccda9ea8f123d584c",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/14.parquet",
-      "size_bytes": 984963,
-      "sha256": "cd039957a6ace4b88d4e6237a6e69947190357aa707ace5513531fb19f6302d9",
+      "path": "counts/v1b1/categories/finest/14.parquet",
+      "size_bytes": 1588698,
+      "sha256": "bb553f7590599eeaa1ee39cb421eb4867d03d320074b7572206d36ebbe27f9e7",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/15.parquet",
-      "size_bytes": 629089,
-      "sha256": "7751b078abae9aca9ce509f9e66bfb9ce5e3d61f30f09e73992cb6a521a84190",
+      "path": "counts/v1b1/categories/finest/15.parquet",
+      "size_bytes": 972500,
+      "sha256": "526f2175bc24b3453cdbf7ee430926072fbb9f8ab19ca2d5bef013bda1a340ef",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/16.parquet",
-      "size_bytes": 527535,
-      "sha256": "92fa7f9d29d0ccc48e9cce8f8dd42a7b780910918673fb6a2ebaf7910fcfe5b0",
+      "path": "counts/v1b1/categories/finest/16.parquet",
+      "size_bytes": 825770,
+      "sha256": "6fcc05248502038bba6571d6ac5729832a90868f9f56169ae55aaeb3b6930669",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/17.parquet",
-      "size_bytes": 11478897,
-      "sha256": "86799311ec6b27cc45796e3acdc52202fb582523f1aeda489ef4a62dfbf73840",
+      "path": "counts/v1b1/categories/finest/17.parquet",
+      "size_bytes": 19085499,
+      "sha256": "e5a0e9af284fc465a69d8e8ccca8af07c796d0bbf614f775e1ee2ba5ca9b892c",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/18.parquet",
-      "size_bytes": 2626076,
-      "sha256": "0fb43529dac2b89a566c5dc3833fe03ee70c753a78bbd642f3d83178e0e44e31",
+      "path": "counts/v1b1/categories/finest/18.parquet",
+      "size_bytes": 4037294,
+      "sha256": "be81be4dda6c5a60217ad117a21c71f666b80a11b3e392421f9190ac7e192de1",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/19.parquet",
-      "size_bytes": 622854,
-      "sha256": "7e19511451fbd578a7f8614130f8929d2b0a39206d360fc8f790774d99cb474c",
+      "path": "counts/v1b1/categories/finest/19.parquet",
+      "size_bytes": 1048737,
+      "sha256": "359552661241a45dba970feed51eabb3409c2a5f5cad612e04a0863db8350d06",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/20.parquet",
-      "size_bytes": 153895,
-      "sha256": "86ad08ca94aee9f1c5081ccb2337da62b6b68c9ffbaa0c901a61529ac8d60acd",
+      "path": "counts/v1b1/categories/finest/20.parquet",
+      "size_bytes": 312322,
+      "sha256": "4b8bda7fed9369a52842eb0aadb8a91d68dc4a1c1be31d229fea8e8fe5960db3",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/21.parquet",
-      "size_bytes": 988261,
-      "sha256": "81a0d14734c8b7165bbd1d50cc3b3739401d108b46c255c098c381babe1eb78c",
+      "path": "counts/v1b1/categories/finest/21.parquet",
+      "size_bytes": 1678062,
+      "sha256": "8843de7968e94f0d1616916415a8af112c0b6d092259a4707ca0de52b077879b",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/22.parquet",
-      "size_bytes": 862993,
-      "sha256": "10fb79b5dcd3c78eded2d8788f57825673d0b541ea90351456a3253d54b2467d",
+      "path": "counts/v1b1/categories/finest/22.parquet",
+      "size_bytes": 1521515,
+      "sha256": "a4d11f0c2cbb0e27858663b24bfbc400b8d2d76fe71677c4ef1f8e94dcca6d17",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/23.parquet",
-      "size_bytes": 2257885,
-      "sha256": "96aa8c561ac2073574f9ad72106c8fd219eca723a8ce5ad12a21d22ea668ad5d",
+      "path": "counts/v1b1/categories/finest/23.parquet",
+      "size_bytes": 3944614,
+      "sha256": "75b14e42f0b1c008f5877d341d7c309a69db842884dbb615f05d3e5b5317f7af",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/finest/24.parquet",
-      "size_bytes": 1738647,
-      "sha256": "20368575a324ee1e8b93f7bdc133510099a11b75fde8001cd37ef252e33e2995",
+      "path": "counts/v1b1/categories/finest/24.parquet",
+      "size_bytes": 3843905,
+      "sha256": "d3c9e9a5cda9e1757ebe9bd20f17e32526cfc60f35b64ed9f93f1c1f676caa5f",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/nacion/data.parquet",
+      "path": "counts/v1b1/categories/nacion/data.parquet",
       "size_bytes": 17574,
-      "sha256": "f19aff48a2b9ae9a36062528578b1188ae6a05219d3eddade2fa4119dabd6cf8",
+      "sha256": "3c13f803e6bd8e84060d8a19e0dae497e9b151b05fb3ea23fe9b413b0b5ebc6e",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/01.parquet",
+      "path": "counts/v1b1/categories/parroquia/01.parquet",
       "size_bytes": 170825,
-      "sha256": "3fc2e47adb0d4a4d95703e0cebc378a511fdcce32ce298e25b50906576bbc4ba",
+      "sha256": "f0920be1aa6102fde05f209d8b2252694d68b72d635d20374d7a5beeacd2951f",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/02.parquet",
+      "path": "counts/v1b1/categories/parroquia/02.parquet",
       "size_bytes": 61405,
-      "sha256": "5a726d3af50e3ec5f61bdbff84960dda575d1029b0c04e0bf5ed51c49d719543",
+      "sha256": "f74cc7ea1e10e2446307275b87ac07435d7fe2f69a8c85fddc22234585988448",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/03.parquet",
+      "path": "counts/v1b1/categories/parroquia/03.parquet",
       "size_bytes": 76584,
-      "sha256": "99ed7ce752f19727b93ab486e6c51613e2d628254e64572c7f2ee937b7c2a1e8",
+      "sha256": "1615bc6646bfbc0dddae3bf283426e1835e00de8726a68af111bea27113f3b33",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/04.parquet",
+      "path": "counts/v1b1/categories/parroquia/04.parquet",
       "size_bytes": 66101,
-      "sha256": "1d203d00cef7c95f3c53992c91393c4af4bccff7305f1a04e40587f726432d10",
+      "sha256": "5ac06af4954a790af1e79780c4d13c4eaf652016e38413d7dc38c4c5857e2ba2",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/05.parquet",
+      "path": "counts/v1b1/categories/parroquia/05.parquet",
       "size_bytes": 98721,
-      "sha256": "6334950655b9d9f3088a9f9ea2fcc5a0402091e06c7945257302a2152f2ae338",
+      "sha256": "a04d149fdd0b30dd4dfa822b087fe1197ef2dfc8f47cb9a80813e8d2a08a1f82",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/06.parquet",
+      "path": "counts/v1b1/categories/parroquia/06.parquet",
       "size_bytes": 114082,
-      "sha256": "14d136c7c959967224add868f906b33b7a54c7190ba9b2ac5612831c8dc2e380",
+      "sha256": "e0e0cd1b2cda3aeaadf7a384cb535c400566dea54f1bcfa085add0ff9ded19e0",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/07.parquet",
+      "path": "counts/v1b1/categories/parroquia/07.parquet",
       "size_bytes": 134539,
-      "sha256": "08f16048a09f7b908a4e10a9be67780a18ac0d2d6b2703f1269e4e0f8b768696",
+      "sha256": "1250d56d9873375db59735dc3c640008dc6e9f8c1d3cd1d5486d9db2ad61bf59",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/08.parquet",
+      "path": "counts/v1b1/categories/parroquia/08.parquet",
       "size_bytes": 132080,
-      "sha256": "4d8ae77459667c35ee9956af01dd28297042a06f23f91cc625a528197980e1ec",
+      "sha256": "18d1c7d4b8bf5fc876a2b68a821f6449c00e83e0d0f4e784758708fc15f7599a",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/09.parquet",
+      "path": "counts/v1b1/categories/parroquia/09.parquet",
       "size_bytes": 172338,
-      "sha256": "b3a9ccf0e4a1cbd062fdaed5b77d5fb8cf8cb8e2875d490621151107f339684f",
+      "sha256": "f8c7a91ddbd3d58f4b52edaf80b8469de6f14e857dee4ce81f2b31e4ff094ea7",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/10.parquet",
+      "path": "counts/v1b1/categories/parroquia/10.parquet",
       "size_bytes": 100048,
-      "sha256": "8f162132a7094b05ab4b235e6a368f95daff380191e971b52d3c14a7dba7fd97",
+      "sha256": "3bf98acb008af18afc9a03108df11e4881aa433fcf4053d84a6156a664edb312",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/11.parquet",
+      "path": "counts/v1b1/categories/parroquia/11.parquet",
       "size_bytes": 157022,
-      "sha256": "b296f64495ea5ebaba6bcb4bf3a695c1ec0d96235cb14499834feb66b2addd26",
+      "sha256": "b7699f75d795c07edb1fa921e2a460f4a86de13dc89733eef59c4a2650dd1ae0",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/12.parquet",
+      "path": "counts/v1b1/categories/parroquia/12.parquet",
       "size_bytes": 96197,
-      "sha256": "4be381dafe83c71203780c344c406c3b23ece899ec8c209b3fc3d6f450b1e7ba",
+      "sha256": "682897e4dc6dc96267664f169f737cbb973a6eb46b9837b327c8e8b76f89f5e2",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/13.parquet",
+      "path": "counts/v1b1/categories/parroquia/13.parquet",
       "size_bytes": 197111,
-      "sha256": "aebf81b8735c27f1f8c54997740f35c06453ada7958663121126ae1eb80aeb64",
+      "sha256": "98ef3b9e42f04f594a22f39752f5688644c19a7d56019a4ac5398f837220219a",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/14.parquet",
+      "path": "counts/v1b1/categories/parroquia/14.parquet",
       "size_bytes": 98038,
-      "sha256": "faa64da92d3e9fbc8a2b9d86e159caccf14dffd8082e16911f3df1c1af7a3fc6",
+      "sha256": "25a5cee52fadccea1ecef677e33a444b46ded919ec0a3acbf6055f2a97438f0d",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/15.parquet",
+      "path": "counts/v1b1/categories/parroquia/15.parquet",
       "size_bytes": 54772,
-      "sha256": "ed28dc055dfe204ae2d0b8eaa219e94e8dd49302bab3fdf93bee86134ab5360c",
+      "sha256": "b85d69e3a4cb1e4b3ca4fbfbbce3cafb4f05c8d5f1e8c9b2e5abe8e6d0327216",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/16.parquet",
+      "path": "counts/v1b1/categories/parroquia/16.parquet",
       "size_bytes": 49074,
-      "sha256": "406fdc75bb9581741ab84c3f53bb14473aa6a3a33e613aca6b9e45be14c7c6c8",
+      "sha256": "81416dc20140d14a67f30355b3900971b87067cd56c8e12c20d77c5c89661463",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/17.parquet",
+      "path": "counts/v1b1/categories/parroquia/17.parquet",
       "size_bytes": 185249,
-      "sha256": "2d56755fca195dd58cc82658d517763fd46fe194a72d63581fe1388119e4f93e",
+      "sha256": "906fe22cbd66b12391744e66f61e9302e920821dc271937a882213bb689b7551",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/18.parquet",
+      "path": "counts/v1b1/categories/parroquia/18.parquet",
       "size_bytes": 132355,
-      "sha256": "ead514e6564f734902bd8809fde9c37dd5ea5ad8117e3d8b1db87bca63f58189",
+      "sha256": "cfca7e0122745953b7c57d286f88775abc5a36a03a6c5a3914f4b723ec49d5c9",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/19.parquet",
+      "path": "counts/v1b1/categories/parroquia/19.parquet",
       "size_bytes": 71382,
-      "sha256": "da004408cdffa0d58c3fc22499f37959dc6a4e835a83ece206fef1ebffb45b46",
+      "sha256": "ac7264254a66dbc43f5770b4fd8f2ff221ffb3e3feae7962af76f50699a3ce4b",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/20.parquet",
+      "path": "counts/v1b1/categories/parroquia/20.parquet",
       "size_bytes": 21969,
-      "sha256": "18712b417b2a210ccc06d844cb7a62ad760ed1926bbc04b7981126f6824a27d2",
+      "sha256": "539f88b7517689f875e7acfa4d9e1871171e1aa1c203c1c23c4e8e014da9d407",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/21.parquet",
+      "path": "counts/v1b1/categories/parroquia/21.parquet",
       "size_bytes": 71764,
-      "sha256": "ecfc96ecef6a720089a3abda68ba5bbc36c76040f91a6b905d50bfb03563b5aa",
+      "sha256": "4f16b8fedca327d93e43df763d563f8a9934d6dc46d09183db7c6cdbe3a138f4",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/22.parquet",
+      "path": "counts/v1b1/categories/parroquia/22.parquet",
       "size_bytes": 65191,
-      "sha256": "936070160378b590c27aed123252069ec1b64a57868b4a36fafab5c81b34b6b0",
+      "sha256": "53dd14bccfd0e57727ddefa2f91f6c48a857160c9b6c22ce50e07d5200c1a49e",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/23.parquet",
+      "path": "counts/v1b1/categories/parroquia/23.parquet",
       "size_bytes": 40780,
-      "sha256": "1de0972dca92d3a217170a455c81c6d535ed65c350235aa1df01efcc2bc406cd",
+      "sha256": "8ef6748e2988f791b603d09fe47bedf22ff30b708c82ddff8026e063785d3152",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/parroquia/24.parquet",
+      "path": "counts/v1b1/categories/parroquia/24.parquet",
       "size_bytes": 43731,
-      "sha256": "15b54f27b9fe10e9059f82915391581b0f76a03a6162d53bac12f5241e2c3f76",
+      "sha256": "e323bf578860f45324f22c8805068668d21843f0896b76d51c5b005945b9da80",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/provincia/data.parquet",
+      "path": "counts/v1b1/categories/provincia/data.parquet",
       "size_bytes": 253981,
-      "sha256": "5a201c16ff042765898f2c6fde68e807caf4692086f35f49998683c5222be321",
+      "sha256": "15de281ef562ddcd2c41b9d17f5963b3c42862cf10dd28c64e58d07b62539f6a",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/01.parquet",
-      "size_bytes": 3032569,
-      "sha256": "e0b7d3c1580872e4466c06152566e9b0839e9e64adbe160f79368a2837e7e722",
+      "path": "counts/v1b1/categories/sector_only/01.parquet",
+      "size_bytes": 20645,
+      "sha256": "fe6b2ae1fdc542ed62119f2d70b900d8d9aa73a0e7f5d9bf83edb9c90457d10c",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/02.parquet",
-      "size_bytes": 738860,
-      "sha256": "38d1a1ea2e973cc9302f02a20b9ad64e903b0f513a4c738d2e51b307d13fc378",
+      "path": "counts/v1b1/categories/sector_only/02.parquet",
+      "size_bytes": 6819,
+      "sha256": "1a45a3302fa1a614a3828c62240435e73ab4bc07f73393894c462d333c4c7054",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/03.parquet",
-      "size_bytes": 952696,
-      "sha256": "f7c47b9481ff1fca88b336df495cdba6287a19a8fbdcd98f013dc871aa5e3d12",
+      "path": "counts/v1b1/categories/sector_only/03.parquet",
+      "size_bytes": 7709,
+      "sha256": "252cea9bcd610ea110bcb3d12f5774b4f135526f94502cd1ed75b11f3b7943bf",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/04.parquet",
-      "size_bytes": 527116,
-      "sha256": "fc22612b62e9bf1eaae3bcc6f6613359435b3f5fe3bfaa2f41cc39c5bf0b4608",
+      "path": "counts/v1b1/categories/sector_only/04.parquet",
+      "size_bytes": 4551,
+      "sha256": "26f6c4e9c96c8b8ecf71bb395f1888bd5aadf4dcb6f055a396457217d4e7e09c",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/05.parquet",
-      "size_bytes": 1713335,
-      "sha256": "7dd84693b4ef93238a1078c4aa5a56312d5419fdd85cfdbb152088776eb5c94f",
+      "path": "counts/v1b1/categories/sector_only/05.parquet",
+      "size_bytes": 13499,
+      "sha256": "a768269ffe2b27bdedcaca28f1ddab1500dd94843920434aff4578033faf626f",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/06.parquet",
-      "size_bytes": 1864176,
-      "sha256": "58f081d6531be1609c331c1bd324db660dbc0390e6511f7308587e6732562ecb",
+      "path": "counts/v1b1/categories/sector_only/06.parquet",
+      "size_bytes": 13816,
+      "sha256": "5a5c4a42293aea4ec3bbabcfff364ed6837650d9a09b34e243609574d26642e6",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/07.parquet",
-      "size_bytes": 2063315,
-      "sha256": "eec9963029178d015b4a00e177cf85b706349f0f830ad576ffda1612e2f2c5c0",
+      "path": "counts/v1b1/categories/sector_only/07.parquet",
+      "size_bytes": 16010,
+      "sha256": "269d991e0a15ee1a70f8af948a47ab30bdd8a7ff65e842a92371ccc3e10b961c",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/08.parquet",
-      "size_bytes": 1597546,
-      "sha256": "4058859b637a4bd310ecd8f55bd291d05ff0a622edbbfc32f7256608f5774e57",
+      "path": "counts/v1b1/categories/sector_only/08.parquet",
+      "size_bytes": 13792,
+      "sha256": "aa5fc590d158c16031e5a3364a986c7284268427d2a7f1927b6de9580c4130b3",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/09.parquet",
-      "size_bytes": 11429666,
-      "sha256": "2fb9fd58543773bdfadbbda08ea5aa547ddcf003c35885584e55ab974241437d",
+      "path": "counts/v1b1/categories/sector_only/09.parquet",
+      "size_bytes": 79489,
+      "sha256": "a187acd2f089c6a4ebd734b0ac25c7c9f504fd3f675a715ffb4f42444ed16263",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/10.parquet",
-      "size_bytes": 1405593,
-      "sha256": "95111055e79594dc9e808a7d44df54d5e0233d39ed010ca86644c8bd724131c1",
+      "path": "counts/v1b1/categories/sector_only/10.parquet",
+      "size_bytes": 11714,
+      "sha256": "d9132cb98d0f0c4411fcd8f39c5c268f5185cf5e5e6e99f5ed2528bfcd534f2c",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/11.parquet",
-      "size_bytes": 1668717,
-      "sha256": "d00da2e0e8e520b6aa8f0fb5e11662b6481fa7874a15762dce9b1bee485389f8",
+      "path": "counts/v1b1/categories/sector_only/11.parquet",
+      "size_bytes": 12331,
+      "sha256": "8b0a02b465ea239f26e18c2faf9ba2a1d1143311bf875de82b42daa2a48176d3",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/12.parquet",
-      "size_bytes": 2476725,
-      "sha256": "9c00a47e2567600c61fd3eff959611b82a3062cfa9d68417e9c06cd349270a4a",
+      "path": "counts/v1b1/categories/sector_only/12.parquet",
+      "size_bytes": 19114,
+      "sha256": "576cd585df6b4cc160ebd2d41c218539e4713a5566def93d5604a54e01bc3fed",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/13.parquet",
-      "size_bytes": 4510331,
-      "sha256": "0b26d93fc8ccdd553ddf24bea570463a2ecf88ba8acf3885ba9442a225d9f1f8",
+      "path": "counts/v1b1/categories/sector_only/13.parquet",
+      "size_bytes": 31760,
+      "sha256": "1870f8ed72dddba65f66b1994ba9c7953b7d4ace8ace6db402961e5d506d5bb0",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/14.parquet",
-      "size_bytes": 705358,
-      "sha256": "b81740f59d151d0a3876c52169a3c23d929c3b7697d178eb5c74fecdd1385a19",
+      "path": "counts/v1b1/categories/sector_only/14.parquet",
+      "size_bytes": 6525,
+      "sha256": "1cfe96a3be5176d8959ff1af0bc5f2c7fd26d408b9d25062fd4ffb388a65cdf6",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/15.parquet",
-      "size_bytes": 427849,
-      "sha256": "6d8948a35d513b8a6188e67e45625eefe8bc2caa71137b0d29c2bf3ea1c6de3c",
+      "path": "counts/v1b1/categories/sector_only/15.parquet",
+      "size_bytes": 4318,
+      "sha256": "ce2a0a1f56b2f279b4ce0b8b588a71d2caa4496991054c15bebc0cad2817c314",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/16.parquet",
-      "size_bytes": 393094,
-      "sha256": "2a468feafa5fcaeb192b776ece5dca1b7b9d4260a3d49e30a2b8e8a77488a881",
+      "path": "counts/v1b1/categories/sector_only/16.parquet",
+      "size_bytes": 3751,
+      "sha256": "e289dc3be104e0672cebcbc02c08095a85ae1c06848a042b167db6f639760467",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/17.parquet",
-      "size_bytes": 8788679,
-      "sha256": "0d050f81d06c6e9d7e9b96e15d55a584eace1f46464860e07da1647f4f37ca24",
+      "path": "counts/v1b1/categories/sector_only/17.parquet",
+      "size_bytes": 58639,
+      "sha256": "3f1ec4980b4f266e7b8c995f747f96c2076eb5002f9d7e7ef43e466890c8ce62",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/18.parquet",
-      "size_bytes": 2067361,
-      "sha256": "90f383e2ee1da74448473a2e36a6ad8a85d502e8d8a651f77cf17c845725b204",
+      "path": "counts/v1b1/categories/sector_only/18.parquet",
+      "size_bytes": 15178,
+      "sha256": "2c81d53a3b07000eb473bd13bb579ba00688bf50ba97589e03dad2261d4bf3d0",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/19.parquet",
-      "size_bytes": 425767,
-      "sha256": "b4ba851dc50f195874305c3bc28b7e295b9f5ce8a63b054906aa47422f038ac3",
+      "path": "counts/v1b1/categories/sector_only/19.parquet",
+      "size_bytes": 3901,
+      "sha256": "887f563eaf749ee3501862d03dbb16af472f1a94522ad6e9b7065f283a4a22f0",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/20.parquet",
-      "size_bytes": 112428,
-      "sha256": "b414906cf3b8bf84680231559fc2a33e87846efaee6ecbc576f34ce446bfec23",
+      "path": "counts/v1b1/categories/sector_only/20.parquet",
+      "size_bytes": 2036,
+      "sha256": "5fd6ea560975fbe071c733c458707bdf740f98786347271f2262d89bf8979a95",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/21.parquet",
-      "size_bytes": 658667,
-      "sha256": "ac8980849ddbefbca2d0fd8f4097a715a4d515c0993d62746fc65e4f400c1e20",
+      "path": "counts/v1b1/categories/sector_only/21.parquet",
+      "size_bytes": 6673,
+      "sha256": "fcd62acb8d2658f0bb36dfd5de718e2819e64697b5c906cd2f474b02a912b64e",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/22.parquet",
-      "size_bytes": 585755,
-      "sha256": "df59c5084b810544973686513f817adde680030ebb773187aeb73f2d5981d335",
+      "path": "counts/v1b1/categories/sector_only/22.parquet",
+      "size_bytes": 6317,
+      "sha256": "8e3c23cc54318102313541c391958f9e3d6a97ff37064d28462ac8a6f638a2e5",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/23.parquet",
-      "size_bytes": 1378608,
-      "sha256": "489f6d1d1fc3ac97803b52f064f2530634edd9dbc087e15d42d25e00a4c9a2c1",
+      "path": "counts/v1b1/categories/sector_only/23.parquet",
+      "size_bytes": 12016,
+      "sha256": "4e319a3c6ed8115ae532362c31580bee5367e472ec7329dc740b33e5c55fe86a",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/categories/sector/24.parquet",
-      "size_bytes": 1018337,
-      "sha256": "4c79ac6bd193126e658d2324d9b62f119ea505a3f6fb2b01109508f740252507",
+      "path": "counts/v1b1/categories/sector_only/24.parquet",
+      "size_bytes": 10082,
+      "sha256": "45bd8eab0d6891cff4faba416898484021be105399348a2b3969c9cf7084b142",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/01.parquet",
-      "size_bytes": 270247,
-      "sha256": "773635f73d48199374830864fa7c202dba35de5fdf91739f1bee6f8aa34ec29c",
+      "path": "counts/v1b1/finest/01.parquet",
+      "size_bytes": 275778,
+      "sha256": "e1ed2b654326e22f4b88e1ab8e56e57b78cbadc19478a3b68ca4ea5734ab1460",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/02.parquet",
-      "size_bytes": 86057,
-      "sha256": "8e62f1eed77fc3ec4f28a0ed0547a402ebe360d3eb321a3a84fef2258f71c661",
+      "path": "counts/v1b1/finest/02.parquet",
+      "size_bytes": 85748,
+      "sha256": "611a32c6ed3d09b2d300b311d9cb1aadb8b02483e159af537381ff6eaccd1349",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/03.parquet",
-      "size_bytes": 112435,
-      "sha256": "4581746042bd14268f26dbcd4df7540a308ab6ba353d142e7653c1304a8c40f4",
+      "path": "counts/v1b1/finest/03.parquet",
+      "size_bytes": 111940,
+      "sha256": "e3937d3ac936a475d0ba306b79fb6bd6486fcc2cab22101623198aeda5ca8659",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/04.parquet",
-      "size_bytes": 82213,
-      "sha256": "4faceac01e2eb1828a9159e32eb94023be9d383d0db7f9edaff1101bff244208",
+      "path": "counts/v1b1/finest/04.parquet",
+      "size_bytes": 82702,
+      "sha256": "7b5157d73cf141a2f34d099fdd015ee68b3f3dbb1f794fd8cde1055e5ee6d26d",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/05.parquet",
-      "size_bytes": 157383,
-      "sha256": "95c0d59e1245032aa88ade23d3d2ea0a8e8cb81451ae192df8182e9030d37e07",
+      "path": "counts/v1b1/finest/05.parquet",
+      "size_bytes": 158919,
+      "sha256": "fd65d9ccdda0d98b992a300b1002aa3aba0c907a381d9708b9cf09be8f373ff3",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/06.parquet",
-      "size_bytes": 191361,
-      "sha256": "e015b868b22ad9ea2f241ecf785670ad2d46796c86c3885a3e5bf59601f1c3d1",
+      "path": "counts/v1b1/finest/06.parquet",
+      "size_bytes": 190952,
+      "sha256": "727551bb2586115559511f3456ea3b556f19740416bc4889bb383d4dfad71733",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/07.parquet",
-      "size_bytes": 308897,
-      "sha256": "c779f3225797ba79cb241a72e5160ba8770f9308de45cc94ae781892e5a049d4",
+      "path": "counts/v1b1/finest/07.parquet",
+      "size_bytes": 318821,
+      "sha256": "e7cba3b4c73526d9785e4d268caed14fd124480eeb499a33ea3104e3fb7ce373",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/08.parquet",
-      "size_bytes": 210941,
-      "sha256": "77ee23aae12a6b8bc78fe6aef5708b42c855121e07f463b930388a46f0891f13",
+      "path": "counts/v1b1/finest/08.parquet",
+      "size_bytes": 221117,
+      "sha256": "ecab9c2c24e78d8dc6f97d37e28a9c9304815f6fbea4f26dfd2a1e6b06d2505c",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/09.parquet",
-      "size_bytes": 1321956,
-      "sha256": "6c512840d03c738d2f3fc59e5d9ae6ac52a735f19cfed299d2caec5d455b9e2a",
+      "path": "counts/v1b1/finest/09.parquet",
+      "size_bytes": 1455580,
+      "sha256": "ede30865683149558533606e70285b5f67d5e9f70d34eaa886a48b6537067bb0",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/10.parquet",
-      "size_bytes": 184561,
-      "sha256": "0ccb14a0e7de9eeaa9c6d4cf42dafada7ccde14e1252177b4c4a7dcdb21f8518",
+      "path": "counts/v1b1/finest/10.parquet",
+      "size_bytes": 192431,
+      "sha256": "da09d731d42d0253c5a7c700997902636c029607fde85563ac63ad9bb608cd90",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/11.parquet",
-      "size_bytes": 206408,
-      "sha256": "f53138f74d8074bbf20b200e2cbb336e336559613e966b497234b76082dec781",
+      "path": "counts/v1b1/finest/11.parquet",
+      "size_bytes": 210391,
+      "sha256": "07160d3c1e7f6e3bc3c297c12e5dde0c4164ee6edfb44503892181179ae7a6d6",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/12.parquet",
-      "size_bytes": 301693,
-      "sha256": "b40055325175c341b8ca904e4a0973e6ddb9167ed8685dc712ed9cc353fad0ed",
+      "path": "counts/v1b1/finest/12.parquet",
+      "size_bytes": 314397,
+      "sha256": "b78e6f034141a2ad9ffeaae6e25aace0681d3d3b06c411f7be68c1de3f0ba793",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/13.parquet",
-      "size_bytes": 604948,
-      "sha256": "18723b7a9392b0e92735656895fe44fa49919ef048be17a2a7035c77bacf804a",
+      "path": "counts/v1b1/finest/13.parquet",
+      "size_bytes": 631569,
+      "sha256": "a05eb4a73ede2856c7ff48262d7ed3744c5fd3d182497864b81f681d30766f13",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/14.parquet",
-      "size_bytes": 101678,
-      "sha256": "85e1189a559a42a38c1f4c3f8bc5e82bbaff66b10fa19cb5ad98f2938881761a",
+      "path": "counts/v1b1/finest/14.parquet",
+      "size_bytes": 95480,
+      "sha256": "7bb11258cbeb666eb47fa365b81b574427bc93e29091a4c8bdcd0a390478c3c0",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/15.parquet",
-      "size_bytes": 66417,
-      "sha256": "499d50ff67575f5faee2894ee8c8c55fe3807fe31fc5b87b6cb13a0ad4fdc83e",
+      "path": "counts/v1b1/finest/15.parquet",
+      "size_bytes": 63959,
+      "sha256": "78d0c32229ccb8cd7a65f5f4717d42023021973836e5fc5646340fe5179b2c68",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/16.parquet",
-      "size_bytes": 57994,
-      "sha256": "25c9c99b1baecbb5d36914f7e0b78e1d987f50804266b73ff879946499625eef",
+      "path": "counts/v1b1/finest/16.parquet",
+      "size_bytes": 55955,
+      "sha256": "1392e72c4644b0cca1dc8c79d2dbc9d3452bb98186f924258bdfb13ed808c431",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/17.parquet",
-      "size_bytes": 813239,
-      "sha256": "a5e3047b5556fa55dc44e029032a34de5e0f0e1fc5170c5981d0312446fc2dc9",
+      "path": "counts/v1b1/finest/17.parquet",
+      "size_bytes": 890393,
+      "sha256": "139cdd06e6cb7161f528f1ebd344d53e973ab96dc506430bf261eb4c415f88e4",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/18.parquet",
-      "size_bytes": 191979,
-      "sha256": "0c532d0aac6e628530c01c6b590d0a3fa6b3e6b6318f6705cea829302fc3a907",
+      "path": "counts/v1b1/finest/18.parquet",
+      "size_bytes": 195983,
+      "sha256": "4928b20352e24e1ffffb0f64efcc47fa03e19fbeba03812af1b3c9bb56822df1",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/19.parquet",
-      "size_bytes": 72086,
-      "sha256": "a4ab839d3571f712d56f0804faaeba2a053a3f47580dc8dfae645a7858b44e1f",
+      "path": "counts/v1b1/finest/19.parquet",
+      "size_bytes": 69745,
+      "sha256": "dbf261486dd552f96741dd12e8738d5f13a3b7951934f65aa103a2bc2e52cc26",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/20.parquet",
-      "size_bytes": 32644,
-      "sha256": "8255e0e929b0f78fd092f64010c29f6c8bca6c6e72140f2b697c4bd3f1e77e1d",
+      "path": "counts/v1b1/finest/20.parquet",
+      "size_bytes": 31634,
+      "sha256": "6e7f29a5820512a5fb0d98a9bdf2a68f718cb0efd8f01ef1949e834d76e07c49",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/21.parquet",
-      "size_bytes": 96817,
-      "sha256": "114d2cc935648f7553a9f47ced9c79a3ac405c82004f7ad081a279a067a849a6",
+      "path": "counts/v1b1/finest/21.parquet",
+      "size_bytes": 95423,
+      "sha256": "040342d93fb7a8d24fedd6fbbe07466d0ab0d2b4f3f71dc55a27276e0b2fc35b",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/22.parquet",
-      "size_bytes": 93379,
-      "sha256": "3c242df635123e312a0a85f5cd4b1f5aed2a6a80662be9278e7793d956921cde",
+      "path": "counts/v1b1/finest/22.parquet",
+      "size_bytes": 91483,
+      "sha256": "b88d761c86fb2aa083c14942286162b873008b80acfcadd562a2297730d2a4c1",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/23.parquet",
-      "size_bytes": 193330,
-      "sha256": "09b0e2ba5aa2360721350ab93cafe5df0a110fc90ed3152df042f306d36e6d42",
+      "path": "counts/v1b1/finest/23.parquet",
+      "size_bytes": 199822,
+      "sha256": "8028c4371cc2d8a6d8fe346e667cbe62a3c07be4c1cb5faf05f707004ad913c0",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/finest/24.parquet",
-      "size_bytes": 226332,
-      "sha256": "c649599c2d74b185493412471b8996c140ac665ee13ab7f1fef73163e7c6d016",
+      "path": "counts/v1b1/finest/24.parquet",
+      "size_bytes": 227210,
+      "sha256": "8d171ac3bce967cfcb3418cad165e2f78a0684397afe0c07d815f76eed5bbe9d",
       "category": "counts_parquet",
-      "asset": "counts-finest-v1a.tar.gz"
+      "asset": "counts-finest-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/nacion/data.parquet",
+      "path": "counts/v1b1/nacion/data.parquet",
       "size_bytes": 8037,
-      "sha256": "d625a4a2b4207c5d719cd37f2284c896955f7f3ec7eea5b9a6e9da4f92af14ec",
+      "sha256": "e85a28d9b62200e11adc2efb1f8bf65479bacbcb1573054d30d4decc0b1c89da",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/parroquia/data.parquet",
-      "size_bytes": 108758,
-      "sha256": "58d273836a357bee06aeb8cd2d61639a5977c8e57ebb078c0868d77a25c8586c",
+      "path": "counts/v1b1/parroquia/data.parquet",
+      "size_bytes": 108872,
+      "sha256": "bf7af1752ec38eeb446268395ad02d525ce09a7035957cd93863bdaf016bbd47",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/provincia/data.parquet",
+      "path": "counts/v1b1/provincia/data.parquet",
       "size_bytes": 12995,
-      "sha256": "021658aa6c442b5d5e7d0ddd255a04ece8f7efc132906d31102bddf723b16f7e",
+      "sha256": "f737c56832335869e99d860ecc4aaa24a14c9d80e20f91b367eeef3a1539fee6",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/qa.json",
-      "size_bytes": 6494,
-      "sha256": "97def26a135a801a688ba13adb3e14c3f55ecba8004405db1c8050adfacc4f3e",
+      "path": "counts/v1b1/qa.json",
+      "size_bytes": 1659,
+      "sha256": "1052bf08059652d747a9275eebd8f8af97f2d2ca061b931e198253db0eb30d03",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/schema.json",
-      "size_bytes": 12783,
-      "sha256": "ff7d206c25e32b708bab4ed23289f473b3473a64939415720b1a780200b5a4d8",
+      "path": "counts/v1b1/schema.json",
+      "size_bytes": 13074,
+      "sha256": "77ccc12029b70487ad65dbe63cacade7ec491488a6631fc54c6f83fadca96bff",
       "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-other-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/01.parquet",
+      "path": "counts/v1b1/sector/01.parquet",
       "size_bytes": 137605,
       "sha256": "be8b29c7ab4afb3b636a43277bc5e2b064776305f94c1de01bde6dc81bb04e3f",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/02.parquet",
+      "path": "counts/v1b1/sector/02.parquet",
       "size_bytes": 47513,
       "sha256": "ca6b2d5c95360ae52978719e716abd960f48aa5b79fcd86b7209d9a40c9f2512",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/03.parquet",
+      "path": "counts/v1b1/sector/03.parquet",
       "size_bytes": 56663,
       "sha256": "c2c43b9feaea12597e8229e74a2611989a7dd3c628278b21958aa5963194dca0",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/04.parquet",
+      "path": "counts/v1b1/sector/04.parquet",
       "size_bytes": 38687,
       "sha256": "52709e417e20d06bbc45cc5bc16407ece658ebd018aa5d5ba32180cd5f0d8493",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/05.parquet",
+      "path": "counts/v1b1/sector/05.parquet",
       "size_bytes": 87688,
       "sha256": "719812d4101af059b18df38c92cea5614dd0570651226be5cc7d7eb334452796",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/06.parquet",
+      "path": "counts/v1b1/sector/06.parquet",
       "size_bytes": 95663,
       "sha256": "dec6856aff8bf81bcf2996d1305973bc3351039373a375b19423755a305aa988",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/07.parquet",
+      "path": "counts/v1b1/sector/07.parquet",
       "size_bytes": 98036,
       "sha256": "7f56cfd8f50e0964974f6f252456007247c10d983c67aa5b1a55aa3f96f089ba",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/08.parquet",
+      "path": "counts/v1b1/sector/08.parquet",
       "size_bytes": 82870,
       "sha256": "08387b000319632c35e4e2e92634c0e9490acecb127dd0921f35c34884bb3854",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/09.parquet",
+      "path": "counts/v1b1/sector/09.parquet",
       "size_bytes": 431299,
       "sha256": "52cb80acc797e52b749f6783419785d22cbf9041ea3b85a7c67f0c0d14ce0b66",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/10.parquet",
+      "path": "counts/v1b1/sector/10.parquet",
       "size_bytes": 71917,
       "sha256": "31014990761133c2aa7f31f393119ae0b61a9956a39861db5e71f4483bfd2582",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/11.parquet",
+      "path": "counts/v1b1/sector/11.parquet",
       "size_bytes": 88344,
       "sha256": "fa7961a0fae81ce42b92b9ecf91f10b82b8bdcbea9633073eada5a279874f4d8",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/12.parquet",
+      "path": "counts/v1b1/sector/12.parquet",
       "size_bytes": 112115,
       "sha256": "6c43391813d0f25c9325a74297f2bdfca66c1c271dded574a048602d60dc70fc",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/13.parquet",
+      "path": "counts/v1b1/sector/13.parquet",
       "size_bytes": 193195,
       "sha256": "3ab79fbd13938e8d8cc25e0cdb36cf5b94562da250fb3efb331c71126f1f3912",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/14.parquet",
+      "path": "counts/v1b1/sector/14.parquet",
       "size_bytes": 49847,
       "sha256": "e22509790ecab98603c2c9d1d15541592eeacf94aed9a543a5578a90dc4d7e9d",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/15.parquet",
+      "path": "counts/v1b1/sector/15.parquet",
       "size_bytes": 33776,
       "sha256": "c2477d52e517ab91e1cc7ed5456cdae1d57908621ba216e22080969048344df9",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/16.parquet",
+      "path": "counts/v1b1/sector/16.parquet",
       "size_bytes": 32284,
       "sha256": "ea39349c9bca2cc481e40e6547753a6ef3f636d6245774d7efba162a77cc4a7d",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/17.parquet",
+      "path": "counts/v1b1/sector/17.parquet",
       "size_bytes": 347481,
       "sha256": "b6ffdc02986956f2ec76357b7ab2e1b4b8795163704f518cf267e4357a99d788",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/18.parquet",
+      "path": "counts/v1b1/sector/18.parquet",
       "size_bytes": 97343,
       "sha256": "5950f4959ef03da358ff09079c49b34feaad99ee3f7576eb5d294310ffff11e8",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/19.parquet",
+      "path": "counts/v1b1/sector/19.parquet",
       "size_bytes": 34663,
       "sha256": "4448c17c316c9390c280fdef7e7ea7b6647c152fd3c478c76ca36cbae5165eee",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/20.parquet",
+      "path": "counts/v1b1/sector/20.parquet",
       "size_bytes": 19281,
       "sha256": "33d017ba39d9851043316ad54f1e0f0ee8810f4ca67d417b1f41e0e3210f46c3",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/21.parquet",
+      "path": "counts/v1b1/sector/21.parquet",
       "size_bytes": 43614,
       "sha256": "496ff5077563e8e7628be3db3d738d79e73354c83b3864aec3f71b7a308336bf",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/22.parquet",
+      "path": "counts/v1b1/sector/22.parquet",
       "size_bytes": 40212,
       "sha256": "48292edbfba61df5a1d9d18ba71b7000d1af8c7fb622ca3b7dabc86108c712da",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/23.parquet",
+      "path": "counts/v1b1/sector/23.parquet",
       "size_bytes": 68364,
       "sha256": "d5c9f96aeeb8977cd4ce66857de06b71cd03b3f092dbbe0b172d607f8d362980",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     },
     {
-      "path": "counts/v1a/sector/24.parquet",
+      "path": "counts/v1b1/sector/24.parquet",
       "size_bytes": 56862,
       "sha256": "1e1a1f1ed4e06db38f81673b1fe084513ebfc9e82e195a864ed574e979cf3379",
       "category": "counts_parquet",
-      "asset": "counts-sector-v1a.tar.gz"
-    },
-    {
-      "path": "fase0_qa.json",
-      "size_bytes": 6334,
-      "sha256": "b283c4fcee85c686b75daad25950bc2bd23b9596b9ac1d34a6e8c2aa157dbd87",
-      "category": "counts_parquet",
-      "asset": "counts-other-v1a.tar.gz"
+      "asset": "counts-sector-v1b1.tar.gz"
     }
   ]
 }

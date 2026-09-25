@@ -18,9 +18,8 @@ GEOGRAPHY_FIELDS = {
     "unit_key", "unit_level", "province_key", "canton_key", "parish_key",
     "sector_key", "geom_version"
 }
-CORE_FIELDS = GEOGRAPHY_FIELDS | set(NUMERIC_FIELDS) | {
-    "asignado_a_sector", "sector_disperso", "geografia_oculta",
-    "detalle_en_sector", "celdas_suprimidas", "unit_index"
+EXACT_CORE_FIELDS = GEOGRAPHY_FIELDS | set(NUMERIC_FIELDS) | {
+    "asignado_a_sector", "sector_disperso", "geografia_oculta", "unit_index"
 }
 CATEGORY_FIELDS = {
     "unit_index", "variable_id", "category_id", "n", "geom_version"
@@ -62,18 +61,22 @@ def main() -> None:
         elif path.suffix.lower() == ".parquet":
             import pyarrow.parquet as parquet
 
+            if root.name != "sample" and "sample" not in path.parts:
+                parts = path.relative_to(root).parts
+                if parts[:2] != ("counts", "v1b1"):
+                    raise ValueError(f"Unexpected Parquet outside exact counts: {path}")
             columns = {name.lower() for name in parquet.read_schema(path).names}
             bad = columns & FORBIDDEN_FIELDS
             if bad:
                 raise ValueError(f"Possible record identifier in {path}: {sorted(bad)}")
-            if "counts" in path.parts and "v1a" in path.parts:
+            if "counts" in path.parts and "v1b1" in path.parts:
                 if "categories" in path.parts:
                     if path.name == "codebook.parquet":
                         allowed = required = CODEBOOK_FIELDS
                     else:
                         allowed = required = CATEGORY_FIELDS
                 else:
-                    allowed = CORE_FIELDS
+                    allowed = EXACT_CORE_FIELDS
                     required = {
                         "unit_index", "unit_key", "population", "dwellings",
                         "households", "geom_version"

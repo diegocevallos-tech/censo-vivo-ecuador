@@ -2,35 +2,49 @@
 
 ## Estado
 
-- Fase actual: cierre de Fase 1A; siguiente fase autorizada: 1B-1 Indicadores.
-- PR público actual: [#43](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/43), rama `feat/fase-1a-conteos`.
-- PR privado [#3](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/pull/3): fusionado con squash; rama remota borrada.
-- Paso actual: esperar CI del PR público #43 y fusionarlo con squash.
+- Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR público #44 y privado #4 abiertos.
+- Último paso cerrado: CI pública, devcontainer y preview de Pages pasaron; PR público #44 y privado #4 están abiertos para aprobación.
+- Criterio definitivo del usuario: publicar conteos agregados completos en unidades oficiales del INEC, sin supresión, perturbación ni microzonas.
 
 ## Terminado
 
-- Fase 1A validada: conteos aditivos, QA oficial, supresión de manzanas pequeñas y categorías de sectores dispersos.
-- Los derivados completos están en el Release público `data-derived-v1a`; git solo conserva el manifiesto y una muestra agregada.
-- El preview de Pages verificó el Release. El workflow `deploy.yml` quedó limitado a `workflow_dispatch`: no hay disparador por `push` ni job de publicación de producción.
-- PR privado #3 fusionado con squash en `0b62408fd952969d465ca3ef2cf17faf1196ac1d`.
-- Milestone público #7 «Fase 1A · Conteos geográficos» creado y asignado al PR #43; cerrarlo después del merge. El milestone #2 abarca toda la Fase 1 y sigue abierto.
+- Rama 1B-1 reiniciada desde `origin/main` antes de publicarse para retirar código experimental de supresión, recodificación e IPF que el usuario reemplazó.
+- Se constató que 1.333 sectores tienen menos de 50 personas o 15 viviendas ocupadas; la idea de microzonas fue descartada por instrucción posterior del usuario.
+- `deploy.yml` solo permite preview manual. Producción de Pages continúa desactivada hasta Fase 2.
+- El Release histórico `data-derived-v1a` contiene agregados suprimidos; el nuevo Release de 1B-1 deberá reemplazarlo en el manifiesto y el deploy.
+- `02c_pack_exact.py` produjo 153 archivos agregados, 135.974.755 bytes, máximo 30.201.346 bytes. El paquete inicial exacto ocupó 186.136.613 bytes; se ahorraron 50.161.858 bytes derivando categorías sectoriales de las finas y almacenando solo `P11R` por separado.
+- `verify_release_integrity.py` pasó con diferencia cero en todos los niveles y categorías tras restaurar los archivos del Release local y comprobar sus SHA256. Nacional: 16.938.986 personas y 6.611.555 viviendas. `verify_public_artifacts.py` confirmó ausencia de columnas personales.
+- `aggregation.py` y `web/src/aggregation.ts` suman unidades completas y ponderan por área solo cortes de borde; tests compartidos pasan a 1e-9.
+- `indicators.yaml` declara 30 indicadores con `min_level` y `min_n`; 1 descartado y 13 pendientes están documentados. Documentación y casos de paridad se generan del catálogo.
+- Motor Python/TypeScript: 11 tests Python, 4 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos. `sector_disperso` se interpreta como nivel sector para disponibilidad.
+- CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
+- La CI y el devcontainer ejecutan también Vitest para exigir la paridad TypeScript además de pytest.
+- Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
+- Release público: https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1. Descarga remota, SHA256 e integridad exacta pasaron.
+- Workflow privado completado con éxito: https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216. Publicó artifact de agregados exactos y Release derivado privado. Rama y PR privado #4 abiertos.
+- CI pública: https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132602632 (éxito); devcontainer: https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132602712 (éxito); preview: https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132612545 (éxito).
+- La rama y el tag `data-derived-v1b1` se actualizaron tras compactar fixtures; `git rev-list --objects origin/main..HEAD | git cat-file --batch-check` no muestra blobs >1 MB.
 
 ## Siguiente comando exacto
 
-Desde el repositorio público, después de confirmar la CI del PR #43:
+Tras cualquier reanudación, verificar el PR antes de actuar:
 
 ```sh
-gh pr merge 43 --repo diegocevallos-tech/censo-vivo-ecuador --squash --delete-branch
+gh pr checks 44 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Luego crear `fase-1a` en ambos repos, cerrar el milestone específico de 1A y abrir `feat/fase-1b1-indicadores`. No cerrar el milestone general «Fase 1 · Pipeline e índices» hasta terminar toda la Fase 1B.
+Esperar la aprobación explícita del usuario para fusionar los PR #4 privado y #44 público. No iniciar 1B-2.
 
 ## Archivos tocados en este paso
 
-- `.github/workflows/deploy.yml`: solo preview manual.
-- `HANDOFF.md`: estado y siguiente comando.
+- `HANDOFF.md`, `docs/metodologia.md`, `docs/schema.md`, `docs/fase1b1_report.md`: criterio, esquema, QA y estado.
+- `pipeline/02c_pack_exact.py`, `pipeline/package_derived.py`, `pipeline/check_derived_manifest.py`, `pipeline/verify_public_artifacts.py`, `pipeline/verify_release_integrity.py`: generación y comprobación del paquete.
+- `pipeline/aggregation.py`, `web/src/aggregation.ts`, `tests/aggregation_cases.json`, `tests/test_aggregation.py`, `web/src/aggregation.test.ts`: suma directa y paridad.
+- `data/DERIVED_MANIFEST.json`: SHA256 y tamaño del nuevo paquete exacto.
+- `indicators.yaml`, `pipeline/indicators.py`, `web/src/indicators.ts`, generador y tests: catálogo y paridad.
+- `.github/workflows/ci.yml`, `pipeline/verify_public_artifacts.py`: integridad pública.
 
 ## Decisiones pendientes
 
-- En 1B-1, calcular `docs/qa/supresion_impacto.md`. Si alguna variable supera 20 % de celdas de manzana suprimidas, presentar umbral alternativo con tabla de riesgo/beneficio y esperar decisión antes de cambiarlo.
-- Mantener producción de Pages desactivada hasta la Fase 2.
+- Decisión pendiente: aprobación del usuario para el merge de 1B-1. Producción de Pages permanece desactivada hasta Fase 2.
+- El aviso «pocos casos» excluye índices con denominador bajo de rankings, percentiles y gemelos; Empirical Bayes queda apagado por defecto.

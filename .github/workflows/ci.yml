@@ -22,8 +22,9 @@ jobs:
           node-version: '20'
           cache: npm
           cache-dependency-path: web/package-lock.json
-      - run: python -m pip install pytest ruff pyyaml pyarrow
+      - run: python -m pip install pytest ruff pyyaml pyarrow duckdb
       - run: ruff check pipeline tests
+      - run: python pipeline/generate_indicators.py --check
       - run: python -m pytest tests -q
       - name: Check local-path leaks in Markdown
         run: |
@@ -35,7 +36,15 @@ jobs:
           fi
       - run: python pipeline/verify_public_artifacts.py --root web/public/data/sample
       - run: python pipeline/check_derived_manifest.py
+      - name: Verify exact public Release counts and absence of person columns
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python pipeline/deploy_derived.py --dist /tmp/censo-release-check
+          python pipeline/verify_release_integrity.py --root /tmp/censo-release-check/data
       - run: npm ci
+        working-directory: web
+      - run: npm test
         working-directory: web
       - run: npm run build
         working-directory: web
