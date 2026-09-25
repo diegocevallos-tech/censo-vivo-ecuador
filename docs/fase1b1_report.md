@@ -20,6 +20,8 @@ Los tres archivos comprimidos están en el [Release público `data-derived-v1b1`
 
 El [workflow privado de regeneración](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216) completó con éxito el pipeline completo sobre los originales del almacén privado y publicó únicamente un artifact de agregados. El [PR privado #4](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/pull/4) deja ese workflow revisable, sin tokens entre repositorios.
 
+La [CI pública](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132602632), el [build del devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132602712) y el [preview de Pages](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132612545) terminaron con éxito. La publicación de producción permanece desactivada.
+
 | Componente | Bytes |
 | --- | ---: |
 | Categorías finas completas | 122.687.539 |
