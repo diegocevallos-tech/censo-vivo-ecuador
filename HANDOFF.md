@@ -2,7 +2,7 @@
 
 ## Estado
 
-- Fase actual: **2A · mapa, navegación e indicadores**, rama `feat/fase-2a-mapa-indicadores`, apilada sobre el [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), que permanece abierto. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
+- Fase actual: **2A · mapa, navegación e indicadores**, rama `feat/fase-2a-mapa-indicadores`, [PR #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) apilado sobre el [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48). Ambos quedan abiertos. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
 - Pages se habilitó con `build_type: workflow` y el mapa mínimo de 1B-3 ya está publicado en [producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/).
 - Los datos pesados están ignorados en `data/interim/` y `web/public/data/`. El manifiesto `data/DERIVED_MANIFEST.json` versionado apunta al Release público [`data-derived-v1b`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b), ya publicado.
 
@@ -17,15 +17,15 @@
 7. [Deploy de producción](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36185327073) exitoso tras permitir la rama exacta de 1B-3 en el environment `github-pages` (manteniendo `main`). Pages devuelve HTTP 206 y rango correcto para PMTiles y Parquet al pedir `Accept-Encoding: identity`. El navegador recorrió todos los niveles sin errores; [captura](docs/qa/fase1b3_pages.png).
 8. [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48) abierto. Su primer CI detectó que el runner no instalaba NumPy para `06_qa_chunks.py`; se añadió a las dependencias de CI. Verificar el nuevo run. La autorización vigente permite continuar con 2A y 2B en PRs separados y apilados.
 9. El PR #48 tiene los checks `build` y `checks` en verde tras incluir NumPy y Pandas. En 2A, `09_indicator_map_index.py` evaluó los 45 indicadores sobre 286.265 unidades oficiales y produjo 52 binarios (68.704.172 bytes). `09_qa_indicator_map.py` validó sus claves, longitudes y estados. [Release v2a](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a) publicado y restaurado con SHA256: 394 archivos, 436.512.440 bytes; chunks 132.870.239/150.000.000 bytes.
-10. El visor 2A integra búsqueda territorial, breadcrumb, catálogo de 45 indicadores, `min_level`, coropleta con tres métodos de corte, estado URL y ES/EN. [Prueba de navegador y captura](docs/fase2a_report.md) sin errores. Ruff, 8 tests TypeScript y build pasaron. Falta abrir PR 2A.
+10. El visor 2A integra búsqueda territorial, breadcrumb, catálogo de 45 indicadores, `min_level`, coropleta con tres métodos de corte, estado URL y ES/EN. [Prueba de navegador y captura](docs/fase2a_report.md) sin errores. Ruff, 8 tests TypeScript y build pasaron. [PR #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) abierto; [preview CI](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36193870442) compiló y verificó el Release v2a sin publicar en producción.
 
 ## Siguiente comando exacto
 
 ```sh
-gh pr create -R diegocevallos-tech/censo-vivo-ecuador --base feat/fase-1b3-tiles-paquete-web --head feat/fase-2a-mapa-indicadores --title "feat: mapa e indicadores de fase 2A" --body-file docs/fase2a_report.md
+git switch -c feat/fase-2b-seleccion-analisis
 ```
 
-Hacer commit y push de la QA 2A y abrir PR contra la rama 1B-3, esperar checks. 2B seguirá en su propia rama/PR sin tocar la auditoría independiente.
+Hacer commit y push de esta continuidad. Iniciar 2B como rama apilada sobre 2A para selección, paneles y controles. Mantener ambos PRs abiertos sin tocar la auditoría independiente.
 
 ## Archivos tocados en 1B-3
 
