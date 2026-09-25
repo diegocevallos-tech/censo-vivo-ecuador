@@ -1,0 +1,26 @@
+# Catálogo inicial confirmado en fase 0; las demás fórmulas se definen en fase 1.
+indicators:
+  - id: ethnic_diversity_shannon
+    name:
+      es: Diversidad de autoidentificación cultural
+      en: Cultural self-identification diversity
+    theme: diversidad
+    source_table: poblacion_sector
+    source_variable: P11R
+    min_level: sector
+    formula: "-sum((n_i / N) * ln(n_i / N) for i in 1..6 if n_i > 0) / ln(6)"
+    numerator: "conteos P11R por categoría 1..6"
+    denominator: "N = suma de conteos P11R válidos (1..6)"
+    population_reference: Personas con P11R válido
+    min_n: 30
+    direction: neutral
+    palette: viridis
+    methodological_note: >-
+      P11R no está publicado en manzana/localidad. Se calcula desde los
+      conteos sectoriales y se deshabilita a zoom de manzana con una nota
+      explicativa. Las categorías ignoradas o sin respuesta no entran en N.
+      La entropía se evalúa después de sumar los seis conteos de la selección.
+    bibliography: >-
+      INEC, Diccionario de Variables de Base a Nivel de Sector Censal,
+      VIII Censo de Población y VII de Vivienda 2022,
+      https://www.ecuadorencifras.gob.ec/documentos/web-inec/dicc-censo/2022/DICCIONARIO_BDD_SECTOR.xlsx
