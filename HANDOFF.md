@@ -2,49 +2,35 @@
 
 ## Estado
 
-- Fase actual: 1B-1 Indicadores, rama pública `feat/fase-1b1-indicadores`; PR público #44 y privado #4 abiertos.
-- Último paso cerrado: CI pública, devcontainer y preview de Pages pasaron; PR público #44 y privado #4 están abiertos para aprobación.
-- Criterio definitivo del usuario: publicar conteos agregados completos en unidades oficiales del INEC, sin supresión, perturbación ni microzonas.
+- Fase actual: 1B-2, rama `feat/fase-1b2-geodemografia`; [PR público #45](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/45) abierto, pendiente de aprobación antes del merge.
+- Fase 1B-1 cerrada: PR privado #4 y público #44 fusionados por squash en ese orden, ramas eliminadas, tag `fase-1b1` en ambos repos.
+- Producción de Pages desactivada hasta Fase 2. Los Parquet nuevos siguen ignorados bajo `data/interim/`; su publicación web corresponde a 1B-3.
 
-## Terminado
+## Pasos terminados
 
-- Rama 1B-1 reiniciada desde `origin/main` antes de publicarse para retirar código experimental de supresión, recodificación e IPF que el usuario reemplazó.
-- Se constató que 1.333 sectores tienen menos de 50 personas o 15 viviendas ocupadas; la idea de microzonas fue descartada por instrucción posterior del usuario.
-- `deploy.yml` solo permite preview manual. Producción de Pages continúa desactivada hasta Fase 2.
-- El Release histórico `data-derived-v1a` contiene agregados suprimidos; el nuevo Release de 1B-1 deberá reemplazarlo en el manifiesto y el deploy.
-- `02c_pack_exact.py` produjo 153 archivos agregados, 135.974.755 bytes, máximo 30.201.346 bytes. El paquete inicial exacto ocupó 186.136.613 bytes; se ahorraron 50.161.858 bytes derivando categorías sectoriales de las finas y almacenando solo `P11R` por separado.
-- `verify_release_integrity.py` pasó con diferencia cero en todos los niveles y categorías tras restaurar los archivos del Release local y comprobar sus SHA256. Nacional: 16.938.986 personas y 6.611.555 viviendas. `verify_public_artifacts.py` confirmó ausencia de columnas personales.
-- `aggregation.py` y `web/src/aggregation.ts` suman unidades completas y ponderan por área solo cortes de borde; tests compartidos pasan a 1e-9.
-- `indicators.yaml` declara 30 indicadores con `min_level` y `min_n`; 1 descartado y 13 pendientes están documentados. Documentación y casos de paridad se generan del catálogo.
-- Motor Python/TypeScript: 11 tests Python, 4 TypeScript y compilación web pasan. Empirical Bayes está apagado por defecto; `rank_eligible` excluye resultados con pocos casos. `sector_disperso` se interpreta como nivel sector para disponibilidad.
-- CI pública restaura el Release público, rechaza columnas personales y comprueba aditividad exacta hasta nación. El empaquetador antiguo de supresión fue retirado.
-- La CI y el devcontainer ejecutan también Vitest para exigir la paridad TypeScript además de pytest.
-- Los casos de paridad se redujeron a claves relevantes por indicador: 135.473 bytes, sin blobs grandes en esta rama.
-- Release público: https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b1. Descarga remota, SHA256 e integridad exacta pasaron.
-- Workflow privado completado con éxito: https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36127455216. Publicó artifact de agregados exactos y Release derivado privado. Rama y PR privado #4 abiertos.
-- CI pública: https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132602632 (éxito); devcontainer: https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132602712 (éxito); preview: https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36132612545 (éxito).
-- La rama y el tag `data-derived-v1b1` se actualizaron tras compactar fixtures; `git rev-list --objects origin/main..HEAD | git cat-file --batch-check` no muestra blobs >1 MB.
+1. Primer commit `1532927`: [inventario de 13 pendientes y un descarte](docs/qa/indicadores_pendientes.md), [51 comparaciones INEC](docs/qa/validacion_inec.md) y script reproducible. Cumple el orden pedido antes de implementar 1B-2.
+2. Cruces por unidad censal oficial: 46 campos aditivos, diferencia cero desde unidad fina hasta nación. Flujos inter-cantonales: 604.723, saldo nacional cero. Perfiles de emigración: 124.992; mortalidad: 250.746, idénticos a 1B-1.
+3. Catálogo: 45 indicadores con `min_level` y `min_n`, incluido SoVI con cargas PCA publicadas. Queda diferida la distancia temporal al pico del bono demográfico; seguro de salud sigue descartado. Python y TypeScript usan la misma fórmula sobre sumas.
+4. Geodemografía: 40 rasgos, k=4 elegido con silhouette/gap, 8 grupos con retratos y 53.513 sectores. Hay 50.353 perfiles aptos para gemelos; los sectores de pocos casos no entran en comparaciones.
+5. Moran/LISA para seis índices en 221 cantones; disimilitud educativa en 221 cantones. Match Marco 2021: 52.864/53.513 sectores (98,787 %). QA de diez puntajes SoVI frente al catálogo pasó.
+6. [Informe 1B-2](docs/fase1b2_report.md) con método, cifras, límites y tamaños. Ningún dato pesado entró en Git.
 
 ## Siguiente comando exacto
 
-Tras cualquier reanudación, verificar el PR antes de actuar:
-
 ```sh
-gh pr checks 44 -R diegocevallos-tech/censo-vivo-ecuador
+gh pr checks 45 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Esperar la aprobación explícita del usuario para fusionar los PR #4 privado y #44 público. No iniciar 1B-2.
+Después, revisar el PR #45 y esperar aprobación explícita. No fusionar ni iniciar 1B-3.
 
-## Archivos tocados en este paso
+## Archivos tocados
 
-- `HANDOFF.md`, `docs/metodologia.md`, `docs/schema.md`, `docs/fase1b1_report.md`: criterio, esquema, QA y estado.
-- `pipeline/02c_pack_exact.py`, `pipeline/package_derived.py`, `pipeline/check_derived_manifest.py`, `pipeline/verify_public_artifacts.py`, `pipeline/verify_release_integrity.py`: generación y comprobación del paquete.
-- `pipeline/aggregation.py`, `web/src/aggregation.ts`, `tests/aggregation_cases.json`, `tests/test_aggregation.py`, `web/src/aggregation.test.ts`: suma directa y paridad.
-- `data/DERIVED_MANIFEST.json`: SHA256 y tamaño del nuevo paquete exacto.
-- `indicators.yaml`, `pipeline/indicators.py`, `web/src/indicators.ts`, generador y tests: catálogo y paridad.
-- `.github/workflows/ci.yml`, `pipeline/verify_public_artifacts.py`: integridad pública.
+- `HANDOFF.md`, `docs/qa/indicadores_pendientes.md`, `docs/qa/validacion_inec.md`, `docs/schema.md`, `docs/metodologia.md`, `docs/fase1b2_report.md`
+- `pipeline/03_cross_counts.py`, `03b_mobility.py`, `03d_qa.py`, `04_geodemographics.py`, `05_spatial_stats.py`, `06_qa_phase1b2.py`, `08_validate_inec.py`, `indicators.py`, `generate_indicators.py`
+- `indicators.yaml`, `tests/indicator_cases.json`, `tests/test_indicators.py`, `web/src/indicators.ts`, `web/src/generated/indicators.json`
 
 ## Decisiones pendientes
 
-- Decisión pendiente: aprobación del usuario para el merge de 1B-1. Producción de Pages permanece desactivada hasta Fase 2.
-- El aviso «pocos casos» excluye índices con denominador bajo de rankings, percentiles y gemelos; Empirical Bayes queda apagado por defecto.
+- La distancia al pico del bono demográfico requiere una serie comparable; permanece para Fase 5 opcional.
+- El paquete local adicional de 21.992.240 bytes deberá compactarse y categorizarse según el presupuesto de 1B-3 antes de entrar a Pages. No se publica en esta fase.
+- El usuario debe aprobar el PR 1B-2 antes del merge y antes de comenzar 1B-3.

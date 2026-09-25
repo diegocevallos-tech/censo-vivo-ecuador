@@ -14,7 +14,7 @@ from indicators import CantonPrior, evaluate, fit_canton_prior  # noqa: E402
 
 def test_generated_catalog_current() -> None:
     generate(check=True)
-    assert len(load()["indicators"]) == 30
+    assert len(load()["indicators"]) == 45
 
 
 def test_shared_indicator_cases() -> None:

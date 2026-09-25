@@ -42,6 +42,20 @@ def load() -> dict:
         if indicator["kind"] == "ratio":
             if not indicator.get("numerator") or not indicator.get("denominator"):
                 raise ValueError(f"Missing ratio terms: {indicator['id']}")
+        elif indicator["kind"] == "difference_of_ratios":
+            required = (
+                "first_numerator", "first_denominator", "second_numerator", "second_denominator"
+            )
+            if any(not indicator.get(field) for field in required):
+                raise ValueError(f"Missing difference terms: {indicator['id']}")
+        elif indicator["kind"] == "pca":
+            if not indicator.get("components"):
+                raise ValueError(f"Missing PCA components: {indicator['id']}")
+            for component in indicator["components"]:
+                if not component["numerator"] or not component["denominator"]:
+                    raise ValueError(f"Missing PCA terms: {indicator['id']}")
+                if component["scale"] <= 0:
+                    raise ValueError(f"Invalid PCA scale: {indicator['id']}")
         elif indicator["kind"] == "shannon":
             if len(indicator.get("categories", [])) < 2:
                 raise ValueError(f"Missing Shannon categories: {indicator['id']}")
@@ -84,6 +98,17 @@ def render_fixtures(catalog: dict) -> str:
         keys = set()
         if item["kind"] == "ratio":
             keys.update(item["numerator"] + item["denominator"])
+        elif item["kind"] == "difference_of_ratios":
+            for field in (
+                "first_numerator", "first_denominator", "second_numerator", "second_denominator"
+            ):
+                keys.update(item[field])
+        elif item["kind"] == "pca":
+            for component in item["components"]:
+                for field in (
+                    "numerator", "denominator", "second_numerator", "second_denominator"
+                ):
+                    keys.update(component.get(field, []))
         elif item["kind"] in {"shannon", "median_grouped"}:
             for group in item.get("categories", item.get("age_groups", [])):
                 keys.update(group)

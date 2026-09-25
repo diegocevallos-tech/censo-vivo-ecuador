@@ -18,6 +18,22 @@ Los Parquet usan zstd y tipos enteros sin signo mínimos según máximos reales.
 
 [`verify_release_integrity.py`](../pipeline/verify_release_integrity.py) comprueba la suma exacta de manzana a sector y de cada nivel al siguiente; [`verify_public_artifacts.py`](../pipeline/verify_public_artifacts.py) rechaza columnas que puedan identificar registros personales. El [manifiesto derivado](../data/DERIVED_MANIFEST.json) contiene tamaño y SHA256 de cada archivo. El [informe de Fase 1B-1](fase1b1_report.md) registra el tamaño y las pruebas del paquete exacto.
 
+## Cruces nuevos y validación externa de 1B-2
+
+Los cruces de sexo, edad, parentesco, escolaridad, TIC y condición de actividad se calculan una vez en el entorno privado y se exportan **solo como sumas por unidad censal oficial**. Las cifras de 2022 se comparan con el [boletín nacional y tres fichas provinciales](qa/validacion_inec.md). La pirámide y los indicadores de cualquier selección se calculan sobre sumas de numeradores y denominadores. Los valores 888 del INEC no se reetiquetan ni imputan.
+
+El puntaje de acceso digital compuesto suma tres respuestas válidas: alfabetismo digital (`ANALF_DIG=2`), uso de internet (`P2102=1`) y uso de computadora (`P2103=1`). Su denominador es tres veces el número de personas con las tres respuestas válidas. Las brechas por sexo y edad son diferencias entre esos puntajes, en puntos porcentuales. La maternidad adolescente usa mujeres de 15–19 con respuesta válida de hijos nacidos vivos; la paridez nueva usa mujeres de 15–49. El rezago escolar se aproxima con dos o más años aprobados por debajo de `edad−6` entre 8 y 17 años; no pretende reconstruir trayectorias educativas.
+
+La migración interna neta por cantón es entradas menos salidas observadas en la pregunta de residencia hace cinco años (`P09C`). La suma nacional es cero por construcción. Excluye movilidad internacional y personas no nacidas cinco años antes. Los flujos de origen–destino se conservan como matriz agregada, sin registros personales.
+
+## Clasificación, estadística espacial y gemelos
+
+Se estandarizan [40 rasgos sectoriales](fase1b2_report.md) después de limitar extremos a percentiles 1 y 99 de sectores con al menos 100 personas. Las respuestas ausentes se sustituyen por la mediana de esos sectores **solo dentro del modelo**, nunca en los conteos publicados. Una muestra determinista compara `k∈{4,6,8,10}` con silhouette y gap. Se elige el mayor silhouette entre los modelos cuyo gap queda a menos de 0,1 unidades logarítmicas del mejor, con empate hacia el menor `k`. K-means nacional determina supergrupos y un segundo k-means divide cada uno en dos grupos. Los retratos muestran desviaciones estandarizadas respecto de la referencia nacional. Los sectores pequeños reciben grupo para el mapa pero quedan fuera de rankings y búsqueda de gemelos.
+
+El SoVI es **exploratorio**: el primer componente principal de seis rasgos de vulnerabilidad, orientado para que mayor puntuación represente mayor rezago conjunto. No es un índice oficial del INEC. Los pesos, medias, escalas, límites de recorte y varianza explicada constan en `indicators.yaml` y `clusters.json`; para una selección arbitraria se recalculan las seis tasas desde sus conteos sumados y después se aplica la misma transformación en Python y TypeScript.
+
+Moran global y LISA usan los centroides del Marco 2021 y ocho vecinos más cercanos dentro de cada cantón, ponderados por fila, con 99 permutaciones y semilla 2022. Se excluyen del análisis espacial sectores sin polígono o con denominador inferior a 30. Un grupo «alto-alto» significa valor alto rodeado de valores altos en el indicador elegido; el p de permutación es exploratorio y se realizan muchas pruebas locales. El índice de disimilitud educativa por cantón es `½ Σ|bajos_i/bajos_cantón − altos_i/altos_cantón|`, con escolaridad de personas 25+ (baja ≤9 años; alta ≥13). Valores cercanos a cero representan distribuciones sectoriales más parecidas.
+
 <!-- INDICATOR_CATALOG_START -->
 ## Catálogo de indicadores
 
@@ -55,22 +71,25 @@ Generado desde [`indicators.yaml`](../indicators.yaml). `min_n` es el denominado
 | Paridez media registrada / Mean lifetime live births | Σ(k × P3203=k) / Σ(P3203=0..20) | parroquia | 100 | P3203 |
 | Defunciones reportadas por 1.000 habitantes / Reported deaths per 1,000 residents | 1.000 × defunciones reportadas / población censada | canton | 1000 | M03, P02 |
 | Edad media al morir (reportada) / Mean reported age at death | Σ(k × M03=k) / Σ(M03=0..120) | canton | 30 | M03 |
+| Jefatura femenina / Female household headship | 100 × female_heads / all_heads | manzana | 30 | P01, P02 |
+| Soledad potencial 65+ / Potential solitude 65+ | 100 × solitary_65 / all_65 | manzana | 30 | P01, P03, TIPO_HOGAR |
+| Escolaridad media 25+ / Mean schooling 25+ | 1 × school_years_25 / school_n_25 | manzana | 30 | P03, ESCOLA |
+| Salto educativo generacional / Generational education jump | 1 × (school_years_25_34/school_n_25_34 − school_years_55_64/school_n_55_64) | manzana | 30 | P03, ESCOLA |
+| Rezago escolar aproximado / Approximate school lag | 100 × school_lag / school_lag_n | manzana | 30 | P03, ESCOLA |
+| Brecha digital por sexo / Digital gender gap | 100 × (digital_male_score/digital_male_max − digital_female_score/digital_female_max) | manzana | 30 | P02, P03, P2102, P2103, ANALF_DIG |
+| Brecha digital por edad / Digital age gap | 100 × (digital_youth_score/digital_youth_max − digital_senior_score/digital_senior_max) | manzana | 30 | P03, P2102, P2103, ANALF_DIG |
+| Brecha de empleo en fuerza laboral / Employment gender gap | 100 × (labour_male_employed/labour_male_force − labour_female_employed/labour_female_force) | manzana | 30 | P02, CONDACT1 |
+| Maternidad adolescente 15–19 / Adolescent motherhood 15–19 | 100 × adolescent_mothers / adolescent_women | parroquia | 100 | P02, P03, P3203 |
+| Hablantes de lengua indígena / Indigenous language speakers | 100 × indigenous_language / language_eligible | manzana | 30 | P1001, P03 |
+| Analfabetismo 15+ / Illiteracy 15+ | 100 × illiterate_15 / literacy_response_15 | manzana | 30 | P03, ANALF |
+| Uso individual de internet 5+ / Internet use 5+ | 100 × internet_person_5 / internet_response_5 | manzana | 30 | P03, P2102 |
+| Paridez media de mujeres 15–49 / Mean parity women 15–49 | 1 × children_born_15_49 / women_children_response_15_49 | parroquia | 100 | P02, P03, P3203 |
+| Migración interna neta entre cantones / Net inter-canton migration | 1000 × internal_net / population | canton | 1000 | P09C, I01, I02 |
+| Vulnerabilidad sociodemográfica exploratoria / Exploratory sociodemographic vulnerability | Σ peso_j × (clip(tasa_j, p1, p99) − media_j) / desviación_j | sector | 100 | ESCOLA, ANALF, HAC, P01, P03, P3203, P2102, P02 |
 
 ### Indicadores descartados o pendientes
 
 - `health_insurance_coverage`: El diccionario incluye P30 aportes a seguridad social, no cobertura de seguro de salud.
-- `female_headship`: Requiere cruce parentesco de jefatura × sexo; el agregado actual conserva marginales.
-- `potential_solitude_65`: Requiere edad × hogar unipersonal; el agregado actual conserva marginales.
-- `mean_schooling_25_plus`: Requiere edad × ESCOLA y universo 25+; no existe ese cruce agregado.
-- `generational_education_jump`: Requiere edad × ESCOLA para 25–34 y 55–64; no existe ese cruce agregado.
-- `school_lag`: Requiere edad × asistencia/nivel escolar; no existe ese cruce agregado.
-- `digital_gap_by_sex_age`: Requiere TIC × sexo/edad; no existe ese cruce agregado.
-- `labour_gender_gap`: Requiere CONDACT1 × sexo; no existe ese cruce agregado.
-- `internal_net_migration`: Requiere matriz origen-destino por cantón; el agregado actual contiene marginales y códigos previos.
-- `canton_origin_destination`: Requiere extracción explícita de flujos origen-destino del microdato privado.
-- `adolescent_motherhood`: Requiere edad × hijos nacidos vivos; no existe ese cruce agregado.
-- `sovi_pca`: Pesos PCA y estandarización nacional corresponden a 1B-2.
 - `demographic_bonus_peak_distance`: Un solo censo no define el pico temporal nacional de la proporción 15–64.
-- `indigenous_language_speakers`: P10R=9 agrupa combinaciones no separables en el agregado; requiere reconstrucción del indicador desde microdato.
 
 <!-- INDICATOR_CATALOG_END -->

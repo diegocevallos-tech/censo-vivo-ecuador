@@ -4871,5 +4871,1742 @@
       "uncertainty": null,
       "unavailable_reason": "Disponible desde canton"
     }
+  },
+  {
+    "id": "female_headship",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_heads": 100,
+        "cross:female_heads": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_headship",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_heads": 100,
+        "cross:female_heads": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_headship",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_heads": 0.1,
+        "cross:female_heads": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "female_headship",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_heads": 100,
+        "cross:female_heads": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "potential_solitude_65",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_65": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "potential_solitude_65",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_65": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "potential_solitude_65",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_65": 0.1,
+        "cross:solitary_65": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "potential_solitude_65",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:all_65": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_schooling_25_plus",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25": 100,
+        "cross:school_years_25": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_schooling_25_plus",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25": 100,
+        "cross:school_years_25": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_schooling_25_plus",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25": 0.1,
+        "cross:school_years_25": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_schooling_25_plus",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25": 100,
+        "cross:school_years_25": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "generational_education_jump",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25_34": 100,
+        "cross:school_n_55_64": 100,
+        "cross:school_years_25_34": 100,
+        "cross:school_years_55_64": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "generational_education_jump",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25_34": 100,
+        "cross:school_n_55_64": 100,
+        "cross:school_years_25_34": 100,
+        "cross:school_years_55_64": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "generational_education_jump",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25_34": 0.1,
+        "cross:school_n_55_64": 0.1,
+        "cross:school_years_25_34": 0.1,
+        "cross:school_years_55_64": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "generational_education_jump",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_n_25_34": 100,
+        "cross:school_n_55_64": 100,
+        "cross:school_years_25_34": 100,
+        "cross:school_years_55_64": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "school_lag",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_lag": 100,
+        "cross:school_lag_n": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "school_lag",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_lag": 100,
+        "cross:school_lag_n": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "school_lag",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_lag": 0.1,
+        "cross:school_lag_n": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "school_lag",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:school_lag": 100,
+        "cross:school_lag_n": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_gap_by_sex_age",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_gap_by_sex_age",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_gap_by_sex_age",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_female_max": 0.1,
+        "cross:digital_female_score": 0.1,
+        "cross:digital_male_max": 0.1,
+        "cross:digital_male_score": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_gap_by_sex_age",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_age_gap",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_senior_max": 100,
+        "cross:digital_senior_score": 100,
+        "cross:digital_youth_max": 100,
+        "cross:digital_youth_score": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_age_gap",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_senior_max": 100,
+        "cross:digital_senior_score": 100,
+        "cross:digital_youth_max": 100,
+        "cross:digital_youth_score": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_age_gap",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_senior_max": 0.1,
+        "cross:digital_senior_score": 0.1,
+        "cross:digital_youth_max": 0.1,
+        "cross:digital_youth_score": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "digital_age_gap",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:digital_senior_max": 100,
+        "cross:digital_senior_score": 100,
+        "cross:digital_youth_max": 100,
+        "cross:digital_youth_score": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "labour_gender_gap",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:labour_female_employed": 100,
+        "cross:labour_female_force": 100,
+        "cross:labour_male_employed": 100,
+        "cross:labour_male_force": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "labour_gender_gap",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:labour_female_employed": 100,
+        "cross:labour_female_force": 100,
+        "cross:labour_male_employed": 100,
+        "cross:labour_male_force": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "labour_gender_gap",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:labour_female_employed": 0.1,
+        "cross:labour_female_force": 0.1,
+        "cross:labour_male_employed": 0.1,
+        "cross:labour_male_force": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 0.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "labour_gender_gap",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:labour_female_employed": 100,
+        "cross:labour_female_force": 100,
+        "cross:labour_male_employed": 100,
+        "cross:labour_male_force": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 0.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "adolescent_motherhood",
+    "variant": "exact",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "adolescent_motherhood",
+    "variant": "estimated",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "adolescent_motherhood",
+    "variant": "small",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:adolescent_mothers": 0.1,
+        "cross:adolescent_women": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "adolescent_motherhood",
+    "variant": "smoothing",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "adolescent_motherhood",
+    "variant": "below_level",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde parroquia"
+    }
+  },
+  {
+    "id": "indigenous_language_speakers",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:indigenous_language": 100,
+        "cross:language_eligible": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "indigenous_language_speakers",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:indigenous_language": 100,
+        "cross:language_eligible": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "indigenous_language_speakers",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:indigenous_language": 0.1,
+        "cross:language_eligible": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "indigenous_language_speakers",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:indigenous_language": 100,
+        "cross:language_eligible": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "illiteracy_15_plus",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "illiteracy_15_plus",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "illiteracy_15_plus",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:illiterate_15": 0.1,
+        "cross:literacy_response_15": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "illiteracy_15_plus",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internet_use_5_plus",
+    "variant": "exact",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:internet_person_5": 100,
+        "cross:internet_response_5": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internet_use_5_plus",
+    "variant": "estimated",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:internet_person_5": 100,
+        "cross:internet_response_5": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internet_use_5_plus",
+    "variant": "small",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:internet_person_5": 0.1,
+        "cross:internet_response_5": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 100.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internet_use_5_plus",
+    "variant": "smoothing",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cross:internet_person_5": 100,
+        "cross:internet_response_5": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 100.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity_women_15_49",
+    "variant": "exact",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:children_born_15_49": 100,
+        "cross:women_children_response_15_49": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity_women_15_49",
+    "variant": "estimated",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:children_born_15_49": 100,
+        "cross:women_children_response_15_49": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity_women_15_49",
+    "variant": "small",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:children_born_15_49": 0.1,
+        "cross:women_children_response_15_49": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity_women_15_49",
+    "variant": "smoothing",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "cross:children_born_15_49": 100,
+        "cross:women_children_response_15_49": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "mean_parity_women_15_49",
+    "variant": "below_level",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cross:children_born_15_49": 100,
+        "cross:women_children_response_15_49": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde parroquia"
+    }
+  },
+  {
+    "id": "internal_net_migration",
+    "variant": "exact",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:population": 100000,
+        "cross:internal_net": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_net_migration",
+    "variant": "estimated",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:population": 100000,
+        "cross:internal_net": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_net_migration",
+    "variant": "small",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:population": 100.0,
+        "cross:internal_net": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 1.0,
+      "denominator": 100.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_net_migration",
+    "variant": "smoothing",
+    "level": "canton",
+    "aggregate": {
+      "counts": {
+        "core:population": 100000,
+        "cross:internal_net": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 1.0,
+      "denominator": 100000,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "internal_net_migration",
+    "variant": "below_level",
+    "level": "parroquia",
+    "aggregate": {
+      "counts": {
+        "core:population": 100000,
+        "cross:internal_net": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde canton"
+    }
+  },
+  {
+    "id": "sovi_pca",
+    "variant": "exact",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100,
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100,
+        "cross:all_65": 100,
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100,
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100,
+        "cross:school_low_25": 100,
+        "cross:school_n_25": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 7.079011092059992,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "sovi_pca",
+    "variant": "estimated",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100,
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100,
+        "cross:all_65": 100,
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100,
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100,
+        "cross:school_low_25": 100,
+        "cross:school_n_25": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "estimado",
+      "estimated_percent": 15.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 7.079011092059992,
+      "denominator": 100,
+      "quality": "estimado",
+      "estimated_percent": 15.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "sovi_pca",
+    "variant": "small",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 0.1,
+        "cat:hogar:HAC:2": 0.1,
+        "cross:adolescent_mothers": 0.1,
+        "cross:adolescent_women": 0.1,
+        "cross:all_65": 0.1,
+        "cross:digital_female_max": 0.1,
+        "cross:digital_female_score": 0.1,
+        "cross:digital_male_max": 0.1,
+        "cross:digital_male_score": 0.1,
+        "cross:illiterate_15": 0.1,
+        "cross:literacy_response_15": 0.1,
+        "cross:school_low_25": 0.1,
+        "cross:school_n_25": 0.1,
+        "cross:solitary_65": 0.1
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": 7.079011092059992,
+      "denominator": 0.1,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": true,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "sovi_pca",
+    "variant": "smoothing",
+    "level": "sector",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100,
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100,
+        "cross:all_65": 100,
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100,
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100,
+        "cross:school_low_25": 100,
+        "cross:school_n_25": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": true,
+    "prior": {
+      "mean": 0.35,
+      "strength": 100.0
+    },
+    "expected": {
+      "value": 7.079011092059992,
+      "denominator": 100,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": true,
+      "uncertainty": null,
+      "unavailable_reason": null
+    }
+  },
+  {
+    "id": "sovi_pca",
+    "variant": "below_level",
+    "level": "manzana",
+    "aggregate": {
+      "counts": {
+        "cat:hogar:HAC:1": 100,
+        "cat:hogar:HAC:2": 100,
+        "cross:adolescent_mothers": 100,
+        "cross:adolescent_women": 100,
+        "cross:all_65": 100,
+        "cross:digital_female_max": 100,
+        "cross:digital_female_score": 100,
+        "cross:digital_male_max": 100,
+        "cross:digital_male_score": 100,
+        "cross:illiterate_15": 100,
+        "cross:literacy_response_15": 100,
+        "cross:school_low_25": 100,
+        "cross:school_n_25": 100,
+        "cross:solitary_65": 100
+      },
+      "quality": "exacto",
+      "estimated_percent": 0.0
+    },
+    "smoothing": false,
+    "prior": null,
+    "expected": {
+      "value": null,
+      "denominator": 0.0,
+      "quality": "exacto",
+      "estimated_percent": 0.0,
+      "small_n": false,
+      "rank_eligible": false,
+      "uncertainty": null,
+      "unavailable_reason": "Disponible desde sector"
+    }
   }
 ]

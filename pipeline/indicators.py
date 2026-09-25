@@ -94,6 +94,41 @@ def evaluate(
         numerator = count_terms(counts, definition["numerator"])
         denominator = count_terms(counts, definition["denominator"])
         value = numerator / denominator * definition.get("factor", 1) if denominator else None
+    elif kind == "difference_of_ratios":
+        first_n = count_terms(counts, definition["first_numerator"])
+        first_d = count_terms(counts, definition["first_denominator"])
+        second_n = count_terms(counts, definition["second_numerator"])
+        second_d = count_terms(counts, definition["second_denominator"])
+        denominator = min(first_d, second_d)
+        value = (
+            definition.get("factor", 1) * (first_n / first_d - second_n / second_d)
+            if denominator else None
+        )
+    elif kind == "pca":
+        pieces = []
+        sizes = []
+        for component in definition["components"]:
+            first_n = count_terms(counts, component["numerator"])
+            first_d = count_terms(counts, component["denominator"])
+            sizes.append(first_d)
+            if not first_d:
+                pieces = []
+                break
+            raw = first_n / first_d
+            if "second_numerator" in component:
+                second_n = count_terms(counts, component["second_numerator"])
+                second_d = count_terms(counts, component["second_denominator"])
+                sizes.append(second_d)
+                if not second_d:
+                    pieces = []
+                    break
+                raw -= second_n / second_d
+            clipped = min(component["upper"], max(component["lower"], raw))
+            pieces.append(component["weight"] * (
+                (clipped - component["mean"]) / component["scale"]
+            ))
+        denominator = min(sizes) if sizes else 0
+        value = sum(pieces) if len(pieces) == len(definition["components"]) else None
     elif kind in {"shannon", "median_grouped"}:
         groups = definition["categories" if kind == "shannon" else "age_groups"]
         values = [count_terms(counts, group) for group in groups]
