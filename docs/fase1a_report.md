@@ -19,20 +19,20 @@ El [esquema](schema.md) identifica 59 conteos numéricos, las categorías de las
 
 ## Tamaño y ubicación de los datos
 
-La tabla compara el artifact anterior del PR con el paquete compactado. La [tabla por archivo](qa/size_comparison.csv) incluye cada ruta, sus bytes antes y después y el total, incluso archivos retirados o nuevos. El paquete final se distribuye en el [Release público `data-derived-v1a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1a); [`data/DERIVED_MANIFEST.json`](../data/DERIVED_MANIFEST.json) registra tamaño, SHA256 y asset de cada archivo. Los únicos datos versionados para desarrollo son una [muestra agregada de 221 cantones](../web/public/data/sample/canton.parquet) de 36.625 bytes.
+La tabla compara el artifact anterior del PR con el paquete compactado. La [tabla por archivo](qa/size_comparison.csv) incluye cada ruta, sus bytes antes y después y el total, incluso archivos retirados o nuevos. El paquete final se distribuye en el [Release público `data-derived-v1a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1a); [`data/DERIVED_MANIFEST.json`](../data/DERIVED_MANIFEST.json) registra tamaño, SHA256 y asset de cada archivo. Los únicos datos versionados para desarrollo son una [muestra agregada de 221 cantones](../web/public/data/sample/canton.parquet) de 36.641 bytes.
 
 | Grupo | Antes, bytes | Después, bytes |
 | --- | ---: | ---: |
-| Categorías Parquet | 461.373.636 | 108.762.811 |
-| Conteos anchos Parquet | 9.115.617 | 8.516.767 |
+| Categorías Parquet | 461.373.636 | 127.546.363 |
+| Conteos anchos Parquet | 9.115.617 | 8.516.748 |
 | Esquemas y QA | 10.041 | 25.611 |
-| **Total de datos derivados** | **470.499.294** | **117.305.189** |
+| **Total de datos derivados** | **470.499.294** | **136.088.722** |
 
-Los tres assets comprimidos del Release ocupan **115.862.670 bytes** en conjunto; el mayor, **59.520.338 bytes**. El archivo individual para Pages más grande mide **15.300.498 bytes**. Los conteos están bajo el presupuesto de **150 MB**; [`config.yaml`](../config.yaml) reserva 450 MB para tiles, 150 MB para chunks binarios y 20 MB para la app, con objetivo de 800 MB para el sitio completo. Tiles y chunks corresponden a fases posteriores y no se incluyen en este paquete.
+Los tres assets comprimidos del Release ocupan **134.529.970 bytes** en conjunto; el mayor, **78.187.628 bytes**. El archivo individual para Pages más grande mide **17.220.603 bytes**. Los conteos están bajo el presupuesto de **150 MB**; [`config.yaml`](../config.yaml) reserva 450 MB para tiles, 150 MB para chunks binarios y 20 MB para la app, con objetivo de 800 MB para el sitio completo. Tiles y chunks corresponden a fases posteriores y no se incluyen en este paquete.
 
 La rama del PR se reescribió a partir de `origin/main` para retirar del historial propuesto los archivos derivados grandes. El chequeo `git rev-list --objects origin/main..HEAD | git cat-file --batch-check` no encuentra blobs mayores de 1 MB. Git ignora `web/public/data/**`, salvo la muestra. [`ci.yml`](../.github/workflows/ci.yml) prueba la muestra y falla si el manifiesto excede el presupuesto, un archivo excede 95 MB o un Markdown contiene rutas locales absolutas. [`deploy.yml`](../.github/workflows/deploy.yml) restaura los assets del Release público con el token automático del propio repositorio, verifica los SHA256 y los incorpora a `dist/data`; ningún workflow público lee microdatos ni el repositorio privado.
 
-El [workflow privado de generación](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36091057990) terminó correctamente. Se descargó su artifact agregado, se comprobó el esquema y se comparó el contenido de sus **151 Parquet** y dos JSON con la ejecución local; los valores fueron equivalentes. La diferencia de 772 bytes en el paquete total local se debe a la representación física de Parquet y JSON. El Release público se forma con los archivos del workflow privado, más el `fase0_qa.json` de Fase 0 previamente verificado por SHA256.
+El [workflow privado de generación](https://github.com/diegocevallos-tech/censo-vivo-ecuador-raw/actions/runs/36092934704) terminó correctamente. Se descargó su artifact agregado, se comprobó el esquema y se comparó el contenido de sus **151 Parquet** y dos JSON con la ejecución local; los valores fueron equivalentes. La diferencia de 791 bytes en el paquete total local se debe a la representación física de Parquet y JSON. El Release público se forma con los archivos del workflow privado, más el `fase0_qa.json` de Fase 0 previamente verificado por SHA256.
 
 La [prueba de despliegue del PR](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36092444786) descargó los tres assets del Release público, verificó tamaños y SHA256, reconstruyó los 154 archivos de datos y subió el artifact de Pages. El job de publicación quedó omitido porque fue un `workflow_dispatch` de preview: el sitio de producción permanece en la versión aprobada.
 
@@ -84,4 +84,5 @@ El resultado completo `counts/v1a/qa.json` está dentro del Release público. La
 | Unidades cuya pirámide no suma la población | 0 |
 
 El empaquetador vuelve a comparar los conteos y las categorías desde sector hasta nación, rechaza celdas finas positivas menores que 3 y rechaza cualquier desagregación publicada en una manzana marcada `detalle_en_sector`. El [verificador de artefactos](../pipeline/verify_public_artifacts.py) inspecciona extensiones, columnas y tamaños antes de preparar el Release.
+
 

@@ -18,6 +18,8 @@ Una manzana con **menos de 10 personas** o **menos de 3 viviendas ocupadas** pub
 
 Además, una celda positiva con conteo **1 o 2** en cualquier manzana se suprime en ese nivel y se conserva en el total del sector. La regla abarca categorías y campos desagregados del formato ancho, incluida la pirámide de edad y sexo. Las celdas cero pueden conservarse como cero; una categoría ausente en el formato largo nunca se interpreta como cero cuando `detalle_en_sector = true`.
 
+Los **sectores dispersos** son ya unidades de escala sectorial, aunque aparezcan en la tabla de unidades finas para completar la cobertura geográfica. Sus categorías se conservan en esa tabla y en la tabla sectorial; el umbral de celdas de manzana no se aplica a ellas. La QA de empaquetado contrasta explícitamente el número y la suma de sus categorías antes y después de publicar.
+
 ## Supresión secundaria y límites
 
 La supresión primaria sola permite recuperar un valor por diferencia si el total sectorial y todos los demás valores de sus manzanas están visibles. Por eso **sí hace falta supresión secundaria**. Cuando una combinación sector–variable–categoría, o sector–campo ancho, tiene exactamente una celda positiva retenida y al menos otra manzana con celda positiva publicable, se retiene también la menor de estas últimas. Así quedan al menos dos celdas positivas desconocidas en la resta. Los totales sectoriales no se alteran.
