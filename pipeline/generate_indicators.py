@@ -129,10 +129,15 @@ def generate(*, check: bool = False) -> None:
         document = current.rstrip() + "\n\n" + section + "\n"
     fixtures = render_fixtures(catalog)
     if check:
-        if (TYPESCRIPT.read_text(encoding="utf-8") != browser
-                or current != document
-                or FIXTURES.read_text(encoding="utf-8") != fixtures):
-            raise ValueError("Generated indicator catalog or methodology is stale")
+        stale = [
+            name for name, actual, expected in (
+                ("browser catalog", TYPESCRIPT.read_text(encoding="utf-8"), browser),
+                ("methodology", current, document),
+                ("parity fixtures", FIXTURES.read_text(encoding="utf-8"), fixtures),
+            ) if actual != expected
+        ]
+        if stale:
+            raise ValueError(f"Generated files are stale: {', '.join(stale)}")
         return
     TYPESCRIPT.parent.mkdir(parents=True, exist_ok=True)
     TYPESCRIPT.write_text(browser, encoding="utf-8")
