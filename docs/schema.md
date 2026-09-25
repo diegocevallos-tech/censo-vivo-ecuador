@@ -1,6 +1,6 @@
 # Esquema de conteos geográficos · Fase 1A
 
-Los archivos del [Release público `data-derived-v1a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1a) contienen **conteos agregados**. Se generan con [`01_filter_to_parquet.py`](../pipeline/01_filter_to_parquet.py), [`02_counts_by_unit.py`](../pipeline/02_counts_by_unit.py), [`07_qa.py`](../pipeline/07_qa.py) y [`02b_pack_public.py`](../pipeline/02b_pack_public.py). El Parquet intermedio de `data/interim/filtered/` contiene registros originales y permanece fuera de git y del sitio. Los códigos y categorías proceden de los [diccionarios oficiales registrados en el manifiesto](../data/MANIFEST.json).
+Los archivos del Release público `data-derived-v1b1` contienen **conteos agregados exactos**. Se generan con [`01_filter_to_parquet.py`](../pipeline/01_filter_to_parquet.py), [`02_counts_by_unit.py`](../pipeline/02_counts_by_unit.py), [`07_qa.py`](../pipeline/07_qa.py) y [`02c_pack_exact.py`](../pipeline/02c_pack_exact.py). El Parquet intermedio de `data/interim/filtered/` contiene registros originales y permanece fuera de git y del sitio. Los códigos y categorías proceden de los [diccionarios oficiales registrados en el manifiesto](../data/MANIFEST.json).
 
 ## Niveles y claves
 
@@ -10,7 +10,7 @@ Las claves de sector con `888` se conservan en las sumas superiores aunque no te
 
 ## Tabla ancha de conteos
 
-Cada conteo numérico usa el menor tipo Parquet sin signo que admite el máximo real de su columna en el nivel: `uint8`, `uint16` o `uint32`. Los tipos exactos por nivel están en `counts/v1a/schema.json` del Release. Las columnas de clave, nivel y versión son texto; las banderas son booleanas. Los Parquet usan zstd. Los campos de detalle suprimido a escala de manzana son nulos; los totales de población, viviendas y hogares siempre están presentes.
+Cada conteo numérico usa el menor tipo Parquet sin signo que admite el máximo real de su columna en el nivel: `uint8`, `uint16` o `uint32`. Los tipos exactos por nivel están en `counts/v1b1/schema.json` del Release. Las columnas de clave, nivel y versión son texto; las banderas son booleanas. Los Parquet usan zstd. Los conteos de manzana y sector son completos, incluso cuando una celda vale 1 o 2.
 
 | Columna | Tipo | Población de referencia y significado | Variable fuente del diccionario |
 | --- | --- | --- | --- |
@@ -24,8 +24,6 @@ Cada conteo numérico usa el menor tipo Parquet sin signo que admite el máximo 
 | `asignado_a_sector` | BOOLEAN | Unidad con población de manzanas sin polígono | Clave `I01`–`I06` contrastada con [QA de match](qa/manzanas_sin_match.csv) |
 | `sector_disperso` | BOOLEAN | Unidad que incluye localidad rural sin manzana | `I06` vacío |
 | `geografia_oculta` | BOOLEAN | Unidad que incluye clave de geografía reservada | `I04`–`I06` = `888` |
-| `detalle_en_sector` | BOOLEAN | Manzana completa retenida por umbral de población o viviendas ocupadas | `P02`, `V0201`, `V0202` y conteos de unidad |
-| `celdas_suprimidas` | BOOLEAN | Al menos una celda detallada retenida por supresión primaria o secundaria | Conteos por campo y categoría |
 | `geom_version` | VARCHAR | Versión de la unión cartográfica por clave | Marco geográfico 2021 |
 | `population` | uint8/uint16/uint32 | Personas censadas | Número de registros de Población MANLOC |
 | `dwellings` | uint8/uint16/uint32 | Viviendas censadas | Número de registros de Vivienda MANLOC |
@@ -73,7 +71,7 @@ Cada fila siguiente identifica **dos columnas enteras sin signo distintas**, una
 
 ## Tabla larga de categorías
 
-`categories/finest/` conserva el detalle publicable de MANLOC tras la [supresión estadística](metodologia.md); `categories/sector_only/` añade `P11R` desde SECTOR, por lo que **no** se presenta a escala de manzana. Variables geográficas de alta cardinalidad (`P08P`, `P08C`, `P08Q`, `P0803A`, `P09P`, `P09C`, `P09Q`, `P1001I`) se publican desde cantón en `categories/canton_only/` para contener el tamaño. `categories/sector/`, `parroquia/`, `canton/`, `provincia/` y `nacion/` conservan los conteos completos. `counts/v1a/schema.json` describe el empaquetado y [`indicators.yaml`](../indicators.yaml) el nivel mínimo de cada indicador.
+`categories/finest/` conserva todos los conteos originales disponibles de MANLOC por manzana y sector disperso, sin supresión. `categories/sector_only/` añade `P11R` desde SECTOR, por lo que **no** se presenta a escala de manzana. Las categorías de sector para las demás variables se obtienen por suma exacta de `categories/finest/`, para evitar duplicar unos 50 MB. Variables geográficas de alta cardinalidad (`P08P`, `P08C`, `P08Q`, `P0803A`, `P09P`, `P09C`, `P09Q`, `P1001I`) empiezan en cantón según el esquema de fuente. `categories/parroquia/`, `canton/`, `provincia/` y `nacion/` contienen sus conteos completos. `counts/v1b1/schema.json` describe el empaquetado y [`indicators.yaml`](../indicators.yaml) el nivel mínimo de cada indicador.
 
 | Columna | Tipo | Población de referencia y significado | Variable fuente del diccionario |
 | --- | --- | --- | --- |
@@ -83,5 +81,5 @@ Cada fila siguiente identifica **dos columnas enteras sin signo distintas**, una
 | `n` | uint8/uint16/uint32 | Conteo de la categoría en su universo fuente; tipo mínimo por nivel | Tabla indicada en el codebook |
 | `geom_version` | VARCHAR | Versión de la unión cartográfica por clave | Marco geográfico 2021 |
 
-El codebook contiene `variable_id`, `category_id`, `source_table`, `variable`, `category` y `geom_version`; sus códigos de categoría se toman de las fuentes, sin inventar etiquetas. En manzana no se publican celdas positivas inferiores a 3. No hay identificadores de persona, hogar ni vivienda, ni cruces de categorías por individuo. [`verify_public_artifacts.py`](../pipeline/verify_public_artifacts.py) comprueba extensiones, columnas prohibidas y el tope de 95 MB por archivo; [`check_derived_manifest.py`](../pipeline/check_derived_manifest.py) comprueba hashes y presupuesto del sitio.
+El codebook contiene `variable_id`, `category_id`, `source_table`, `variable`, `category` y `geom_version`; sus códigos de categoría se toman de las fuentes, sin inventar etiquetas. No hay identificadores de persona, hogar ni vivienda, ni cruces de categorías por individuo. [`verify_public_artifacts.py`](../pipeline/verify_public_artifacts.py) comprueba extensiones, columnas prohibidas y el tope de 95 MB por archivo; [`verify_release_integrity.py`](../pipeline/verify_release_integrity.py) comprueba aditividad exacta y [`check_derived_manifest.py`](../pipeline/check_derived_manifest.py) comprueba hashes y presupuesto del sitio.
 

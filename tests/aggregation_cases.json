@@ -1,0 +1,20 @@
+[
+  {
+    "units": [
+      {"key": "a", "counts": {"population": 10, "sex_male": 4}},
+      {"key": "b", "counts": {"population": 20, "sex_male": 9}}
+    ],
+    "counts": {"population": 30, "sex_male": 13},
+    "quality": "exacto",
+    "estimated_percent": 0
+  },
+  {
+    "units": [
+      {"key": "a", "counts": {"population": 10, "sex_male": 4}},
+      {"key": "b", "counts": {"population": 20, "sex_male": 9}, "coverage": 0.25}
+    ],
+    "counts": {"population": 15, "sex_male": 6.25},
+    "quality": "estimado",
+    "estimated_percent": 33.333333333333336
+  }
+]

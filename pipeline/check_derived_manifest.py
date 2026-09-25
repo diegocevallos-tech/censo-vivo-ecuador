@@ -28,7 +28,10 @@ def safe_relative(name: str) -> PurePosixPath:
 
 def check(manifest: dict, config: dict) -> dict[str, int]:
     budget = config["derived_budget_bytes"]
-    if manifest.get("schema_version") != 1 or manifest.get("release") != "data-derived-v1a":
+    release = manifest.get("release", "")
+    if manifest.get("schema_version") != 1 or not re.fullmatch(
+        r"data-derived-v[0-9]+[a-z0-9]*", release
+    ):
         raise ValueError("Unexpected derived manifest version or release")
     assets = manifest.get("assets", [])
     files = manifest.get("files", [])
@@ -44,9 +47,9 @@ def check(manifest: dict, config: dict) -> dict[str, int]:
         asset_names.add(str(name))
         if (
             not isinstance(asset["size_bytes"], int)
-            or not 0 < asset["size_bytes"] <= budget["maximum_browser_file"]
+            or not 0 < asset["size_bytes"] <= config["maximum_release_asset_bytes"]
         ):
-            raise ValueError(f"Release asset exceeds 95 MB: {name}")
+            raise ValueError(f"Release asset exceeds 2 GiB: {name}")
         if not SHA256.fullmatch(asset["sha256"]):
             raise ValueError(f"Invalid SHA256 for {name}")
     totals: defaultdict[str, int] = defaultdict(int)

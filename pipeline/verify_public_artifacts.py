@@ -22,6 +22,9 @@ CORE_FIELDS = GEOGRAPHY_FIELDS | set(NUMERIC_FIELDS) | {
     "asignado_a_sector", "sector_disperso", "geografia_oculta",
     "detalle_en_sector", "celdas_suprimidas", "unit_index"
 }
+EXACT_CORE_FIELDS = GEOGRAPHY_FIELDS | set(NUMERIC_FIELDS) | {
+    "asignado_a_sector", "sector_disperso", "geografia_oculta", "unit_index"
+}
 CATEGORY_FIELDS = {
     "unit_index", "variable_id", "category_id", "n", "geom_version"
 }
@@ -66,14 +69,18 @@ def main() -> None:
             bad = columns & FORBIDDEN_FIELDS
             if bad:
                 raise ValueError(f"Possible record identifier in {path}: {sorted(bad)}")
-            if "counts" in path.parts and "v1a" in path.parts:
+            if "counts" in path.parts and (
+                "v1a" in path.parts or "v1b1" in path.parts
+            ):
                 if "categories" in path.parts:
                     if path.name == "codebook.parquet":
                         allowed = required = CODEBOOK_FIELDS
                     else:
                         allowed = required = CATEGORY_FIELDS
                 else:
-                    allowed = CORE_FIELDS
+                    allowed = (
+                        EXACT_CORE_FIELDS if "v1b1" in path.parts else CORE_FIELDS
+                    )
                     required = {
                         "unit_index", "unit_key", "population", "dwellings",
                         "households", "geom_version"
