@@ -2,7 +2,7 @@
 
 ## Estado
 
-- Fase actual: 1B-2, rama `feat/fase-1b2-geodemografia`; PR de 1B-2 por abrir, pendiente de aprobación antes del merge.
+- Fase actual: 1B-2, rama `feat/fase-1b2-geodemografia`; [PR público #45](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/45) abierto, pendiente de aprobación antes del merge.
 - Fase 1B-1 cerrada: PR privado #4 y público #44 fusionados por squash en ese orden, ramas eliminadas, tag `fase-1b1` en ambos repos.
 - Producción de Pages desactivada hasta Fase 2. Los Parquet nuevos siguen ignorados bajo `data/interim/`; su publicación web corresponde a 1B-3.
 
@@ -18,10 +18,10 @@
 ## Siguiente comando exacto
 
 ```sh
-git status --short --branch
+gh pr checks 45 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Después, ejecutar QA final, confirmar paridad Python/TypeScript, hacer commit Conventional Commits, push de la rama y abrir el PR. Actualizar este archivo con el número de PR y el siguiente comando `gh pr checks` en un commit final. Esperar la aprobación del usuario.
+Después, revisar el PR #45 y esperar aprobación explícita. No fusionar ni iniciar 1B-3.
 
 ## Archivos tocados
 
