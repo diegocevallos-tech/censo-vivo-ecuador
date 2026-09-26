@@ -5,6 +5,8 @@ describe('choropleth breaks', () => {
   it('enables indicators at their minimum scale and coarser scales', () => {
     expect(availableAtLevel('sector', 'provincia')).toBe(true)
     expect(availableAtLevel('sector', 'sector')).toBe(true)
+    expect(availableAtLevel('sector', 'zona')).toBe(true)
+    expect(availableAtLevel('parroquia', 'zona')).toBe(false)
     expect(availableAtLevel('sector', 'manzana')).toBe(false)
   })
   it('keeps quantile thresholds in data order', () => {

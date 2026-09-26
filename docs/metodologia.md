@@ -2,7 +2,7 @@
 
 ## Fuente y unidades: datos abiertos del INEC, unidades censales oficiales, sin modificación
 
-El portal publica únicamente conteos agregados del VIII Censo de Población y VII de Vivienda 2022 del INEC. Las unidades son manzana, sector censal, parroquia, cantón, provincia y nación. No se crean microzonas ni se aplican supresión, ruido o perturbación. Nunca se publican filas por persona, hogar o vivienda. Los códigos geográficos `888` se respetan tal como vienen del INEC.
+El portal publica únicamente conteos agregados del VIII Censo de Población y VII de Vivienda 2022 del INEC. Las unidades son manzana, sector censal, zona censal (I04), parroquia, cantón, provincia y nación. No se crean microzonas ni se aplican supresión, ruido o perturbación. Nunca se publican filas por persona, hogar o vivienda. Los códigos geográficos `888` se respetan tal como vienen del INEC. La zona se obtiene sumando sectores con la misma clave `I01`–`I04`; su polígono proviene de `zon_a` del Marco 2021, unido solo por esa clave.
 
 La geometría de referencia es el Marco 2021, unido a las estadísticas solo por clave (`geom_version: marco-2021`). Las 1.852 manzanas censales sin polígono se conservan como conteos en su sector; no se les atribuye geometría. El visor debe indicarlas como «población asignada a nivel de sector». La [QA cartográfica](fase0_report.md) documenta su cobertura y la diferencia de versiones.
 

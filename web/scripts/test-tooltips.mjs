@@ -13,6 +13,8 @@ const cases = [
     route: 'Cantón · Pichincha' },
   { level: 'parroquia', key: '170155', camera: '-78.41675,-0.08285,9', title: 'Calderón',
     route: 'Parroquia · Quito, Pichincha' },
+  { level: 'zona', key: '170155025', camera: '-78.41362,-0.09485,10.3',
+    title: 'Zona 170155-025', route: 'Zona · Calderón · Quito, Pichincha' },
   { level: 'sector', key: '170155025002', camera: '-78.41362,-0.09485,11',
     title: 'Sector 170155025002', route: 'Sector · Calderón · Quito, Pichincha' },
 ]

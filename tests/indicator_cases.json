@@ -3980,7 +3980,7 @@
   {
     "id": "mean_parity",
     "variant": "below_level",
-    "level": "sector",
+    "level": "zona",
     "aggregate": {
       "counts": {
         "cat:poblacion:P3203:0": 100,
@@ -5834,7 +5834,7 @@
   {
     "id": "adolescent_motherhood",
     "variant": "below_level",
-    "level": "sector",
+    "level": "zona",
     "aggregate": {
       "counts": {
         "cross:adolescent_mothers": 100,
@@ -6271,7 +6271,7 @@
   {
     "id": "mean_parity_women_15_49",
     "variant": "below_level",
-    "level": "sector",
+    "level": "zona",
     "aggregate": {
       "counts": {
         "cross:children_born_15_49": 100,

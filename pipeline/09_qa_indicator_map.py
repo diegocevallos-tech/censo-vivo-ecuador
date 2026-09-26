@@ -50,8 +50,13 @@ def check(root: Path) -> None:
                     raise ValueError(f"Invalid cell in {relative}: {key} indicator {indicator}")
         populations[relative] = sum(official["population"])
         total_rows += rows
-    if total_rows != 286_265 or populations["nacion/data.bin"] != 16_938_986:
+    if total_rows not in {286_265, 292_194} or populations["nacion/data.bin"] != 16_938_986:
         raise ValueError("Indicator index lacks official census units or population")
+    if "zona/data.bin" in schema["files"] and (
+        schema["files"]["zona/data.bin"]["rows"] != 5_929
+        or populations["zona/data.bin"] != populations["nacion/data.bin"]
+    ):
+        raise ValueError("Zone index differs from official sector totals")
     print(
         f"Checked {len(schema['files'])} indicator files, {total_rows} units, 45 indicators"
     )

@@ -1,6 +1,10 @@
 import placeCatalog from './generated/places.json'
 import type { Level } from './indicatorMaps'
-type DisplayLevel = Level | 'zona'
+type DisplayLevel = Level
+
+export function zoneLabel(key: string): string {
+  return `${key.slice(0, 6)}-${key.slice(6, 9)}`
+}
 
 const places = placeCatalog.places
 export const placeByKey = new Map(places.map(place => [place.key, place]))
@@ -33,18 +37,20 @@ export function parentNames(level: DisplayLevel, key: string): string[] {
   if (level === 'provincia') return ['Ecuador']
   if (level === 'canton') return names.slice(0, 1).filter((name): name is string => !!name)
   if (level === 'parroquia') return names.slice(0, 2).reverse().filter((name): name is string => !!name)
-  return names.slice(0, 3).reverse().filter((name): name is string => !!name)
+  return names.slice(0, 3).reverse().filter((name, index, values): name is string =>
+    !!name && (index === values.length - 1 || name !== values[index + 1]))
 }
 
 export function unitPresentation(level: DisplayLevel, key: string, language: 'es' | 'en') {
   const named = level === 'provincia' || level === 'canton' || level === 'parroquia'
   const primary = named ? placeByKey.get(key)?.name ?? key
-    : level === 'nacion' ? 'Ecuador' : `${levelLabel(level, language)} ${key}`
+    : level === 'nacion' ? 'Ecuador' : `${levelLabel(level, language)} ${
+      level === 'zona' ? zoneLabel(key) : key}`
   const route = parentNames(level, key)
   const routeText = route.length > 2 ? `${route[0]} · ${route.slice(1).join(', ')}`
     : route.join(', ')
   return { primary, level: levelLabel(level, language), route: routeText,
-    headline: routeText ? `${levelLabel(level, language)} ${primary} · ${routeText}`
+    headline: routeText ? `${named ? `${levelLabel(level, language)} ` : ''}${primary} · ${routeText}`
       : primary }
 }
 
@@ -57,7 +63,7 @@ export function breadcrumbNames(key: string, language: 'es' | 'en'): string[] {
       if (name) path.push(name)
     }
   }
-  if (key.length === 9) path.push(`${levelLabel('zona', language)} ${key}`)
+  if (key.length >= 9) path.push(`${levelLabel('zona', language)} ${zoneLabel(key)}`)
   if (key.length >= 12) path.push(`${levelLabel('sector', language)} ${key.slice(0, 12)}`)
   if (key.length >= 15) path.push(`${levelLabel('manzana', language)} ${key.slice(0, 15)}`)
   return path

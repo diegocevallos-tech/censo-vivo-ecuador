@@ -38,7 +38,7 @@ export interface IndicatorResult {
   unavailable_reason: string | null
 }
 
-const levels = ['manzana', 'sector', 'parroquia', 'canton', 'provincia', 'nacion']
+const levels = ['manzana', 'sector', 'zona', 'parroquia', 'canton', 'provincia', 'nacion']
 const sum = (counts: Record<string, number>, keys: string[]): number =>
   keys.reduce((total, key) => total + (counts[key] ?? 0), 0)
 

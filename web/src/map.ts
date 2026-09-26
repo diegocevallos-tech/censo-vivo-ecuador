@@ -40,7 +40,7 @@ const copy = {
     breaks: 'Cortes', density: 'Densidad de población', noData: 'Sin dato',
     small: 'Pocos casos: fuera de rankings', from: 'Disponible desde',
     quantile: 'Cuantiles', jenks: 'Jenks', stddev: 'Desviación estándar',
-    units: 'unidades con geometría', hint: 'Acércate para pasar de provincia a cantón, parroquia, sector y manzana. Pulsa una zona para ver sus conteos.',
+    units: 'unidades con geometría', hint: 'Acércate para pasar de provincia a cantón, parroquia, zona censal, sector y manzana. Pulsa una unidad para ver sus conteos.',
     analyze: 'ANÁLISIS', smoothing: 'Suavizado EB', inspect: 'Inspeccionar', circle: 'Círculo',
     lasso: 'Lazo', multi: 'Multi', clear: 'Limpiar', densityToggle: 'Densidad',
     unitsToggle: 'Unidades', source: 'Fuente: INEC, CPV 2022 · Geometría: Marco 2021' },
@@ -48,7 +48,7 @@ const copy = {
     breaks: 'Breaks', density: 'Population density', noData: 'No data',
     small: 'Few cases: excluded from rankings', from: 'Available from',
     quantile: 'Quantiles', jenks: 'Jenks', stddev: 'Standard deviation',
-    units: 'units with geometry', hint: 'Zoom from province to canton, parish, sector and block. Choose a unit to see its counts.',
+    units: 'units with geometry', hint: 'Zoom from province to canton, parish, census zone, sector and block. Choose a unit to see its counts.',
     analyze: 'ANALYSIS', smoothing: 'EB smoothing', inspect: 'Inspect', circle: 'Circle',
     lasso: 'Lasso', multi: 'Multi', clear: 'Clear', densityToggle: 'Density',
     unitsToggle: 'Units', source: 'Source: INEC, Census 2022 · Geometry: 2021 framework' },
@@ -84,7 +84,7 @@ app.innerHTML = `
       <p id="availability" class="availability" role="status"></p>
       <div class="divider"></div>
       <div class="metric"><strong id="unit-count">—</strong><span>unidades con geometría</span></div>
-      <p class="hint">Acércate para pasar de provincia a cantón, parroquia, sector y manzana. Pulsa una zona para ver sus conteos.</p>
+      <p class="hint">Acércate para pasar de provincia a cantón, parroquia, zona censal, sector y manzana. Pulsa una unidad para ver sus conteos.</p>
       <div class="analysis-head"><span class="eyebrow">02 / ANÁLISIS</span>
         <label><input type="checkbox" id="smooth-toggle"><span id="smooth-label">Suavizado EB</span></label></div>
       <div id="selection-preview" class="selection-preview" role="status" aria-live="polite"></div>
@@ -129,11 +129,11 @@ const breadcrumbEl = document.querySelector<HTMLElement>('#breadcrumb')!
 const languageEl = document.querySelector<HTMLButtonElement>('#language')!
 const names: Record<Level, string> = {
   nacion: 'Ecuador', provincia: 'Provincia', canton: 'Cantón',
-  parroquia: 'Parroquia', sector: 'Sector censal', manzana: 'Manzana',
+  parroquia: 'Parroquia', zona: 'Zona censal', sector: 'Sector censal', manzana: 'Manzana',
 }
 const englishNames: Record<Level, string> = {
   nacion: 'Ecuador', provincia: 'Province', canton: 'Canton',
-  parroquia: 'Parish', sector: 'Census sector', manzana: 'Census block',
+  parroquia: 'Parish', zona: 'Census zone', sector: 'Census sector', manzana: 'Census block',
 }
 const levelName = (level: Level): string => language === 'es' ? names[level] : englishNames[level]
 const englishThemes: Record<string, string> = {
@@ -143,7 +143,8 @@ const englishThemes: Record<string, string> = {
   educacion: 'Education', compuesto: 'Composite',
 }
 const zoomLevel = (z: number): Level => z < 3 ? 'nacion' : z < 6 ? 'provincia'
-  : z < 8 ? 'canton' : z < 10 ? 'parroquia' : z < 13 ? 'sector' : 'manzana'
+  : z < 8 ? 'canton' : z < 9.5 ? 'parroquia' : z < 11 ? 'zona'
+    : z < 13 ? 'sector' : 'manzana'
 const color: maplibregl.ExpressionSpecification = [
   'case', ['!', ['has', 'density']], '#354050',
   ['interpolate', ['linear'], ['get', 'density'],
@@ -306,8 +307,13 @@ async function start() {
   let unitsOn = true
   let mode3d = false
   let sectorFallback = false
-  const effectiveLevel = (): Level => sectorFallback && zoomLevel(map.getZoom()) === 'manzana'
-    ? 'sector' : zoomLevel(map.getZoom())
+  let zoneFallback = false
+  const effectiveLevel = (): Level => {
+    const level = zoomLevel(map.getZoom())
+    if (sectorFallback && level === 'manzana') return 'sector'
+    if (zoneFallback && level === 'zona') return 'parroquia'
+    return level
+  }
 
   function applySelectionPaint() {
     for (const id of active) {
@@ -759,9 +765,20 @@ async function start() {
   let hoverPopup: maplibregl.Popup | null = null
   let hoveredSignature = ''
   map.on('load', sync)
-  map.on('moveend', () => { sectorFallback = false; sync() })
+  map.on('moveend', () => { sectorFallback = false; zoneFallback = false; sync() })
   map.on('idle', () => {
     updateDensityBreaks()
+    if (zoomLevel(map.getZoom()) === 'zona' && !zoneFallback && currentLevel === 'zona'
+      && active.size && [...active].every(id => map.isSourceLoaded(id))) {
+      const canvas = map.getCanvas()
+      const visibleZones = map.queryRenderedFeatures([[0, 0], [canvas.clientWidth, canvas.clientHeight]],
+        { layers: [...active].map(id => `${id}-fill`) })
+      if (!visibleZones.length) {
+        zoneFallback = true
+        sync()
+        return
+      }
+    }
     if (zoomLevel(map.getZoom()) !== 'manzana' || sectorFallback || currentLevel !== 'manzana'
       || !active.size || ![...active].every(id => map.isSourceLoaded(id))) return
     const canvas = map.getCanvas()

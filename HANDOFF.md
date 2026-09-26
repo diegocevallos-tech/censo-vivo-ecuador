@@ -3,8 +3,8 @@
 ## Estado
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
-- [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene 2B mediante el [deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596). El Release público vigente es [`data-derived-v2a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a), 436.512.440 bytes. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: [PR #54](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/54) `fix/nombres-tooltip` desde `main`, antes de 2C. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado. El Release de esta corrección es [`data-derived-v2c`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2c), basado en los conteos v2a; producción aún está en v2a.
+- [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene la corrección de nombres v2c mediante el [deploy 36247226599](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36247226599). El Release público vigente es [`data-derived-v2c`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2c), 436.832.021 bytes. Los datos pesados permanecen fuera de Git.
+- Subtarea actual: [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55), rama `feat/zona-censal-i04` desde `main`, para publicar I04 entre parroquia y sector. El [PR #54](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/54) fue fusionado con squash. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
 
 ## Pasos terminados
 
@@ -27,14 +27,19 @@
 17. El [smoke de producción](docs/fase2_smoke_produccion.md) y sus capturas quedaron fusionados mediante el PR #52. El [tag fase-2](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/fase-2) se creó en `c82b55e`.
 18. Corrección de nombres: [informe](docs/qa/nombres_tooltip.md). Los 24 nombres provinciales, 221 cantonales y 1.042 parroquiales del DPA 2022 empatan por clave, sin faltantes. Se normalizaron partículas y tildes, se añadieron nombres a los tres PMTiles y al buscador, y tooltip/selección/breadcrumb comparten la ruta. E2E local: 5 casos, 0 errores. Release v2c: 436.832.021 bytes de datos, cinco assets descargados y SHA256 verificados. #53 deberá rebasarse y publicar un Release que combine ambos cambios.
 19. [PR #54](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/54) abierto desde `main`. El commit `b991183` no añade blobs mayores de 1 MB. [Checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36246491290) y [devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36246491257) pasaron para `cf03c8d`; el último cambio es solo documental. El deploy de producción se activa automáticamente tras la fusión en `main`.
+20. #54 se fusionó con squash en `58097a3` y se borró la rama remota. El [deploy v2c](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36247226599) pasó. El E2E de tooltip sobre producción pasó 5 casos, sin errores JS; las capturas de sector y el resultado JSON se actualizaron en `docs/capturas/`.
+21. Auditoría de I04: los 53.513 sectores censales forman 5.929 claves de zona; `zon_a` del Marco 2021 tiene 5.888 polígonos, 5.885 con conteos. Las 44 zonas estadísticas sin polígono (5.138 personas) se conservan en los agregados, sin geometría inventada. [Informe](docs/qa/zona_i04.md).
+22. `13_zona.py` generó Parquet exacto de zona (397.085 B) y los insumos intermedios; `14_zona_tiles.py` generó 9.294.084 B de PMTiles mediante tippecanoe v2.79.0. El índice suma 45 indicadores de 5.929 zonas (1.422.971 B). `15_package_zona.py` preparó `data-derived-v2d` (447.948.448 B en Pages), con Parquet 149.529.581/150.000.000 B. QA de sector→zona→parroquia: diferencia cero; 13 tests Python, 10 TS, build, lint y 6 E2E de tooltip local pasaron.
+23. [Release público v2d](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2d) publicado y descargado de nuevo. Se restauraron 397 archivos agregados con SHA256 correctos; el verificador rechazó cualquier esquema de microdatos y confirmó 447.948.448 B.
+24. [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55) abierto. Tras la prueba se eliminó la repetición «Quito · Quito» del tooltip de zona y se añadió fallback a parroquia cuando ninguna geometría de zona cubre la vista; build, lint, 10 Vitest y 6 E2E locales pasaron. Esperar la CI del último commit antes de fusionar y desplegar.
 
 ## Siguiente comando exacto
 
 ```sh
-gh pr checks 54 -R diegocevallos-tech/censo-vivo-ecuador
+gh pr checks 55 -R diegocevallos-tech/censo-vivo-ecuador --watch
 ```
 
-Verificar CI de #54 y mantener #53 abierto y sin tocar `feat/auditoria-1b2`. Tras fusionar #54, comprobar el deploy automático y repetir el E2E sobre producción.
+Esperar CI de #55, fusionar y probar en producción. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. Después seguir con 2C y la optimización móvil #51, en ese orden. Esperar el informe de Antigravity antes de añadir límites municipales urbanos.
 
 ## Archivos tocados en 1B-3
 
