@@ -307,8 +307,13 @@ async function start() {
   let unitsOn = true
   let mode3d = false
   let sectorFallback = false
-  const effectiveLevel = (): Level => sectorFallback && zoomLevel(map.getZoom()) === 'manzana'
-    ? 'sector' : zoomLevel(map.getZoom())
+  let zoneFallback = false
+  const effectiveLevel = (): Level => {
+    const level = zoomLevel(map.getZoom())
+    if (sectorFallback && level === 'manzana') return 'sector'
+    if (zoneFallback && level === 'zona') return 'parroquia'
+    return level
+  }
 
   function applySelectionPaint() {
     for (const id of active) {
@@ -760,9 +765,20 @@ async function start() {
   let hoverPopup: maplibregl.Popup | null = null
   let hoveredSignature = ''
   map.on('load', sync)
-  map.on('moveend', () => { sectorFallback = false; sync() })
+  map.on('moveend', () => { sectorFallback = false; zoneFallback = false; sync() })
   map.on('idle', () => {
     updateDensityBreaks()
+    if (zoomLevel(map.getZoom()) === 'zona' && !zoneFallback && currentLevel === 'zona'
+      && active.size && [...active].every(id => map.isSourceLoaded(id))) {
+      const canvas = map.getCanvas()
+      const visibleZones = map.queryRenderedFeatures([[0, 0], [canvas.clientWidth, canvas.clientHeight]],
+        { layers: [...active].map(id => `${id}-fill`) })
+      if (!visibleZones.length) {
+        zoneFallback = true
+        sync()
+        return
+      }
+    }
     if (zoomLevel(map.getZoom()) !== 'manzana' || sectorFallback || currentLevel !== 'manzana'
       || !active.size || ![...active].every(id => map.isSourceLoaded(id))) return
     const canvas = map.getCanvas()
