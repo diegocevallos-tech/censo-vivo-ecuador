@@ -144,19 +144,20 @@ SELECT unit_key, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derive
 
 ---
 
-## Paso 5: El giro urbano: Iñaquito frente a Calderón a escala parroquial
+## Paso 5: El giro urbano: el hipercentro norte frente a Calderón
 
-**English Title:** *The Urban Twist: Iñaquito vs Calderón at Parish Scale*
+**English Title:** *The Urban Twist: North Center vs Calderón*
 
-Dentro de Quito conviven realidades opuestas. La parroquia urbana Iñaquito registra un índice de envejecimiento de 141,53 (18.712 mayores frente a 13.221 niños). En contraste, la parroquia rural Calderón registra 30,11 (17.578 mayores frente a 58.379 niños). Iñaquito se delimitó agrupando sectores censales con el límite parroquial del Municipio de Quito (STHV); el censo registra el área urbana de Quito como una sola cabecera cantonal.
+Dentro de Quito conviven realidades demográficas opuestas. Mientras la parroquia rural Calderón registra un índice de 30,11 (17.578 mayores frente a 58.379 niños), el hipercentro norte (La Carolina y El Batán) muestra un marcado envejecimiento. La cifra oficial de la parroquia urbana Iñaquito permanece [PENDIENTE: índice de Iñaquito con la capa de parroquias urbanas del visor], al registrar el censo la urbe como cabecera única.
 
-**Resumen en inglés:** Within Quito, urban parish Iñaquito reaches an aggregate aging index of 141.53, nearly quintupling parish Calderón (30.11; 250,877 inhabitants). Iñaquito was delimited by grouping census sectors using the municipal boundary (STHV).  
+**Resumen en inglés:** Within Quito, rural parish Calderón registers a young aging index of 30.11 (17,578 seniors vs 58,379 children), contrasting with the aged north-central core. Urban parish Iñaquito is pending the viewer's non-census municipal layer.  
 
-**Cifra clave:** `141.53 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, sector/17.parquet (agregado 282 sectores Iñaquito) y parroquia/data.parquet (unit_key='170155')*)
+**Cifra clave:** `[PENDIENTE: índice de Iñaquito con la capa de parroquias urbanas del visor] mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, parroquia/data.parquet (unit_key='170155') / [PENDIENTE: capa de parroquias urbanas del visor]*)
 
 ```sql
+-- Calderón (parroquia censal oficial 170155)
 SELECT '170155' as unit_key, 'Calderon' as name, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/parroquia/data.parquet' WHERE unit_key = '170155';
--- Iñaquito agrupando 282 sectores censales (límite municipal STHV): 18.712 mayores / 13.221 niños = 141.53
+-- [PENDIENTE: índice de Iñaquito con la capa de parroquias urbanas del visor]
 ```
 
 ```json
@@ -181,17 +182,17 @@ SELECT '170155' as unit_key, 'Calderon' as name, population, pop_65_plus, pop_0_
 
 ## Paso 6: De sector a sector: la polarización entre el centro y la periferia
 
-**English Title:** *Sector by Sector: Percentiles and Generational Polarization*
+**English Title:** *Sector by Sector: Polarization Between Center and Periphery*
 
-Al comparar sectores con muestra suficiente según el umbral censal, la polarización es contundente. El percentil 90 de Iñaquito alcanza 217,00 adultos mayores por cada 100 niños, mientras el percentil 10 de Calderón desciende a 14,83, multiplicando la tasa casi quince veces. Como caso extremo, el sector 170150257003 en Iñaquito registra 127 mayores y 34 niños (373,53), frente a sectores periféricos con 9 mayores y 179 niños (5,03).
+Al comparar sectores con muestra suficiente según el umbral censal, la polarización es contundente. El percentil 90 del hipercentro norte alcanza 217,00 adultos mayores por cada 100 niños, mientras el percentil 10 de Calderón desciende a 14,83, una brecha casi quince veces superior. En el extremo, el sector 170150257003 en La Carolina registra 127 mayores y 34 niños (373,53), frente a periferias con 9 mayores y 179 niños (5,03).
 
-**Resumen en inglés:** Evaluating robust sectors (pop_0_14 >= 30), Iñaquito's 90th percentile reaches 217.00 seniors per 100 children, while Calderón's 10th percentile drops to 14.83.  
+**Resumen en inglés:** Evaluating robust sectors (pop_0_14 >= 30), the 90th percentile of north-central sectors reaches 217.00 seniors per 100 kids, whereas Calderón's 10th percentile drops to 14.83.  
 
 **Cifra clave:** `217.0 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, sector/17.parquet (sectores con pop_0_14 >= 30)*)
 
 ```sql
 SELECT unit_key, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/sector/17.parquet' WHERE unit_key IN ('170150257003', '170155025002');
--- Umbral pop_0_14 >= 30: p90 Iñaquito = 217.00 | p10 Calderón = 14.83
+-- Umbral pop_0_14 >= 30: p90 hipercentro norte (La Carolina/Batán) = 217.00 | p10 Calderón = 14.83
 ```
 
 ```json
