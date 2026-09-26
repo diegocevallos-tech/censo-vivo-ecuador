@@ -1,11 +1,11 @@
 {
   "url": "https://diegocevallos-tech.github.io/censo-vivo-ecuador/",
-  "captured_at_utc": "2026-09-26T02:31:03.871Z",
+  "captured_at_utc": "2026-09-26T14:45:25.918Z",
   "errors": [],
   "cases": {
     "desktop": {
       "level": "PROVINCIA",
-      "first_load_bytes": 487698
+      "first_load_bytes": 495213
     },
     "mobile": {
       "level": "PROVINCIA",
@@ -17,6 +17,7 @@
         "PROVINCIA",
         "CANTÓN",
         "PARROQUIA",
+        "ZONA CENSAL",
         "SECTOR CENSAL",
         "MANZANA"
       ]
@@ -25,13 +26,13 @@
       "level": "MANZANA",
       "status": "Círculo · 18 unidades",
       "quality": "Estimado · 69,8 %",
-      "preview_p95_ms": 0.3
+      "preview_p95_ms": 0.2
     },
     "circle_guayaquil": {
       "level": "MANZANA",
       "status": "Círculo · 25 unidades",
       "quality": "Estimado · 59,5 %",
-      "preview_p95_ms": 0.3
+      "preview_p95_ms": 0.2
     },
     "circle_rural": {
       "level": "SECTOR CENSAL",
