@@ -54,7 +54,8 @@ exactos en las unidades oficiales; el roll-up se hace sumando por clave.
 El bloque mayor de una variable en una provincia es **1.171.306 B**
 (Guayas), inferior a 2 MB. En el E2E de `V03` en Quito se descargaron
 **575,6 KB** entre índice, tres tablas provinciales de claves y bloques de
-variable; el bloque mayor allí fue **76,3 KB/provincia**. Una segunda
+variable; las seis respuestas binarias fueron HTTP 206 y la mayor tuvo
+**134.357 B**. El bloque mayor de `V03` fue **76,3 KB/provincia**. Una segunda
 categoría reutiliza los conteos en caché.
 
 ## QA
@@ -80,6 +81,8 @@ automáticamente a cantón con aviso visible; `P03` muestra la nota de media
 aproximada [captura](capturas/fase2c_min_level_canton.png). Ninguna de las dos
 pruebas produjo excepciones JavaScript.
 
-La publicación en Pages espera la aprobación del PR de producto. El Release
-de datos `data-derived-v2e` contiene únicamente agregados y se verifica con
-SHA256 antes de integrarse al sitio.
+La publicación en Pages espera la aprobación del PR de producto. El
+[prerelease público `data-derived-v2e`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2e)
+contiene únicamente agregados. Sus cinco assets se descargaron de nuevo y
+restauraron con SHA256 correcto: 398 archivos, 424.478.505 B. La auditoría de
+esquemas y la QA aditiva pasaron sobre esta copia descargada.

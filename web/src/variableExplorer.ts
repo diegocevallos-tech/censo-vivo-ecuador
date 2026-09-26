@@ -83,18 +83,24 @@ export function mountVariableExplorer(base: string, onChange: (choice: VariableC
         ? current.categories.find(item => String(item.id) === category.value) ?? null : null,
       mode: current.type === 'numeric' ? 'mean' : mode.value as VariableMode }
   }
-  function renderSelected() {
+  function renderSelected(preserve = true) {
     const t = labels[language]
+    const oldCategory = preserve ? category.value : ''
+    const oldMode = preserve ? mode.value : ''
     category.replaceChildren()
     if (!current) { details.replaceChildren(); return }
     for (const item of current.categories) category.add(new Option(
       `${item.code} · ${item.label[language]}`, String(item.id)))
+    if (oldCategory && Array.from(category.options).some(item => item.value === oldCategory)) {
+      category.value = oldCategory
+    }
     category.hidden = current.type === 'numeric'
     document.querySelector<HTMLElement>('#variable-category-label')!.hidden = category.hidden
     mode.replaceChildren()
     const choices: [VariableMode, string][] = current.type === 'numeric'
       ? [['mean', t.mean]] : [['percent', t.percent], ['count', t.count], ['density', t.density]]
     for (const [value, label] of choices) mode.add(new Option(label, value))
+    if (oldMode && Array.from(mode.options).some(item => item.value === oldMode)) mode.value = oldMode
     const question = document.createElement('p')
     question.textContent = `${t.question}: ${current.question[language]}`
     const universe = document.createElement('p')
@@ -177,7 +183,7 @@ export function mountVariableExplorer(base: string, onChange: (choice: VariableC
   table.addEventListener('change', renderList)
   select.addEventListener('change', () => {
     current = variables.find(item => item.id === select.value) ?? null
-    renderSelected()
+    renderSelected(false)
     onChange(choice())
   })
   category.addEventListener('change', () => onChange(choice()))
@@ -205,7 +211,7 @@ export function mountVariableExplorer(base: string, onChange: (choice: VariableC
       void setTab('variables').then(() => {
         select.value = id
         current = variables.find(item => item.id === id) ?? null
-        renderSelected()
+        renderSelected(false)
         if (categoryId != null) category.value = String(categoryId)
         if (chosenMode) mode.value = chosenMode
         onChange(choice())
