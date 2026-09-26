@@ -78,6 +78,7 @@ try {
     }
   }
   results.cases.zoom = { levels }
+  if (!levels.includes('Zona censal')) throw new Error(`I04 absent from zoom path: ${levels}`)
   await zoom.screenshot({ path: resolve(output, 'zoom-manzana.png') })
   await zoom.close()
 
@@ -105,7 +106,7 @@ try {
   await tools.close()
 
   const thematic = await openPage(1440, 900, '#map=-78.4900,-0.1800,7.30')
-  const hierarchy = ['manzana', 'sector', 'parroquia', 'canton', 'provincia', 'nacion']
+  const hierarchy = ['manzana', 'sector', 'zona', 'parroquia', 'canton', 'provincia', 'nacion']
   const ids = definitions.filter(item => hierarchy.indexOf(item.min_level) <= hierarchy.indexOf('canton'))
     .slice(0, 30).map(item => item.id)
   for (const id of ids) {
