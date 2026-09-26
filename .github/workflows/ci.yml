@@ -43,6 +43,9 @@ jobs:
           python pipeline/deploy_derived.py --dist /tmp/censo-release-check
           python pipeline/verify_release_integrity.py --root /tmp/censo-release-check/data
           python pipeline/06_qa_chunks.py --root /tmp/censo-release-check/data
+          if test -f /tmp/censo-release-check/data/indicator-maps/v2a/schema.json; then
+            python pipeline/09_qa_indicator_map.py --root /tmp/censo-release-check/data
+          fi
       - run: npm ci
         working-directory: web
       - run: npm test
