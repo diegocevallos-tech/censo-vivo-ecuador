@@ -94,6 +94,6 @@ La publicación en Pages espera la aprobación del PR de producto. El
 contiene únicamente agregados. Sus cinco assets se descargaron de nuevo y
 restauraron con SHA256 correcto: 398 archivos, 424.478.505 B. La auditoría de
 esquemas y la QA aditiva pasaron sobre esta copia descargada.
-Los [checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36265210837)
-y el [build del devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36265210809)
+Los [checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36267467041)
+y el [build del devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36267466960)
 del PR #58 están en verde. La versión de producción sigue en v2d.
