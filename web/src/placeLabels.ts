@@ -37,7 +37,8 @@ export function parentNames(level: DisplayLevel, key: string): string[] {
   if (level === 'provincia') return ['Ecuador']
   if (level === 'canton') return names.slice(0, 1).filter((name): name is string => !!name)
   if (level === 'parroquia') return names.slice(0, 2).reverse().filter((name): name is string => !!name)
-  return names.slice(0, 3).reverse().filter((name): name is string => !!name)
+  return names.slice(0, 3).reverse().filter((name, index, values): name is string =>
+    !!name && (index === values.length - 1 || name !== values[index + 1]))
 }
 
 export function unitPresentation(level: DisplayLevel, key: string, language: 'es' | 'en') {

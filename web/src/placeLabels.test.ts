@@ -29,6 +29,10 @@ describe('official geographic names', () => {
       primary: 'Zona 170155-025', route: 'Calderón · Quito, Pichincha',
       headline: 'Zona 170155-025 · Calderón · Quito, Pichincha',
     })
+    expect(unitPresentation('zona', '170150257', 'es')).toMatchObject({
+      primary: 'Zona 170150-257', route: 'Quito, Pichincha',
+      headline: 'Zona 170150-257 · Quito, Pichincha',
+    })
     expect(breadcrumbNames('170155025002', 'es')).toEqual([
       'Ecuador', 'Pichincha', 'Quito', 'Calderón', 'Zona 170155-025',
       'Sector 170155025002',
