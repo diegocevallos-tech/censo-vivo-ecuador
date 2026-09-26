@@ -18,7 +18,7 @@ La cartografía actual no publica una capa de **zona censal** ni una capa de **p
 
 Hover y clic muestran nombre o código de la unidad, nivel, ruta superior, valor activo y población. Si el indicador solo existe a una escala superior, se muestra el dato de ese nivel y una nota gris. La población de manzanas sin polígono asignada al sector también lleva nota gris. El panel de análisis y la ruta de navegación usan el mismo formateador.
 
-El [E2E local](../../web/scripts/test-tooltips.mjs) verificó hover en Pichincha, Quito, Calderón y el sector 170155025002; clic en Calderón y la ruta del panel; y la nota `min_level` de un indicador cantonal en el sector. **5 casos pasaron, 0 errores de navegador.** [Resultados JSON](../capturas/tooltip-results.json) y capturas: [provincia](../capturas/tooltip-provincia.png), [cantón](../capturas/tooltip-canton.png), [parroquia](../capturas/tooltip-parroquia.png), [sector](../capturas/tooltip-sector.png).
+El [E2E local](../../web/scripts/test-tooltips.mjs) verificó hover en Pichincha, Quito, Calderón y el sector 170155025002; clic en Calderón y la ruta del panel; y la nota `min_level` de un indicador cantonal en el sector. **5 casos pasaron, 0 errores de navegador.** [Resultados JSON](../capturas/tooltip-results.json) y capturas: [provincia](../capturas/tooltip-provincia.png), [cantón](../capturas/tooltip-canton.png), [parroquia](../capturas/tooltip-parroquia.png), [sector](../capturas/tooltip-sector.png), [panel de análisis](../capturas/tooltip-analisis-parroquia.png).
 
 ## Release y tamaño
 
