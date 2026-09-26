@@ -48,19 +48,20 @@
 38. Se verificaron los seis servicios municipales de Quito, Guayaquil, Cuenca, Loja, Ambato y Riobamba por HTTP 200. La consulta GeoJSON devolvió respectivamente 60, 16, 15, 6, 8 y 5 polígonos; Quito contiene 32 urbanos. Se trabaja desde la rama `feat/parroquias-urbanas-municipales` sin activar todavía la capa en producción.
 39. `19_fetch_urban_parishes.py` guardó seis GeoJSON originales verificados con SHA256; sus assets están en `data-raw-v1` privado (6/6 hashes y tamaños iguales a `data/MUNICIPAL_SOURCES.json`). `20_urban_aggregate.py` asignó por centroide 55.825 polígonos de manzana a 81 parroquias municipales y generó únicamente agregados para la web. La [QA](docs/qa/parroquias_urbanas_resultados.md) verifica asignación única y diferencia cero contra las cabeceras. En Iñaquito: 55.879 personas, 6.455 de 0–14 y 9.648 de 65+, índice de envejecimiento **149,47** por 100 menores de 15. Guayaquil aporta 15 nombres únicos en 16 polígonos (Tarqui tiene dos), discrepancia documentada sin editar el informe de Antigravity.
 40. El [prerelease público v2f](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2f) se descargó de nuevo y restauró 401 archivos agregados con SHA256 correctos: 424.962.177 B, 483.672 B más que v2e; conteos/Parquet 126.136.244 B (<150 MB). El control de esquemas rechazó microdatos, el build web, lint, 13 Vitest y E2E local de las seis ciudades pasaron sin errores JS; [captura de Iñaquito](docs/capturas/parroquia-urbana-inaquito.png). La capa queda apagada por defecto, rotulada «límite no censal», y **requiere aprobación antes de fusionar/desplegar**.
+41. Se abrió el [PR #61](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/61) desde `feat/parroquias-urbanas-municipales`, sin blobs nuevos mayores de 1 MB. Se lanzó el [preview de deploy](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36271166093), sin publicación en Pages. La CI del PR y el preview están pendientes; `verify_municipal_public.py` ahora coteja geometrías, conteos y numerador/denominador de Iñaquito directamente desde el Release restaurado.
 
 ## Siguiente comando exacto
 
 ```sh
-git push -u origin feat/parroquias-urbanas-municipales
+git push origin feat/parroquias-urbanas-municipales
 ```
 
-Abrir el PR de la capa municipal, esperar CI verde y ejecutar un preview de `deploy.yml` sin publicar Pages. Documentar el resultado en el PR y esperar aprobación del usuario para fusionar/desplegar. Solo después se aborda #51 móvil. Mantener #53 abierto y no tocar `feat/auditoria-1b2`.
+Publicar el nuevo test del Release en el PR #61, esperar CI verde y verificar que el preview de `deploy.yml` no publique Pages. Documentar el resultado en el PR y esperar aprobación del usuario para fusionar/desplegar. Solo después se aborda #51 móvil. Mantener #53 abierto y no tocar `feat/auditoria-1b2`.
 
 ## Archivos tocados en parroquias urbanas municipales
 
 - `HANDOFF.md`, `data/MUNICIPAL_SOURCES.json`, `data/DERIVED_MANIFEST.json`, `docs/schema.md`, `docs/metodologia.md`, `docs/qa/parroquias_urbanas_resultados.md`, `docs/capturas/parroquia-urbana-inaquito.png`, `docs/capturas/parroquias-urbanas-e2e.json`.
-- `pipeline/19_fetch_urban_parishes.py`, `20_urban_aggregate.py`, `21_qa_urban.py`, `22_package_urban.py`, `check_derived_manifest.py`, `verify_public_artifacts.py`, `web/src/urbanParishes.ts`, `map.ts`, `style.css`, `web/scripts/test-urban-parishes.mjs`.
+- `pipeline/19_fetch_urban_parishes.py`, `20_urban_aggregate.py`, `21_qa_urban.py`, `22_package_urban.py`, `check_derived_manifest.py`, `verify_public_artifacts.py`, `verify_municipal_public.py`, `.github/workflows/ci.yml`, `web/src/urbanParishes.ts`, `map.ts`, `style.css`, `web/scripts/test-urban-parishes.mjs`.
 
 ## Archivos tocados en 2C
 
