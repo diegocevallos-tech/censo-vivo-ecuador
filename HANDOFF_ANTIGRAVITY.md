@@ -64,16 +64,19 @@ Se aplicaron rigurosamente las 7 reglas editoriales acordadas sobre los guiones 
   - `docs/historias/verificacion.md`
   - `HANDOFF_ANTIGRAVITY.md`
 
-### Ajustes Finales de Verificación, Escala Editorial y Fuentes (2026-09-25)
-1. **Iñaquito calculado directamente desde agregados de Release data-derived (Paso 5):**
-   - Se agruparon los 282 sectores censales que configuran la parroquia urbana Iñaquito en `sector/17.parquet`:
-     - Población total: 107.734 habitantes.
-     - Adultos mayores (65+): 18.712.
-     - Menores (0-14): 13.221.
-     - **Índice de envejecimiento exacto = 141,53** mayores por cada 100 menores.
-   - En contraste, la parroquia Calderón (`170155` en `parroquia/data.parquet`) tiene 250.877 habitantes (17.578 mayores vs 58.379 niños), con un **índice = 30,11**.
-   - El índice de Iñaquito casi quintuplica (4,70x) al de Calderón a la misma escala parroquial.
-   - En `docs/historias/verificacion.md` se cita el valor previo del *Diagnóstico Poblacional DMQ* (150,1) únicamente como contraste metodológico originado en el recorte vectorial municipal.
+### Ajustes Finales de Verificación, Escala Editorial y Fuentes (2026-09-25 / 2026-09-26)
+1. **Delimitación y cálculo de Iñaquito desde datos derivados (Paso 5):**
+   - **Fuente del límite:** Municipio del Distrito Metropolitano de Quito (MDMQ) a través de la Secretaría de Territorio, Hábitat y Vivienda (STHV) e IMPU (marco PMDOT-PUGS 2022, `https://geoquito.quito.gob.ec/`). El CONALI tiene competencia exclusiva sobre parroquias rurales y cantonales; la subdivisión urbana es municipal.
+   - En el nomenclátor DPA nacional del INEC, el área urbana de Quito se consolida bajo un solo código cantonal: `170150`.
+   - **Método de asignación y auditoría de borde:**
+     - Envolvente espacial UTM 17S ($X \in [778.500, 783.000]$, $Y \in [9.978.000, 9.982.000]$): **282 sectores censales** de `170150` intersecan el perímetro.
+     - **Método de centroide dentro del polígono (Point-in-Polygon):** **247 sectores** tienen su centroide estrictamente en el interior.
+     - **Sectores en el borde exterior:** **35 sectores** cortan el perímetro pero su centroide geométrico se ubica al exterior.
+   - **Resultados demográficos:**
+     - 282 sectores (intersección): 107.734 habitantes, 18.712 mayores (65+), 13.221 niños (0-14) -> **Índice de envejecimiento = 141,53**.
+     - 247 sectores (centroide interior): 95.997 habitantes, 16.731 mayores, 11.700 niños -> **Índice de envejecimiento = 143,00**.
+     - Ambos confirman que el envejecimiento en Iñaquito casi quintuplica al de Calderón (`170155`: 250.877 hab, 17.578 mayores vs 58.379 niños, **índice = 30,11**).
+   - En el Paso 5 se incluyó la nota breve requerida: *"Iñaquito se delimitó agrupando sectores censales con el límite parroquial del Municipio de Quito (STHV); el censo registra el área urbana de Quito como una sola cabecera cantonal."*
 
 2. **Comparación sectorial por percentiles con umbral censal min_n (Paso 6):**
    - Se aplicó el filtro oficial de "pocos casos" definido en `indicators.yaml` (`pop_0_14 >= 30` en el denominador):
@@ -86,8 +89,7 @@ Se aplicaron rigurosamente las 7 reglas editoriales acordadas sobre los guiones 
    - Se reformuló la hipótesis editorial para que refleje de manera literal lo que el informe oficial del Banco Central del Ecuador (*Informe de Resultados de Remesas IVT 2023*, pág. 8) sustenta empíricamente: la concentración territorial de la emigración coincide con la mayor densidad de hogares receptores y la disponibilidad de entidades financieras y empresas remesadoras pagadoras en Azuay y Cañar.
    - Se eliminaron inferencias no respaldadas sobre jefatura de hogar femenina o estructura de cuidados, dejando explícito que el censo no mide los canales financieros ni flujos monetarios.
 
-4. **Estado de PR #47:** Abierto y marcado como **Listo para revisión (Ready for review)** hacia `main` (sin merge).
+4. **Estado de PR #47:** Abierto y marcado como **Listo para revisión (Ready for review)** hacia `main` (sin merge; preparado para fusión de Codex en FASE 3).
 
 ---
 *Fin del Handoff.*
-

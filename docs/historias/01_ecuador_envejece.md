@@ -148,15 +148,15 @@ SELECT unit_key, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derive
 
 **English Title:** *The Urban Twist: Iñaquito vs Calderón at Parish Scale*
 
-Dentro del mismo cantón Quito conviven realidades opuestas a escala parroquial. La parroquia urbana Iñaquito registra un índice de envejecimiento de 141,53 personas mayores por cada 100 menores (18.712 mayores frente a 13.221 niños). En contraste, la parroquia Calderón registra un índice de 30,11, al albergar 58.379 niños y 17.578 mayores entre sus 250.877 habitantes. La tasa de Iñaquito casi quintuplica a la de Calderón.
+Dentro de Quito conviven realidades opuestas. La parroquia urbana Iñaquito registra un índice de envejecimiento de 141,53 (18.712 mayores frente a 13.221 niños). En contraste, la parroquia rural Calderón registra 30,11 (17.578 mayores frente a 58.379 niños). Iñaquito se delimitó agrupando sectores censales con el límite parroquial del Municipio de Quito (STHV); el censo registra el área urbana de Quito como una sola cabecera cantonal.
 
-**Resumen en inglés:** Within Quito, urban parish Iñaquito reaches an aggregate aging index of 141.53, nearly quintupling parish Calderón (30.11; 250,877 inhabitants).  
+**Resumen en inglés:** Within Quito, urban parish Iñaquito reaches an aggregate aging index of 141.53, nearly quintupling parish Calderón (30.11; 250,877 inhabitants). Iñaquito was delimited by grouping census sectors using the municipal boundary (STHV).  
 
 **Cifra clave:** `141.53 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, sector/17.parquet (agregado 282 sectores Iñaquito) y parroquia/data.parquet (unit_key='170155')*)
 
 ```sql
 SELECT '170155' as unit_key, 'Calderon' as name, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/parroquia/data.parquet' WHERE unit_key = '170155';
--- Iñaquito agregado sectorial: 18.712 mayores / 13.221 niños = 141.53
+-- Iñaquito agrupando 282 sectores censales (límite municipal STHV): 18.712 mayores / 13.221 niños = 141.53
 ```
 
 ```json

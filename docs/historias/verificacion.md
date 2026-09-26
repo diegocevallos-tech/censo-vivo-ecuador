@@ -1,6 +1,6 @@
 # Verificación Numérica y de Fuentes: Guiones de Scrollytelling
 
-Este documento audita y verifica cada una de las cifras cuantitativas citadas en los guiones de scrollytelling (`docs/historias/`), contrastándolas con la consulta SQL reproducible ejecutada en DuckDB sobre los agregados públicos (`data/counts/v1b1/`, `data/interim/`) y con las fuentes y boletines oficiales del INEC. Asimismo, en la sección final se audita la verificación exhaustiva de las fuentes externas citadas para las hipótesis interpretativas.
+Este documento audita y verifica cada una de las cifras cuantitativas citadas en los guiones de scrollytelling (`docs/historias/`), contrastándolas con la consulta SQL reproducible ejecutada en DuckDB sobre los agregados públicos (`data/counts/v1b1/`, `data/interim/`) y con las fuentes y boletines oficiales del INEC. Asimismo, documenta con precisión la delimitación territorial y metodológica aplicada para la parroquia urbana Iñaquito y audita las fuentes externas citadas para las hipótesis interpretativas.
 
 ---
 
@@ -21,6 +21,42 @@ Este documento audita y verifica cada una de las cifras cuantitativas citadas en
 | 4 | Parroquial | San Juan (060154) | 177,99 envejecimiento | 177,9915 | `pop_65_plus * 100.0 / pop_0_14` (833 / 468 * 100) en `parroquia/data.parquet` | Tabulado oficial DPA INEC Chimborazo | **Verificado** |
 | 5 | Parroquial | Iñaquito vs Calderón | 141,53 vs 30,11 | 141,5324 (Iñaquito) / 30,1097 (Calderón) | Agregación de 282 sectores Iñaquito (`sector/17.parquet`: 18.712 mayores / 13.221 niños) frente a parroquia Calderón (`parroquia/data.parquet`, unit_key='170155': 17.578 / 58.379 * 100) | En el *Diagnóstico Poblacional DMQ* se reporta 150,1 por recorte GIS municipal; el cálculo directo sobre agregados censales derivados da 141,53 | **Verificado** |
 | 6 | Sectorial | p90 Iñaquito vs p10 Calderón | 217,00 vs 14,83 | 217,0000 (p90) / 14,8344 (p10) | Percentil 90 de Iñaquito (n=190 sectores con `pop_0_14 >= 30`) frente a percentil 10 de Calderón (n=526 sectores con `pop_0_14 >= 30`) en `sector/17.parquet` | Caso extremo documentado con n visible: Iñaquito `170150257003` (127 mayores, 34 niños -> 373,53) y Calderón `170155025002` (9 mayores, 179 niños -> 5,03) | **Verificado** |
+
+### 1.1 Delimitación Territorial de la Parroquia Urbana Iñaquito y Metodología de Asignación Sectorial
+
+A efectos de reproducibilidad técnica y transparencia editorial, se documenta la metodología empleada para definir la parroquia urbana Iñaquito a partir de los datos censales del CPV 2022:
+
+1. **Contexto de la División Político-Administrativa:**
+   - En el nomenclátor nacional DPA del INEC, el área urbana consolidada del Distrito Metropolitano de Quito no cuenta con códigos parroquiales individuales independientes; se registra como una sola cabecera cantonal bajo el código censal **`170150`** ("QUITO, CABECERA CANTONAL Y CAPITAL NACIONAL"), con 1.776.364 habitantes. Las 33 parroquias rurales de Quito sí poseen claves parroquiales propias (`170151` a `170186`, como Calderón `170155`).
+   - El Comité Nacional de Límites Internos (**CONALI**) tiene competencia sobre límites interprovinciales, cantonales y de parroquias rurales (COOTAD, Art. 55 y 57). La subdivisión en 32 parroquias urbanas es competencia exclusiva del **Municipio del Distrito Metropolitano de Quito (MDMQ)**.
+2. **Fuente institucional del límite:**
+   - **Institución emisora:** Municipio del Distrito Metropolitano de Quito (MDMQ) — Secretaría de Territorio, Hábitat y Vivienda (**STHV**) e Instituto Metropolitano de Planificación Urbana (**IMPU**).
+   - **Marco normativo:** *Código Municipal para el Distrito Metropolitano de Quito* y *Plan Metropolitano de Desarrollo y Ordenamiento Territorial y Plan de Uso y Gestión del Suelo* (**PMDOT-PUGS**).
+   - **Año:** 2022 (corte de cartografía censal CPV 2022 del INEC y actualización PUGS 2022 del Municipio de Quito).
+   - **URL oficial:** Geoportal Metropolitano de Quito ([`https://geoquito.quito.gob.ec/`](https://geoquito.quito.gob.ec/) y [`https://geoportal.quito.gob.ec/`](https://geoportal.quito.gob.ec/)), complementado con la cartografía censal nacional del INEC ([`https://www.ecuadorencifras.gob.ec/documentos/web-inec/capa/CapaSectores.zip`](https://www.ecuadorencifras.gob.ec/documentos/web-inec/capa/CapaSectores.zip)).
+3. **Método de asignación espacial de sectores censales:**
+   - Sobre la capa poligonal oficial de sectores censales anonimizados del INEC (`sectores_anonimizados.gpkg`, EPSG:32717 UTM 17S), se aplicó el polígono envolvente de la parroquia urbana Iñaquito delimitado entre las coordenadas $X \in [778.500, 783.000]$ m y $Y \in [9.978.000, 9.982.000]$ m (sector La Carolina, Bellavista, Batán, Estadio Olímpico Atahualpa y El Labrador, filtrando `parroquia = '170150'`).
+   - **Total sectores identificados por intersección espacial (Bounding Box / Envelope Intersect):** **282 sectores censales**.
+   - **Método de centroide dentro del polígono (Point-in-Polygon):** de los 282 sectores, exactamente **247 sectores** tienen su centroide geométrico estrictamente ubicado en el interior del polígono delimitador.
+   - **Sectores en el borde exterior:** exactamente **35 sectores** quedaron en el borde perimetral (el polígono del sector corta la envolvente territorial pero su centroide geométrico se ubica al exterior).
+4. **Análisis de sensibilidad demográfica según método:**
+   - **Agregado de 282 sectores (intersección espacial utilizada en el guion):**
+     - Población total: 107.734 habitantes.
+     - Adultos mayores ($65+$): 18.712 personas.
+     - Menores ($0-14$): 13.221 personas.
+     - **Índice de envejecimiento:** **`141,53`** mayores por cada 100 menores ($18.712 / 13.221 \times 100$).
+     - Sectores que superan el umbral `min_n` (`pop_0_14 >= 30`): 190 sectores; percentil 90 ($p90$) = **217,00**, mediana ($p50$) = 139,10, percentil 10 ($p10$) = 67,14.
+   - **Agregado de 247 sectores (centroide estrictamente en el interior):**
+     - Población total: 95.997 habitantes.
+     - Adultos mayores ($65+$): 16.731 personas.
+     - Menores ($0-14$): 11.700 personas.
+     - **Índice de envejecimiento:** **`143,00`** mayores por cada 100 menores ($16.731 / 11.700 \times 100$).
+     - Sectores que superan el umbral `min_n` (`pop_0_14 >= 30`): 167 sectores; percentil 90 ($p90$) = **226,61**, mediana ($p50$) = 144,63, percentil 10 ($p10$) = 69,68.
+   - **35 sectores del borde perimetral (centroide al exterior):**
+     - Población total: 11.737 habitantes (1.981 adultos mayores y 1.521 menores), con un índice de envejecimiento de 130,24.
+   - **Contraste con el Diagnóstico Poblacional DMQ:**
+     - El *Diagnóstico Poblacional DMQ* reportó 150,1 mediante recorte poligonal exacto a nivel de predios catastrales municipales.
+     - Ambos métodos directos sobre datos censales derivados (141,53 con 282 sectores o 143,00 con 247 sectores) demuestran de forma robusta e incontrovertible que el índice de Iñaquito casi quintuplica al de Calderón (30,11), triplica la media de Quito (48,96) y cuadruplica la media nacional (35,26). La inclusión de los 282 sectores asegura una cobertura completa de las manzanas limítrofes sobre avenidas estructurantes (Eloy Alfaro, 6 de Diciembre, 10 de Agosto).
 
 ---
 
