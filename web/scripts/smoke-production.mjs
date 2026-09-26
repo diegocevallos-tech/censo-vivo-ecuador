@@ -78,7 +78,9 @@ try {
     }
   }
   results.cases.zoom = { levels }
-  if (!levels.includes('Zona censal')) throw new Error(`I04 absent from zoom path: ${levels}`)
+  if (!levels.some(level => level.toLocaleLowerCase('es') === 'zona censal')) {
+    throw new Error(`I04 absent from zoom path: ${levels}`)
+  }
   await zoom.screenshot({ path: resolve(output, 'zoom-manzana.png') })
   await zoom.close()
 
