@@ -310,7 +310,12 @@ function renderControls(level: Level) {
     : indicator !== 'density' && activeTab === 'indicators' &&
     !indicatorAvailable(byId.get(indicator)!.min_level, level)
     ? `${t.from} ${byId.get(indicator)!.min_level}` : ''
-  breakScopeEl.textContent = language === 'es'
+  breakScopeEl.textContent = activeTab === 'variables'
+    ? language === 'es' ? (level === 'sector' || level === 'manzana'
+      ? 'Cortes de las provincias cargadas.' : 'Cortes nacionales.')
+      : (level === 'sector' || level === 'manzana'
+        ? 'Breaks use loaded provinces.' : 'Nationwide breaks.')
+    : language === 'es'
     ? (indicator === 'density' ? 'Cortes del mapa visible.'
       : level === 'sector' || level === 'manzana' ? 'Cortes de las provincias cargadas.'
         : 'Cortes nacionales.')
@@ -350,6 +355,7 @@ async function start() {
   let paintGeneration = 0
   let paintedKey = ''
   let densityPaintKey = ''
+  let activeVariableCounts = new Map<string, number>()
   let lastSelection: SelectionResult | null = null
   let selectedHighlight = new Set<string>()
   let analysisGeneration = 0
@@ -389,21 +395,41 @@ async function start() {
     for (const id of active) {
       const fill = `${id}-fill`
       const line = `${id}-outline`
+      const selectedKeys = activeTab === 'variables' && selectedHighlight.size
+        ? [...selectedHighlight].filter(key => id === `${currentLevel}-${
+          currentLevel === 'sector' || currentLevel === 'manzana' ? key.slice(0, 2) : 'data'}`)
+        : []
+      const variableFilter = activeTab === 'variables' && selectedHighlight.size
+        ? selectedKeys.length
+          ? ['in', ['get', 'unit_key'], ['literal', selectedKeys]]
+          : ['==', ['get', 'unit_key'], '']
+        : null
+      const multiVariables = activeTab === 'variables' && selection.mode === 'multi'
+      map.setFilter(fill, multiVariables ? null : variableFilter as maplibregl.FilterSpecification | null)
+      map.setFilter(line, variableFilter as maplibregl.FilterSpecification | null)
+      map.setPaintProperty(line, 'line-color', multiVariables && selectedHighlight.size
+        ? '#F5B82E' : '#8da4b2')
+      map.setPaintProperty(line, 'line-width', multiVariables && selectedHighlight.size
+        ? 2 : currentLevel === 'manzana' ? 0.5 : 0.8)
       map.setLayoutProperty(fill, 'visibility', unitsOn ? 'visible' : 'none')
       map.setLayoutProperty(line, 'visibility', unitsOn ? 'visible' : 'none')
       const defaultOpacity: maplibregl.ExpressionSpecification | number = activeTab === 'variables'
         ? 0.82 : indicator === 'density' ? 0.79
         : ['case', ['==', ['feature-state', 'status'], 1], 0.42, 0.82]
-      const opacity: maplibregl.ExpressionSpecification | number = !densityOn && indicator === 'density'
+      const opacity: maplibregl.ExpressionSpecification | number = activeTab === 'variables' ? 0.82
+        : !densityOn && indicator === 'density'
         && activeTab === 'indicators' ? 0
         : selectedHighlight.size ? ['case', ['==', ['feature-state', 'selected'], true],
           defaultOpacity, 0] : defaultOpacity
       map.setPaintProperty(fill, 'fill-opacity', opacity)
-      map.setPaintProperty(line, 'line-opacity', selectedHighlight.size
+      map.setPaintProperty(line, 'line-opacity', activeTab === 'variables' ? 0.27 : selectedHighlight.size
         ? ['case', ['==', ['feature-state', 'selected'], true], 0.4, 0] : 0.27)
       if (map.getLayer(`${id}-extrusion`)) {
+        map.setFilter(`${id}-extrusion`, multiVariables ? null
+          : variableFilter as maplibregl.FilterSpecification | null)
         map.setLayoutProperty(`${id}-extrusion`, 'visibility', unitsOn && mode3d ? 'visible' : 'none')
-        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', selectedHighlight.size
+        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', activeTab === 'variables'
+          ? 0.65 : selectedHighlight.size
           ? ['case', ['==', ['feature-state', 'selected'], true], 0.65, 0] : 0.65)
       }
     }
@@ -559,7 +585,7 @@ async function start() {
         renderBreadcrumb()
         saveHash(map)
       }
-      previewEl.textContent = result ? `${integer.format(result.aggregate.counts.population ?? 0)} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
+      previewEl.textContent = result ? `${integer.format(Math.round(result.aggregate.counts.population ?? 0))} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
       if (result) previewEl.dataset.previewP95Ms = selection.previewP95Ms.toFixed(2)
       statusEl.textContent = result ? `${result.label} · ${integer.format(result.unitCount)} ${result.unitCount === 1 ? (language === 'es' ? 'unidad' : 'unit') : (language === 'es' ? 'unidades' : 'units')}` : levelName(currentLevel)
       void refreshAnalysis().catch(error => { statusEl.textContent = `Error de análisis: ${String(error)}` })
@@ -590,10 +616,6 @@ async function start() {
     distinct.forEach((breakpoint, index) => step.push(breakpoint,
       palette[Math.min(palette.length - 1, index + 1)]))
     if (activeTab === 'variables') {
-      if (variableChoice?.mode === 'density') {
-        step[1] = ['/', ['to-number', ['feature-state', 'value'], 0],
-          ['max', 0.0001, ['to-number', ['get', 'area_km2'], 0.0001]]]
-      }
       const variableExpression: unknown = ['case', ['==', ['feature-state', 'status'], 0],
         step, '#354050']
       return variableExpression as maplibregl.ExpressionSpecification
@@ -644,13 +666,14 @@ async function start() {
             const key = String(feature.properties.unit_key)
             const count = scores.get(key)
             const area = Number(feature.properties.area_km2)
-            if (count != null && area > 0) densityValues.push(count / area)
+            if (count != null && Number.isFinite(area) && area > 0) densityValues.push(count / area)
           }
         }
       }
       const breaks = classifyBreaks(choice.mode === 'density' && densityValues.length
         ? densityValues : choice.mode === 'density' ? [1, 10, 100, 1000, 10000] : values, breakMode)
       const expression = fillExpression(breaks)
+      activeVariableCounts = choice.mode === 'density' ? scores : new Map()
       for (const id of active) {
         map.removeFeatureState({ source: id })
         map.setPaintProperty(`${id}-fill`, 'fill-color', expression)
@@ -662,7 +685,7 @@ async function start() {
       legendEl.replaceChildren(...breaks.map(value => {
         const span = document.createElement('span'); span.textContent = formatValue(value); return span
       }))
-      const entries = [...scores]
+      const entries = choice.mode === 'density' ? [] : [...scores]
       for (let offset = 0; offset < entries.length; offset += 500) {
         if (generation !== paintGeneration) return
         for (const [key, value] of entries.slice(offset, offset + 500)) {
@@ -777,6 +800,27 @@ async function start() {
     legendEl.replaceChildren(...breaks.map(value => {
       const span = document.createElement('span'); span.textContent = formatValue(value); return span
     }))
+  }
+
+  function updateVariableDensityState() {
+    if (activeTab !== 'variables' || variableChoice?.mode !== 'density' || !active.size) return
+    const seen = new Set<string>()
+    for (const id of active) {
+      for (const feature of map.querySourceFeatures(id, { sourceLayer: currentLevel })) {
+        const key = String(feature.properties.unit_key)
+        if (seen.has(key)) continue
+        seen.add(key)
+        const area = Number(feature.properties.area_km2)
+        const count = activeVariableCounts.get(key)
+        if (count == null || !Number.isFinite(area) || area <= 0) continue
+        const density = count / area
+        const state = map.getFeatureState({ source: id, sourceLayer: currentLevel, id: key })
+        if (state.status !== 0 || state.value !== density) {
+          map.setFeatureState({ source: id, sourceLayer: currentLevel, id: key },
+            { value: density, status: 0, selected: selectedHighlight.has(key) })
+        }
+      }
+    }
   }
 
   function visibleProvinces(level: Level): string[] {
@@ -1063,6 +1107,7 @@ async function start() {
   map.on('moveend', () => { sectorFallback = false; zoneFallback = false; sync() })
   map.on('idle', () => {
     updateDensityBreaks()
+    updateVariableDensityState()
     if (zoomLevel(map.getZoom()) === 'zona' && !zoneFallback && currentLevel === 'zona'
       && active.size && [...active].every(id => map.isSourceLoaded(id))) {
       const canvas = map.getCanvas()

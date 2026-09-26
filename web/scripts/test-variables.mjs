@@ -11,7 +11,7 @@ const errors = []
 const ranges = []
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
-  page.on('pageerror', error => errors.push(error.message))
+  page.on('pageerror', error => errors.push(error.stack ?? error.message))
   page.on('console', message => {
     if (message.type() === 'error') errors.push(message.text())
   })
@@ -47,8 +47,49 @@ try {
     throw new Error(JSON.stringify({ bars, question, status, errors, ranges }))
   }
   await page.screenshot({ path: resolve(output, 'fase2c_variables_techo.png') })
+  await page.locator('#variable-mode').selectOption('count')
+  await page.waitForFunction(() => document.querySelector('#status')?.textContent
+    ?.includes('Material predominante del techo'), null, { timeout: 30000 })
+  await page.waitForTimeout(1600)
+  if (errors.length) throw new Error(JSON.stringify({ mode: 'count', errors }))
+  await page.locator('#variable-mode').selectOption('density')
+  await page.waitForTimeout(1600)
+  const densityStatus = await page.locator('#status').innerText()
+  const densityBreaks = await page.locator('#legend-ticks span').count()
+  if (!densityStatus.includes('Material predominante del techo') || densityBreaks < 2 || errors.length) {
+    throw new Error(JSON.stringify({ densityStatus, densityBreaks, errors }))
+  }
+  await page.screenshot({ path: resolve(output, 'fase2c_variables_densidad.png') })
+  const radiusHandle = await page.locator('.selection-radius').boundingBox()
+  if (!radiusHandle) throw new Error('Missing circle radius handle')
+  await page.mouse.move(radiusHandle.x + radiusHandle.width / 2,
+    radiusHandle.y + radiusHandle.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(radiusHandle.x + radiusHandle.width / 2 + 35,
+    radiusHandle.y + radiusHandle.height / 2, { steps: 6 })
+  await page.mouse.up()
+  await page.waitForTimeout(900)
+  const resizedStatus = await page.locator('#status').innerText()
+  if (!resizedStatus.includes('Círculo') || errors.length) {
+    throw new Error(JSON.stringify({ resizedStatus, errors }))
+  }
+  await page.locator('#clear-selection').click()
+  await page.locator('.toolbar [data-mode="multi"]').click()
+  await page.mouse.click(700, 400)
+  await page.waitForTimeout(600)
+  await page.mouse.click(830, 500)
+  await page.waitForTimeout(900)
+  const multiStatus = await page.locator('#status').innerText()
+  if (!multiStatus.includes('Multiselección · 2 unidades') || errors.length) {
+    throw new Error(JSON.stringify({ multiStatus, errors }))
+  }
+  await page.locator('.explorer-tab[data-tab="indicators"]').click()
+  await page.waitForTimeout(1200)
+  if (errors.length) throw new Error(JSON.stringify({ mode: 'indicator-return', errors }))
   const result = { variable: 'V03', search: 'techo', firstDownload: first,
-    category: '2', bars, status, ranges: ranges.length,
+    category: '2', bars, status, countAndDensity: 'ok', resizedStatus,
+    multiStatus, indicatorReturn: 'ok',
+    densityBreaks, ranges: ranges.length,
     largestRangeBytes: Math.max(...ranges.map(item => item.bytes)), errors }
   writeFileSync(resolve(output, 'fase2c_variables_e2e.json'), JSON.stringify(result, null, 2))
   console.log(JSON.stringify(result))

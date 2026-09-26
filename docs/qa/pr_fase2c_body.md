@@ -26,7 +26,14 @@ se descargaron de nuevo: 398 archivos y SHA256 correctos. Solo agregados.
 
 Revisión: [informe](docs/fase2c_report.md),
 [captura de techo](docs/capturas/fase2c_variables_techo.png),
+[captura de densidad](docs/capturas/fase2c_variables_densidad.png),
 [captura de escala mínima](docs/capturas/fase2c_min_level_canton.png).
+
+El E2E ampliado verifica porcentaje, conteo y densidad con círculo, la
+ampliación de 393 a 600 sectores, dos unidades en modo múltiple y el retorno
+a Indicadores. Tres ejecuciones consecutivas terminaron sin errores JS. Las unidades de la
+selección se filtran por clave, lo que evita una excepción de MapLibre al
+actualizar opacidad y estado de feature durante el cambio de modo.
 
 Límite de las fuentes: algunos códigos de país, ocupación y rama carecen de
 etiqueta en los clasificadores verificados. Se muestran como códigos INEC con

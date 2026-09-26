@@ -73,9 +73,17 @@ diferencia cero desde sector hasta nación y la auditoría de esquemas rechaza
 identificadores de persona.
 
 El E2E local busca “techo”, elige `V03`, cambia la categoría, dibuja un círculo
-y comprueba las seis barras de distribución sin errores de consola:
+y comprueba las seis barras de distribución. Luego cambia a conteo absoluto y
+a densidad por km²; ambos modos conservan la selección y no generan errores
+de consola. La selección de variables filtra las unidades por clave para evitar
+una excepción de MapLibre al combinar cambios de opacidad y estado de feature.
+La densidad se calcula con el conteo de la categoría y el área oficial de cada
+unidad antes de asignar el color. El mismo E2E amplía el círculo de 393 a
+600 sectores, selecciona dos unidades en modo múltiple y vuelve a Indicadores
+sin errores. Tres ejecuciones consecutivas del E2E pasaron:
 [resultado](capturas/fase2c_variables_e2e.json) ·
-[captura](capturas/fase2c_variables_techo.png).
+[captura de porcentaje](capturas/fase2c_variables_techo.png) ·
+[captura de densidad](capturas/fase2c_variables_densidad.png).
 La prueba adicional de `P08P` confirma que un zoom de sector pasa
 automáticamente a cantón con aviso visible; `P03` muestra la nota de media
 aproximada [captura](capturas/fase2c_min_level_canton.png). Ninguna de las dos

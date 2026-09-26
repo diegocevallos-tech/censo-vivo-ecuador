@@ -239,6 +239,11 @@ export function createSelection(options: Options) {
   }
 
   function beginDrag(kind: 'create' | 'center' | 'radius' | 'lasso', event: MouseEvent | PointerEvent) {
+    // A previous variable selection may filter the fill layer. Restore it so
+    // a resized circle or a new lasso can discover units outside that selection.
+    for (const layer of options.getLayers()) {
+      if (map.getFilter(layer)) map.setFilter(layer, null)
+    }
     drag = kind
     const cursor = point(event)
     if (kind === 'create') { circleCenter = cursor; radius = 1; redraw() }
@@ -292,6 +297,7 @@ export function createSelection(options: Options) {
     },
     setMode(next: SelectionMode) {
       mode = next
+      options.onHighlight(selected)
       if (next === 'circle' || next === 'lasso') map.dragPan.disable()
       else map.dragPan.enable()
       shell.classList.toggle('drawing', next === 'circle' || next === 'lasso')
