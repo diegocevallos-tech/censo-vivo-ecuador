@@ -38,10 +38,15 @@ def check() -> None:
     emigrants = db.execute(
         f"SELECT SUM(emigrants) FROM read_parquet('{mobility}/emigrant_profile_parroquia.parquet')"
     ).fetchone()[0]
+    canton_emigrants = db.execute(
+        f"SELECT SUM(emigrants) FROM read_parquet('{mobility}/emigrant_profile_canton.parquet')"
+    ).fetchone()[0]
     deaths = db.execute(
         f"SELECT SUM(deaths) FROM read_parquet('{mobility}/death_profile_canton.parquet')"
     ).fetchone()[0]
-    if (emigrants, deaths) != (base_emigrants, base_deaths):
+    if (emigrants, canton_emigrants, deaths) != (
+        base_emigrants, base_emigrants, base_deaths
+    ):
         raise AssertionError("Event profile totals differ from exact national aggregates")
     flows, net = db.execute(
         f"SELECT SUM(internal_arrivals),SUM(internal_net) "
