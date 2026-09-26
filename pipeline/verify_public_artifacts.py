@@ -190,6 +190,13 @@ def verify(root: Path) -> None:
             elif relative in EXTRA_PARQUET:
                 if columns != EXTRA_PARQUET[relative]:
                     raise ValueError(f"Unexpected aggregate schema: {relative}")
+            elif relative == "municipal-urban/v1/urban_counts.parquet":
+                required = {"urban_id", "city", "population", "dwellings", "households"}
+                allowed = required | set(NUMERIC_FIELDS)
+                if not required <= columns or not columns <= allowed:
+                    raise ValueError(f"Unexpected municipal aggregate schema: {relative}")
+                if parquet.read_metadata(path).num_rows != 81:
+                    raise ValueError("Expected 81 municipal parish aggregate rows")
             elif "sample" not in path.parts:
                 raise ValueError(f"Unexpected Parquet: {relative}")
     if total > MAX_SITE_DATA:
