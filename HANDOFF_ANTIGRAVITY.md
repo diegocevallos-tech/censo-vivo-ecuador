@@ -38,31 +38,35 @@ Se auditaron las 10 cabeceras cantonales más pobladas del país más Riobamba e
 4. **Loja (6 urbanas):** GAD Municipal de Loja - Planificación / SIL. Servicio OGC WFS GeoServer (`sil.loja.gob.ec/geoserver/wfs`, capa `pugs_2023_2033:limites_parroquias_urbanas_2023_2033`). **Operacional (200 OK)**.
 5. **Ambato (8 urbanas):** GAD Municipalidad de Ambato - Catastros / SIG. Servicio ArcGIS REST MapServer (`arcgis.ambato.gob.ec/mapas/.../MapServer/1`). **Operacional (200 OK)**.
 6. **Riobamba (5 urbanas):** GAD Municipal de Riobamba - Planificación. ArcGIS Online institucional (`services9.arcgis.com/.../parroquias_urbanas/FeatureServer/0`). **Operacional (200 OK)**.
-7. **Ibarra (5 urbanas):** Repositorio UTN GIS / Convenio GAD Ibarra (`services5.arcgis.com/.../PARROQUIAS_IBARRA/FeatureServer/0`). El geoportal directo del GAD Ibarra responde HTTP 410 Gone. **Capa alternativa activa**.
+7. **Ibarra (5 urbanas):** Repositorio UTN GIS (Universidad Técnica del Norte / Centro SIG). Catalogada como **fuente académica, no municipal**. Geoportal directo del GAD Ibarra responde HTTP 410 Gone. **Excluida de la recomendación de lanzamiento**.
 8. **Santo Domingo (7 urbanas):** Geoportal activo (`geoportal.santodomingo.gob.ec`), pero su API REST `/api/v1/layers` exige autenticación (HTTP 401 Unauthorized). **Restringido**.
 9. **Portoviejo (9 urbanas):** Geoportal Fénix / Portoviejo 2035 activo en visor web, pero su FeatureServer (`Parro_Barro_PIT`) exige token privado (Error 499). **Restringido**.
 10. **Manta (5 urbanas):** Plataforma GeoManta (`geoportal.manta.gob.ec`) bajo autenticación obligatoria (Login AdminLTE). **Restringido**.
 11. **Durán (3 urbanas) y Machala (5 urbanas):** Sin plataformas de datos espaciales públicas ni servicios WFS/REST. **Sin cobertura SIG web**.
 
-### 2.3 Pruebas Espaciales de Compatibilidad con el Marco Geoestadístico 2021 (`sec_a`)
-Se descargaron las capas poligonales oficiales de Quito, Guayaquil y Cuenca y se cruzaron contra los sectores censales del Marco 2021 del INEC (`sec_a`, EPSG:32717 UTM 17S):
+### 2.3 Pruebas Espaciales de Compatibilidad a Nivel Manzana (`man_a`)
+Se descargaron las capas poligonales oficiales de Quito, Guayaquil y Cuenca y se cruzaron contra las manzanas cartográficas del Marco 2021 del INEC (`man_a`, EPSG:32717 UTM 17S), vinculando la población censal oficial (`finest/*.parquet`):
 
-| Ciudad | Cabecera Censal | Sectores Censales Totales | Parroquias Evaluadas | Asignación por Centroide Sin Ambigüedad | Fuera de Límite Urbano | Cortes de Límite (Polígono) | Cortes Interparroquiales (>=2) | 100% Contenidos en 1 Parroquia |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Quito** | `170150` | 4.758 | 32 urbanas | **4.740 (99,62%)** | 18 (0,38%) | 834 (17,53%) | 760 (15,97%) | 3.924 (82,47%) |
-| **Guayaquil** | `090150` | 6.412 | 16 polígonos | **5.876 (91,64%)** | 536 (8,36%) | 603 (9,40%) | 242 (3,77%) | 5.809 (90,60%) |
-| **Cuenca** | `010150` | 1.071 | 15 urbanas | **1.071 (100,00%)** | 0 (0,00%) | 336 (31,37%) | 240 (22,41%) | 735 (68,63%) |
+| Ciudad | Cabecera Censal | Manzanas Cartográficas (`man_a`) | Población Vinculada | Manzanas Asignadas por Centroide | Población Asignada | Manzanas Fuera de Parroquias Urbanas | Población Fuera de Parroquias Urbanas | Manzanas Cortadas por Límite | Población en Manzanas Cortadas | Manzanas 100% Contenidas |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Quito** | `170150` | 16.907 | 1.766.196 hab | **16.888 (99,89%)** | **1.763.309 (99,84%)** | 19 (0,11%) | 2.887 (0,16%) | 310 (1,83%) | **54.835 (3,10%)** | 16.597 (98,17%) |
+| **Guayaquil** | `090150` | 30.580 | 2.653.650 hab | **27.339 (89,40%)** | **2.470.928 (93,11%)** | 3.241 (10,60%) | 182.722 (6,89%) | 467 (1,53%) | **65.404 (2,46%)** | 30.113 (98,47%) |
+| **Cuenca** | `010150` | 4.049 | 360.359 hab | **4.047 (99,95%)** | **360.150 (99,94%)** | 2 (0,05%) | 209 (0,06%) | 147 (3,63%) | **8.068 (2,24%)** | 3.902 (96,37%) |
 
 **Observaciones cartográficas clave:**
-- **Quito (99,62%):** Los 18 sectores censales no asignados corresponden a zonas de contacto periférico con parroquias rurales del DMQ (Calderón, Zámbiza, Llano Chico, Cumbayá y Lloa). Al evaluar contra las 60 parroquias del DMQ, la cobertura es del 100%.
-- **Guayaquil (91,64%):** Los 536 sectores no cubiertos obedecen a que la delimitación municipal cubre la mancha consolidada tradicional, mientras que el código censal `090150` del INEC abarca hacia el oeste todo el corredor de Vía a la Costa, Puerto Hondo y Chongón. Se recomienda categorizar este remanente como *"090150-EXT: Guayaquil Expansión / Vía a la Costa - Chongón"*.
-- **Cuenca (100,00%):** Coincidencia perfecta de los 1.071 sectores censales urbanos.
+- **Quito (99,89% manzanas, 99,84% población):** Asignación prácticamente perfecta. Solo el 3,10% de la población (54.835 hab en 310 manzanas) habita en manzanas que tocan algún límite interparroquial. El 98,17% de las manzanas está 100% contenido en su parroquia.
+- **Guayaquil (89,40% manzanas, 93,11% población):** El casco urbano consolidado muestra una coincidencia limpia. Solo el 2,46% de la población (65.404 hab en 467 manzanas) vive en manzanas cortadas por límites. Las 3.241 manzanas no cubiertas (182.722 habitantes hacia el oeste en Vía a la Costa, Chongón y manglares) quedan clasificadas como *"Cabecera Guayaquil · fuera de las parroquias urbanas municipales"*, sin crear ninguna unidad nueva.
+- **Cuenca (99,95% manzanas, 99,94% población):** Asignación unívoca total. Solo el 2,24% de la población (8.068 hab en 147 manzanas ribereñas) reside en manzanas cortadas por límites.
 
 ### 2.4 Hoja de Ruta de Implementación
-1. **Inmediatas (Fase 3):** Quito, Guayaquil, Cuenca, Loja, Ambato y Riobamba.
-2. **Con Fuente Alternativa:** Ibarra (vía UTN GIS).
-3. **Pendientes de Trámite SAIP / Token:** Santo Domingo, Portoviejo, Manta, Machala y Durán.
-4. **Desbloqueo de Scrollytelling:** Con la capa oficial de la STHV de Quito integrada, se podrá calcular el índice exacto de Iñaquito (`170112`) y sustituir la marca `[PENDIENTE]` en la Historia 1.
+1. **Lanzamiento Inmediato (Fase 3):**  
+   Implementar las 6 ciudades con servicios oficiales municipales abiertos y verificados: **Quito, Guayaquil, Cuenca, Loja, Ambato y Riobamba**.
+2. **Excluidas del Lanzamiento:**  
+   - **Ibarra:** Fuente académica (UTN GIS), no municipal; excluida hasta validación oficial del GAD.
+   - **Santo Domingo, Portoviejo y Manta:** Servicios protegidos por autenticación/token; requieren trámite formal ante el GAD.
+   - **Machala y Durán:** Sin servicios SIG en línea; requieren solicitud SAIP a Catastro.
+3. **Desbloqueo de Scrollytelling:**  
+   Con la capa de la STHV de Quito (`Hosted/parroquias_ref_a`), se desbloquea el cálculo exacto del índice de **Iñaquito (170112)** para cerrar el Paso 5 de la Historia 1.
 
 ---
 *Fin del Handoff.*
