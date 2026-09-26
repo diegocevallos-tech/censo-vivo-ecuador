@@ -4,7 +4,7 @@
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
 - [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene 2B mediante el [deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596). El Release público vigente es [`data-derived-v2a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a), 436.512.440 bytes. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: corrección prioritaria `fix/nombres-tooltip` desde `main`, antes de 2C. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado. El Release de esta corrección es [`data-derived-v2c`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2c), basado en los conteos v2a; producción aún está en v2a.
+- Subtarea actual: [PR #54](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/54) `fix/nombres-tooltip` desde `main`, antes de 2C. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado. El Release de esta corrección es [`data-derived-v2c`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2c), basado en los conteos v2a; producción aún está en v2a.
 
 ## Pasos terminados
 
@@ -25,15 +25,16 @@
 15. [Deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596) exitoso. El [smoke de producción](docs/fase2_smoke_produccion.md) recorrió seis niveles, tres círculos, lazo, multiselección, 30 indicadores y URL compartida sin errores de consola; primera carga 487.698 bytes. Lighthouse escritorio: rendimiento 91, accesibilidad 94, LCP 1,26 s. Móvil: 47, 94, 4,89 s. La brecha móvil está en la [issue #51](https://github.com/diegocevallos-tech/censo-vivo-ecuador/issues/51).
 16. La auditoría [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) concluye «aprobar con correcciones»: Queen, 999 permutaciones, topología fija, seis índices canónicos, 16 grupos y gemelos a parroquia/cantón. Se abrió el [PR de corrección #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) con CI verde y el Release v2b; sigue sin fusionar.
 17. El [smoke de producción](docs/fase2_smoke_produccion.md) y sus capturas quedaron fusionados mediante el PR #52. El [tag fase-2](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/fase-2) se creó en `c82b55e`.
-18. Corrección de nombres: [informe](docs/qa/nombres_tooltip.md). Los 24 nombres provinciales, 221 cantonales y 1.042 parroquiales del DPA 2022 empatan por clave, sin faltantes. Se normalizaron partículas y tildes, se añadieron nombres a los tres PMTiles y al buscador, y tooltip/selección/breadcrumb comparten la ruta. E2E local: 5 casos, 0 errores. Release v2c: 436.832.021 bytes de datos, cinco assets descargados y SHA256 verificados. La rama `fix/nombres-tooltip` espera PR y CI; #53 deberá rebasarse y publicar un Release que combine ambos cambios.
+18. Corrección de nombres: [informe](docs/qa/nombres_tooltip.md). Los 24 nombres provinciales, 221 cantonales y 1.042 parroquiales del DPA 2022 empatan por clave, sin faltantes. Se normalizaron partículas y tildes, se añadieron nombres a los tres PMTiles y al buscador, y tooltip/selección/breadcrumb comparten la ruta. E2E local: 5 casos, 0 errores. Release v2c: 436.832.021 bytes de datos, cinco assets descargados y SHA256 verificados. #53 deberá rebasarse y publicar un Release que combine ambos cambios.
+19. [PR #54](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/54) abierto desde `main`. El commit `b991183` no añade blobs mayores de 1 MB. CI del PR en curso; el deploy de producción se activa automáticamente tras su fusión en `main`.
 
 ## Siguiente comando exacto
 
 ```sh
-node scripts/test-tooltips.mjs
+gh pr checks 54 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Ejecutar desde `web/` con Vite local levantado, abrir el PR `fix/nombres-tooltip` y verificar CI. Mantener #53 abierto y sin tocar `feat/auditoria-1b2`.
+Verificar CI de #54 y mantener #53 abierto y sin tocar `feat/auditoria-1b2`. Tras fusionar #54, comprobar el deploy automático y repetir el E2E sobre producción.
 
 ## Archivos tocados en 1B-3
 
