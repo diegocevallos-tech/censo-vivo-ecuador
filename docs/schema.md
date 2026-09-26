@@ -123,3 +123,11 @@ El Release `data-derived-v1b` conserva los Parquet de `counts/v1b1/` y publica a
 | `chunks/v1b/analysis/lisa_{provincia}.bin` | Seis indicadores LISA por sector | `CVEL1`: clave de 12 bytes, indicador y cluster `uint8`, valor, I local y p como `float32`; códigos en `analysis/schema.json` |
 
 La densidad se calcula como `population / area_km2`, donde el área del polígono original se mide en la proyección equivalente EPSG:6933. La geometría se simplifica solo para dibujar; los conteos no se recalculan. Las 1.852 manzanas sin polígono se conservan en `assigned_population` del sector. Para una manzana con geometría, `population` es el conteo exacto; para un sector, el total incluye la población asignada. El visor consulta PMTiles desde Pages mediante solicitudes HTTP range al mismo origen. El archivo del Release se copia y verifica durante el build; el navegador nunca lo descarga del Release.
+
+## Referencia municipal de parroquias urbanas (v2f)
+
+`municipal-urban/v1/boundaries.geojson` contiene los 81 límites municipales de Quito, Guayaquil, Cuenca, Loja, Ambato y Riobamba. Sus propiedades son `urban_id` (clave técnica con prefijo `municipal:`), `name`, `city`, `source_code` cuando existe y `boundary_type`. Estos límites **no** sustituyen los niveles censales del INEC.
+
+`municipal-urban/v1/summary.json` ofrece por parroquia municipal `population`, `dwellings`, `households`, `blocks`, `age_0_14`, `age_65_plus` e `aging_index` (100 × personas de 65+ / personas de 0–14), además de la versión del Marco 2021 y el método de asignación. `municipal-urban/v1/urban_counts.parquet` conserva todos los conteos numéricos agregados de las manzanas asignadas, con `urban_id`, `city` y `geom_version`; no contiene filas de personas ni la tabla de correspondencia por manzana. Los tres archivos se publican en el Release derivado y llegan a Pages tras verificar SHA256.
+
+Los seis GeoJSON originales, con su URL, fecha, tamaño y SHA256 en [`data/MUNICIPAL_SOURCES.json`](../data/MUNICIPAL_SOURCES.json), están en el Release privado `data-raw-v1`. La tabla manzana→parroquia municipal permanece solo en `data/interim/municipal_urban/manzana_to_urban.parquet`. La [QA](qa/parroquias_urbanas_resultados.md) comprueba la asignación única y los balances por cabecera.

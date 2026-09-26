@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "release": "data-derived-v2e",
+  "release": "data-derived-v2f",
   "geom_version": "marco-2021",
   "assets": [
     {
@@ -27,6 +27,11 @@
       "name": "counts-fine-vars-v2e.tar.gz",
       "size_bytes": 104788033,
       "sha256": "06dfcecb539f820903dd12fc514f146a1123e1b02b8664a5741c793e2c019c1f"
+    },
+    {
+      "name": "municipal-urban-v2f.tar.gz",
+      "size_bytes": 163630,
+      "sha256": "ce36dc973a129e8854bdc9ed1216b92cb83ffac89eaa8ea25e167ed5034fa667"
     }
   ],
   "files": [
@@ -2815,6 +2820,27 @@
       "sha256": "1cb956fb1f5ac18e0ba06a514ab961fc152d1c634ccbf8a0318962b1e9672d72",
       "category": "counts_parquet",
       "asset": "counts-fine-vars-v2e.tar.gz"
+    },
+    {
+      "path": "municipal-urban/v1/boundaries.geojson",
+      "size_bytes": 407066,
+      "sha256": "2b9d1890e7419007b7c5ee17715faf7d80bdfa3ac4be89b5cbb663f746ec98f1",
+      "category": "tiles",
+      "asset": "municipal-urban-v2f.tar.gz"
+    },
+    {
+      "path": "municipal-urban/v1/summary.json",
+      "size_bytes": 27799,
+      "sha256": "4e5b27e816a7bbab2f6af5cb6fe478db3acc98e248ffab48f1a0f5aeb92f394b",
+      "category": "counts_parquet",
+      "asset": "municipal-urban-v2f.tar.gz"
+    },
+    {
+      "path": "municipal-urban/v1/urban_counts.parquet",
+      "size_bytes": 48807,
+      "sha256": "0bde16b565f69150403b5da0c6bc7d15e025f1cc3880ae9c6c20bc25b4a66b6d",
+      "category": "counts_parquet",
+      "asset": "municipal-urban-v2f.tar.gz"
     }
   ]
 }

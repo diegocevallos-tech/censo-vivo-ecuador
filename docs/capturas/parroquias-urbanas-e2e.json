@@ -1,0 +1,38 @@
+[
+  {
+    "city": "Quito",
+    "name": "Iñaquito",
+    "panelName": "Iñaquito",
+    "errors": []
+  },
+  {
+    "city": "Guayaquil",
+    "name": "Ayacucho",
+    "panelName": "Ayacucho",
+    "errors": []
+  },
+  {
+    "city": "Cuenca",
+    "name": "Bellavista",
+    "panelName": "Bellavista",
+    "errors": []
+  },
+  {
+    "city": "Loja",
+    "name": "Carigán",
+    "panelName": "Carigán",
+    "errors": []
+  },
+  {
+    "city": "Ambato",
+    "name": "Atocha Ficoa",
+    "panelName": "Atocha Ficoa",
+    "errors": []
+  },
+  {
+    "city": "Riobamba",
+    "name": "Lizarzaburu",
+    "panelName": "Lizarzaburu",
+    "errors": []
+  }
+]

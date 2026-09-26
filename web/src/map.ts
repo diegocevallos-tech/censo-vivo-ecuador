@@ -17,6 +17,7 @@ import { mountVariableExplorer } from './variableExplorer'
 import type { VariableChoice } from './variableExplorer'
 import { downloadedVariableBytes, measure, total, variableProvince } from './variableData'
 import type { Categories } from './variableData'
+import { mountUrbanParishes } from './urbanParishes'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './style.css'
 
@@ -55,7 +56,8 @@ const copy = {
     units: 'unidades con geometría', hint: 'Acércate para pasar de provincia a cantón, parroquia, zona censal, sector y manzana. Pulsa una unidad para ver sus conteos.',
     analyze: 'ANÁLISIS', smoothing: 'Suavizado EB', inspect: 'Inspeccionar', circle: 'Círculo',
     lasso: 'Lazo', multi: 'Multi', clear: 'Limpiar', densityToggle: 'Densidad',
-    unitsToggle: 'Unidades', source: 'Fuente: INEC, CPV 2022 · Geometría: Marco 2021' },
+    unitsToggle: 'Unidades', urbanToggle: 'Límites urbanos',
+    source: 'Fuente: INEC, CPV 2022 · Geometría: Marco 2021' },
   en: { search: 'Find province, canton, parish or code', indicator: 'Indicator',
     breaks: 'Breaks', density: 'Population density', noData: 'No data',
     small: 'Few cases: excluded from rankings', from: 'Available from',
@@ -63,7 +65,8 @@ const copy = {
     units: 'units with geometry', hint: 'Zoom from province to canton, parish, census zone, sector and block. Choose a unit to see its counts.',
     analyze: 'ANALYSIS', smoothing: 'EB smoothing', inspect: 'Inspect', circle: 'Circle',
     lasso: 'Lasso', multi: 'Multi', clear: 'Clear', densityToggle: 'Density',
-    unitsToggle: 'Units', source: 'Source: INEC, Census 2022 · Geometry: 2021 framework' },
+    unitsToggle: 'Units', urbanToggle: 'Urban limits',
+    source: 'Source: INEC, Census 2022 · Geometry: 2021 framework' },
 }
 const app = document.querySelector<HTMLElement>('#app')
 if (!app) throw new Error('Missing app root')
@@ -132,8 +135,10 @@ app.innerHTML = `
       <button type="button" id="clear-selection">Limpiar</button>
       <button type="button" id="toggle-density" aria-pressed="true">Densidad</button>
       <button type="button" id="toggle-units" aria-pressed="true">Unidades</button>
+      <button type="button" id="toggle-urban" aria-pressed="false">Límites urbanos</button>
       <button type="button" id="toggle-3d" aria-pressed="false">3D</button>
     </div>
+    <div id="urban-legend" class="urban-legend" hidden>Límites municipales · límite no censal</div>
     <div class="scale-rail"><span>NACIONAL</span><div class="rail"><i id="scale-marker"></i></div><span>MANZANA</span></div>
     <footer class="footnote"><span class="signal"></span><span>Fuente: INEC, CPV 2022 · Geometría: Marco 2021</span>
       <span class="foot-sep">/</span><span id="assignment-note">Manzanas sin polígono: población asignada a nivel de sector</span></footer>
@@ -257,6 +262,9 @@ function renderControls(level: Level) {
   document.querySelector<HTMLElement>('#clear-selection')!.textContent = t.clear
   document.querySelector<HTMLElement>('#toggle-density')!.textContent = t.densityToggle
   document.querySelector<HTMLElement>('#toggle-units')!.textContent = t.unitsToggle
+  document.querySelector<HTMLElement>('#toggle-urban')!.textContent = t.urbanToggle
+  document.querySelector<HTMLElement>('#urban-legend')!.textContent = language === 'es'
+    ? 'Límites municipales · límite no censal' : 'Municipal limits · non-census boundary'
   document.querySelector<HTMLElement>('#indicator-label')!.textContent = t.indicator
   document.querySelector<HTMLElement>('#break-label')!.textContent = t.breaks
   languageEl.textContent = language === 'es' ? 'EN' : 'ES'
@@ -350,6 +358,7 @@ async function start() {
   })
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right')
   map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right')
+  const urban = mountUrbanParishes(map, base, analysisEl, () => language)
   const active = new Set<string>()
   let currentLevel = zoomLevel(map.getZoom())
   let paintGeneration = 0
@@ -447,6 +456,7 @@ async function start() {
 
   async function refreshAnalysis() {
     const generation = ++analysisGeneration
+    if (urban.renderSelected()) return
     let prior: CantonPrior | null = null
     if (activeTab === 'indicators' && lastSelection && smoothEl.checked && indicator !== 'density') {
       const definition = byId.get(indicator) as unknown as IndicatorDefinition | undefined
@@ -579,6 +589,7 @@ async function start() {
       previewEl.dataset.computeMs = computeMs.toFixed(2)
     },
     onResult: result => {
+      if (result) urban.clearSelected()
       lastSelection = result
       if (selection.mode === 'multi') {
         selectedKey = result?.officialUnitKey ?? ''
@@ -867,6 +878,7 @@ async function start() {
       active.add(id)
     }
     applySelectionPaint()
+    urban.moveToTop()
     levelEl.textContent = levelName(level)
     countEl.textContent = integer.format(catalog.matched_geometries[level] ?? 0)
     markerEl.style.top = `${Math.min(100, Math.max(0, (map.getZoom() - 2) / 14 * 100))}%`
@@ -925,6 +937,17 @@ async function start() {
     })
   }
   document.querySelector<HTMLButtonElement>('#clear-selection')!.addEventListener('click', () => selection.clear())
+  document.querySelector<HTMLButtonElement>('#toggle-urban')!.addEventListener('click', async event => {
+    const button = event.currentTarget as HTMLButtonElement
+    try {
+      const enabled = await urban.toggle()
+      button.setAttribute('aria-pressed', String(enabled))
+      document.querySelector<HTMLElement>('#urban-legend')!.hidden = !enabled
+      if (!enabled) void refreshAnalysis()
+    } catch (error) {
+      statusEl.textContent = `Error de capa municipal: ${String(error)}`
+    }
+  })
   document.querySelector<HTMLButtonElement>('#toggle-density')!.addEventListener('click', event => {
     densityOn = !densityOn
     const button = event.currentTarget as HTMLButtonElement
@@ -1131,8 +1154,13 @@ async function start() {
   })
   map.on('mousemove', event => {
     if (selection.mode === 'circle' || selection.mode === 'lasso') {
+      urban.clearHover()
       hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''; return
     }
+    if (selection.mode === 'inspect' && urban.handleHover(event)) {
+      hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''; return
+    }
+    urban.clearHover()
     const layers = [...active].map(id => `${id}-fill`)
     const feature = layers.length ? map.queryRenderedFeatures(event.point, { layers })[0] : null
     map.getCanvas().style.cursor = feature ? 'pointer' : ''
@@ -1155,6 +1183,14 @@ async function start() {
   })
   map.on('click', async event => {
     if (selection.mode === 'circle' || selection.mode === 'lasso') return
+    if (selection.mode === 'inspect' && urban.handleClick(event)) {
+      hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''
+      selectedKey = ''
+      renderBreadcrumb()
+      selection.clear()
+      return
+    }
+    urban.clearSelected()
     const layers = [...active].map(id => `${id}-fill`)
     if (!layers.length) return
     const feature = map.queryRenderedFeatures(event.point, { layers })[0]

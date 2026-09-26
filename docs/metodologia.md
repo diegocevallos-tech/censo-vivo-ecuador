@@ -93,3 +93,9 @@ Generado desde [`indicators.yaml`](../indicators.yaml). `min_n` es el denominado
 - `demographic_bonus_peak_distance`: Un solo censo no define el pico temporal nacional de la proporción 15–64.
 
 <!-- INDICATOR_CATALOG_END -->
+
+## Parroquias urbanas municipales como referencia
+
+Los seis GAD publican límites de parroquias urbanas con geometrías y fechas propias; son una **capa de referencia, no una unidad censal oficial**. Para cada cabecera se toma el centroide geométrico de la manzana del Marco 2021 y se asigna esa manzana a un único polígono municipal si el centroide cae dentro. Las cifras municipales son sumas directas de los conteos públicos CPV 2022 de las manzanas asignadas. No se fraccionan manzanas en el borde. Las manzanas sin polígono, los sectores dispersos y las que quedan fuera de los límites no se adjudican a una parroquia urbana; permanecen en su unidad censal oficial. Por ello el total de la capa municipal puede ser menor que el total de la cabecera.
+
+La geometría de referencia se simplifica para dibujar, sin cambiar la asignación ni los conteos. La capa se distingue en el mapa con la etiqueta «límite no censal» y no altera las estadísticas por provincia, cantón, parroquia censal, zona, sector o manzana. [Fuentes](fuentes/parroquias_urbanas.md), [esquema](schema.md) y [balance de QA](qa/parroquias_urbanas_resultados.md).

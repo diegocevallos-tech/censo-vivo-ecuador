@@ -13,7 +13,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "data/DERIVED_MANIFEST.json"
 CONFIG = ROOT / "config.yaml"
-DATA_SUFFIXES = {".parquet", ".pmtiles", ".bin", ".json"}
+DATA_SUFFIXES = {".parquet", ".pmtiles", ".bin", ".json", ".geojson"}
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 
 
