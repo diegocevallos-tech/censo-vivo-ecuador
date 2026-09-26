@@ -2,9 +2,9 @@
 
 ## Estado
 
-- Fase actual: **2B · selección y análisis**, [PR #50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) abierto sobre [PR 2A #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48). #48 y #49 quedan abiertos y con checks en verde. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
-- Pages se habilitó con `build_type: workflow` y el mapa mínimo de 1B-3 ya está publicado en [producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/).
-- Los datos pesados están ignorados en `data/interim/` y `web/public/data/`. El manifiesto `data/DERIVED_MANIFEST.json` versionado apunta al Release público [`data-derived-v1b`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b), ya publicado.
+- Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
+- [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene 2B mediante el [deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596). El Release público vigente es [`data-derived-v2a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a), 436.512.440 bytes. Los datos pesados permanecen fuera de Git.
+- Subtarea actual: documentación y capturas del smoke de producción en la rama `docs/fase-2-smoke`; después, PR `fix/1b2-auditoria`, agregado cantonal de Emigración en el próximo Release y tag `fase-2`.
 
 ## Pasos terminados
 
@@ -21,14 +21,17 @@
 11. El visor 2B suma clic, multiselección, círculo con controles y lazo; vista previa con KDBush, ponderación por área solo para unidades cortadas, panel con pirámide nacional, distribución por sexo, fichas de indicadores y percentiles elegibles. Se añadió ESLint a CI. [Informe y pruebas](docs/fase2b_report.md): clic exacto en manzana, círculos y lazos a zoom 14,3, móvil y 3D sin errores JavaScript. El p95 de cálculo por cuadro fue 0,40 ms Quito, 0,30 ms Guayaquil y 0,40 ms Cuenca en Chromium de escritorio. El Release v2a no cambia.
 12. [PR #50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) creado con base 2A; checks de CI iniciados. La rama 2B se publicó sin blobs nuevos mayores de 1 MB. El sitio en producción sigue en 1B-3.
 13. Los dos checks de #50 pasaron (build devcontainer 4 min 13 s; checks públicos 58 s). Se detectó una ausencia en áreas rurales sin manzanas: a zoom fino la vista estaba vacía. Se añadió fallback a sector cuando no hay ninguna manzana visible después de cargar los tiles; se probó clic exacto en Morona Santiago a zoom 14,3 y sin errores JavaScript. Los cambios se están verificando nuevamente en CI.
+14. #48, #49 y #50 fueron rebasados sobre `main` y fusionados por squash tras CI verde. #49 se reabrió después de que GitHub lo cerrara al borrar la rama base de #48; se retargeteó a `main`, se verificó y fusionó. #50 se retargeteó antes de borrar la rama base de #49. Las ramas de fase se borraron.
+15. [Deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596) exitoso. El [smoke de producción](docs/fase2_smoke_produccion.md) recorrió seis niveles, tres círculos, lazo, multiselección, 30 indicadores y URL compartida sin errores de consola; primera carga 487.698 bytes. Lighthouse escritorio: rendimiento 91, accesibilidad 94, LCP 1,26 s. Móvil: 47, 94, 4,89 s. La brecha móvil está en la [issue #51](https://github.com/diegocevallos-tech/censo-vivo-ecuador/issues/51).
+16. La auditoría [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) concluye «aprobar con correcciones»: Queen, 999 permutaciones, topología fija, seis índices canónicos, 16 grupos y gemelos a parroquia/cantón. No existe todavía el PR `fix/1b2-auditoria`. El agregado cantonal de Emigración se ensayó desde el Parquet parroquial agregado: 32.123 filas, 46.081 bytes, 124.992 emigrantes en ambos niveles.
 
 ## Siguiente comando exacto
 
 ```sh
-gh pr checks 50 -R diegocevallos-tech/censo-vivo-ecuador
+git add HANDOFF.md docs/fase2_smoke_produccion.md docs/capturas web/scripts/smoke-production.mjs
 ```
 
-Verificar y reparar cualquier fallo de CI. Luego dejar #48, #49 y #50 abiertos para aprobación sin publicar 2A/2B en producción ni tocar la auditoría independiente.
+Crear el PR de documentación del smoke y verificar CI. Luego abrir `fix/1b2-auditoria` sin tocar `feat/auditoria-1b2`; preparar el agregado cantonal en el siguiente Release y taguear `fase-2` desde el `main` documentado.
 
 ## Archivos tocados en 1B-3
 
@@ -39,10 +42,11 @@ Verificar y reparar cualquier fallo de CI. Luego dejar #48, #49 y #50 abiertos p
 - `README.md`, `docs/schema.md`, `docs/data-access.md`, `docs/fase1b3_report.md`, `docs/qa/fase1b3_mapa.png`, `docs/qa/fase1b3_pages.png`
 - 2A: `pipeline/09_indicator_map_index.py`, `09_places.py`, `09_package_v2a.py`, `09_qa_indicator_map.py`, `pipeline/verify_public_artifacts.py`, `web/src/indicatorMaps.ts`, `map.ts`, `style.css`, `web/src/generated/places.json`, `docs/fase2a_report.md`, `docs/qa/fase2a_mapa.png`, `data/DERIVED_MANIFEST.json`.
 - 2B: `.github/workflows/ci.yml`, `pipeline/10_national_profile.py`, `web/package.json`, `web/package-lock.json`, `web/eslint.config.mjs`, `web/src/map.ts`, `selection.ts`, `countChunks.ts`, `analysisPanel.ts`, `style.css`, `web/src/generated/nationalProfile.json`, `docs/fase2b_report.md`, `docs/qa/fase2b_mapa.png`, `docs/qa/fase2b_movil.png`.
+- Smoke producción: `docs/fase2_smoke_produccion.md`, `docs/capturas/`, `web/scripts/smoke-production.mjs`, `HANDOFF.md`.
 
 ## Decisiones pendientes
 
 - La distancia al pico temporal del bono demográfico sigue diferida a la Fase 5 opcional. Cobertura de seguro de salud sigue descartada por variable inexistente.
 - La capa de fondo oscuro usa un color propio hasta encontrar un basemap externo sin token que permita uso en producción. El mapa censal no depende de un proveedor externo.
-- El «último plan» no está archivado literalmente en el repo; 2A se interpreta como mapa, navegación, indicadores y coropleta (issues #14–15); 2B como selección, paneles, controles y accesibilidad (issues #16–18). Conservar PRs separados.
+- La optimización móvil queda en la issue #51, con Lighthouse 47 y LCP 4,89 s frente a la meta ≥85 y <3 s.
 - Validar 60 fps de extremo a extremo en móviles y provincias densas antes de afirmar el criterio nacional; el p95 KDBush de escritorio mide solo el cálculo de la vista previa.

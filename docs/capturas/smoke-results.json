@@ -1,0 +1,91 @@
+{
+  "url": "https://diegocevallos-tech.github.io/censo-vivo-ecuador/",
+  "captured_at_utc": "2026-09-26T02:31:03.871Z",
+  "errors": [],
+  "cases": {
+    "desktop": {
+      "level": "PROVINCIA",
+      "first_load_bytes": 487698
+    },
+    "mobile": {
+      "level": "PROVINCIA",
+      "toolbar_scrollable": true
+    },
+    "zoom": {
+      "levels": [
+        "ECUADOR",
+        "PROVINCIA",
+        "CANTÓN",
+        "PARROQUIA",
+        "SECTOR CENSAL",
+        "MANZANA"
+      ]
+    },
+    "circle_quito": {
+      "level": "MANZANA",
+      "status": "Círculo · 18 unidades",
+      "quality": "Estimado · 69,8 %",
+      "preview_p95_ms": 0.3
+    },
+    "circle_guayaquil": {
+      "level": "MANZANA",
+      "status": "Círculo · 25 unidades",
+      "quality": "Estimado · 59,5 %",
+      "preview_p95_ms": 0.3
+    },
+    "circle_rural": {
+      "level": "SECTOR CENSAL",
+      "status": "Círculo · 1 unidad",
+      "quality": "Estimado · 100 %",
+      "preview_p95_ms": 0.2
+    },
+    "lasso": {
+      "heading": "Lazo · 9 unidades"
+    },
+    "multi": {
+      "heading": "Multiselección · 8 unidades"
+    },
+    "indicators": {
+      "tested": 30,
+      "ids": [
+        "median_age",
+        "aging_index",
+        "youth_dependency",
+        "old_age_dependency",
+        "male_ratio",
+        "female_share",
+        "working_age_share",
+        "single_person_households",
+        "average_household_size",
+        "overcrowding",
+        "qualitative_housing_deficit",
+        "vacant_private_dwellings",
+        "owned_tenure",
+        "rented_tenure",
+        "fixed_internet",
+        "computer_access",
+        "digital_exclusion",
+        "employment_rate",
+        "unemployment_rate",
+        "internal_arrivals_5y",
+        "magnet_index",
+        "emigrant_households",
+        "emigrants_per_1000",
+        "female_emigrants_share",
+        "age_diversity_shannon",
+        "ethnic_diversity_shannon",
+        "linguistic_diversity_shannon",
+        "mean_parity",
+        "crude_death_report_rate",
+        "mean_age_at_death"
+      ],
+      "active": "mean_age_at_death",
+      "status": "Cantón · 217 casos fiables"
+    },
+    "shared_url": {
+      "url": "https://diegocevallos-tech.github.io/censo-vivo-ecuador/#indicator=aging_index&map=-78.4900%2C-0.1800%2C7.30",
+      "indicator_restored": "aging_index",
+      "level_restored": "CANTÓN"
+    }
+  }
+}
