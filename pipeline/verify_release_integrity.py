@@ -195,8 +195,13 @@ def main() -> None:
     core_views(connection, root)
     check_core(connection)
     if not args.core_only:
-        for province in PROVINCES:
-            check_province_categories(connection, root, province)
+        if (args.root / "variables/v2c/index.json").is_file():
+            from verify_variable_bundles import verify as verify_variables
+
+            verify_variables(args.root)
+        else:
+            for province in PROVINCES:
+                check_province_categories(connection, root, province)
         check_upper_categories(connection, root)
     connection.close()
     print("Public Release has exact additive counts", flush=True)

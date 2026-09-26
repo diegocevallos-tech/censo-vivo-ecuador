@@ -13,6 +13,10 @@ import { renderAnalysis } from './analysisPanel'
 import { countChunk } from './countChunks'
 import { evaluate, fitCantonPrior } from './indicators'
 import type { CantonPrior, IndicatorDefinition } from './indicators'
+import { mountVariableExplorer } from './variableExplorer'
+import type { VariableChoice } from './variableExplorer'
+import { downloadedVariableBytes, measure, total, variableProvince } from './variableData'
+import type { Categories } from './variableData'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './style.css'
 
@@ -35,6 +39,14 @@ let indicator = byId.has(params.get('indicator') ?? '') ? params.get('indicator'
 let breakMode: BreakMode = ['quantile', 'jenks', 'stddev'].includes(params.get('breaks') ?? '')
   ? params.get('breaks') as BreakMode : 'quantile'
 let selectedKey = params.get('place') ?? ''
+let variableChoice: VariableChoice | null = null
+let activeTab: 'indicators' | 'variables' = params.get('tab') === 'variables'
+  ? 'variables' : 'indicators'
+let adjustedMinLevel: Level | null = null
+const maxZoomForLevel: Record<Level, number> = {
+  nacion: 2.9, provincia: 5.9, canton: 7.9, parroquia: 9.4,
+  zona: 10.9, sector: 12.9, manzana: 16.5,
+}
 const copy = {
   es: { search: 'Buscar provincia, cantón, parroquia o código', indicator: 'Indicador',
     breaks: 'Cortes', density: 'Densidad de población', noData: 'Sin dato',
@@ -71,10 +83,6 @@ app.innerHTML = `
     <button id="language" class="language" type="button" aria-label="Cambiar idioma">EN</button>
     <section class="data-card" aria-label="Indicador activo">
       <div class="card-head"><span class="eyebrow">01 / TERRITORIO</span><span id="level">Cargando…</span></div>
-      <label class="control-label" for="indicator-search" id="indicator-label">Indicador</label>
-      <input id="indicator-search" type="search" placeholder="Filtrar 45 indicadores">
-      <label class="sr-only" for="indicator-select">Indicador activo</label>
-      <select id="indicator-select"></select>
       <h2 id="indicator-title">Densidad de población</h2><p id="indicator-description">Habitantes por kilómetro cuadrado de la unidad censal.</p>
       <div class="break-control"><label for="break-mode" id="break-label">Cortes</label>
         <select id="break-mode"><option value="quantile">Cuantiles</option><option value="jenks">Jenks</option><option value="stddev">Desviación estándar</option></select></div>
@@ -90,7 +98,32 @@ app.innerHTML = `
       <div id="selection-preview" class="selection-preview" role="status" aria-live="polite"></div>
       <div id="analysis-content" class="analysis-content"></div>
     </section>
-    <aside class="theme-chips" id="theme-chips" aria-label="Temas"></aside>
+    <aside class="explorer-panel" aria-label="Explorador del censo">
+      <div class="explorer-tabs" role="tablist">
+        <button type="button" class="explorer-tab active" data-tab="indicators" role="tab" aria-selected="true">Indicadores</button>
+        <button type="button" class="explorer-tab" data-tab="variables" role="tab" aria-selected="false">Variables del censo</button>
+      </div>
+      <div id="indicator-pane" role="tabpanel">
+        <label class="control-label" for="indicator-search" id="indicator-label">Indicador</label>
+        <input id="indicator-search" type="search" placeholder="Filtrar 45 indicadores">
+        <label class="sr-only" for="indicator-select">Indicador activo</label>
+        <select id="indicator-select"></select>
+        <div class="theme-chips" id="theme-chips" aria-label="Temas"></div>
+      </div>
+      <div id="variable-pane" role="tabpanel" hidden>
+        <label class="sr-only" for="variable-search">Buscar variable del censo</label>
+        <input id="variable-search" type="search" placeholder="Buscar código, nombre o pregunta">
+        <label class="control-label" for="variable-table" id="variable-table-label">Tabla</label>
+        <select id="variable-table"></select>
+        <label class="control-label" for="variable-select" id="variable-select-label">Variable</label>
+        <select id="variable-select"></select>
+        <label class="control-label" for="variable-category" id="variable-category-label">Categoría</label>
+        <select id="variable-category"></select>
+        <label class="control-label" for="variable-mode" id="variable-mode-label">Mapa</label>
+        <select id="variable-mode"></select>
+        <div id="variable-details"></div><p id="variable-transfer" aria-live="polite"></p>
+      </div>
+    </aside>
     <div class="toolbar" role="toolbar" aria-label="Herramientas de análisis">
       <button type="button" data-mode="inspect" aria-pressed="true">Inspeccionar</button>
       <button type="button" data-mode="circle" aria-pressed="false">Círculo</button>
@@ -127,6 +160,7 @@ const placeSearch = document.querySelector<HTMLInputElement>('#place-search')!
 const placeResults = document.querySelector<HTMLElement>('#place-results')!
 const breadcrumbEl = document.querySelector<HTMLElement>('#breadcrumb')!
 const languageEl = document.querySelector<HTMLButtonElement>('#language')!
+const transferEl = document.querySelector<HTMLElement>('#variable-transfer')!
 const names: Record<Level, string> = {
   nacion: 'Ecuador', provincia: 'Provincia', canton: 'Cantón',
   parroquia: 'Parroquia', zona: 'Zona censal', sector: 'Sector censal', manzana: 'Manzana',
@@ -161,7 +195,7 @@ const palettes: Record<string, string[]> = {
   YlOrRd: ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'],
 }
 function activePalette(): string[] {
-  return indicator === 'density' ? palettes.density :
+  return activeTab === 'variables' ? palettes.Viridis : indicator === 'density' ? palettes.density :
     palettes[byId.get(indicator)!.palette] ?? palettes.Viridis
 }
 const formatValue = (value: number): string => new Intl.NumberFormat(language === 'es' ? 'es-EC' : 'en-US',
@@ -170,6 +204,12 @@ const norm = (value: string): string => value.normalize('NFD').replace(/[\u0300-
 function saveHash(map?: MapLibreMap) {
   const state = new URLSearchParams()
   if (indicator !== 'density') state.set('indicator', indicator)
+  if (activeTab === 'variables' && variableChoice) {
+    state.set('tab', 'variables')
+    state.set('variable', variableChoice.variable.id)
+    if (variableChoice.category) state.set('category', String(variableChoice.category.id))
+    state.set('measure', variableChoice.mode)
+  }
   if (breakMode !== 'quantile') state.set('breaks', breakMode)
   if (language !== 'es') state.set('lang', language)
   if (selectedKey) state.set('place', selectedKey)
@@ -251,16 +291,31 @@ function renderControls(level: Level) {
   }
   indicatorSelect.value = indicator
   breaksEl.value = breakMode
-  indicatorTitle.textContent = indicator === 'density' ? t.density : byId.get(indicator)!.name[language]
-  indicatorDescription.textContent = indicator === 'density'
+  indicatorTitle.textContent = activeTab === 'variables' && variableChoice
+    ? variableChoice.variable.name[language]
+    : indicator === 'density' ? t.density : byId.get(indicator)!.name[language]
+  indicatorDescription.textContent = activeTab === 'variables' && variableChoice
+    ? `${variableChoice.variable.question[language]} · ${variableChoice.variable.universe[language]}`
+    : indicator === 'density'
     ? (language === 'es' ? 'Habitantes por kilómetro cuadrado de la unidad censal.'
       : 'Residents per square kilometre of the census unit.')
     : language === 'es' ? byId.get(indicator)!.population_reference
       : 'Reference population and definition in the methodology.'
-  availabilityEl.textContent = indicator !== 'density' &&
+  availabilityEl.textContent = activeTab === 'variables' && variableChoice &&
+    !indicatorAvailable(variableChoice.variable.min_level, level)
+    ? `${t.from} ${levelName(variableChoice.variable.min_level)}`
+    : activeTab === 'variables' && adjustedMinLevel
+    ? (language === 'es' ? `Mapa ajustado a ${levelName(adjustedMinLevel).toLowerCase()}: escala mínima de esta variable.`
+      : `Map moved to ${levelName(adjustedMinLevel).toLowerCase()}: this variable's finest scale.`)
+    : indicator !== 'density' && activeTab === 'indicators' &&
     !indicatorAvailable(byId.get(indicator)!.min_level, level)
     ? `${t.from} ${byId.get(indicator)!.min_level}` : ''
-  breakScopeEl.textContent = language === 'es'
+  breakScopeEl.textContent = activeTab === 'variables'
+    ? language === 'es' ? (level === 'sector' || level === 'manzana'
+      ? 'Cortes de las provincias cargadas.' : 'Cortes nacionales.')
+      : (level === 'sector' || level === 'manzana'
+        ? 'Breaks use loaded provinces.' : 'Nationwide breaks.')
+    : language === 'es'
     ? (indicator === 'density' ? 'Cortes del mapa visible.'
       : level === 'sector' || level === 'manzana' ? 'Cortes de las provincias cargadas.'
         : 'Cortes nacionales.')
@@ -300,6 +355,7 @@ async function start() {
   let paintGeneration = 0
   let paintedKey = ''
   let densityPaintKey = ''
+  let activeVariableCounts = new Map<string, number>()
   let lastSelection: SelectionResult | null = null
   let selectedHighlight = new Set<string>()
   let analysisGeneration = 0
@@ -308,6 +364,26 @@ async function start() {
   let mode3d = false
   let sectorFallback = false
   let zoneFallback = false
+  const explorer = mountVariableExplorer(base, choice => {
+    variableChoice = choice
+    if (choice && !indicatorAvailable(choice.variable.min_level, currentLevel)) {
+      adjustedMinLevel = choice.variable.min_level
+      map.easeTo({ zoom: maxZoomForLevel[choice.variable.min_level], duration: 450 })
+    } else adjustedMinLevel = null
+    paintedKey = ''
+    renderControls(currentLevel)
+    sync()
+    void refreshAnalysis()
+    saveHash(map)
+  }, tab => {
+    activeTab = tab
+    paintedKey = ''
+    renderControls(currentLevel)
+    sync()
+    void refreshAnalysis()
+    saveHash(map)
+  })
+  explorer.render(language)
   const effectiveLevel = (): Level => {
     const level = zoomLevel(map.getZoom())
     if (sectorFallback && level === 'manzana') return 'sector'
@@ -319,19 +395,41 @@ async function start() {
     for (const id of active) {
       const fill = `${id}-fill`
       const line = `${id}-outline`
+      const selectedKeys = activeTab === 'variables' && selectedHighlight.size
+        ? [...selectedHighlight].filter(key => id === `${currentLevel}-${
+          currentLevel === 'sector' || currentLevel === 'manzana' ? key.slice(0, 2) : 'data'}`)
+        : []
+      const variableFilter = activeTab === 'variables' && selectedHighlight.size
+        ? selectedKeys.length
+          ? ['in', ['get', 'unit_key'], ['literal', selectedKeys]]
+          : ['==', ['get', 'unit_key'], '']
+        : null
+      const multiVariables = activeTab === 'variables' && selection.mode === 'multi'
+      map.setFilter(fill, multiVariables ? null : variableFilter as maplibregl.FilterSpecification | null)
+      map.setFilter(line, variableFilter as maplibregl.FilterSpecification | null)
+      map.setPaintProperty(line, 'line-color', multiVariables && selectedHighlight.size
+        ? '#F5B82E' : '#8da4b2')
+      map.setPaintProperty(line, 'line-width', multiVariables && selectedHighlight.size
+        ? 2 : currentLevel === 'manzana' ? 0.5 : 0.8)
       map.setLayoutProperty(fill, 'visibility', unitsOn ? 'visible' : 'none')
       map.setLayoutProperty(line, 'visibility', unitsOn ? 'visible' : 'none')
-      const defaultOpacity: maplibregl.ExpressionSpecification | number = indicator === 'density' ? 0.79
+      const defaultOpacity: maplibregl.ExpressionSpecification | number = activeTab === 'variables'
+        ? 0.82 : indicator === 'density' ? 0.79
         : ['case', ['==', ['feature-state', 'status'], 1], 0.42, 0.82]
-      const opacity: maplibregl.ExpressionSpecification | number = !densityOn && indicator === 'density' ? 0
+      const opacity: maplibregl.ExpressionSpecification | number = activeTab === 'variables' ? 0.82
+        : !densityOn && indicator === 'density'
+        && activeTab === 'indicators' ? 0
         : selectedHighlight.size ? ['case', ['==', ['feature-state', 'selected'], true],
           defaultOpacity, 0] : defaultOpacity
       map.setPaintProperty(fill, 'fill-opacity', opacity)
-      map.setPaintProperty(line, 'line-opacity', selectedHighlight.size
+      map.setPaintProperty(line, 'line-opacity', activeTab === 'variables' ? 0.27 : selectedHighlight.size
         ? ['case', ['==', ['feature-state', 'selected'], true], 0.4, 0] : 0.27)
       if (map.getLayer(`${id}-extrusion`)) {
+        map.setFilter(`${id}-extrusion`, multiVariables ? null
+          : variableFilter as maplibregl.FilterSpecification | null)
         map.setLayoutProperty(`${id}-extrusion`, 'visibility', unitsOn && mode3d ? 'visible' : 'none')
-        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', selectedHighlight.size
+        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', activeTab === 'variables'
+          ? 0.65 : selectedHighlight.size
           ? ['case', ['==', ['feature-state', 'selected'], true], 0.65, 0] : 0.65)
       }
     }
@@ -350,7 +448,7 @@ async function start() {
   async function refreshAnalysis() {
     const generation = ++analysisGeneration
     let prior: CantonPrior | null = null
-    if (lastSelection && smoothEl.checked && indicator !== 'density') {
+    if (activeTab === 'indicators' && lastSelection && smoothEl.checked && indicator !== 'density') {
       const definition = byId.get(indicator) as unknown as IndicatorDefinition | undefined
       const cantons = new Set(lastSelection.keys.map(key => key.slice(0, 4)))
       if (definition?.bayesian && definition.kind === 'ratio' && cantons.size === 1) {
@@ -381,7 +479,95 @@ async function start() {
         ? unitPresentation(currentLevel, lastSelection.officialUnitKey, language).headline
         : labels[lastSelection.label] ?? lastSelection.label } : null
     await renderAnalysis(analysisEl, localized, { language, level: currentLevel,
-      base, smooth: smoothEl.checked, activeIndicator: indicator, prior })
+      base, smooth: smoothEl.checked, activeIndicator: activeTab === 'indicators' ? indicator : undefined,
+      prior })
+    if (activeTab === 'variables' && variableChoice && lastSelection && generation === analysisGeneration) {
+      await renderVariableDistribution(lastSelection, variableChoice, generation)
+    }
+  }
+
+  async function renderVariableDistribution(result: SelectionResult, choice: VariableChoice,
+                                            generation: number) {
+    const provinces = result.keys.includes('EC')
+      ? Array.from({ length: 24 }, (_, index) => String(index + 1).padStart(2, '0'))
+      : [...new Set(result.keys.map(key => key.slice(0, 2)))]
+    const files = await Promise.all(provinces.map(province =>
+      variableProvince(base, province, choice.variable.id)))
+    if (generation !== analysisGeneration) return
+    const frequencies: Categories = new Map()
+    for (const file of files) {
+      const units = file.atLevel(currentLevel)
+      for (const [key, coverage] of result.coverages) {
+        const cells = units.get(key)
+        if (!cells) continue
+        for (const [category, count] of cells) {
+          frequencies.set(category, (frequencies.get(category) ?? 0) + count * coverage)
+        }
+      }
+      if (currentLevel === 'manzana') {
+        for (const key of result.assignedSectorKeys) {
+          const cells = file.rows.get(key)
+          if (!cells) continue
+          for (const [category, count] of cells) {
+            frequencies.set(category, (frequencies.get(category) ?? 0) + count)
+          }
+        }
+      }
+    }
+    const section = document.createElement('section')
+    section.className = 'variable-distribution'
+    const heading = document.createElement('h4')
+    heading.textContent = `${choice.variable.id} · ${choice.variable.name[language]}`
+    section.append(heading)
+    const universe = total(frequencies)
+    const note = document.createElement('p')
+    note.textContent = `${choice.variable.universe[language]}: ${formatValue(universe)} · ${
+      result.aggregate.quality === 'exacto' ? language === 'es' ? 'exacto' : 'exact'
+        : language === 'es' ? 'estimado por área' : 'area estimate'}`
+    section.append(note)
+    const display = choice.variable.id === 'P03' ? choice.variable.categories.map(item => ({
+      label: item.label[language], count: frequencies.get(item.id) ?? 0,
+    })) : choice.variable.type === 'numeric' ? (() => {
+      const values = choice.variable.categories.map(item => ({
+        value: item.midpoint ?? Number(item.code), count: frequencies.get(item.id) ?? 0,
+      })).filter(item => Number.isFinite(item.value) && item.value < 888)
+      const maximum = Math.max(0, ...values.map(item => item.value))
+      const width = maximum >= 50 ? 10
+        : maximum >= 20 ? 5 : 1
+      const buckets = new Map<number, number>()
+      for (const item of values) {
+        const start = Math.floor(item.value / width) * width
+        buckets.set(start, (buckets.get(start) ?? 0) + item.count)
+      }
+      return [...buckets].sort(([a], [b]) => a - b).map(([start, count]) => ({
+        label: width === 1 ? String(start) : `${start}–${start + width - 1}`, count,
+      }))
+    })() : choice.variable.categories.map(item => ({
+      label: item.label[language], count: frequencies.get(item.id) ?? 0,
+    }))
+    if (choice.variable.type === 'numeric') {
+      const histogram = document.createElement('p')
+      histogram.textContent = language === 'es' ? 'Histograma por rangos de valores válidos'
+        : 'Histogram of valid-value ranges'
+      section.append(histogram)
+    }
+    for (const item of display) {
+      const count = item.count
+      const percent = universe ? 100 * count / universe : 0
+      const row = document.createElement('div')
+      row.className = 'variable-bar'
+      const label = document.createElement('span')
+      label.textContent = item.label
+      const track = document.createElement('div')
+      const bar = document.createElement('i')
+      bar.style.width = `${Math.min(100, percent)}%`
+      track.append(bar)
+      const amount = document.createElement('strong')
+      amount.textContent = `${formatValue(count)} · ${formatValue(percent)} %`
+      row.append(label, track, amount)
+      section.append(row)
+    }
+    analysisEl.prepend(section)
   }
 
   const selection = createSelection({ map, base, shell,
@@ -399,7 +585,7 @@ async function start() {
         renderBreadcrumb()
         saveHash(map)
       }
-      previewEl.textContent = result ? `${integer.format(result.aggregate.counts.population ?? 0)} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
+      previewEl.textContent = result ? `${integer.format(Math.round(result.aggregate.counts.population ?? 0))} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
       if (result) previewEl.dataset.previewP95Ms = selection.previewP95Ms.toFixed(2)
       statusEl.textContent = result ? `${result.label} · ${integer.format(result.unitCount)} ${result.unitCount === 1 ? (language === 'es' ? 'unidad' : 'unit') : (language === 'es' ? 'unidades' : 'units')}` : levelName(currentLevel)
       void refreshAnalysis().catch(error => { statusEl.textContent = `Error de análisis: ${String(error)}` })
@@ -429,6 +615,11 @@ async function start() {
     const step: unknown[] = ['step', ['to-number', ['feature-state', 'value'], 0], palette[0]]
     distinct.forEach((breakpoint, index) => step.push(breakpoint,
       palette[Math.min(palette.length - 1, index + 1)]))
+    if (activeTab === 'variables') {
+      const variableExpression: unknown = ['case', ['==', ['feature-state', 'status'], 0],
+        step, '#354050']
+      return variableExpression as maplibregl.ExpressionSpecification
+    }
     if (indicator === 'density') {
       step[1] = ['to-number', ['get', 'density'], 0]
       return ['case', ['has', 'density'], step, '#354050'] as unknown as maplibregl.ExpressionSpecification
@@ -437,12 +628,96 @@ async function start() {
       step, '#354050'] as unknown as maplibregl.ExpressionSpecification
   }
 
+  async function colorizeVariable(level: Level, provinces: string[], generation: number) {
+    const choice = variableChoice
+    if (!choice) return
+    statusEl.textContent = language === 'es' ? 'Cargando variable…' : 'Loading variable…'
+    const before = downloadedVariableBytes()
+    const requested = level === 'sector' || level === 'manzana' ? provinces
+      : Array.from({ length: 24 }, (_, index) => String(index + 1).padStart(2, '0'))
+    try {
+      const files = await Promise.all(requested.map(province =>
+        variableProvince(base, province, choice.variable.id)))
+      if (generation !== paintGeneration) return
+      const grouped = new Map<string, Categories>()
+      for (const file of files) {
+        for (const [key, categories] of file.atLevel(level)) {
+          const target = grouped.get(key) ?? new Map<number, number>()
+          for (const [category, count] of categories) {
+            target.set(category, (target.get(category) ?? 0) + count)
+          }
+          grouped.set(key, target)
+        }
+      }
+      const values: number[] = []
+      const scores = new Map<string, number>()
+      for (const [key, categories] of grouped) {
+        const score = choice.mode === 'density'
+          ? categories.get(choice.category?.id ?? -1) ?? 0 : measure(categories, choice)
+        if (score != null) {
+          scores.set(key, score)
+          if (choice.mode !== 'density') values.push(score)
+        }
+      }
+      const densityValues: number[] = []
+      if (choice.mode === 'density') {
+        for (const id of active) {
+          for (const feature of map.querySourceFeatures(id, { sourceLayer: level })) {
+            const key = String(feature.properties.unit_key)
+            const count = scores.get(key)
+            const area = Number(feature.properties.area_km2)
+            if (count != null && Number.isFinite(area) && area > 0) densityValues.push(count / area)
+          }
+        }
+      }
+      const breaks = classifyBreaks(choice.mode === 'density' && densityValues.length
+        ? densityValues : choice.mode === 'density' ? [1, 10, 100, 1000, 10000] : values, breakMode)
+      const expression = fillExpression(breaks)
+      activeVariableCounts = choice.mode === 'density' ? scores : new Map()
+      for (const id of active) {
+        map.removeFeatureState({ source: id })
+        map.setPaintProperty(`${id}-fill`, 'fill-color', expression)
+        map.setPaintProperty(`${id}-fill`, 'fill-opacity', 0.82)
+        if (map.getLayer(`${id}-extrusion`)) {
+          map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-color', expression)
+        }
+      }
+      legendEl.replaceChildren(...breaks.map(value => {
+        const span = document.createElement('span'); span.textContent = formatValue(value); return span
+      }))
+      const entries = choice.mode === 'density' ? [] : [...scores]
+      for (let offset = 0; offset < entries.length; offset += 500) {
+        if (generation !== paintGeneration) return
+        for (const [key, value] of entries.slice(offset, offset + 500)) {
+          const id = `${level}-${level === 'sector' || level === 'manzana' ? key.slice(0, 2) : 'data'}`
+          if (active.has(id)) map.setFeatureState({ source: id, sourceLayer: level, id: key },
+            { value, status: 0, selected: selectedHighlight.has(key) })
+        }
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+      }
+      const bytes = downloadedVariableBytes() - before
+      const maxBlock = Math.max(...files.map(file => file.packedBytes))
+      transferEl.textContent = `${language === 'es' ? 'Descargado' : 'Downloaded'}: ${
+        (bytes / 1024).toFixed(1)} KB · ${language === 'es' ? 'bloque máximo' : 'largest block'} ${
+        (maxBlock / 1024).toFixed(1)} KB/${language === 'es' ? 'provincia' : 'province'}`
+      statusEl.textContent = `${choice.variable.name[language]} · ${integer.format(scores.size)} ${
+        language === 'es' ? 'unidades' : 'units'}`
+      applySelectionPaint()
+    } catch (error) {
+      if (generation === paintGeneration) statusEl.textContent = String(error)
+    }
+  }
+
   async function colorize(level: Level, provinces: string[]) {
     const generation = ++paintGeneration
     const ramp = document.querySelector<HTMLElement>('.ramp')!
     const colors = activePalette()
     ramp.style.background = `linear-gradient(90deg, ${colors.map((hex, index) =>
       `${hex} ${index * 20}%,${hex} ${(index + 1) * 20}%`).join(',')})`
+    if (activeTab === 'variables' && variableChoice) {
+      await colorizeVariable(level, provinces, generation)
+      return
+    }
     if (indicator === 'density') {
       densityPaintKey = ''
       for (const id of active) {
@@ -501,7 +776,7 @@ async function start() {
   }
 
   function updateDensityBreaks() {
-    if (indicator !== 'density' || !active.size) return
+    if (activeTab !== 'indicators' || indicator !== 'density' || !active.size) return
     const seen = new Set<string>()
     const values: number[] = []
     for (const id of active) {
@@ -527,6 +802,27 @@ async function start() {
     }))
   }
 
+  function updateVariableDensityState() {
+    if (activeTab !== 'variables' || variableChoice?.mode !== 'density' || !active.size) return
+    const seen = new Set<string>()
+    for (const id of active) {
+      for (const feature of map.querySourceFeatures(id, { sourceLayer: currentLevel })) {
+        const key = String(feature.properties.unit_key)
+        if (seen.has(key)) continue
+        seen.add(key)
+        const area = Number(feature.properties.area_km2)
+        const count = activeVariableCounts.get(key)
+        if (count == null || !Number.isFinite(area) || area <= 0) continue
+        const density = count / area
+        const state = map.getFeatureState({ source: id, sourceLayer: currentLevel, id: key })
+        if (state.status !== 0 || state.value !== density) {
+          map.setFeatureState({ source: id, sourceLayer: currentLevel, id: key },
+            { value: density, status: 0, selected: selectedHighlight.has(key) })
+        }
+      }
+    }
+  }
+
   function visibleProvinces(level: Level): string[] {
     const available = catalog.tile_files[level] ?? []
     if (level !== 'sector' && level !== 'manzana') return available
@@ -539,6 +835,12 @@ async function start() {
   }
 
   function sync() {
+    if (activeTab === 'variables' && variableChoice &&
+        !indicatorAvailable(variableChoice.variable.min_level, zoomLevel(map.getZoom()))) {
+      adjustedMinLevel = variableChoice.variable.min_level
+      map.easeTo({ zoom: maxZoomForLevel[adjustedMinLevel], duration: 450 })
+      return
+    }
     const level = effectiveLevel()
     const provinces = visibleProvinces(level)
     const wanted = new Set(provinces.map(p => `${level}-${p}`))
@@ -667,6 +969,7 @@ async function start() {
       ? `${integer.format(catalog.assigned_manzanas_without_polygon)} manzanas sin polígono: población asignada a nivel de sector`
       : `${integer.format(catalog.assigned_manzanas_without_polygon)} blocks without polygons: population assigned at sector level`
     renderControls(currentLevel)
+    explorer.render(language)
     renderThemes()
     saveHash(map)
     void refreshAnalysis()
@@ -728,7 +1031,38 @@ async function start() {
         : `${integer.format(assigned)} people from blocks without polygons: assigned at sector level`
       card.append(note)
     }
-    if (indicator === 'density') {
+    if (activeTab === 'variables' && variableChoice) {
+      const choice = variableChoice
+      value.textContent = `${choice.variable.name[language]}: …`
+      const sourceLevel = indicatorAvailable(choice.variable.min_level, level)
+        ? level : choice.variable.min_level
+      if (sourceLevel !== level) {
+        const note = document.createElement('div')
+        note.className = 'unit-note'
+        note.textContent = `${copy[language].from} ${levelName(sourceLevel)}`
+        card.append(note)
+      }
+      const province = key.slice(0, 2)
+      const sourceKey = unitKeyAtLevel(key, sourceLevel)
+      const provinces = sourceKey === 'EC'
+        ? Array.from({ length: 24 }, (_, index) => String(index + 1).padStart(2, '0'))
+        : [province]
+      void Promise.all(provinces.map(code => variableProvince(base, code, choice.variable.id)))
+        .then(files => {
+          const categories: Categories = new Map()
+          for (const file of files) {
+            for (const [category, count] of file.atLevel(sourceLevel).get(sourceKey) ?? []) {
+              categories.set(category, (categories.get(category) ?? 0) + count)
+            }
+          }
+          const area = Number(properties.area_km2)
+          const result = measure(categories, choice, area)
+          const unit = choice.mode === 'percent' ? ' %'
+            : choice.mode === 'density' ? ` / ${language === 'es' ? 'km²' : 'km²'}` : ''
+          value.textContent = `${choice.variable.name[language]}: ${result == null
+            ? copy[language].noData : formatValue(result) + unit}`
+        }).catch(error => { value.textContent = String(error) })
+    } else if (indicator === 'density') {
       const density = properties.density == null ? copy[language].noData
         : `${formatValue(Number(properties.density))} hab./km²`
       value.textContent = `${copy[language].density}: ${density}`
@@ -764,10 +1098,16 @@ async function start() {
   }
   let hoverPopup: maplibregl.Popup | null = null
   let hoveredSignature = ''
-  map.on('load', sync)
+  map.on('load', () => {
+    sync()
+    if (params.get('variable')) explorer.selectVariable(params.get('variable')!,
+      Number(params.get('category')) || undefined,
+      (params.get('measure') ?? 'percent') as VariableChoice['mode'])
+  })
   map.on('moveend', () => { sectorFallback = false; zoneFallback = false; sync() })
   map.on('idle', () => {
     updateDensityBreaks()
+    updateVariableDensityState()
     if (zoomLevel(map.getZoom()) === 'zona' && !zoneFallback && currentLevel === 'zona'
       && active.size && [...active].every(id => map.isSourceLoaded(id))) {
       const canvas = map.getCanvas()
@@ -798,7 +1138,8 @@ async function start() {
     map.getCanvas().style.cursor = feature ? 'pointer' : ''
     const key = String(feature?.properties?.unit_key ?? '')
     if (!key) { hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''; return }
-    const signature = `${currentLevel}:${key}:${indicator}:${language}`
+    const signature = `${currentLevel}:${key}:${indicator}:${variableChoice?.variable.id ?? ''}:${
+      variableChoice?.category?.id ?? ''}:${variableChoice?.mode ?? ''}:${language}`
     if (hoveredSignature !== signature) {
       hoverPopup?.remove()
       hoverPopup = new maplibregl.Popup({ closeButton: false, closeOnClick: false,
