@@ -65,6 +65,7 @@ h1,h2,p{margin:0}h1,h2{font-family:'Space Grotesk',sans-serif}h1{font-size:29px;
 .unit-popup .unit-context{text-transform:none;letter-spacing:0;font-size:11px;color:#d4e1e4}
 .unit-popup .unit-value,.unit-popup .unit-population{font-size:12px;margin-top:3px}
 .unit-popup .unit-note{font-size:10px;line-height:1.35;color:#a7b8c0;margin-top:3px}
+.unit-hover-popup{max-width:240px!important;pointer-events:none}.unit-hover-popup .maplibregl-popup-content{padding:10px 12px!important;max-width:240px;overflow-wrap:anywhere}.unit-hover-popup .unit-popup{gap:3px}.unit-hover-popup .unit-title{font-size:14px}.unit-hover-popup .unit-context{font-size:10px;line-height:1.3}.unit-hover-popup .unit-value,.unit-hover-popup .unit-population{font-size:11px;line-height:1.35}
 .analysis-place-context{color:#c6d9df;font-size:11px;margin:0 0 8px}
 .analysis-place-metric,.analysis-place-population{margin:3px 0;font-size:11px}
 .analysis-place-note{display:block;color:#a7b8c0;font-size:10px}

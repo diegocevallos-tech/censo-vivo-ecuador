@@ -1,5 +1,5 @@
 {
-  "root": "https://diegocevallos-tech.github.io/censo-vivo-ecuador/",
+  "root": "http://127.0.0.1:5173/censo-vivo-ecuador/",
   "results": [
     {
       "level": "provincia",
@@ -7,7 +7,8 @@
       "title": "Pichincha",
       "context": "Provincia · Ecuador",
       "value": "Densidad de población: 327,1 hab./km²",
-      "population": "Población: 3.089.473"
+      "population": "Población: 3.089.473",
+      "tooltip_width_px": 240
     },
     {
       "level": "canton",
@@ -15,7 +16,8 @@
       "title": "Quito",
       "context": "Cantón · Pichincha",
       "value": "Densidad de población: 638,6 hab./km²",
-      "population": "Población: 2.679.722"
+      "population": "Población: 2.679.722",
+      "tooltip_width_px": 240
     },
     {
       "level": "parroquia",
@@ -23,7 +25,8 @@
       "title": "Calderón",
       "context": "Parroquia · Quito, Pichincha",
       "value": "Densidad de población: 3.215,9 hab./km²",
-      "population": "Población: 250.877"
+      "population": "Población: 250.877",
+      "tooltip_width_px": 240
     },
     {
       "level": "zona",
@@ -31,7 +34,8 @@
       "title": "Zona 170155-025",
       "context": "Zona · Calderón · Quito, Pichincha",
       "value": "Densidad de población: 1.521,8 hab./km²",
-      "population": "Población: 4.218"
+      "population": "Población: 4.218",
+      "tooltip_width_px": 226.578125
     },
     {
       "level": "sector",
@@ -39,11 +43,17 @@
       "title": "Sector 170155025002",
       "context": "Sector · Calderón · Quito, Pichincha",
       "value": "Densidad de población: 8.111,7 hab./km²",
-      "population": "Población: 497"
+      "population": "Población: 497",
+      "tooltip_width_px": 224.953125
     },
     {
       "level": "sector-min-level",
       "note": "Dato de cantón: disponible desde ese nivel"
+    },
+    {
+      "level": "variable-sector",
+      "tooltip_width_px": 240,
+      "detail": "analysis panel"
     }
   ],
   "errors": []
