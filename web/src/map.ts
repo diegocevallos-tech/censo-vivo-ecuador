@@ -4,6 +4,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { Protocol } from 'pmtiles'
 import indicatorCatalog from './generated/indicators.json'
 import placeCatalog from './generated/places.json'
+import { breadcrumbNames, levelLabel, unitKeyAtLevel, unitPresentation } from './placeLabels'
 import { availableAtLevel, classifyBreaks, indicatorFile } from './indicatorMaps'
 import type { BreakMode, Level } from './indicatorMaps'
 import { createSelection } from './selection'
@@ -28,7 +29,6 @@ const base = import.meta.env.BASE_URL
 const definitions = indicatorCatalog.indicators
 const byId = new Map(definitions.map(definition => [definition.id, definition]))
 const places = placeCatalog.places
-const placeByKey = new Map(places.map(place => [place.key, place]))
 const params = new URLSearchParams(location.hash.slice(1))
 let language: 'es' | 'en' = params.get('lang') === 'en' ? 'en' : 'es'
 let indicator = byId.has(params.get('indicator') ?? '') ? params.get('indicator')! : 'density'
@@ -181,10 +181,7 @@ function saveHash(map?: MapLibreMap) {
 
 function renderBreadcrumb() {
   breadcrumbEl.replaceChildren()
-  const keys = selectedKey ? [selectedKey.slice(0, 2), selectedKey.slice(0, 4),
-    selectedKey.slice(0, 6), selectedKey].filter((key, index, all) =>
-    !!placeByKey.get(key) && all.indexOf(key) === index) : []
-  const labels = ['Ecuador', ...keys.map(key => placeByKey.get(key)!.name)]
+  const labels = breadcrumbNames(selectedKey, language)
   for (let index = 0; index < labels.length; index++) {
     if (index) breadcrumbEl.append(' › ')
     const span = document.createElement('span')
@@ -374,7 +371,9 @@ async function start() {
       : { Circle: 'Círculo', Lasso: 'Lazo', 'Multiple units': 'Multiselección',
         'Official unit': 'Unidad oficial' }
     const localized = lastSelection ? { ...lastSelection,
-      label: labels[lastSelection.label] ?? lastSelection.label } : null
+      label: lastSelection.officialUnitKey
+        ? unitPresentation(currentLevel, lastSelection.officialUnitKey, language).headline
+        : labels[lastSelection.label] ?? lastSelection.label } : null
     await renderAnalysis(analysisEl, localized, { language, level: currentLevel,
       base, smooth: smoothEl.checked, activeIndicator: indicator, prior })
   }
@@ -389,6 +388,11 @@ async function start() {
     },
     onResult: result => {
       lastSelection = result
+      if (selection.mode === 'multi') {
+        selectedKey = result?.officialUnitKey ?? ''
+        renderBreadcrumb()
+        saveHash(map)
+      }
       previewEl.textContent = result ? `${integer.format(result.aggregate.counts.population ?? 0)} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
       if (result) previewEl.dataset.previewP95Ms = selection.previewP95Ms.toFixed(2)
       statusEl.textContent = result ? `${result.label} · ${integer.format(result.unitCount)} ${result.unitCount === 1 ? (language === 'es' ? 'unidad' : 'unit') : (language === 'es' ? 'unidades' : 'units')}` : levelName(currentLevel)
@@ -691,6 +695,69 @@ async function start() {
     if (event.key === 'Escape') { placeResults.hidden = true; placeSearch.setAttribute('aria-expanded', 'false') }
     if (event.key === 'Enter') placeResults.querySelector<HTMLButtonElement>('button')?.click()
   })
+  function unitCard(level: Level, key: string, properties: Record<string, unknown>): HTMLElement {
+    const presentation = unitPresentation(level, key, language)
+    const card = document.createElement('div')
+    card.className = 'popup unit-popup'
+    card.setAttribute('role', 'tooltip')
+    const title = document.createElement('strong')
+    title.className = 'unit-title'
+    title.textContent = presentation.primary
+    const context = document.createElement('small')
+    context.className = 'unit-context'
+    context.textContent = [presentation.level, presentation.route].filter(Boolean).join(' · ')
+    const value = document.createElement('div')
+    value.className = 'unit-value'
+    const population = document.createElement('div')
+    population.className = 'unit-population'
+    population.textContent = `${language === 'es' ? 'Población' : 'Population'}: ${
+      properties.population == null ? copy[language].noData : integer.format(Number(properties.population))}`
+    card.append(title, context, value, population)
+    const assigned = Number(properties.assigned_population) || 0
+    if (assigned > 0) {
+      const note = document.createElement('div')
+      note.className = 'unit-note'
+      note.textContent = language === 'es'
+        ? `${integer.format(assigned)} personas de manzanas sin polígono: población asignada a nivel de sector`
+        : `${integer.format(assigned)} people from blocks without polygons: assigned at sector level`
+      card.append(note)
+    }
+    if (indicator === 'density') {
+      const density = properties.density == null ? copy[language].noData
+        : `${formatValue(Number(properties.density))} hab./km²`
+      value.textContent = `${copy[language].density}: ${density}`
+    } else {
+      const definition = byId.get(indicator)!
+      const sourceLevel = indicatorAvailable(definition.min_level, level) ? level
+        : definition.min_level as Level
+      const sourceKey = unitKeyAtLevel(key, sourceLevel)
+      value.textContent = `${definition.name[language]}: …`
+      if (sourceLevel !== level) {
+        const note = document.createElement('div')
+        note.className = 'unit-note'
+        note.textContent = language === 'es'
+          ? `Dato de ${levelLabel(sourceLevel, language).toLowerCase()}: disponible desde ese nivel`
+          : `Value from ${levelLabel(sourceLevel, language).toLowerCase()}: available at that level`
+        card.append(note)
+      }
+      void indicatorFile(base, sourceLevel,
+        sourceLevel === 'sector' || sourceLevel === 'manzana' ? sourceKey.slice(0, 2) : undefined)
+        .then(file => {
+          const cell = file.cell(sourceKey, indicator)
+          value.textContent = `${definition.name[language]}: ${cell?.value == null
+            ? copy[language].noData : formatValue(cell.value)}`
+          if (cell?.status === 1) {
+            const note = document.createElement('div')
+            note.className = 'unit-note'
+            note.textContent = copy[language].small
+            card.append(note)
+          }
+        }).catch(error => { value.textContent = `${definition.name[language]}: ${String(error)}` })
+    }
+    return card
+  }
+  let hoverPopup: maplibregl.Popup | null = null
+  let hoveredSignature = ''
   map.on('load', sync)
   map.on('moveend', () => { sectorFallback = false; sync() })
   map.on('idle', () => {
@@ -706,10 +773,27 @@ async function start() {
     }
   })
   map.on('mousemove', event => {
-    if (selection.mode === 'circle' || selection.mode === 'lasso') return
+    if (selection.mode === 'circle' || selection.mode === 'lasso') {
+      hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''; return
+    }
     const layers = [...active].map(id => `${id}-fill`)
-    map.getCanvas().style.cursor = layers.length && map.queryRenderedFeatures(event.point, { layers }).length
-      ? 'pointer' : ''
+    const feature = layers.length ? map.queryRenderedFeatures(event.point, { layers })[0] : null
+    map.getCanvas().style.cursor = feature ? 'pointer' : ''
+    const key = String(feature?.properties?.unit_key ?? '')
+    if (!key) { hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''; return }
+    const signature = `${currentLevel}:${key}:${indicator}:${language}`
+    if (hoveredSignature !== signature) {
+      hoverPopup?.remove()
+      hoverPopup = new maplibregl.Popup({ closeButton: false, closeOnClick: false,
+        maxWidth: '320px', offset: 14 })
+        .setLngLat(event.lngLat)
+        .setDOMContent(unitCard(currentLevel, key, feature!.properties as Record<string, unknown>))
+        .addTo(map)
+      hoveredSignature = signature
+    } else hoverPopup?.setLngLat(event.lngLat)
+  })
+  map.getCanvas().addEventListener('mouseleave', () => {
+    hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''
   })
   map.on('click', async event => {
     if (selection.mode === 'circle' || selection.mode === 'lasso') return
@@ -718,47 +802,14 @@ async function start() {
     const feature = map.queryRenderedFeatures(event.point, { layers })[0]
     const p = feature?.properties
     if (!p) return
+    hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''
     await selection.click(feature)
     if (selection.mode === 'multi') return
     const level = currentLevel
     selectedKey = String(p.unit_key)
     renderBreadcrumb()
     saveHash(map)
-    const people = p.population == null ? 'Sin dato' : integer.format(Number(p.population))
-    const density = p.density == null ? 'Sin dato' : decimal.format(Number(p.density))
-    const card = document.createElement('div')
-    card.className = 'popup'
-    const title = document.createElement('small')
-    title.textContent = `${names[level]} · ${selectedKey}`
-    const number = document.createElement('strong')
-    number.textContent = people
-    const label = document.createElement('span')
-    label.textContent = language === 'es' ? 'personas' : 'people'
-    const detail = document.createElement('div')
-    detail.textContent = `${density} hab./km²`
-    card.append(title, number, label, detail)
-    if (Number(p.assigned_population) > 0) {
-      const note = document.createElement('div')
-      note.className = 'popup-note'
-      note.textContent = `${integer.format(Number(p.assigned_population))} personas de manzanas sin polígono asignadas al sector`
-      card.append(note)
-    }
-    if (indicator !== 'density') {
-      try {
-        const file = await indicatorFile(base, level,
-          level === 'sector' || level === 'manzana' ? selectedKey.slice(0, 2) : undefined)
-        const cell = file.cell(selectedKey, indicator)
-        const value = document.createElement('div')
-        value.textContent = `${byId.get(indicator)!.name[language]}: ${cell?.value == null ? copy[language].noData : formatValue(cell.value)}`
-        card.append(value)
-        if (cell?.status === 1) {
-          const warning = document.createElement('div')
-          warning.className = 'popup-note'
-          warning.textContent = copy[language].small
-          card.append(warning)
-        }
-      } catch (error) { statusEl.textContent = String(error) }
-    }
+    const card = unitCard(level, selectedKey, p as Record<string, unknown>)
     new maplibregl.Popup({ maxWidth: '290px' }).setLngLat(event.lngLat)
       .setDOMContent(card).addTo(map)
   })
