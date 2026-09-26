@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from aggregation import Aggregate
 
-LEVELS = ("manzana", "sector", "parroquia", "canton", "provincia", "nacion")
+LEVELS = ("manzana", "sector", "zona", "parroquia", "canton", "provincia", "nacion")
 
 
 @dataclass(frozen=True)

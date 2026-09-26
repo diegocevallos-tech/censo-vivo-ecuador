@@ -6,7 +6,9 @@ Los archivos del Release público `data-derived-v1b1` contienen **conteos agrega
 
 ## Niveles y claves
 
-`finest/` combina manzanas con polígono y sectores para localidades dispersas, códigos ocultos `888` y las 1.852 manzanas sin polígono. `sector/`, `parroquia/`, `canton/`, `provincia/` y `nacion/` son sumas exactas del nivel fino. La longitud de `unit_key` es 15 para manzana, 12 para sector, 6 para parroquia, 4 para cantón, 2 para provincia y `EC` para nación. La clave une las estadísticas con la cartografía; ningún archivo de conteos contiene geometría. Todas las filas llevan `geom_version = "marco-2021"`. Una futura cartografía 2022 requerirá regenerar los tiles, no los conteos.
+`finest/` combina manzanas con polígono y sectores para localidades dispersas, códigos ocultos `888` y las 1.852 manzanas sin polígono. `sector/`, `zona/`, `parroquia/`, `canton/`, `provincia/` y `nacion/` son sumas exactas del nivel fino. La longitud de `unit_key` es 15 para manzana, 12 para sector, 9 para zona (`I01`–`I04`), 6 para parroquia, 4 para cantón, 2 para provincia y `EC` para nación. La clave une las estadísticas con la cartografía; ningún archivo de conteos contiene geometría. Todas las filas llevan `geom_version = "marco-2021"`. Una futura cartografía 2022 requerirá regenerar los tiles, no los conteos.
+
+El Parquet ancho de zona se publica en `counts/v1b1/zona/data.parquet`. El detalle categórico y los cruces se generan desde sector para precalcular los 45 indicadores; para consultas SQL en Pages, se obtienen por suma de las tablas publicadas de menor nivel agrupando por el prefijo de nueve caracteres. No se duplica ese detalle en Pages: el presupuesto de Parquet sigue por debajo de 150 MB.
 
 Las claves de sector con `888` se conservan en las sumas superiores aunque no tengan polígono. `asignado_a_sector` indica que alguna de las 1.852 manzanas reales sin polígono contribuye al sector. El visor debe indicar «población asignada a nivel de sector»; sus 36.040 personas y 18.701 viviendas están incluidas en todas las sumas superiores. `geografia_oculta` señala códigos `888`, sin crearles una geometría. `unit_index` es un entero consecutivo por provincia y nivel que enlaza tabla ancha, categorías y geometrías mediante la clave disponible en la tabla ancha; se reinicia en cada archivo provincial.
 
@@ -18,7 +20,7 @@ Cada conteo numérico usa el menor tipo Parquet sin signo que admite el máximo 
 | --- | --- | --- | --- |
 | `unit_index` | uint8/uint16 | Índice de unidad dentro del archivo de nivel y provincia | Derivado de `unit_key` |
 | `unit_key` | VARCHAR | Clave de la unidad | `I01`–`I06` |
-| `unit_level` | VARCHAR | `manzana`, `sector_disperso`, `sector`, `parroquia`, `canton`, `provincia` o `nacion` | `I01`–`I06` |
+| `unit_level` | VARCHAR | `manzana`, `sector_disperso`, `sector`, `zona`, `parroquia`, `canton`, `provincia` o `nacion` | `I01`–`I06` |
 | `province_key` | VARCHAR | Provincia; nulo en nación | `I01` |
 | `canton_key` | VARCHAR | Cantón; nulo por encima de cantón | `I01`, `I02` |
 | `parish_key` | VARCHAR | Parroquia; nulo por encima de parroquia | `I01`–`I03` |

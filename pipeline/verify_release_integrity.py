@@ -11,7 +11,7 @@ from counts_schema import NUMERIC_FIELDS
 
 ROOT = Path(__file__).resolve().parents[1]
 PROVINCES = tuple(f"{index:02d}" for index in range(1, 25))
-CORE_LEVELS = ("finest", "sector", "parroquia", "canton", "provincia", "nacion")
+CORE_LEVELS = ("finest", "sector", "zona", "parroquia", "canton", "provincia", "nacion")
 
 
 def sqlpath(path: Path) -> str:
@@ -49,7 +49,8 @@ def core_views(connection: duckdb.DuckDBPyConnection, root: Path) -> None:
 def check_core(connection: duckdb.DuckDBPyConnection) -> None:
     hierarchy = (
         ("finest", "sector", "sector_key"),
-        ("sector", "parroquia", "parish_key"),
+        ("sector", "zona", "LEFT(unit_key,9)"),
+        ("zona", "parroquia", "parish_key"),
         ("parroquia", "canton", "canton_key"),
         ("canton", "provincia", "province_key"),
         ("provincia", "nacion", "'EC'"),
