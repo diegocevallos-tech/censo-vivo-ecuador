@@ -29,15 +29,16 @@
 19. [PR #54](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/54) abierto desde `main`. El commit `b991183` no añade blobs mayores de 1 MB. [Checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36246491290) y [devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36246491257) pasaron para `cf03c8d`; el último cambio es solo documental. El deploy de producción se activa automáticamente tras la fusión en `main`.
 20. #54 se fusionó con squash en `58097a3` y se borró la rama remota. El [deploy v2c](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36247226599) pasó. El E2E de tooltip sobre producción pasó 5 casos, sin errores JS; las capturas de sector y el resultado JSON se actualizaron en `docs/capturas/`.
 21. Auditoría de I04: los 53.513 sectores censales forman 5.929 claves de zona; `zon_a` del Marco 2021 tiene 5.888 polígonos, 5.885 con conteos. Las 44 zonas estadísticas sin polígono (5.138 personas) se conservan en los agregados, sin geometría inventada. [Informe](docs/qa/zona_i04.md).
-22. `13_zona.py` generó Parquet exacto de zona (397.085 B) y los insumos intermedios; `14_zona_tiles.py` generó 9.294.084 B de PMTiles mediante tippecanoe v2.79.0. El índice suma 45 indicadores de 5.929 zonas (1.422.971 B). `15_package_zona.py` preparó `data-derived-v2d` (447.948.448 B en Pages), con Parquet 149.529.581/150.000.000 B. QA de sector→zona→parroquia: diferencia cero; 13 tests Python, 10 TS, build, lint y 6 E2E de tooltip local pasaron. El Release todavía no está publicado.
+22. `13_zona.py` generó Parquet exacto de zona (397.085 B) y los insumos intermedios; `14_zona_tiles.py` generó 9.294.084 B de PMTiles mediante tippecanoe v2.79.0. El índice suma 45 indicadores de 5.929 zonas (1.422.971 B). `15_package_zona.py` preparó `data-derived-v2d` (447.948.448 B en Pages), con Parquet 149.529.581/150.000.000 B. QA de sector→zona→parroquia: diferencia cero; 13 tests Python, 10 TS, build, lint y 6 E2E de tooltip local pasaron.
+23. [Release público v2d](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2d) publicado y descargado de nuevo. Se restauraron 397 archivos agregados con SHA256 correctos; el verificador rechazó cualquier esquema de microdatos y confirmó 447.948.448 B.
 
 ## Siguiente comando exacto
 
 ```sh
-gh release create data-derived-v2d data/interim/release_public_v2d/*.tar.gz --repo diegocevallos-tech/censo-vivo-ecuador --title "Datos derivados v2d · zona I04" --notes "Agregados censales oficiales por zona I04, PMTiles y 45 indicadores; sin microdatos. Véase docs/qa/zona_i04.md."
+git push -u origin feat/zona-censal-i04
 ```
 
-Publicar el Release v2d, volver a descargarlo y verificar SHA256, abrir PR de zona, esperar CI y probar en preview/producción. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. Después seguir con 2C y la optimización móvil #51, en ese orden. Esperar el informe de Antigravity antes de añadir límites municipales urbanos.
+Abrir PR de zona tras el push, esperar CI y probar en preview/producción. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. Después seguir con 2C y la optimización móvil #51, en ese orden. Esperar el informe de Antigravity antes de añadir límites municipales urbanos.
 
 ## Archivos tocados en 1B-3
 
