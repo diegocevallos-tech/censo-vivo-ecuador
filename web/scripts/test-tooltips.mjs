@@ -29,11 +29,12 @@ try {
     await page.locator('#level').waitFor({ state: 'visible' })
     await page.waitForTimeout(2200)
     let found = false
+    let foundAt = [720, 450]
     for (const [dx, dy] of [[0, 0], [10, 0], [-10, 0], [0, 10], [0, -10]]) {
       await page.mouse.move(720 + dx, 450 + dy)
       if (await page.locator('.unit-popup .unit-title').count()) {
         const title = await page.locator('.unit-popup .unit-title').innerText()
-        if (title === item.title) { found = true; break }
+        if (title === item.title) { found = true; foundAt = [720 + dx, 450 + dy]; break }
       }
     }
     if (!found) throw new Error(`${item.level} ${item.key}: title absent; got ${
@@ -41,6 +42,18 @@ try {
     const context = await page.locator('.unit-popup .unit-context').innerText()
     const value = await page.locator('.unit-popup .unit-value').innerText()
     const population = await page.locator('.unit-popup .unit-population').innerText()
+    const hoverBounds = await page.locator('.unit-hover-popup').boundingBox()
+    if (!hoverBounds || hoverBounds.width > 240) {
+      throw new Error(`${item.level}: tooltip width ${hoverBounds?.width ?? 'missing'} > 240 px`)
+    }
+    if (item.level === 'provincia') {
+      await page.mouse.move(foundAt[0] + 6, foundAt[1])
+      const movedBounds = await page.locator('.unit-hover-popup').boundingBox()
+      if (!movedBounds || Math.abs(movedBounds.x - hoverBounds.x) < 3) {
+        throw new Error('Tooltip did not follow the cursor')
+      }
+      await page.mouse.move(foundAt[0], foundAt[1])
+    }
     if (context !== item.route || !value.includes('Densidad de población') ||
         !population.includes('Población:')) {
       throw new Error(`${item.level}: ${context} / ${value} / ${population}`)
@@ -49,6 +62,9 @@ try {
     await page.mouse.click(720, 450)
     if (item.level === 'parroquia') {
       await page.locator('#analysis-content h3').waitFor({ timeout: 15000 })
+      if (await page.locator('.maplibregl-popup').count()) {
+        throw new Error('Detail reopened in a map popup instead of the analysis panel')
+      }
       const analysis = await page.locator('#analysis-content h3').innerText()
       const analysisRoute = await page.locator('.analysis-place-context').innerText()
       const analysisMetric = await page.locator('.analysis-place-metric').innerText()
@@ -61,7 +77,7 @@ try {
       await page.screenshot({ path: resolve(output, 'tooltip-analisis-parroquia.png') })
     }
     results.push({ level: item.level, key: item.key, title: item.title, context,
-      value, population })
+      value, population, tooltip_width_px: hoverBounds.width })
     await page.close()
   }
   const sector = cases.at(-1)
@@ -74,6 +90,28 @@ try {
     .waitFor({ timeout: 10000 })
   results.push({ level: 'sector-min-level', note: await page.locator('.unit-popup .unit-note').innerText() })
   await page.close()
+  const variablePage = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+  variablePage.on('pageerror', error => errors.push(`variable: ${error.message}`))
+  await variablePage.goto(`${root}#map=${sector.camera}`, { waitUntil: 'domcontentloaded' })
+  await variablePage.locator('.explorer-tab[data-tab="variables"]').click()
+  await variablePage.locator('#variable-select').selectOption('V03')
+  await variablePage.waitForTimeout(2000)
+  await variablePage.mouse.move(720, 450)
+  await variablePage.locator('.unit-popup .unit-value').filter({ hasText: 'Material predominante' })
+    .waitFor({ timeout: 10000 })
+  const variableBounds = await variablePage.locator('.unit-hover-popup').boundingBox()
+  if (!variableBounds || variableBounds.width > 240) {
+    throw new Error(`Variable tooltip width ${variableBounds?.width ?? 'missing'} > 240 px`)
+  }
+  await variablePage.screenshot({ path: resolve(output, 'tooltip-variable.png') })
+  await variablePage.mouse.click(720, 450)
+  await variablePage.locator('.variable-distribution').waitFor({ timeout: 15000 })
+  if (await variablePage.locator('.maplibregl-popup').count()) {
+    throw new Error('Variable detail reopened in a map popup')
+  }
+  results.push({ level: 'variable-sector', tooltip_width_px: variableBounds.width,
+    detail: 'analysis panel' })
+  await variablePage.close()
   if (errors.length) throw new Error(`Browser errors: ${errors.join('; ')}`)
   writeFileSync(resolve(output, 'tooltip-results.json'), JSON.stringify({ root, results, errors }, null, 2))
   console.log(JSON.stringify({ passed: results.length, errors }))

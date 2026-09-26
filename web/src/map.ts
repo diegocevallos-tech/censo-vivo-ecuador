@@ -1143,7 +1143,7 @@ async function start() {
     if (hoveredSignature !== signature) {
       hoverPopup?.remove()
       hoverPopup = new maplibregl.Popup({ closeButton: false, closeOnClick: false,
-        maxWidth: '320px', offset: 14 })
+        className: 'unit-hover-popup', maxWidth: '240px', offset: 14 })
         .setLngLat(event.lngLat)
         .setDOMContent(unitCard(currentLevel, key, feature!.properties as Record<string, unknown>))
         .addTo(map)
@@ -1163,13 +1163,9 @@ async function start() {
     hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''
     await selection.click(feature)
     if (selection.mode === 'multi') return
-    const level = currentLevel
     selectedKey = String(p.unit_key)
     renderBreadcrumb()
     saveHash(map)
-    const card = unitCard(level, selectedKey, p as Record<string, unknown>)
-    new maplibregl.Popup({ maxWidth: '290px' }).setLngLat(event.lngLat)
-      .setDOMContent(card).addTo(map)
   })
   map.on('error', event => { statusEl.textContent = `Error de cartografía: ${event.error?.message ?? 'desconocido'}` })
 }
