@@ -4,7 +4,7 @@
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
 - [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene 2B mediante el [deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596). El Release público vigente es [`data-derived-v2a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a), 436.512.440 bytes. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: documentación y capturas del smoke de producción en la rama `docs/fase-2-smoke`; después, PR `fix/1b2-auditoria`, agregado cantonal de Emigración en el próximo Release y tag `fase-2`.
+- Subtarea actual: [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) `fix/1b2-auditoria` desde `main` posterior al smoke. El tag `fase-2` apunta al commit `c82b55e` de `main`. El agregado cantonal de Emigración está publicado en [`data-derived-v2b`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2b).
 
 ## Pasos terminados
 
@@ -23,15 +23,20 @@
 13. Los dos checks de #50 pasaron (build devcontainer 4 min 13 s; checks públicos 58 s). Se detectó una ausencia en áreas rurales sin manzanas: a zoom fino la vista estaba vacía. Se añadió fallback a sector cuando no hay ninguna manzana visible después de cargar los tiles; se probó clic exacto en Morona Santiago a zoom 14,3 y sin errores JavaScript. Los cambios se están verificando nuevamente en CI.
 14. #48, #49 y #50 fueron rebasados sobre `main` y fusionados por squash tras CI verde. #49 se reabrió después de que GitHub lo cerrara al borrar la rama base de #48; se retargeteó a `main`, se verificó y fusionó. #50 se retargeteó antes de borrar la rama base de #49. Las ramas de fase se borraron.
 15. [Deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596) exitoso. El [smoke de producción](docs/fase2_smoke_produccion.md) recorrió seis niveles, tres círculos, lazo, multiselección, 30 indicadores y URL compartida sin errores de consola; primera carga 487.698 bytes. Lighthouse escritorio: rendimiento 91, accesibilidad 94, LCP 1,26 s. Móvil: 47, 94, 4,89 s. La brecha móvil está en la [issue #51](https://github.com/diegocevallos-tech/censo-vivo-ecuador/issues/51).
-16. La auditoría [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) concluye «aprobar con correcciones»: Queen, 999 permutaciones, topología fija, seis índices canónicos, 16 grupos y gemelos a parroquia/cantón. No existe todavía el PR `fix/1b2-auditoria`. El agregado cantonal de Emigración se ensayó desde el Parquet parroquial agregado: 32.123 filas, 46.081 bytes, 124.992 emigrantes en ambos niveles.
+16. La auditoría [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) concluye «aprobar con correcciones»: Queen, 999 permutaciones, topología fija, seis índices canónicos, 16 grupos y gemelos a parroquia/cantón. El agregado cantonal de Emigración tiene 32.123 filas, 46.081 bytes y 124.992 emigrantes, idéntico total al perfil parroquial.
+17. El [smoke de producción](docs/fase2_smoke_produccion.md) y sus capturas quedaron fusionados mediante el PR #52. El [tag fase-2](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/fase-2) se creó en `c82b55e`. El PR #53 modifica el cálculo espacial a Queen con 999 permutaciones, genera 16 tipos y perfiles de gemelos parroquiales/cantonales; [detalle](docs/qa/correcciones_1b2.md).
+18. La regeneración espacial nacional completó 221 cantones y 52.864 sectores geométricos (98,787 % de los 53.513 sectores). La QA aditiva pasó con diferencia cero, 124.992 emigrantes coinciden entre perfiles cantonales y parroquiales, y 48 chunks de análisis pasaron. `data-derived-v2b` tiene cinco assets; descarga verificada por SHA256, restauración de 397 archivos verificada, sitio 439.002.993 bytes, todos los presupuestos satisfechos. El PR #53 queda pendiente de CI y aprobación; producción permanece con `data-derived-v2a`.
+19. Verificación del Release restaurado: aditividad exacta en los seis niveles, categorías exactas en 24 provincias, 48 chunks de conteo y 48 de análisis, 52 binarios de indicadores sin error. El primer CI de #53 falló porque el runner público no instalaba GeoPandas para los tests nuevos; se añadieron dependencias espaciales al paso de instalación de `.github/workflows/ci.yml` y se reejecutará.
+20. El segundo CI encontró una diferencia entre versiones de Pandas: `to_numpy()` devolvía un arreglo de solo lectura en Ubuntu. `regularize()` ahora copia el arreglo antes de reemplazar valores; esta corrección conserva los resultados numéricos ya publicados.
+21. La ejecución final del PR #53 está en verde: [checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36213602623) en 1 min 26 s y [devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36213602631) en 4 min 29 s. Ambos verificaron el commit `ddb4012`. El PR permanece abierto para aprobación; no iniciar Fase 3 ni desplegar `data-derived-v2b` en producción antes de su fusión.
 
 ## Siguiente comando exacto
 
 ```sh
-git add HANDOFF.md docs/fase2_smoke_produccion.md docs/capturas web/scripts/smoke-production.mjs
+gh pr checks 53 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Crear el PR de documentación del smoke y verificar CI. Luego abrir `fix/1b2-auditoria` sin tocar `feat/auditoria-1b2`; preparar el agregado cantonal en el siguiente Release y taguear `fase-2` desde el `main` documentado.
+Verificar el CI del último commit documental y mantener abierto el PR #53 hasta aprobación del usuario. No iniciar Fase 3 ni tocar `feat/auditoria-1b2`.
 
 ## Archivos tocados en 1B-3
 
@@ -43,6 +48,7 @@ Crear el PR de documentación del smoke y verificar CI. Luego abrir `fix/1b2-aud
 - 2A: `pipeline/09_indicator_map_index.py`, `09_places.py`, `09_package_v2a.py`, `09_qa_indicator_map.py`, `pipeline/verify_public_artifacts.py`, `web/src/indicatorMaps.ts`, `map.ts`, `style.css`, `web/src/generated/places.json`, `docs/fase2a_report.md`, `docs/qa/fase2a_mapa.png`, `data/DERIVED_MANIFEST.json`.
 - 2B: `.github/workflows/ci.yml`, `pipeline/10_national_profile.py`, `web/package.json`, `web/package-lock.json`, `web/eslint.config.mjs`, `web/src/map.ts`, `selection.ts`, `countChunks.ts`, `analysisPanel.ts`, `style.css`, `web/src/generated/nationalProfile.json`, `docs/fase2b_report.md`, `docs/qa/fase2b_mapa.png`, `docs/qa/fase2b_movil.png`.
 - Smoke producción: `docs/fase2_smoke_produccion.md`, `docs/capturas/`, `web/scripts/smoke-production.mjs`, `HANDOFF.md`.
+- Corrección 1B-2 en PR #53: `.github/workflows/ci.yml`, `pipeline/03b_mobility.py`, `04_geodemographics.py`, `05_spatial_stats.py`, `06_qa_phase1b2.py`, `10_package_v2b.py`, `twin_search.py`, `verify_public_artifacts.py`, `tests/test_phase1b2_audit.py`, `data/DERIVED_MANIFEST.json`, `docs/qa/correcciones_1b2.md`, `HANDOFF.md`.
 
 ## Decisiones pendientes
 

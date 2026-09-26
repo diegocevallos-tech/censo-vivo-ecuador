@@ -6,22 +6,24 @@ import argparse
 from pathlib import Path
 
 import duckdb
+import geopandas as gpd
 import numpy as np
 import pandas as pd
 import pyogrio
 from counts_schema import AGE_LABELS
 from esda.moran import Moran, Moran_Local
-from libpysal.weights import KNN
+from libpysal.weights import Queen, W
+from scipy.spatial import cKDTree
 
 ROOT = Path(__file__).resolve().parents[1]
 GPKG = ROOT / "data/raw/GEODATABASE_NACIONAL_2021/GEODATABASE_NACIONAL_2021.gpkg"
 DEFAULT_OUTPUT = ROOT / "data/interim/spatial_v1b2"
 INDICES = (
-    "overcrowding", "vacancy", "female_headship", "illiteracy_15_plus",
-    "internet_use_5_plus", "aging_index",
+    "aging_index", "higher_education_25_plus", "without_fixed_internet",
+    "overcrowding", "vacant_private_dwellings", "potential_solitude_65",
 )
 MIN_CASES = 30
-PERMUTATIONS = 99
+PERMUTATIONS = 999
 SEED = 2022
 
 
@@ -29,17 +31,50 @@ def quote(path: Path) -> str:
     return path.resolve().as_posix().replace("'", "''")
 
 
-def read_sectors(path: Path) -> pd.DataFrame:
+def read_sectors(path: Path) -> gpd.GeoDataFrame:
     geometry = pyogrio.read_dataframe(path, layer="sec_a", columns=["sec"])
     if geometry.crs is None or not geometry.crs.is_projected:
-        raise ValueError("Sector geometry needs a projected CRS for kNN distances")
-    centroids = geometry.geometry.centroid
-    sector = pd.DataFrame({
-        "unit_key": geometry["sec"], "x": centroids.x, "y": centroids.y,
-    }).drop_duplicates("unit_key")
+        raise ValueError("Sector geometry needs a projected CRS for island distances")
+    sector = geometry.rename(columns={"sec": "unit_key"})[
+        ["unit_key", "geometry"]
+    ].drop_duplicates("unit_key")
     if sector.unit_key.isna().any() or sector.unit_key.duplicated().any():
         raise AssertionError("Sector geometry keys are missing or duplicated")
     return sector
+
+
+def queen_with_islands(units: gpd.GeoDataFrame) -> tuple[W, int]:
+    """One polygon topology per canton; connect only Queen islands to nearest polygon."""
+    queen = Queen.from_dataframe(units, use_index=False, silence_warnings=True)
+    neighbors = {int(key): list(value) for key, value in queen.neighbors.items()}
+    islands = tuple(queen.islands)
+    if islands:
+        centers = units.geometry.centroid
+        points = np.column_stack((centers.x.to_numpy(), centers.y.to_numpy()))
+        tree = cKDTree(points)
+        for island in islands:
+            _, near = tree.query(points[island], k=min(2, len(points)))
+            candidates = np.atleast_1d(near)
+            neighbor = next((int(value) for value in candidates if value != island), None)
+            if neighbor is None:
+                raise AssertionError("An island has no other polygon in its canton")
+            neighbors[island].append(neighbor)
+            neighbors[neighbor].append(island)
+    weights = W(neighbors, id_order=list(range(len(units))), silence_warnings=True)
+    weights.transform = "R"
+    return weights, len(islands)
+
+
+def regularize(values: pd.Series, denominators: pd.Series) -> tuple[np.ndarray, int] | None:
+    """Keep topology fixed; replace unreliable rates with the valid canton mean."""
+    rate = pd.to_numeric(values, errors="coerce").to_numpy(dtype=float).copy()
+    n = pd.to_numeric(denominators, errors="coerce").to_numpy(dtype=float)
+    reliable = np.isfinite(rate) & np.isfinite(n) & (n >= MIN_CASES)
+    if not reliable.any():
+        return None
+    reference = float(np.average(rate[reliable], weights=n[reliable]))
+    rate[~reliable] = reference
+    return rate, int((~reliable).sum())
 
 
 def load_rates(counts: Path, cross: Path, categories: Path) -> pd.DataFrame:
@@ -62,16 +97,17 @@ def load_rates(counts: Path, cross: Path, categories: Path) -> pd.DataFrame:
         "low_school_25": frame.school_low_25,
         "high_school_25": frame.school_high_25,
         "overcrowding": frame.overcrowded / denominator("crowding_valid") * 100,
-        "vacancy": frame.vacant / denominator("dwellings_valid") * 100,
-        "female_headship": frame.female_heads / denominator("all_heads") * 100,
-        "illiteracy_15_plus": frame.illiterate_15 / denominator("literacy_response_15") * 100,
-        "internet_use_5_plus": frame.internet_person_5 / denominator("internet_response_5") * 100,
+        "vacant_private_dwellings": frame.vacant / denominator("dwellings_valid") * 100,
+        "higher_education_25_plus": frame.school_high_25 / denominator("school_n_25") * 100,
+        "without_fixed_internet": frame.no_fixed_internet /
+            (frame.fixed_internet + frame.no_fixed_internet).replace(0, np.nan) * 100,
+        "potential_solitude_65": frame.solitary_65 / denominator("all_65") * 100,
         "aging_index": all_65 / all_0_14.replace(0, np.nan) * 100,
         "n_overcrowding": frame.crowding_valid,
-        "n_vacancy": frame.dwellings_valid,
-        "n_female_headship": frame.all_heads,
-        "n_illiteracy_15_plus": frame.literacy_response_15,
-        "n_internet_use_5_plus": frame.internet_response_5,
+        "n_vacant_private_dwellings": frame.dwellings_valid,
+        "n_higher_education_25_plus": frame.school_n_25,
+        "n_without_fixed_internet": frame.fixed_internet + frame.no_fixed_internet,
+        "n_potential_solitude_65": frame.all_65,
         "n_aging_index": all_0_14,
     })
     return rates
@@ -92,8 +128,10 @@ def build(geometry: Path, counts: Path, cross: Path, categories: Path,
     output.mkdir(parents=True, exist_ok=True)
     sectors = read_sectors(geometry)
     rates = load_rates(counts, cross, categories)
-    matched = rates.merge(sectors, on="unit_key", how="left", validate="one_to_one")
-    matched_count = int(matched.x.notna().sum())
+    matched = gpd.GeoDataFrame(rates.merge(
+        sectors, on="unit_key", how="left", validate="one_to_one"
+    ), geometry="geometry", crs=sectors.crs)
+    matched_count = int(matched.geometry.notna().sum())
     if matched_count / len(rates) < .95:
         raise AssertionError("Fewer than 95% of sector units match Marco 2021 geometry")
     global_rows = []
@@ -104,23 +142,20 @@ def build(geometry: Path, counts: Path, cross: Path, categories: Path,
             "unit_key": canton, "dissimilarity_education": dissimilarity(all_units),
             "sectors": len(all_units), "geom_version": "marco-2021",
         })
+        units = all_units.loc[all_units.geometry.notna()].reset_index(drop=True)
+        weights, islands = queen_with_islands(units) if len(units) >= 4 else (None, 0)
         for index in INDICES:
-            units = all_units.loc[
-                all_units.x.notna() & all_units[index].notna()
-                & (all_units[f"n_{index}"] >= MIN_CASES)
-            ].reset_index(drop=True)
-            if len(units) < 4 or units[index].nunique() < 2:
+            prepared = regularize(units[index], units[f"n_{index}"])
+            if len(units) < 4 or prepared is None or np.unique(prepared[0]).size < 2:
                 global_rows.append({
                     "unit_key": canton, "indicator": index, "sectors": len(units),
                     "moran_i": None, "permutation_p": None,
+                    "regularized_sectors": None if prepared is None else prepared[1],
+                    "queen_islands_connected": islands,
                     "geom_version": "marco-2021",
                 })
                 continue
-            k = min(8, len(units) - 1)
-            points = units[["x", "y"]].to_numpy()
-            weights = KNN.from_array(points, k=k)
-            weights.transform = "R"
-            values = units[index].to_numpy(dtype=float)
+            values, regularized = prepared
             np.random.seed(SEED)
             global_moran = Moran(values, weights, permutations=permutations)
             local_moran = Moran_Local(
@@ -130,6 +165,8 @@ def build(geometry: Path, counts: Path, cross: Path, categories: Path,
                 "unit_key": canton, "indicator": index, "sectors": len(units),
                 "moran_i": float(global_moran.I),
                 "permutation_p": float(global_moran.p_sim),
+                "regularized_sectors": regularized,
+                "queen_islands_connected": islands,
                 "geom_version": "marco-2021",
             })
             quadrant = {1: "alto-alto", 2: "bajo-alto", 3: "bajo-bajo", 4: "alto-bajo"}
@@ -139,6 +176,7 @@ def build(geometry: Path, counts: Path, cross: Path, categories: Path,
                     "unit_key": row.unit_key, "canton_key": canton, "indicator": index,
                     "value": float(values[number]), "local_i": float(local_moran.Is[number]),
                     "permutation_p": p,
+                    "regularized": bool(units[f"n_{index}"].iloc[number] < MIN_CASES),
                     "cluster": quadrant[int(local_moran.q[number])] if p < .05 else "sin señal",
                     "geom_version": "marco-2021",
                 })
@@ -158,7 +196,7 @@ def build(geometry: Path, counts: Path, cross: Path, categories: Path,
         "sector_units": len(rates), "geometry_matches": matched_count,
         "geometry_match_percent": round(100 * matched_count / len(rates), 3),
         "cantons": len(dissimilarity_rows), "indicators": list(INDICES),
-        "permutations": permutations,
+        "permutations": permutations, "topology": "Queen with nearest-centroid island links",
         "significant_lisa": int(sum(row["cluster"] != "sin señal" for row in local_rows)),
     }
     if not all(0 <= row["dissimilarity_education"] <= 1 for row in dissimilarity_rows

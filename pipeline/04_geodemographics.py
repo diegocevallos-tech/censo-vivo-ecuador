@@ -68,11 +68,14 @@ def portrait_terms(means: np.ndarray) -> list[str]:
     return [label for label, _ in sorted(candidates, key=lambda item: -item[1])]
 
 
-def load_aggregate(counts: Path, cross: Path, categories: Path) -> pd.DataFrame:
+def load_aggregate(counts: Path, cross: Path, categories: Path,
+                   level: str = "sector") -> pd.DataFrame:
     db = duckdb.connect()
-    core = quote(counts / "sector/*.parquet")
-    cross_path = quote(cross / "sector/data.parquet")
-    category_path = quote(categories / "**/*.parquet")
+    if level not in {"sector", "parroquia", "canton"}:
+        raise ValueError(level)
+    core = quote(counts / level / "*.parquet")
+    cross_path = quote(cross / level / "data.parquet")
+    category_path = quote(categories.parent / level / "**/*.parquet")
     selected = {
         "vacant": ("vivienda", "V0201", ["4"]),
         "dwellings_valid": ("vivienda", "V0201", [str(i) for i in range(1, 6)]),
@@ -83,6 +86,8 @@ def load_aggregate(counts: Path, cross: Path, categories: Path) -> pd.DataFrame:
         "household_type_valid": ("hogar", "TIPO_HOGAR", [str(i) for i in range(1, 6)]),
         "overcrowded": ("hogar", "HAC", ["1"]),
         "crowding_valid": ("hogar", "HAC", ["1", "2"]),
+        "fixed_internet": ("hogar", "H1004", ["1"]),
+        "no_fixed_internet": ("hogar", "H1004", ["2"]),
     }
     expressions = []
     for field, (table, variable, codes) in selected.items():
@@ -96,7 +101,7 @@ def load_aggregate(counts: Path, cross: Path, categories: Path) -> pd.DataFrame:
       SELECT unit_key,{','.join(expressions)}
       FROM read_parquet('{category_path}')
       WHERE (source_table='vivienda' AND variable='V0201')
-        OR (source_table='hogar' AND variable IN ('H09','TIPO_HOGAR','HAC'))
+        OR (source_table='hogar' AND variable IN ('H09','TIPO_HOGAR','HAC','H1004'))
       GROUP BY unit_key
     )
     SELECT c.*, x.* EXCLUDE(unit_key,geom_version),
@@ -107,8 +112,9 @@ def load_aggregate(counts: Path, cross: Path, categories: Path) -> pd.DataFrame:
     ORDER BY c.unit_key
     """
     frame = db.execute(query).df()
-    if len(frame) != 53_513 or int(frame.population.sum()) != 16_938_986:
-        raise AssertionError("Sector typology input differs from official census totals")
+    expected = {"sector": 53_513, "parroquia": 1_042, "canton": 221}[level]
+    if len(frame) != expected or int(frame.population.sum()) != 16_938_986:
+        raise AssertionError(f"{level} typology input differs from official census totals")
     return frame
 
 
@@ -202,7 +208,9 @@ def build(counts: Path, cross: Path, categories: Path, output: Path) -> dict:
     rng = np.random.default_rng(SEED)
     sample_ids = rng.choice(np.flatnonzero(reliable),
                             size=min(2400, int(reliable.sum())), replace=False)
-    selected_k, diagnostics = select_k(vectors[sample_ids])
+    diagnostic_k, diagnostics = select_k(vectors[sample_ids])
+    # Eight supergroups with two nested groups each form the agreed 16-group taxonomy.
+    selected_k = 8
     super_model = KMeans(n_clusters=selected_k, random_state=SEED, n_init=5).fit(
         vectors[reliable]
     )
@@ -264,6 +272,23 @@ def build(counts: Path, cross: Path, categories: Path, output: Path) -> dict:
         db.execute(f"COPY prepared TO '{quote(output / file)}' "
                    "(FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 12)")
         db.unregister("prepared")
+    for level in ("parroquia", "canton"):
+        area = load_aggregate(counts, cross, categories, level)
+        area_features = feature_matrix(area)
+        area_filled = area_features.fillna(medians).fillna(0)
+        area_vectors = scaler.transform(area_filled.clip(
+            lower=lower, upper=upper, axis=1
+        )).astype(np.float32)
+        area_profile = pd.DataFrame(area_vectors, columns=[
+            f"z_{name}" for name in FEATURE_NAMES
+        ])
+        area_profile.insert(0, "unit_key", area.unit_key)
+        area_profile.insert(1, "geom_version", "marco-2021")
+        area_profile.insert(2, "rank_eligible", area.population >= 100)
+        db.register("prepared", area_profile)
+        db.execute(f"COPY prepared TO '{quote(output / f'twin_profiles_{level}.parquet')}' "
+                   "(FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 12)")
+        db.unregister("prepared")
     result = {
         "geom_version": "marco-2021", "seed": SEED,
         "unit_level": "sector", "n_sectors": len(raw),
@@ -276,7 +301,8 @@ def build(counts: Path, cross: Path, categories: Path, output: Path) -> dict:
             "p01": dict(zip(FEATURE_NAMES, map(float, lower), strict=True)),
             "p99": dict(zip(FEATURE_NAMES, map(float, upper), strict=True)),
         },
-        "k_diagnostics": diagnostics, "selected_supergroups": selected_k,
+        "k_diagnostics": diagnostics, "diagnostic_k": diagnostic_k,
+        "selected_supergroups": selected_k,
         "subgroups_per_supergroup": 2, "clusters": portraits,
         "sovi_pca": {
             "features": SOVI_FEATURES,
