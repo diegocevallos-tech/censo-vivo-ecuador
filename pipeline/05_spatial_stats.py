@@ -67,7 +67,7 @@ def queen_with_islands(units: gpd.GeoDataFrame) -> tuple[W, int]:
 
 def regularize(values: pd.Series, denominators: pd.Series) -> tuple[np.ndarray, int] | None:
     """Keep topology fixed; replace unreliable rates with the valid canton mean."""
-    rate = pd.to_numeric(values, errors="coerce").to_numpy(dtype=float)
+    rate = pd.to_numeric(values, errors="coerce").to_numpy(dtype=float).copy()
     n = pd.to_numeric(denominators, errors="coerce").to_numpy(dtype=float)
     reliable = np.isfinite(rate) & np.isfinite(n) & (n >= MIN_CASES)
     if not reliable.any():
