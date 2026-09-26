@@ -16,6 +16,8 @@ export interface SelectionResult {
   assignedPopulation: number
   officialUnitKey?: string
   density?: number
+  coverages: Map<string, number>
+  assignedSectorKeys: string[]
 }
 
 interface Options {
@@ -220,7 +222,9 @@ export function createSelection(options: Options) {
     selected = new Set(selectedKeys)
     options.onHighlight(selected)
     options.onResult({ aggregate: result, unitCount: selectedKeys.length,
-      keys: selectedKeys, label, assignedPopulation, officialUnitKey, density })
+      keys: selectedKeys, label, assignedPopulation, officialUnitKey, density,
+      coverages, assignedSectorKeys: rows.filter(row => row.key.length === 12 &&
+        !coverages.has(row.key)).map(row => row.key) })
   }
 
   async function finishShape() {

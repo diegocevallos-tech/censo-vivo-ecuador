@@ -135,7 +135,9 @@ def verify(root: Path) -> None:
             if path.open("rb").read(7) != b"PMTiles":
                 raise ValueError(f"Invalid PMTiles header: {path}")
         elif path.suffix.lower() == ".bin":
-            if path.open("rb").read(5) not in {b"CVEB1", b"CVEP1", b"CVEL1", b"CVEI1"}:
+            if path.open("rb").read(5) not in {
+                b"CVEB1", b"CVEP1", b"CVEL1", b"CVEI1", b"CVEV1"
+            }:
                 raise ValueError(f"Invalid binary chunk header: {path}")
             if "indicator-maps" in path.parts:
                 import struct

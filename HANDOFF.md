@@ -4,7 +4,7 @@
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
 - [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene zona censal I04 mediante el [deploy 36249369071](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36249369071). El Release público vigente es [`data-derived-v2d`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2d), 447.948.448 bytes. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: rama `feat/fase-2c-variables` desde `main`, tras fusionar los [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55) y [#57](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/57). El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
+- Subtarea actual: rama `feat/fase-2c-variables` desde `main`, tras fusionar los [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55) y [#57](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/57). El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado. **2C es una fase de producto: el PR debe quedar abierto para aprobación.**
 
 ## Pasos terminados
 
@@ -35,14 +35,23 @@
 25. #55 pasó los dos checks, se fusionó con squash en `e95d36a` y desplegó a Pages. El E2E de seis tooltips pasó sobre producción. El smoke observó los siete niveles y 495.213 B de primera carga; la aserción sensible a mayúsculas se corrigió en el PR pequeño #57. Después el smoke completo pasó: círculos Quito/Guayaquil/rural, lazo, multiselección, 30 indicadores y URL restaurada, sin errores JS.
 26. El usuario concretó 2C: catálogo desde los cinco diccionarios INEC con pregunta, universo, categorías ES/EN, tipo y `min_level`; pestañas Indicadores/Variables; mapa de porcentaje/conteo/densidad y media numérica; distribución en análisis; carga bajo demanda objetivo <2 MB por variable/provincia; QA de 10 variables y E2E con “techo”. El PR de 2C debe quedar abierto para aprobación; #51 va después.
 27. [PR #57](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/57) pasó los dos checks, se fusionó con squash en `bba76c2` y se borró la rama. Esta rama 2C se rebasó sobre ese `main`.
+28. `16_variable_catalog.py` generó 136 variables desde los diccionarios oficiales verificados y el clasificador geográfico 2022: 126 tienen agregados públicos, 10 quedan deshabilitadas. Preguntas y etiquetas ES proceden de INEC; las traducciones EN cortas están en `pipeline/variables_en.tsv`. La edad P03 se entrega en 21 grupos y su media se declara aproximada.
+29. `17_variable_bundles.py` creó 24 archivos provinciales con rangos independientes por variable. Total 98.906.640 B y 310.956 B de índice; máximo 1.171.306 B por variable/provincia. `18_package_variables.py` sustituyó el Parquet fino mezclado (122.687.539 B) y preparó `data-derived-v2e`: conteos 126.059.638 B y total Pages 424.478.505 B. La QA de diez variables con semilla 2022 y tres controles reprodujo las celdas de manzana y el roll-up de sector/parroquia/cantón/nación con diferencia cero.
+30. La interfaz 2C ofrece pestañas, buscador, filtro por tabla, categorías, %/conteo/densidad, media numérica, histograma, tooltip, URL y distribución de círculo/lazo por área. En el E2E local de `V03` se descargaron 575,6 KB y el bloque mayor fue 76,3 KB/provincia; seis barras, cero errores JavaScript. [Captura](docs/capturas/fase2c_variables_techo.png) e [informe](docs/fase2c_report.md). El Release aún no se publicó y la producción sigue en v2d.
 
 ## Siguiente comando exacto
 
 ```sh
-python pipeline/16_variable_catalog.py
+git add HANDOFF.md data/DERIVED_MANIFEST.json docs/fase2c_report.md docs/capturas/fase2c_variables_e2e.json docs/capturas/fase2c_variables_techo.png pipeline web/public/meta/variables.json web/scripts/test-variables.mjs web/src tests/test_variable_catalog.py
 ```
 
-Construir el catálogo de variables desde el XLSX oficial y los agregados publicados; implementar entrega por variable, visor y QA. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. Esperar el informe de Antigravity antes de añadir límites municipales urbanos.
+La QA exacta de manzana/sector pasó. Terminar el E2E con verificación HTTP 206; ejecutar este `git add`, comprobar que no se versionan datos masivos y hacer commit Conventional Commits. Subir `feat/fase-2c-variables`; publicar `data-derived-v2e` como prerelease apuntando a esta rama; descargar/verificar los assets; abrir el PR 2C con captura y tabla de tamaños; esperar aprobación. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. Esperar el informe de Antigravity antes de añadir límites municipales urbanos. #51 móvil va después de aprobar 2C.
+
+## Archivos tocados en 2C
+
+- `HANDOFF.md`, `data/DERIVED_MANIFEST.json`, `docs/fase2c_report.md`, `docs/capturas/fase2c_variables_*`.
+- `pipeline/16_variable_catalog.py`, `17_variable_bundles.py`, `18_package_variables.py`, `variables_en.tsv`, `verify_variable_bundles.py`, `verify_public_artifacts.py`, `verify_release_integrity.py`.
+- `web/public/meta/variables.json`, `web/src/variableData.ts`, `variableData.test.ts`, `variableExplorer.ts`, `map.ts`, `selection.ts`, `style.css`, `web/scripts/test-variables.mjs`, `tests/test_variable_catalog.py`.
 
 ## Archivos tocados en 1B-3
 
