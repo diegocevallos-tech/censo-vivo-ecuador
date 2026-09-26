@@ -1,0 +1,42 @@
+{
+  "root": "http://127.0.0.1:5173/censo-vivo-ecuador/",
+  "results": [
+    {
+      "level": "provincia",
+      "key": "17",
+      "title": "Pichincha",
+      "context": "Provincia · Ecuador",
+      "value": "Densidad de población: 327,1 hab./km²",
+      "population": "Población: 3.089.473"
+    },
+    {
+      "level": "canton",
+      "key": "1701",
+      "title": "Quito",
+      "context": "Cantón · Pichincha",
+      "value": "Densidad de población: 638,6 hab./km²",
+      "population": "Población: 2.679.722"
+    },
+    {
+      "level": "parroquia",
+      "key": "170155",
+      "title": "Calderón",
+      "context": "Parroquia · Quito, Pichincha",
+      "value": "Densidad de población: 3.215,9 hab./km²",
+      "population": "Población: 250.877"
+    },
+    {
+      "level": "sector",
+      "key": "170155025002",
+      "title": "Sector 170155025002",
+      "context": "Sector · Calderón · Quito, Pichincha",
+      "value": "Densidad de población: 8.111,7 hab./km²",
+      "population": "Población: 497"
+    },
+    {
+      "level": "sector-min-level",
+      "note": "Dato de cantón: disponible desde ese nivel"
+    }
+  ],
+  "errors": []
+}

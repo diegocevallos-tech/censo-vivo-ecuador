@@ -3,7 +3,9 @@ import indicatorCatalog from './generated/indicators.json'
 import { evaluate } from './indicators'
 import type { CantonPrior, IndicatorDefinition } from './indicators'
 import { indicatorFile } from './indicatorMaps'
+import { availableAtLevel } from './indicatorMaps'
 import type { Level } from './indicatorMaps'
+import { levelLabel, unitKeyAtLevel, unitPresentation } from './placeLabels'
 import type { SelectionResult } from './selection'
 
 const ageGroups = profile.age_groups
@@ -89,11 +91,54 @@ export async function renderAnalysis(panel: HTMLElement, selection: SelectionRes
   }
   const { aggregate: values, assignedPopulation } = selection
   const counts = values.counts
+  const place = selection.officialUnitKey
+    ? unitPresentation(level, selection.officialUnitKey, language) : null
   const heading = document.createElement('h3')
-  heading.textContent = `${selection.label} · ${number(selection.unitCount, language)} ${
+  heading.textContent = place?.primary ?? `${selection.label} · ${number(selection.unitCount, language)} ${
     selection.unitCount === 1 ? (language === 'es' ? 'unidad' : 'unit')
       : (language === 'es' ? 'unidades' : 'units')}`
   panel.append(heading)
+  if (place) {
+    const context = document.createElement('p')
+    context.className = 'analysis-place-context'
+    context.textContent = [place.level, place.route].filter(Boolean).join(' · ')
+    panel.append(context)
+    const active = document.createElement('p')
+    active.className = 'analysis-place-metric'
+    let sourceNote: HTMLElement | null = null
+    if (options.activeIndicator === 'density') {
+      active.textContent = `${language === 'es' ? 'Densidad de población' : 'Population density'}: ${
+        Number.isFinite(selection.density) ? `${number(selection.density!, language, 1)} hab./km²` : '—'}`
+    } else if (options.activeIndicator) {
+      const definition = definitions.get(options.activeIndicator)
+      const sourceLevel = definition && !availableAtLevel(definition.min_level as Level, level)
+        ? definition.min_level as Level : level
+      const sourceKey = unitKeyAtLevel(selection.officialUnitKey!, sourceLevel)
+      try {
+        const file = await indicatorFile(base, sourceLevel,
+          sourceLevel === 'sector' || sourceLevel === 'manzana' ? sourceKey.slice(0, 2) : undefined)
+        const cell = file.cell(sourceKey, options.activeIndicator)
+        active.textContent = `${definition?.name[language] ?? options.activeIndicator}: ${
+          cell?.value == null ? '—' : number(cell.value, language, 2)}`
+        if (sourceLevel !== level) {
+          sourceNote = document.createElement('small')
+          sourceNote.className = 'analysis-place-note'
+          sourceNote.textContent = language === 'es'
+            ? `Dato de ${levelLabel(sourceLevel, language).toLowerCase()}`
+            : `Value from ${levelLabel(sourceLevel, language).toLowerCase()}`
+        }
+      } catch {
+        active.textContent = `${definition?.name[language] ?? options.activeIndicator}: —`
+      }
+    }
+    panel.append(active)
+    if (sourceNote) panel.append(sourceNote)
+    const people = document.createElement('p')
+    people.className = 'analysis-place-population'
+    people.textContent = `${language === 'es' ? 'Población' : 'Population'}: ${
+      number(counts['core:population'] ?? 0, language)}`
+    panel.append(people)
+  }
   const quality = document.createElement('p')
   quality.className = 'quality'
   quality.textContent = values.quality === 'exacto' ? (language === 'es' ? 'Exacto' : 'Exact')

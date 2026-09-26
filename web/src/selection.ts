@@ -14,6 +14,8 @@ export interface SelectionResult {
   keys: string[]
   label: string
   assignedPopulation: number
+  officialUnitKey?: string
+  density?: number
 }
 
 interface Options {
@@ -172,7 +174,8 @@ export function createSelection(options: Options) {
         item.included / item.total) : 0]))
   }
 
-  async function countSelection(coverages: Map<string, number>, label: string) {
+  async function countSelection(coverages: Map<string, number>, label: string,
+                                officialUnitKey?: string, density?: number) {
     const level = options.getLevel()
     const provinceKeys = level === 'nacion'
       ? Array.from({ length: 24 }, (_, index) => String(index + 1).padStart(2, '0'))
@@ -217,7 +220,7 @@ export function createSelection(options: Options) {
     selected = new Set(selectedKeys)
     options.onHighlight(selected)
     options.onResult({ aggregate: result, unitCount: selectedKeys.length,
-      keys: selectedKeys, label, assignedPopulation })
+      keys: selectedKeys, label, assignedPopulation, officialUnitKey, density })
   }
 
   async function finishShape() {
@@ -310,7 +313,9 @@ export function createSelection(options: Options) {
       options.onStatus(options.getLanguage() === 'es' ? 'Cargando conteos oficiales…' : 'Loading official counts…')
       try { await countSelection(new Map([...selected].map(item => [item, 1])),
         mode === 'multi' ? (options.getLanguage() === 'es' ? 'Multiselección' : 'Multiple units')
-          : (options.getLanguage() === 'es' ? 'Unidad oficial' : 'Official unit')) }
+          : (options.getLanguage() === 'es' ? 'Unidad oficial' : 'Official unit'),
+        selected.size === 1 ? [...selected][0] : undefined,
+        selected.size === 1 ? Number(feature.properties.density) : undefined) }
       catch (error) { options.onStatus(`Error de selección: ${String(error)}`) }
     },
   }

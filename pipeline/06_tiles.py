@@ -16,6 +16,7 @@ from pathlib import Path
 import pyarrow.parquet as pq
 import pyogrio
 import shapely
+from place_names import official_catalog
 from pyproj import Transformer
 from shapely.geometry import mapping
 
@@ -73,21 +74,25 @@ def feature(
     area: float,
     count: tuple[int, int] | None,
     tolerance: float,
+    place_name: str | None = None,
 ) -> dict:
     shape = shapely.simplify(geometry, tolerance, preserve_topology=True)
     if shape.is_empty:
         shape = geometry
     population, assigned = count if count is not None else (None, 0)
+    properties = {
+        "unit_key": key,
+        "population": population,
+        "assigned_population": assigned,
+        "area_km2": round(area, 5),
+        "density": round(population / area, 2) if population is not None and area > 0 else None,
+        "geom_version": GEOM_VERSION,
+    }
+    if place_name is not None:
+        properties["name"] = place_name
     return {
         "type": "Feature",
-        "properties": {
-            "unit_key": key,
-            "population": population,
-            "assigned_population": assigned,
-            "area_km2": round(area, 5),
-            "density": round(population / area, 2) if population is not None and area > 0 else None,
-            "geom_version": GEOM_VERSION,
-        },
+        "properties": properties,
         "geometry": mapping(project(shape, TO_WGS84)),
     }
 
@@ -100,6 +105,7 @@ def prepare() -> dict:
     if not GEOMETRY.is_file() or not (COUNTS / "schema.json").is_file():
         raise FileNotFoundError("Verified Marco 2021 and exact official-unit counts are required")
     SOURCE.mkdir(parents=True, exist_ok=True)
+    official_names = official_catalog()
     lookups = {level: count_lookup(level) for level in LEVELS}
     sector_groups: dict[str, list[shapely.Geometry]] = defaultdict(list)
     area_sums: dict[str, float] = defaultdict(float)
@@ -178,7 +184,9 @@ def prepare() -> dict:
                     if level == "nacion"
                     else area_sums[key]
                 )
-                write_feature(stream, feature(key, geometry, area, count, LEVELS[level][2]))
+                place_name = None if level == "nacion" else official_names[key]["name"]
+                write_feature(stream, feature(key, geometry, area, count,
+                                              LEVELS[level][2], place_name))
         print(f"Prepared {level}: {len(keys)} polygons", flush=True)
     sector_groups.clear()
 
