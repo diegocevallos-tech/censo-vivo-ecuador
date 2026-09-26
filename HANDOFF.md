@@ -27,15 +27,16 @@
 17. El [smoke de producción](docs/fase2_smoke_produccion.md) y sus capturas quedaron fusionados mediante el PR #52. El [tag fase-2](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/fase-2) se creó en `c82b55e`. El PR #53 modifica el cálculo espacial a Queen con 999 permutaciones, genera 16 tipos y perfiles de gemelos parroquiales/cantonales; [detalle](docs/qa/correcciones_1b2.md).
 18. La regeneración espacial nacional completó 221 cantones y 52.864 sectores geométricos (98,787 % de los 53.513 sectores). La QA aditiva pasó con diferencia cero, 124.992 emigrantes coinciden entre perfiles cantonales y parroquiales, y 48 chunks de análisis pasaron. `data-derived-v2b` tiene cinco assets; descarga verificada por SHA256, restauración de 397 archivos verificada, sitio 439.002.993 bytes, todos los presupuestos satisfechos. El PR #53 queda pendiente de CI y aprobación; producción permanece con `data-derived-v2a`.
 19. Verificación del Release restaurado: aditividad exacta en los seis niveles, categorías exactas en 24 provincias, 48 chunks de conteo y 48 de análisis, 52 binarios de indicadores sin error. El primer CI de #53 falló porque el runner público no instalaba GeoPandas para los tests nuevos; se añadieron dependencias espaciales al paso de instalación de `.github/workflows/ci.yml` y se reejecutará.
-20. El segundo CI encontró una diferencia entre versiones de Pandas: `to_numpy()` devolvía un arreglo de solo lectura en Ubuntu. `regularize()` ahora copia el arreglo antes de reemplazar valores; esta corrección conserva los resultados numéricos ya publicados. Esperar nueva ejecución de CI.
+20. El segundo CI encontró una diferencia entre versiones de Pandas: `to_numpy()` devolvía un arreglo de solo lectura en Ubuntu. `regularize()` ahora copia el arreglo antes de reemplazar valores; esta corrección conserva los resultados numéricos ya publicados.
+21. La ejecución final del PR #53 está en verde: [checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36213602623) en 1 min 26 s y [devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36213602631) en 4 min 29 s. Ambos verificaron el commit `ddb4012`. El PR permanece abierto para aprobación; no iniciar Fase 3 ni desplegar `data-derived-v2b` en producción antes de su fusión.
 
 ## Siguiente comando exacto
 
 ```sh
-python pipeline/06_qa_phase1b2.py
+gh pr checks 53 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Verificar el CI del PR #53 y comentar resultados. Esperar aprobación del usuario antes de fusionar la corrección o iniciar Fase 3. No tocar `feat/auditoria-1b2`.
+Verificar el CI del último commit documental y mantener abierto el PR #53 hasta aprobación del usuario. No iniciar Fase 3 ni tocar `feat/auditoria-1b2`.
 
 ## Archivos tocados en 1B-3
 
