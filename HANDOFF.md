@@ -2,7 +2,7 @@
 
 ## Estado
 
-- Fase actual: **2A · mapa, navegación e indicadores**, rama `feat/fase-2a-mapa-indicadores`, [PR #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) apilado sobre el [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48). Ambos quedan abiertos. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
+- Fase actual: **2B · selección y análisis**, [PR #50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) abierto sobre [PR 2A #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [PR 1B-3 #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48). #48 y #49 quedan abiertos y con checks en verde. PR #45 fusionado por squash; tag `fase-1b2` publicado. La rama independiente `feat/auditoria-1b2` de Antigravity no se toca.
 - Pages se habilitó con `build_type: workflow` y el mapa mínimo de 1B-3 ya está publicado en [producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/).
 - Los datos pesados están ignorados en `data/interim/` y `web/public/data/`. El manifiesto `data/DERIVED_MANIFEST.json` versionado apunta al Release público [`data-derived-v1b`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v1b), ya publicado.
 
@@ -18,14 +18,17 @@
 8. [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48) abierto. Su primer CI detectó que el runner no instalaba NumPy para `06_qa_chunks.py`; se añadió a las dependencias de CI. Verificar el nuevo run. La autorización vigente permite continuar con 2A y 2B en PRs separados y apilados.
 9. El PR #48 tiene los checks `build` y `checks` en verde tras incluir NumPy y Pandas. En 2A, `09_indicator_map_index.py` evaluó los 45 indicadores sobre 286.265 unidades oficiales y produjo 52 binarios (68.704.172 bytes). `09_qa_indicator_map.py` validó sus claves, longitudes y estados. [Release v2a](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a) publicado y restaurado con SHA256: 394 archivos, 436.512.440 bytes; chunks 132.870.239/150.000.000 bytes.
 10. El visor 2A integra búsqueda territorial, breadcrumb, catálogo de 45 indicadores, `min_level`, coropleta con tres métodos de corte, estado URL y ES/EN. [Prueba de navegador y captura](docs/fase2a_report.md) sin errores. Ruff, 8 tests TypeScript y build pasaron. [PR #49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) abierto; [preview CI](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36193870442) compiló y verificó el Release v2a sin publicar en producción.
+11. El visor 2B suma clic, multiselección, círculo con controles y lazo; vista previa con KDBush, ponderación por área solo para unidades cortadas, panel con pirámide nacional, distribución por sexo, fichas de indicadores y percentiles elegibles. Se añadió ESLint a CI. [Informe y pruebas](docs/fase2b_report.md): clic exacto en manzana, círculos y lazos a zoom 14,3, móvil y 3D sin errores JavaScript. El p95 de cálculo por cuadro fue 0,40 ms Quito, 0,30 ms Guayaquil y 0,40 ms Cuenca en Chromium de escritorio. El Release v2a no cambia.
+12. [PR #50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) creado con base 2A; checks de CI iniciados. La rama 2B se publicó sin blobs nuevos mayores de 1 MB. El sitio en producción sigue en 1B-3.
+13. Los dos checks de #50 pasaron (build devcontainer 4 min 13 s; checks públicos 58 s). Se detectó una ausencia en áreas rurales sin manzanas: a zoom fino la vista estaba vacía. Se añadió fallback a sector cuando no hay ninguna manzana visible después de cargar los tiles; se probó clic exacto en Morona Santiago a zoom 14,3 y sin errores JavaScript. Los cambios se están verificando nuevamente en CI.
 
 ## Siguiente comando exacto
 
 ```sh
-git switch -c feat/fase-2b-seleccion-analisis
+gh pr checks 50 -R diegocevallos-tech/censo-vivo-ecuador
 ```
 
-Hacer commit y push de esta continuidad. Iniciar 2B como rama apilada sobre 2A para selección, paneles y controles. Mantener ambos PRs abiertos sin tocar la auditoría independiente.
+Verificar y reparar cualquier fallo de CI. Luego dejar #48, #49 y #50 abiertos para aprobación sin publicar 2A/2B en producción ni tocar la auditoría independiente.
 
 ## Archivos tocados en 1B-3
 
@@ -35,9 +38,11 @@ Hacer commit y push de esta continuidad. Iniciar 2B como rama apilada sobre 2A p
 - `web/src/main.ts`, `web/src/map.ts`, `web/src/style.css`, `web/src/vite-env.d.ts`
 - `README.md`, `docs/schema.md`, `docs/data-access.md`, `docs/fase1b3_report.md`, `docs/qa/fase1b3_mapa.png`, `docs/qa/fase1b3_pages.png`
 - 2A: `pipeline/09_indicator_map_index.py`, `09_places.py`, `09_package_v2a.py`, `09_qa_indicator_map.py`, `pipeline/verify_public_artifacts.py`, `web/src/indicatorMaps.ts`, `map.ts`, `style.css`, `web/src/generated/places.json`, `docs/fase2a_report.md`, `docs/qa/fase2a_mapa.png`, `data/DERIVED_MANIFEST.json`.
+- 2B: `.github/workflows/ci.yml`, `pipeline/10_national_profile.py`, `web/package.json`, `web/package-lock.json`, `web/eslint.config.mjs`, `web/src/map.ts`, `selection.ts`, `countChunks.ts`, `analysisPanel.ts`, `style.css`, `web/src/generated/nationalProfile.json`, `docs/fase2b_report.md`, `docs/qa/fase2b_mapa.png`, `docs/qa/fase2b_movil.png`.
 
 ## Decisiones pendientes
 
 - La distancia al pico temporal del bono demográfico sigue diferida a la Fase 5 opcional. Cobertura de seguro de salud sigue descartada por variable inexistente.
 - La capa de fondo oscuro usa un color propio hasta encontrar un basemap externo sin token que permita uso en producción. El mapa censal no depende de un proveedor externo.
 - El «último plan» no está archivado literalmente en el repo; 2A se interpreta como mapa, navegación, indicadores y coropleta (issues #14–15); 2B como selección, paneles, controles y accesibilidad (issues #16–18). Conservar PRs separados.
+- Validar 60 fps de extremo a extremo en móviles y provincias densas antes de afirmar el criterio nacional; el p95 KDBush de escritorio mide solo el cálculo de la vista previa.

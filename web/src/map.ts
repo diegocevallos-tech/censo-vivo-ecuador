@@ -6,6 +6,12 @@ import indicatorCatalog from './generated/indicators.json'
 import placeCatalog from './generated/places.json'
 import { availableAtLevel, classifyBreaks, indicatorFile } from './indicatorMaps'
 import type { BreakMode, Level } from './indicatorMaps'
+import { createSelection } from './selection'
+import type { SelectionMode, SelectionResult } from './selection'
+import { renderAnalysis } from './analysisPanel'
+import { countChunk } from './countChunks'
+import { evaluate, fitCantonPrior } from './indicators'
+import type { CantonPrior, IndicatorDefinition } from './indicators'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './style.css'
 
@@ -33,14 +39,23 @@ const copy = {
   es: { search: 'Buscar provincia, cantón, parroquia o código', indicator: 'Indicador',
     breaks: 'Cortes', density: 'Densidad de población', noData: 'Sin dato',
     small: 'Pocos casos: fuera de rankings', from: 'Disponible desde',
-    quantile: 'Cuantiles', jenks: 'Jenks', stddev: 'Desviación estándar' },
+    quantile: 'Cuantiles', jenks: 'Jenks', stddev: 'Desviación estándar',
+    units: 'unidades con geometría', hint: 'Acércate para pasar de provincia a cantón, parroquia, sector y manzana. Pulsa una zona para ver sus conteos.',
+    analyze: 'ANÁLISIS', smoothing: 'Suavizado EB', inspect: 'Inspeccionar', circle: 'Círculo',
+    lasso: 'Lazo', multi: 'Multi', clear: 'Limpiar', densityToggle: 'Densidad',
+    unitsToggle: 'Unidades', source: 'Fuente: INEC, CPV 2022 · Geometría: Marco 2021' },
   en: { search: 'Find province, canton, parish or code', indicator: 'Indicator',
     breaks: 'Breaks', density: 'Population density', noData: 'No data',
     small: 'Few cases: excluded from rankings', from: 'Available from',
-    quantile: 'Quantiles', jenks: 'Jenks', stddev: 'Standard deviation' },
+    quantile: 'Quantiles', jenks: 'Jenks', stddev: 'Standard deviation',
+    units: 'units with geometry', hint: 'Zoom from province to canton, parish, sector and block. Choose a unit to see its counts.',
+    analyze: 'ANALYSIS', smoothing: 'EB smoothing', inspect: 'Inspect', circle: 'Circle',
+    lasso: 'Lasso', multi: 'Multi', clear: 'Clear', densityToggle: 'Density',
+    unitsToggle: 'Units', source: 'Source: INEC, Census 2022 · Geometry: 2021 framework' },
 }
 const app = document.querySelector<HTMLElement>('#app')
 if (!app) throw new Error('Missing app root')
+const shell = app
 app.innerHTML = `
   <div class="shell">
     <div id="map" role="application" aria-label="Mapa de densidad del Censo de Ecuador 2022"></div>
@@ -70,7 +85,22 @@ app.innerHTML = `
       <div class="divider"></div>
       <div class="metric"><strong id="unit-count">—</strong><span>unidades con geometría</span></div>
       <p class="hint">Acércate para pasar de provincia a cantón, parroquia, sector y manzana. Pulsa una zona para ver sus conteos.</p>
+      <div class="analysis-head"><span class="eyebrow">02 / ANÁLISIS</span>
+        <label><input type="checkbox" id="smooth-toggle"><span id="smooth-label">Suavizado EB</span></label></div>
+      <div id="selection-preview" class="selection-preview" role="status" aria-live="polite"></div>
+      <div id="analysis-content" class="analysis-content"></div>
     </section>
+    <aside class="theme-chips" id="theme-chips" aria-label="Temas"></aside>
+    <div class="toolbar" role="toolbar" aria-label="Herramientas de análisis">
+      <button type="button" data-mode="inspect" aria-pressed="true">Inspeccionar</button>
+      <button type="button" data-mode="circle" aria-pressed="false">Círculo</button>
+      <button type="button" data-mode="lasso" aria-pressed="false">Lazo</button>
+      <button type="button" data-mode="multi" aria-pressed="false">Multi</button>
+      <button type="button" id="clear-selection">Limpiar</button>
+      <button type="button" id="toggle-density" aria-pressed="true">Densidad</button>
+      <button type="button" id="toggle-units" aria-pressed="true">Unidades</button>
+      <button type="button" id="toggle-3d" aria-pressed="false">3D</button>
+    </div>
     <div class="scale-rail"><span>NACIONAL</span><div class="rail"><i id="scale-marker"></i></div><span>MANZANA</span></div>
     <footer class="footnote"><span class="signal"></span><span>Fuente: INEC, CPV 2022 · Geometría: Marco 2021</span>
       <span class="foot-sep">/</span><span id="assignment-note">Manzanas sin polígono: población asignada a nivel de sector</span></footer>
@@ -89,6 +119,10 @@ const availabilityEl = document.querySelector<HTMLElement>('#availability')!
 const breaksEl = document.querySelector<HTMLSelectElement>('#break-mode')!
 const legendEl = document.querySelector<HTMLElement>('#legend-ticks')!
 const breakScopeEl = document.querySelector<HTMLElement>('#break-scope')!
+const analysisEl = document.querySelector<HTMLElement>('#analysis-content')!
+const previewEl = document.querySelector<HTMLElement>('#selection-preview')!
+const smoothEl = document.querySelector<HTMLInputElement>('#smooth-toggle')!
+const themeEl = document.querySelector<HTMLElement>('#theme-chips')!
 const placeSearch = document.querySelector<HTMLInputElement>('#place-search')!
 const placeResults = document.querySelector<HTMLElement>('#place-results')!
 const breadcrumbEl = document.querySelector<HTMLElement>('#breadcrumb')!
@@ -96,6 +130,17 @@ const languageEl = document.querySelector<HTMLButtonElement>('#language')!
 const names: Record<Level, string> = {
   nacion: 'Ecuador', provincia: 'Provincia', canton: 'Cantón',
   parroquia: 'Parroquia', sector: 'Sector censal', manzana: 'Manzana',
+}
+const englishNames: Record<Level, string> = {
+  nacion: 'Ecuador', provincia: 'Province', canton: 'Canton',
+  parroquia: 'Parish', sector: 'Census sector', manzana: 'Census block',
+}
+const levelName = (level: Level): string => language === 'es' ? names[level] : englishNames[level]
+const englishThemes: Record<string, string> = {
+  demografia: 'Demography', hogar: 'Households', vivienda: 'Housing',
+  digital: 'Digital', trabajo: 'Work', movilidad: 'Mobility', diaspora: 'Diaspora',
+  diversidad: 'Diversity', fecundidad: 'Fertility', mortalidad: 'Mortality',
+  educacion: 'Education', compuesto: 'Composite',
 }
 const zoomLevel = (z: number): Level => z < 3 ? 'nacion' : z < 6 ? 'provincia'
   : z < 8 ? 'canton' : z < 10 ? 'parroquia' : z < 13 ? 'sector' : 'manzana'
@@ -154,7 +199,26 @@ function indicatorAvailable(minLevel: string, level: Level): boolean {
 
 function renderControls(level: Level) {
   const t = copy[language]
+  document.documentElement.lang = language
   placeSearch.placeholder = t.search
+  indicatorSearch.placeholder = language === 'es' ? 'Filtrar 45 indicadores' : 'Filter 45 indicators'
+  levelEl.textContent = levelName(level)
+  document.querySelector<HTMLElement>('.card-head .eyebrow')!.textContent = language === 'es' ? '01 / TERRITORIO' : '01 / TERRITORY'
+  document.querySelector<HTMLElement>('.masthead p')!.textContent = language === 'es'
+    ? 'El país, a todas sus escalas.' : 'The country at every scale.'
+  document.querySelector<HTMLElement>('.metric span')!.textContent = t.units
+  document.querySelector<HTMLElement>('.data-card .hint')!.textContent = t.hint
+  document.querySelector<HTMLElement>('.analysis-head .eyebrow')!.textContent = `02 / ${t.analyze}`
+  document.querySelector<HTMLElement>('#smooth-label')!.textContent = t.smoothing
+  document.querySelector<HTMLElement>('.footnote span:nth-child(2)')!.textContent = t.source
+  const toolbarLabels: Record<string, string> = { inspect: t.inspect, circle: t.circle,
+    lasso: t.lasso, multi: t.multi }
+  for (const button of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
+    button.textContent = toolbarLabels[button.dataset.mode ?? 'inspect']
+  }
+  document.querySelector<HTMLElement>('#clear-selection')!.textContent = t.clear
+  document.querySelector<HTMLElement>('#toggle-density')!.textContent = t.densityToggle
+  document.querySelector<HTMLElement>('#toggle-units')!.textContent = t.unitsToggle
   document.querySelector<HTMLElement>('#indicator-label')!.textContent = t.indicator
   document.querySelector<HTMLElement>('#break-label')!.textContent = t.breaks
   languageEl.textContent = language === 'es' ? 'EN' : 'ES'
@@ -193,7 +257,8 @@ function renderControls(level: Level) {
   indicatorDescription.textContent = indicator === 'density'
     ? (language === 'es' ? 'Habitantes por kilómetro cuadrado de la unidad censal.'
       : 'Residents per square kilometre of the census unit.')
-    : byId.get(indicator)!.population_reference
+    : language === 'es' ? byId.get(indicator)!.population_reference
+      : 'Reference population and definition in the methodology.'
   availabilityEl.textContent = indicator !== 'density' &&
     !indicatorAvailable(byId.get(indicator)!.min_level, level)
     ? `${t.from} ${byId.get(indicator)!.min_level}` : ''
@@ -237,6 +302,116 @@ async function start() {
   let paintGeneration = 0
   let paintedKey = ''
   let densityPaintKey = ''
+  let lastSelection: SelectionResult | null = null
+  let selectedHighlight = new Set<string>()
+  let analysisGeneration = 0
+  let densityOn = true
+  let unitsOn = true
+  let mode3d = false
+  let sectorFallback = false
+  const effectiveLevel = (): Level => sectorFallback && zoomLevel(map.getZoom()) === 'manzana'
+    ? 'sector' : zoomLevel(map.getZoom())
+
+  function applySelectionPaint() {
+    for (const id of active) {
+      const fill = `${id}-fill`
+      const line = `${id}-outline`
+      map.setLayoutProperty(fill, 'visibility', unitsOn ? 'visible' : 'none')
+      map.setLayoutProperty(line, 'visibility', unitsOn ? 'visible' : 'none')
+      const defaultOpacity: maplibregl.ExpressionSpecification | number = indicator === 'density' ? 0.79
+        : ['case', ['==', ['feature-state', 'status'], 1], 0.42, 0.82]
+      const opacity: maplibregl.ExpressionSpecification | number = !densityOn && indicator === 'density' ? 0
+        : selectedHighlight.size ? ['case', ['==', ['feature-state', 'selected'], true],
+          defaultOpacity, 0] : defaultOpacity
+      map.setPaintProperty(fill, 'fill-opacity', opacity)
+      map.setPaintProperty(line, 'line-opacity', selectedHighlight.size
+        ? ['case', ['==', ['feature-state', 'selected'], true], 0.4, 0] : 0.27)
+      if (map.getLayer(`${id}-extrusion`)) {
+        map.setLayoutProperty(`${id}-extrusion`, 'visibility', unitsOn && mode3d ? 'visible' : 'none')
+        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', selectedHighlight.size
+          ? ['case', ['==', ['feature-state', 'selected'], true], 0.65, 0] : 0.65)
+      }
+    }
+  }
+
+  function extrusion(id: string, level: Level) {
+    map.addLayer({ id: `${id}-extrusion`, type: 'fill-extrusion', source: id,
+      'source-layer': level, paint: {
+        'fill-extrusion-color': color,
+        'fill-extrusion-height': ['min', 450, ['*', 4,
+          ['sqrt', ['to-number', ['get', 'population'], 0]]]],
+        'fill-extrusion-base': 0, 'fill-extrusion-opacity': 0.65,
+      } })
+  }
+
+  async function refreshAnalysis() {
+    const generation = ++analysisGeneration
+    let prior: CantonPrior | null = null
+    if (lastSelection && smoothEl.checked && indicator !== 'density') {
+      const definition = byId.get(indicator) as unknown as IndicatorDefinition | undefined
+      const cantons = new Set(lastSelection.keys.map(key => key.slice(0, 4)))
+      if (definition?.bayesian && definition.kind === 'ratio' && cantons.size === 1) {
+        const canton = [...cantons][0]
+        const chunk = await countChunk(base, canton.slice(0, 2), 'sector')
+        const peers: [number, number][] = []
+        for (const key of chunk.keysWithPrefix(canton)) {
+          const counts = chunk.counts(key)
+          if (!counts) continue
+          const result = evaluate(definition, { counts, quality: 'exacto',
+            estimated_percent: 0 }, { level: 'sector' })
+          if (result.value != null && result.denominator > 0) {
+            peers.push([result.value / (definition.factor ?? 1) * result.denominator,
+              result.denominator])
+          }
+        }
+        prior = fitCantonPrior(peers)
+      }
+    }
+    if (generation !== analysisGeneration) return
+    const labels: Record<string, string> = language === 'en'
+      ? { 'Círculo': 'Circle', 'Lazo': 'Lasso', 'Multiselección': 'Multiple units',
+        'Unidad oficial': 'Official unit' }
+      : { Circle: 'Círculo', Lasso: 'Lazo', 'Multiple units': 'Multiselección',
+        'Official unit': 'Unidad oficial' }
+    const localized = lastSelection ? { ...lastSelection,
+      label: labels[lastSelection.label] ?? lastSelection.label } : null
+    await renderAnalysis(analysisEl, localized, { language, level: currentLevel,
+      base, smooth: smoothEl.checked, activeIndicator: indicator, prior })
+  }
+
+  const selection = createSelection({ map, base, shell,
+    getLanguage: () => language,
+    getLevel: () => currentLevel,
+    getLayers: () => [...active].map(id => `${id}-fill`),
+    onPreview: (population, radiusKm, computeMs) => {
+      previewEl.textContent = `${integer.format(population)} ${language === 'es' ? 'personas aprox.' : 'people approx.'} · ${decimal.format(radiusKm)} km`
+      previewEl.dataset.computeMs = computeMs.toFixed(2)
+    },
+    onResult: result => {
+      lastSelection = result
+      previewEl.textContent = result ? `${integer.format(result.aggregate.counts.population ?? 0)} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
+      if (result) previewEl.dataset.previewP95Ms = selection.previewP95Ms.toFixed(2)
+      statusEl.textContent = result ? `${result.label} · ${integer.format(result.unitCount)} ${result.unitCount === 1 ? (language === 'es' ? 'unidad' : 'unit') : (language === 'es' ? 'unidades' : 'units')}` : levelName(currentLevel)
+      void refreshAnalysis().catch(error => { statusEl.textContent = `Error de análisis: ${String(error)}` })
+    },
+    onHighlight: keys => {
+      for (const key of selectedHighlight) {
+        const id = `${currentLevel}-${currentLevel === 'sector' || currentLevel === 'manzana'
+          ? key.slice(0, 2) : 'data'}`
+        if (active.has(id)) map.setFeatureState({ source: id, sourceLayer: currentLevel,
+          id: key }, { selected: false })
+      }
+      selectedHighlight = new Set(keys)
+      for (const key of keys) {
+        const id = `${currentLevel}-${currentLevel === 'sector' || currentLevel === 'manzana'
+          ? key.slice(0, 2) : 'data'}`
+        if (active.has(id)) map.setFeatureState({ source: id, sourceLayer: currentLevel,
+          id: key }, { selected: true })
+      }
+      applySelectionPaint()
+    },
+    onStatus: message => { statusEl.textContent = message },
+  })
 
   function fillExpression(breaks: number[]): maplibregl.ExpressionSpecification {
     const palette = activePalette()
@@ -263,10 +438,12 @@ async function start() {
       for (const id of active) {
         map.setPaintProperty(`${id}-fill`, 'fill-color', color)
         map.setPaintProperty(`${id}-fill`, 'fill-opacity', 0.79)
+        if (map.getLayer(`${id}-extrusion`)) map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-color', color)
       }
       legendEl.replaceChildren(...['0', '50', '200', '1 mil', '5 mil', '15 mil+'].map(value => {
         const span = document.createElement('span'); span.textContent = value; return span
       }))
+      applySelectionPaint()
       return
     }
     const definition = byId.get(indicator)!
@@ -288,7 +465,9 @@ async function start() {
         map.setPaintProperty(`${id}-fill`, 'fill-color', expression)
         map.setPaintProperty(`${id}-fill`, 'fill-opacity', ['case',
           ['==', ['feature-state', 'status'], 1], 0.42, 0.82])
+        if (map.getLayer(`${id}-extrusion`)) map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-color', expression)
       }
+      applySelectionPaint()
       legendEl.replaceChildren(...breaks.map(value => {
         const span = document.createElement('span'); span.textContent = formatValue(value); return span
       }))
@@ -316,7 +495,7 @@ async function start() {
     const seen = new Set<string>()
     const values: number[] = []
     for (const id of active) {
-      const level = zoomLevel(map.getZoom())
+      const level = currentLevel
       for (const feature of map.querySourceFeatures(id, { sourceLayer: level })) {
         const key = String(feature.properties.unit_key)
         const density = Number(feature.properties.density)
@@ -328,7 +507,7 @@ async function start() {
     }
     if (values.length < 5) return
     const breaks = classifyBreaks(values, breakMode).map(value => Math.max(0, value))
-    const next = `${zoomLevel(map.getZoom())}:${breakMode}:${breaks.join(',')}`
+    const next = `${currentLevel}:${breakMode}:${breaks.join(',')}`
     if (next === densityPaintKey) return
     densityPaintKey = next
     const expression = fillExpression(breaks)
@@ -350,11 +529,12 @@ async function start() {
   }
 
   function sync() {
-    const level = zoomLevel(map.getZoom())
+    const level = effectiveLevel()
     const provinces = visibleProvinces(level)
     const wanted = new Set(provinces.map(p => `${level}-${p}`))
     for (const id of active) {
       if (!wanted.has(id)) {
+        if (map.getLayer(`${id}-extrusion`)) map.removeLayer(`${id}-extrusion`)
         map.removeLayer(`${id}-outline`)
         map.removeLayer(`${id}-fill`)
         map.removeSource(id)
@@ -371,9 +551,11 @@ async function start() {
       map.addLayer({ id: `${id}-outline`, type: 'line', source: id,
         'source-layer': level, paint: { 'line-color': '#8da4b2',
           'line-opacity': 0.27, 'line-width': level === 'manzana' ? 0.5 : 0.8 } })
+      if (mode3d) extrusion(id, level)
       active.add(id)
     }
-    levelEl.textContent = names[level]
+    applySelectionPaint()
+    levelEl.textContent = levelName(level)
     countEl.textContent = integer.format(catalog.matched_geometries[level] ?? 0)
     markerEl.style.top = `${Math.min(100, Math.max(0, (map.getZoom() - 2) / 14 * 100))}%`
     statusEl.textContent = `${names[level]} · ${provinces.length} archivo${provinces.length === 1 ? '' : 's'}`
@@ -384,18 +566,86 @@ async function start() {
     }
     if (currentLevel !== level) {
       currentLevel = level
+      selection.clear()
       renderControls(level)
+      renderThemes()
     }
     saveHash(map)
   }
   renderControls(currentLevel)
+  void refreshAnalysis()
+  function renderThemes() {
+    themeEl.replaceChildren()
+    const themes = [...new Set(definitions.map(item => item.theme))]
+    for (const theme of themes) {
+      const available = definitions.find(item => item.theme === theme &&
+        indicatorAvailable(item.min_level, currentLevel))
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.textContent = language === 'en' ? englishThemes[norm(theme)] ?? theme.replaceAll('_', ' ')
+        : theme.replaceAll('_', ' ')
+      button.disabled = !available
+      button.classList.toggle('active', indicator !== 'density' && byId.get(indicator)?.theme === theme)
+      button.setAttribute('aria-pressed', String(button.classList.contains('active')))
+      button.title = available ? '' : `${copy[language].from} ${definitions.find(item => item.theme === theme)?.min_level}`
+      button.addEventListener('click', () => {
+        if (!available) return
+        indicator = available.id
+        paintedKey = ''
+        renderControls(currentLevel)
+        renderThemes()
+        sync()
+        void refreshAnalysis()
+      })
+      themeEl.append(button)
+    }
+  }
+  renderThemes()
+  for (const button of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
+    button.addEventListener('click', () => {
+      const next = button.dataset.mode as SelectionMode
+      selection.setMode(next)
+      for (const peer of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
+        const activeMode = peer === button
+        peer.setAttribute('aria-pressed', String(activeMode))
+        peer.classList.toggle('active', activeMode)
+      }
+    })
+  }
+  document.querySelector<HTMLButtonElement>('#clear-selection')!.addEventListener('click', () => selection.clear())
+  document.querySelector<HTMLButtonElement>('#toggle-density')!.addEventListener('click', event => {
+    densityOn = !densityOn
+    const button = event.currentTarget as HTMLButtonElement
+    button.setAttribute('aria-pressed', String(densityOn))
+    applySelectionPaint()
+  })
+  document.querySelector<HTMLButtonElement>('#toggle-units')!.addEventListener('click', event => {
+    unitsOn = !unitsOn
+    const button = event.currentTarget as HTMLButtonElement
+    button.setAttribute('aria-pressed', String(unitsOn))
+    applySelectionPaint()
+  })
+  document.querySelector<HTMLButtonElement>('#toggle-3d')!.addEventListener('click', event => {
+    mode3d = !mode3d
+    const button = event.currentTarget as HTMLButtonElement
+    button.setAttribute('aria-pressed', String(mode3d))
+    for (const id of active) {
+      if (mode3d && !map.getLayer(`${id}-extrusion`)) extrusion(id, currentLevel)
+      else if (!mode3d && map.getLayer(`${id}-extrusion`)) map.removeLayer(`${id}-extrusion`)
+    }
+    map.easeTo({ pitch: mode3d ? 55 : 0, bearing: mode3d ? -20 : 0, duration: 550 })
+    applySelectionPaint()
+  })
+  smoothEl.addEventListener('change', () => { void refreshAnalysis() })
   indicatorSelect.addEventListener('change', () => {
     indicator = indicatorSelect.value
     paintedKey = ''
-    renderControls(zoomLevel(map.getZoom()))
+    renderControls(currentLevel)
+    renderThemes()
     sync()
+    void refreshAnalysis()
   })
-  indicatorSearch.addEventListener('input', () => renderControls(zoomLevel(map.getZoom())))
+  indicatorSearch.addEventListener('input', () => renderControls(currentLevel))
   breaksEl.addEventListener('change', () => {
     breakMode = breaksEl.value as BreakMode
     paintedKey = ''
@@ -403,8 +653,13 @@ async function start() {
   })
   languageEl.addEventListener('click', () => {
     language = language === 'es' ? 'en' : 'es'
-    renderControls(zoomLevel(map.getZoom()))
+    document.querySelector<HTMLElement>('#assignment-note')!.textContent = language === 'es'
+      ? `${integer.format(catalog.assigned_manzanas_without_polygon)} manzanas sin polígono: población asignada a nivel de sector`
+      : `${integer.format(catalog.assigned_manzanas_without_polygon)} blocks without polygons: population assigned at sector level`
+    renderControls(currentLevel)
+    renderThemes()
     saveHash(map)
+    void refreshAnalysis()
   })
   placeSearch.addEventListener('input', () => {
     const query = norm(placeSearch.value.trim())
@@ -437,19 +692,35 @@ async function start() {
     if (event.key === 'Enter') placeResults.querySelector<HTMLButtonElement>('button')?.click()
   })
   map.on('load', sync)
-  map.on('moveend', sync)
-  map.on('idle', updateDensityBreaks)
+  map.on('moveend', () => { sectorFallback = false; sync() })
+  map.on('idle', () => {
+    updateDensityBreaks()
+    if (zoomLevel(map.getZoom()) !== 'manzana' || sectorFallback || currentLevel !== 'manzana'
+      || !active.size || ![...active].every(id => map.isSourceLoaded(id))) return
+    const canvas = map.getCanvas()
+    const visibleBlocks = map.queryRenderedFeatures([[0, 0], [canvas.clientWidth, canvas.clientHeight]],
+      { layers: [...active].map(id => `${id}-fill`) })
+    if (!visibleBlocks.length) {
+      sectorFallback = true
+      sync()
+    }
+  })
   map.on('mousemove', event => {
+    if (selection.mode === 'circle' || selection.mode === 'lasso') return
     const layers = [...active].map(id => `${id}-fill`)
     map.getCanvas().style.cursor = layers.length && map.queryRenderedFeatures(event.point, { layers }).length
       ? 'pointer' : ''
   })
   map.on('click', async event => {
+    if (selection.mode === 'circle' || selection.mode === 'lasso') return
     const layers = [...active].map(id => `${id}-fill`)
     if (!layers.length) return
-    const p = map.queryRenderedFeatures(event.point, { layers })[0]?.properties
+    const feature = map.queryRenderedFeatures(event.point, { layers })[0]
+    const p = feature?.properties
     if (!p) return
-    const level = zoomLevel(map.getZoom())
+    await selection.click(feature)
+    if (selection.mode === 'multi') return
+    const level = currentLevel
     selectedKey = String(p.unit_key)
     renderBreadcrumb()
     saveHash(map)
