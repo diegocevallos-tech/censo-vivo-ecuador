@@ -3,8 +3,8 @@
 ## Estado
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
-- [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene I04 mediante el [deploy 36249369071](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36249369071). El Release público vigente es [`data-derived-v2d`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2d), 447.948.448 bytes. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: corrección del smoke de I04 en `fix/zona-smoke-check`, antes de empezar `feat/fase-2c-variables`. [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55) fue fusionado con squash; el [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
+- [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene zona censal I04 mediante el [deploy 36249369071](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36249369071). El Release público vigente es [`data-derived-v2d`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2d), 447.948.448 bytes. Los datos pesados permanecen fuera de Git.
+- Subtarea actual: rama `feat/fase-2c-variables` desde `main`, tras fusionar los [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55) y [#57](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/57). El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
 
 ## Pasos terminados
 
@@ -32,16 +32,17 @@
 22. `13_zona.py` generó Parquet exacto de zona (397.085 B) y los insumos intermedios; `14_zona_tiles.py` generó 9.294.084 B de PMTiles mediante tippecanoe v2.79.0. El índice suma 45 indicadores de 5.929 zonas (1.422.971 B). `15_package_zona.py` preparó `data-derived-v2d` (447.948.448 B en Pages), con Parquet 149.529.581/150.000.000 B. QA de sector→zona→parroquia: diferencia cero; 13 tests Python, 10 TS, build, lint y 6 E2E de tooltip local pasaron.
 23. [Release público v2d](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2d) publicado y descargado de nuevo. Se restauraron 397 archivos agregados con SHA256 correctos; el verificador rechazó cualquier esquema de microdatos y confirmó 447.948.448 B.
 24. [PR #55](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/55) abierto. Tras la prueba se eliminó la repetición «Quito · Quito» del tooltip de zona y se añadió fallback a parroquia cuando ninguna geometría de zona cubre la vista; build, lint, 10 Vitest y 6 E2E locales pasaron. Esperar la CI del último commit antes de fusionar y desplegar.
-25. #55 pasó build de devcontainer y checks públicos, se fusionó con squash en `e95d36a` y desplegó mediante el run 36249369071. El E2E de 6 tooltips pasó sobre Pages, sin errores JS. El smoke completo observó los 7 niveles y una primera carga de 495.167 B; abortó por comparar «Zona censal» con la etiqueta renderizada «ZONA CENSAL». La condición de test se corrige sin cambiar la app ni los datos.
-26. Tras corregir la aserción, el [smoke de producción](docs/capturas/smoke-results.json) terminó sin errores: siete niveles en orden, círculos Quito/Guayaquil/rural con fallback a sector, lazo, multiselección, 30 indicadores y URL restaurada. Primera carga: 495.213 B. [Seis tooltips](docs/capturas/tooltip-results.json) pasaron sobre Pages. El cambio pendiente de PR solo modifica el test, capturas de QA y este HANDOFF.
+25. #55 pasó los dos checks, se fusionó con squash en `e95d36a` y desplegó a Pages. El E2E de seis tooltips pasó sobre producción. El smoke observó los siete niveles y 495.213 B de primera carga; la aserción sensible a mayúsculas se corrigió en el PR pequeño #57. Después el smoke completo pasó: círculos Quito/Guayaquil/rural, lazo, multiselección, 30 indicadores y URL restaurada, sin errores JS.
+26. El usuario concretó 2C: catálogo desde los cinco diccionarios INEC con pregunta, universo, categorías ES/EN, tipo y `min_level`; pestañas Indicadores/Variables; mapa de porcentaje/conteo/densidad y media numérica; distribución en análisis; carga bajo demanda objetivo <2 MB por variable/provincia; QA de 10 variables y E2E con “techo”. El PR de 2C debe quedar abierto para aprobación; #51 va después.
+27. [PR #57](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/57) pasó los dos checks, se fusionó con squash en `bba76c2` y se borró la rama. Esta rama 2C se rebasó sobre ese `main`.
 
 ## Siguiente comando exacto
 
 ```sh
-git push -u origin fix/zona-smoke-check
+python pipeline/16_variable_catalog.py
 ```
 
-Abrir PR pequeño para corregir el test y registrar el smoke; fusionarlo con CI verde. Después empezar 2C según la especificación confirmada por el usuario: catálogo de los cinco diccionarios, panel de variables, categorías y distribución, numéricas por rangos, carga bajo demanda y QA. Dejar el PR 2C abierto para aprobación antes de seguir a #51. Mantener #53 abierto y no tocar `feat/auditoria-1b2`; esperar el informe de Antigravity para límites municipales urbanos.
+Construir el catálogo de variables desde el XLSX oficial y los agregados publicados; implementar entrega por variable, visor y QA. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. Esperar el informe de Antigravity antes de añadir límites municipales urbanos.
 
 ## Archivos tocados en 1B-3
 
