@@ -19,8 +19,8 @@ Este documento audita y verifica cada una de las cifras cuantitativas citadas en
 | 3 | Cantonal | Chaguarpamba (1116) | 102,80 envejecimiento | 102,8005 | `pop_65_plus * 100.0 / pop_0_14` (881 / 857 * 100) | Tabulado oficial cantonal CPV 2022 (Loja) | **Verificado** |
 | 4 | Parroquial | Palmira (060354) | 226,22 envejecimiento | 226,2156 | `pop_65_plus * 100.0 / pop_0_14` (1.070 / 473 * 100) en `parroquia/data.parquet` | Tabulado oficial DPA INEC Chimborazo | **Verificado** |
 | 4 | Parroquial | San Juan (060154) | 177,99 envejecimiento | 177,9915 | `pop_65_plus * 100.0 / pop_0_14` (833 / 468 * 100) en `parroquia/data.parquet` | Tabulado oficial DPA INEC Chimborazo | **Verificado** |
-| 5 | Parroquial | Iñaquito vs Calderón | 150,1 vs 30,11 | 150,1 (Iñaquito) / 30,1097 (Calderón) | Tabulado CPV 2022 DMQ / `pop_65_plus * 100.0 / pop_0_14` en `parroquia/data.parquet` (170155: 17.578 / 58.379 * 100) | Diagnóstico Poblacional DMQ / Censo 2022 INEC | **Verificado** |
-| 6 | Sectorial | Iñaquito vs Calderón | 373,53 vs 5,03 | 373,53 (170150257003) / 5,03 (170155025002) | `pop_65_plus * 100.0 / pop_0_14` sobre `sector/17.parquet` | Parquet oficial sectorial 1B-1 | **Verificado** |
+| 5 | Parroquial | Iñaquito vs Calderón | 141,53 vs 30,11 | 141,5324 (Iñaquito) / 30,1097 (Calderón) | Agregación de 282 sectores Iñaquito (`sector/17.parquet`: 18.712 mayores / 13.221 niños) frente a parroquia Calderón (`parroquia/data.parquet`, unit_key='170155': 17.578 / 58.379 * 100) | En el *Diagnóstico Poblacional DMQ* se reporta 150,1 por recorte GIS municipal; el cálculo directo sobre agregados censales derivados da 141,53 | **Verificado** |
+| 6 | Sectorial | p90 Iñaquito vs p10 Calderón | 217,00 vs 14,83 | 217,0000 (p90) / 14,8344 (p10) | Percentil 90 de Iñaquito (n=190 sectores con `pop_0_14 >= 30`) frente a percentil 10 de Calderón (n=526 sectores con `pop_0_14 >= 30`) en `sector/17.parquet` | Caso extremo documentado con n visible: Iñaquito `170150257003` (127 mayores, 34 niños -> 373,53) y Calderón `170155025002` (9 mayores, 179 niños -> 5,03) | **Verificado** |
 
 ---
 
@@ -102,7 +102,8 @@ Para cada una de las 4 hipótesis causales propuestas, se realizó la descarga d
 - **Página de la cita:** pág. 8 (sección 1.4 "Provincias beneficiarias de remesas recibidas").
 - **Cita textual verificada:**
   > «Esta participación se atribuye a la presencia de un considerable número de hogares beneficiarios en estas áreas geográficas, así como a la disponibilidad de entidades financieras y empresas remesadoras que ofrecen servicios de pago de remesas en dichas localidades contribuyó a la consolidación de estas provincias como centros clave en la recepción de remesas, con base a la investigación de campo efectuada por el Banco Central del Ecuador» (pág. 8).
-- **Resultado:** **VERIFICADO Y CONSERVADO EN PASO 5.**
+- **Alineación editorial de la hipótesis:** Se reformuló el recuadro de hipótesis para que exprese con estricta literalidad lo que la cita y el informe del BCE demuestran empíricamente: la concentración territorial de la emigración coincide con la mayor densidad de hogares receptores y la disponibilidad de entidades financieras y empresas remesadoras que prestan servicios de pago en Azuay y Cañar. Se eliminaron conjeturas sobre jefatura femenina o administración del cuidado que no están sustentadas por este documento macroeconómico, remarcando que el censo no mide los canales financieros ni montos de transferencias.
+- **Resultado:** **VERIFICADO, ALINEADO TEXTUALMENTE Y CONSERVADO EN PASO 5.**
 
 ### 3. Banco Interamericano de Desarrollo (BID) — Historia 3: "La ciudad vacía" (Paso 3)
 - **Auditoría de fuente:** Se revisó la literatura oficial del BID sobre remesas y vivienda en América Latina (*Remittances to Latin America and the Caribbean in 2021*, FOMIN *Remesas que se transforman en inversiones y ahorro*, etc.).

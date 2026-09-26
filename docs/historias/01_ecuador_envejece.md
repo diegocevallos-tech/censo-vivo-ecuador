@@ -71,18 +71,18 @@ SELECT unit_key, population, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 
 
 ---
 
-## Paso 3: El declive de la Sierra sur: los cantones centenarios
+## Paso 3: Los cantones donde los mayores superan a los niños
 
-**English Title:** *The Southern Sierra Decline: Centenarian Cantons*
+**English Title:** *Cantons Where the Elderly Outnumber Children*
 
-Al sur andino, la pirámide poblacional se invierte de manera pronunciada. Olmedo, en Loja, es el cantón más envejecido del país con un índice de 103,98: hay más adultos mayores (836) que niños (804). Patrones similares se observan en Sevilla de Oro con 103,16 y Chaguarpamba con 102,80, donde las personas mayores superan cuantitativamente a la infancia.
+En el extremo opuesto del espectro demográfico, tres cantones de la Sierra sur han invertido su estructura poblacional: Olmedo en Loja con un índice de 103,98, Sevilla de Oro en Azuay con 103,16 y Chaguarpamba en Loja con 102,80. En estas localidades, por cada 100 menores de 15 años habitan más de 102 adultos mayores, perfilando comunidades demográficamente envejecidas.
 
-**Resumen en inglés:** In Olmedo (Loja), the aging index reaches 103.98 (836 seniors vs 804 children), followed by Sevilla de Oro (103.16).  
+**Resumen en inglés:** In Olmedo (103.98), Sevilla de Oro (103.16), and Chaguarpamba (102.80), older adults exceed children.  
 
 **Cifra clave:** `103.98 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, canton/data.parquet (unit_keys: '1115', '0112', '1116')*)
 
 ```sql
-SELECT unit_key, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key IN ('1115', '0112', '1116') ORDER BY aging_index DESC;
+SELECT unit_key, population, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key IN ('1115', '0112', '1116') ORDER BY aging_index DESC;
 ```
 
 ```json
@@ -148,14 +148,15 @@ SELECT unit_key, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derive
 
 **English Title:** *The Urban Twist: Iñaquito vs Calderón at Parish Scale*
 
-Dentro del mismo cantón Quito conviven dos realidades demográficas opuestas a escala parroquial. La parroquia urbana Iñaquito presenta un índice de envejecimiento de 150,1 adultos mayores por cada 100 menores de 15 años. En contraste, la parroquia Calderón, con 250.877 habitantes censados, registra un índice de 30,11, al albergar 58.379 niños frente a 17.578 personas adultas mayores. La tasa de Iñaquito quintuplica a la de Calderón.
+Dentro del mismo cantón Quito conviven realidades opuestas a escala parroquial. La parroquia urbana Iñaquito registra un índice de envejecimiento de 141,53 personas mayores por cada 100 menores (18.712 mayores frente a 13.221 niños). En contraste, la parroquia Calderón registra un índice de 30,11, al albergar 58.379 niños y 17.578 mayores entre sus 250.877 habitantes. La tasa de Iñaquito casi quintuplica a la de Calderón.
 
-**Resumen en inglés:** Within Quito, urban parish Iñaquito reaches an aging index of 150.1, quintupling parish Calderón (30.11; 250,877 inhabitants).  
+**Resumen en inglés:** Within Quito, urban parish Iñaquito reaches an aggregate aging index of 141.53, nearly quintupling parish Calderón (30.11; 250,877 inhabitants).  
 
-**Cifra clave:** `150.1 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, Diagnóstico Poblacional DMQ / parroquia/data.parquet (unit_key='170155')*)
+**Cifra clave:** `141.53 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, sector/17.parquet (agregado 282 sectores Iñaquito) y parroquia/data.parquet (unit_key='170155')*)
 
 ```sql
 SELECT '170155' as unit_key, 'Calderon' as name, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/parroquia/data.parquet' WHERE unit_key = '170155';
+-- Iñaquito agregado sectorial: 18.712 mayores / 13.221 niños = 141.53
 ```
 
 ```json
@@ -180,16 +181,17 @@ SELECT '170155' as unit_key, 'Calderon' as name, population, pop_65_plus, pop_0_
 
 ## Paso 6: De sector a sector: la polarización entre el centro y la periferia
 
-**English Title:** *Sector by Sector: Polarization Between Center and Periphery*
+**English Title:** *Sector by Sector: Percentiles and Generational Polarization*
 
-Al descender al nivel de sectores censales, la polarización territorial se amplifica. En el hipercentro de Iñaquito, sectores como el 170150257003 alcanzan 373,53 adultos mayores por cada 100 niños (127 mayores frente a 34 menores). Por el contrario, en los sectores periféricos de Calderón como el 170155025002, el índice desciende a 5,03 (9 mayores frente a 179 niños). En una misma ciudad, la relación generacional se multiplica por setenta.
+Al comparar sectores con muestra suficiente según el umbral censal, la polarización es contundente. El percentil 90 de Iñaquito alcanza 217,00 adultos mayores por cada 100 niños, mientras el percentil 10 de Calderón desciende a 14,83, multiplicando la tasa casi quince veces. Como caso extremo, el sector 170150257003 en Iñaquito registra 127 mayores y 34 niños (373,53), frente a sectores periféricos con 9 mayores y 179 niños (5,03).
 
-**Resumen en inglés:** At the census sector level, central Iñaquito sectors reach 373.53 seniors per 100 kids, whereas periphery Calderón sectors plunge to 5.03.  
+**Resumen en inglés:** Evaluating robust sectors (pop_0_14 >= 30), Iñaquito's 90th percentile reaches 217.00 seniors per 100 children, while Calderón's 10th percentile drops to 14.83.  
 
-**Cifra clave:** `373.53 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, sector/17.parquet (sectores: '170150257003' y '170155025002')*)
+**Cifra clave:** `217.0 mayores 65+ por 100 niños 0-14` (Fuente: *INEC CPV 2022, sector/17.parquet (sectores con pop_0_14 >= 30)*)
 
 ```sql
 SELECT unit_key, population, pop_65_plus, pop_0_14, pop_65_plus * 100.0 / pop_0_14 AS aging_index FROM 'data/derived/counts/v1b1/sector/17.parquet' WHERE unit_key IN ('170150257003', '170155025002');
+-- Umbral pop_0_14 >= 30: p90 Iñaquito = 217.00 | p10 Calderón = 14.83
 ```
 
 ```json

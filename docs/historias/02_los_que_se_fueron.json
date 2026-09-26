@@ -35,26 +35,26 @@
     {
       "id": 2,
       "title": "El epicentro del Austro: Cañar y Azuay",
-      "en_title": "The Austro Epicenter: Cañar and Azuay",
-      "text": "La concentración geográfica de la emigración se localiza con nitidez en las provincias del Austro. Cañar registra una tasa provincial de 38,76 emigrantes por cada mil habitantes (8.820 personas sobre 227.578 residentes). En Azuay, la tasa alcanza 28,13 por mil (22.550 emigrantes sobre 801.609 personas), conformando el núcleo de mayor intensidad emigratoria del país.",
-      "en_summary": "Cañar (38.76 per thousand) and Azuay (28.13 per thousand) concentrate the highest emigration rates in Ecuador.",
+      "en_title": "The Epicenter in the Austro: Cañar and Azuay",
+      "text": "La distribución espacial de la emigración muestra una concentración extrema en el Austro ecuatoriano. La provincia de Cañar encabeza la tasa nacional con 38,76 emigrantes por cada mil habitantes (8.820 emigrantes en 227.578 personas). Azuay le sigue de cerca con 28,13 por mil (22.550 emigrantes en 801.609 habitantes). Ambas provincias concentran casi un tercio del total de ausencias registradas.",
+      "en_summary": "Cañar leads emigration intensity with 38.76 per thousand inhabitants, followed by Azuay with 28.13.",
       "key_metric": {
-        "name": "Tasa provincial de emigración en Cañar",
+        "name": "Tasa de emigración provincial en Cañar",
         "value": 38.76,
-        "unit": "emigrantes por 1.000 habitantes",
+        "unit": "emigrantes por mil habitantes",
         "source": "INEC CPV 2022, provincia/data.parquet (unit_keys: '03', '01')"
       },
       "hypothesis": null,
-      "reproducible_query": "SELECT province_key, sum(emigrants) * 1000.0 / sum(population) AS rate_per_1000 FROM 'data/derived/counts/v1b1/provincia/data.parquet' WHERE province_key IN ('03', '01') GROUP BY province_key;",
+      "reproducible_query": "SELECT unit_key, population, emigrants, emigrants * 1000.0 / population AS emigrant_rate_per_thousand FROM 'data/derived/counts/v1b1/provincia/data.parquet' WHERE unit_key IN ('03', '01');",
       "map_state": {
         "nivel": "provincia",
         "centro": [
           -78.95,
           -2.75
         ],
-        "zoom": 8.5,
+        "zoom": 8.2,
         "indicador": "emigrant_households",
-        "filtro": "province_key IN ('03', '01')",
+        "filtro": "unit_key IN ('03', '01')",
         "capa_extra": null,
         "resaltados": [
           "03",
@@ -64,25 +64,25 @@
     },
     {
       "id": 3,
-      "title": "Intensidad cantonal máxima: Chunchi, Chimborazo",
-      "en_title": "Maximum Cantonal Intensity: Chunchi, Chimborazo",
-      "text": "En el cantón Chunchi, provincia de Chimborazo, el 7,29% de la población censada fue reportada como emigrante en el exterior (775 personas frente a 10.635 habitantes residentes). Es la tasa cantonal de salida relativa más elevada del Ecuador, evidenciando que el fenómeno migratorio también impacta con severidad a cantones rurales de la Sierra centro.",
-      "en_summary": "Chunchi (Chimborazo) registers Ecuador's highest cantonal emigration rate at 7.29% of its census population.",
+      "title": "Chunchi: el récord cantonal en la Sierra centro-sur",
+      "en_title": "Chunchi: Cantonal Record in Central-Southern Sierra",
+      "text": "A nivel cantonal, la intensidad migratoria alcanza su punto cúspide en Chunchi (Chimborazo). Con una población de 10.635 habitantes, 775 personas fueron reportadas como emigrantes en el censo, lo que representa el 7,29% de su población total. En este cantón andino, más de siete de cada cien residentes tienen familiares inmediatos residiendo en el exterior.",
+      "en_summary": "Chunchi in Chimborazo registers the peak cantonal emigration rate at 7.29% of its total population (775 emigrants).",
       "key_metric": {
-        "name": "Tasa de emigración cantonal en Chunchi",
+        "name": "Porcentaje de emigración en Chunchi",
         "value": 7.29,
-        "unit": "% de emigrantes sobre población residente",
+        "unit": "% de la población cantonal",
         "source": "INEC CPV 2022, canton/data.parquet (unit_key='0605')"
       },
       "hypothesis": null,
-      "reproducible_query": "SELECT unit_key, emigrants, population, emigrants * 100.0 / population AS pct_emigrants FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key = '0605';",
+      "reproducible_query": "SELECT unit_key, population, emigrants, emigrants * 100.0 / population AS pct_emigrants FROM 'data/derived/counts/v1b1/canton/data.parquet' WHERE unit_key = '0605';",
       "map_state": {
         "nivel": "canton",
         "centro": [
           -78.91,
           -2.29
         ],
-        "zoom": 10.0,
+        "zoom": 10.2,
         "indicador": "emigrant_households",
         "filtro": "unit_key = '0605'",
         "capa_extra": null,
@@ -134,7 +134,7 @@
         "source": "INEC CPV 2022, canton/data.parquet (unit_keys: '0109', '0303')"
       },
       "hypothesis": {
-        "text": "En cantones con marcada pérdida de población masculina en edades productivas, las familias receptoras de remesas concentran la jefatura de hogar y las responsabilidades del cuidado en mujeres y abuelos.",
+        "text": "La concentración territorial de la emigración coincide con la mayor presencia de hogares beneficiarios y cobertura de entidades financieras pagadoras de remesas en las provincias del Austro",
         "source_title": "Informe de Resultados de Remesas: Cuarto trimestre de 2023",
         "source_author": "Banco Central del Ecuador (BCE)",
         "source_year": 2024,
@@ -163,25 +163,25 @@
       "id": 6,
       "title": "La frontera migratoria amazónica: Morona Santiago",
       "en_title": "The Amazonian Migration Frontier: Morona Santiago",
-      "text": "La salida internacional no es exclusiva de los Andes. En la provincia amazónica de Morona Santiago, la tasa de emigración alcanza 16,94 por mil habitantes (3.261 emigrantes sobre 192.508 habitantes), superando a provincias serranas como Tungurahua (14,64) y Pichincha (7,72). Este dato corrobora la extensión del fenómeno hacia la cuenca oriental.",
-      "en_summary": "Morona Santiago records 16.94 emigrants per thousand (3,261 total), surpassing central Sierra provinces.",
+      "text": "Aunque la migración internacional se asocia comúnmente a la Sierra centro-sur, los datos del Censo 2022 revelan que la Amazonía sur se ha integrado activamente a este proceso. Morona Santiago registra 16,94 emigrantes por cada mil habitantes (3.261 personas emigrantes en 192.508 habitantes), superando la tasa provincial de varias provincias andinas y costeñas.",
+      "en_summary": "Morona Santiago shows an emerging migration rate of 16.94 emigrants per thousand inhabitants.",
       "key_metric": {
-        "name": "Tasa provincial de emigración en Morona Santiago",
+        "name": "Tasa de emigración provincial en Morona Santiago",
         "value": 16.94,
-        "unit": "emigrantes por 1.000 habitantes",
+        "unit": "emigrantes por mil habitantes",
         "source": "INEC CPV 2022, provincia/data.parquet (unit_key='14')"
       },
       "hypothesis": null,
-      "reproducible_query": "SELECT province_key, emigrants * 1000.0 / population AS rate_per_1000 FROM 'data/derived/counts/v1b1/provincia/data.parquet' WHERE province_key = '14';",
+      "reproducible_query": "SELECT unit_key, population, emigrants, emigrants * 1000.0 / population AS emigrant_rate_per_thousand FROM 'data/derived/counts/v1b1/provincia/data.parquet' WHERE unit_key = '14';",
       "map_state": {
         "nivel": "provincia",
         "centro": [
-          -78.11,
-          -2.55
+          -77.8,
+          -2.8
         ],
-        "zoom": 8.0,
+        "zoom": 7.8,
         "indicador": "emigrant_households",
-        "filtro": "province_key = '14'",
+        "filtro": "unit_key = '14'",
         "capa_extra": null,
         "resaltados": [
           "14"
@@ -190,26 +190,26 @@
     },
     {
       "id": 7,
-      "title": "La contrapartida interna: Daule y los que llegan",
-      "en_title": "The Domestic Counterpart: Daule and Inward Migration",
-      "text": "Frente a las zonas de expulsión internacional, cantones periurbanos actúan como receptores internos de población. En el cantón Daule (Guayas), 34.664 personas reportaron residir en otro cantón hace cinco años. La dinámica demográfica ecuatoriana combina simultáneamente salidas internacionales en zonas rurales y traslados internos hacia periferias metropolitanas de la Costa.",
-      "en_summary": "While the Sierra expels population abroad, coastal cantons like Daule receive 34,664 internal migrants.",
+      "title": "Migración interna: los polos de atracción",
+      "en_title": "Internal Migration: Growth Poles and Counter-flows",
+      "text": "Frente a los cantones expulsores de población internacional, cantones receptores en zonas metropolitanas y periurbanas han experimentado un crecimiento notable. Cantones como Daule y Samborondón en Guayas, o Rumiñahui en Pichincha, absorben flujos residenciales significativos. En Daule, 34.664 personas reportaron en el censo haber residido en otro cantón cinco años antes, transformando la dinámica urbana regional.",
+      "en_summary": "Peri-urban cantons like Daule absorbed large internal migration flows (34,664 people from other cantons).",
       "key_metric": {
-        "name": "Población residente en otro cantón hace 5 años en Daule",
+        "name": "Residentes procedentes de otro cantón en Daule",
         "value": 34664,
         "unit": "personas",
-        "source": "INEC CPV 2022, interim cross_counts (unit_key='0906')"
+        "source": "INEC CPV 2022, cross_counts Fase 1B-2 (canton_key='0906')"
       },
       "hypothesis": null,
-      "reproducible_query": "SELECT canton_key, sum(residence_other_canton_5) AS internal_migrants FROM cross_counts_v1b2 WHERE canton_key = '0906' GROUP BY canton_key;",
+      "reproducible_query": "SELECT canton_key, sum(n) as internal_migrants FROM cross_counts_v1b2 WHERE variable = 'residence_5yr_prior' AND canton_key = '0906' GROUP BY canton_key;",
       "map_state": {
         "nivel": "canton",
         "centro": [
           -79.98,
           -1.98
         ],
-        "zoom": 10.5,
-        "indicador": "emigrant_households",
+        "zoom": 10.0,
+        "indicador": "internal_migrants",
         "filtro": "unit_key = '0906'",
         "capa_extra": null,
         "resaltados": [
@@ -219,12 +219,12 @@
     },
     {
       "id": 8,
-      "title": "¿Cómo sostener comunidades con vacíos generacionales?",
-      "en_title": "How Can Communities With Generational Voids Be Sustained?",
-      "text": "Los datos censales confirman pérdidas de hasta un tercio de la población masculina joven en cantones del Austro andino. Ante este escenario, ¿cómo deben adaptarse las políticas de empleo rural, los sistemas de cuidados y la educación para comunidades donde faltan generaciones intermedias completas?",
-      "en_summary": "Policy dilemma regarding economic viability and local care structures in cantons with pronounced demographic imbalances.",
+      "title": "¿Qué queda en las comunidades de origen?",
+      "en_title": "What Remains in Communities of Origin?",
+      "text": "La salida de decenas de miles de personas en edad productiva deja una impronta indeleble en el tejido productivo y social de los cantones de origen. Con pirámides sesgadas hacia mujeres, niños y ancianos, ¿cómo se reconfiguran las economías locales del Austro y qué desafíos enfrentan los territorios que pierden a su fuerza laboral?",
+      "en_summary": "Reflections on demographic hollows, eldercare burdens, and sustainable development in high-emigration cantons.",
       "key_metric": {
-        "name": "Pregunta de cierre de política pública",
+        "name": "Pregunta de cierre sobre tejido productivo",
         "value": null,
         "unit": "reflexión analítica",
         "source": "Censo Ecuador 2022"
@@ -234,11 +234,11 @@
       "map_state": {
         "nivel": "canton",
         "centro": [
-          -78.95,
-          -2.75
+          -78.1834,
+          -1.8312
         ],
-        "zoom": 8.0,
-        "indicador": "male_ratio",
+        "zoom": 6.8,
+        "indicador": "emigrant_households",
         "filtro": null,
         "capa_extra": null,
         "resaltados": []

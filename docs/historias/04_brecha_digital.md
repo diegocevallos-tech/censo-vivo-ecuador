@@ -5,18 +5,18 @@
 
 ---
 
-## Paso 1: La brecha de entrada: celular vs internet fijo en los hogares
+## Paso 1: La escala nacional de la conectividad en el hogar
 
-**English Title:** *The Entry Gap: Mobile Phone vs Fixed Internet in Households*
+**English Title:** *National Scale of Home Connectivity*
 
-En el Censo 2022, sobre un total de 5.188.827 hogares clasificados, el 86,98% (4.513.446 hogares) reportó contar con servicio de teléfono celular (H1002=1). En contraste, el servicio de internet fijo domiciliario (H1004=1) solo alcanza al 60,89% (3.159.588 hogares). Esta diferencia de 26,09 puntos porcentuales en el mismo universo de hogares evidencia la brecha estructural de acceso.
+El Censo 2022 evaluó el equipamiento tecnológico en 5.188.827 hogares clasificados en el Ecuador. A nivel nacional, el 86,98% de los hogares reportó contar con al menos un teléfono celular (4.513.446 hogares). En contraste, el servicio de internet fijo domiciliario alcanzó una cobertura del 60,89% (3.159.588 hogares), marcando una brecha nacional de más de 26 puntos porcentuales entre conectividad móvil y fija.
 
-**Resumen en inglés:** 86.98% of Ecuadorian households report cell phone service, but only 60.89% have fixed internet (a 26.09 percentage point gap).  
+**Resumen en inglés:** Nationwide, 86.98% of households have mobile phones, while only 60.89% have fixed broadband at home.  
 
-**Cifra clave:** `26.09 puntos porcentuales de brecha en hogares` (Fuente: *INEC CPV 2022, categories/nacion/data.parquet (H1002 vs H1004)*)
+**Cifra clave:** `60.89 % de hogares con internet fijo` (Fuente: *INEC CPV 2022, categories/nacion/data.parquet (H1004=1 / sum(H1004))*)
 
 ```sql
-SELECT sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct FROM 'data/derived/counts/v1b1/categories/nacion/data.parquet' WHERE variable IN ('H1002', 'H1004') GROUP BY variable;
+SELECT category, n, n * 100.0 / sum(n) OVER () AS pct FROM 'data/derived/counts/v1b1/categories/nacion/data.parquet' WHERE variable = 'H1004';
 ```
 
 ```json
@@ -38,18 +38,18 @@ SELECT sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct FROM 'data/der
 
 ---
 
-## Paso 2: Los cantones hiperconectados: Rumiñahui y Cuenca
+## Paso 2: Las islas conectadas: Rumiñahui y Cuenca
 
-**English Title:** *Hyperconnected Cantons: Rumiñahui and Cuenca*
+**English Title:** *Connected Islands: Rumiñahui and Cuenca*
 
-La cobertura de internet fijo en hogares se concentra marcadamente en cantones con alta infraestructura urbana. Rumiñahui, en Pichincha, lidera el país con un 78,24% de hogares con internet fijo domiciliario. Le sigue Cuenca con 75,30%, Quito con 74,80% y Samborondón con 74,10%, configurando los principales núcleos de conectividad residencial del Ecuador.
+El acceso a internet fijo se concentra en cantones metropolitanos y urbanos consolidados. El cantón Rumiñahui en Pichincha encabeza la conectividad domiciliaria con el 78,24% de sus hogares dotados de internet fijo. Cuenca, en Azuay, registra el 75,30%. En estos cantones, tres de cada cuatro hogares disponen de conectividad fija de banda ancha.
 
-**Resumen en inglés:** Rumiñahui (78.24%) and Cuenca (75.30%) exhibit Ecuador's highest household fixed internet penetration rates.  
+**Resumen en inglés:** Rumiñahui (78.24%) and Cuenca (75.30%) register the highest household fixed internet penetration rates.  
 
-**Cifra clave:** `78.24 % de hogares con internet fijo` (Fuente: *INEC CPV 2022, categories/canton/17.parquet (unit_key='1705')*)
+**Cifra clave:** `78.24 % de hogares` (Fuente: *INEC CPV 2022, categories/canton/17.parquet y 01.parquet*)
 
 ```sql
-SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fixed FROM 'data/derived/counts/v1b1/categories/canton/*.parquet' WHERE variable='H1004' AND canton_key IN ('1705', '0101', '1701', '0916') GROUP BY canton_key ORDER BY pct_fixed DESC;
+SELECT unit_key, sum(CASE WHEN category = '1' THEN n ELSE 0 END) * 100.0 / sum(n) AS pct_fixed_internet FROM 'data/derived/counts/v1b1/categories/canton/17.parquet' WHERE variable = 'H1004' AND unit_key = '1705' GROUP BY unit_key;
 ```
 
 ```json
@@ -59,9 +59,9 @@ SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fi
     -78.44,
     -0.32
   ],
-  "zoom": 10.0,
+  "zoom": 10.5,
   "indicador": "fixed_internet",
-  "filtro": "unit_key IN ('1705', '0101', '1701', '0916')",
+  "filtro": "unit_key IN ('1705', '0101')",
   "capa_extra": null,
   "resaltados": [
     "1705",
@@ -72,30 +72,30 @@ SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fi
 
 ---
 
-## Paso 3: El desierto digital: Taisha y Paján
+## Paso 3: El desierto digital: Taisha y la ruralidad costera
 
-**English Title:** *The Digital Desert: Taisha and Paján*
+**English Title:** *The Digital Desert: Taisha and Coastal Rurality*
 
-En el extremo opuesto, el acceso a internet fijo domiciliario es prácticamente residual en cantones rurales y amazónicos. En Taisha, únicamente el 14,82% de los hogares reporta contar con servicio de internet fijo. En cantones costeros como Paján (Manabí), la tasa es de 22,64%, evidenciando amplias zonas del país al margen de las redes cableadas residenciales.
+En el extremo opuesto, la carencia de infraestructura fija aísla a extensos territorios. En el cantón amazónico Taisha (Morona Santiago), apenas el 14,82% de los hogares dispone de internet fijo. La brecha no es exclusiva del oriente: en la Costa rural, el cantón Paján (Manabí) registra un 22,64% de acceso fijo, dejando a más de tres cuartas partes de sus hogares desprovistos de conectividad domiciliaria.
 
-**Resumen en inglés:** Fixed internet penetration drops to 14.82% of households in Taisha and 22.64% in Paján (Manabí).  
+**Resumen en inglés:** In Taisha (14.82%) and Paján (22.64%), less than a quarter of households have home broadband access.  
 
-**Cifra clave:** `14.82 % de hogares con internet fijo` (Fuente: *INEC CPV 2022, categories/canton/14.parquet (unit_key='1409')*)
+**Cifra clave:** `14.82 % de hogares` (Fuente: *INEC CPV 2022, categories/canton/14.parquet y 13.parquet*)
 
 ```sql
-SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fixed FROM 'data/derived/counts/v1b1/categories/canton/*.parquet' WHERE variable='H1004' AND canton_key IN ('1409', '1310') GROUP BY canton_key;
+SELECT unit_key, sum(CASE WHEN category = '1' THEN n ELSE 0 END) * 100.0 / sum(n) AS pct_fixed_internet FROM 'data/derived/counts/v1b1/categories/canton/14.parquet' WHERE variable = 'H1004' AND unit_key IN ('1409', '1310') GROUP BY unit_key;
 ```
 
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -77.5,
-    -2.38
+    -78.5,
+    -1.8
   ],
-  "zoom": 8.5,
+  "zoom": 8.0,
   "indicador": "fixed_internet",
-  "filtro": "pct_fixed <= 25.0",
+  "filtro": "unit_key IN ('1409', '1310')",
   "capa_extra": null,
   "resaltados": [
     "1409",
@@ -106,35 +106,35 @@ SELECT canton_key, sum(n) FILTER (WHERE category='1') * 100.0 / sum(n) AS pct_fi
 
 ---
 
-## Paso 4: El giro de los dispositivos: celular en casi todos, fijo en pocos
+## Paso 4: El giro de la brecha: celular universal frente a internet fijo
 
-**English Title:** *The Device Twist: Cell Phones Everywhere, Fixed Internet Scarce*
+**English Title:** *The Gap Twist: Universal Mobile vs Fixed Broadband*
 
-Al contrastar los dos servicios en la misma unidad de análisis, surge una brecha contraintuitiva. En el cantón Paján, el 80,48% de los hogares tiene servicio celular, pero solo el 22,64% accede a internet fijo: una brecha de 57,84 puntos porcentuales. En El Empalme, la brecha alcanza 51,71 puntos (87,74% celular frente a 36,02% fijo).
+Al contrastar equipamientos dentro del mismo universo de hogares, emerge un desbalance estructural: en cantones rurales la telefonía móvil es masiva, pero la red fija es marginal. En Paján, el 80,48% de hogares posee celular, frente a solo el 22,64% con internet fijo: una brecha de 57,84 puntos. En El Empalme la discrepancia alcanza 51,71 puntos (87,74% vs 36,02%).
 
-> **Hipótesis:** La disparidad entre la posesión de celular y el acceso a internet fijo domiciliario refleja barreras de costo de instalación de redes cableadas frente a la mayor asequibilidad de los paquetes móviles bajo modalidad prepago. (el censo no lo mide). [Agencia de Regulación y Control de las Telecomunicaciones (ARCOTEL), 2023, pág. 8](https://www.arcotel.gob.ec/wp-content/uploads/2023/12/Boletin-cierre-de-a%C3%B1o.pdf).
+> **Hipótesis:** La disparidad entre la adopción de celulares y el acceso a internet fijo responde al menor costo inicial del servicio móvil bajo la modalidad prepago frente a los costos de instalación de las redes fijas. (el censo no lo mide). [Agencia de Regulación y Control de las Telecomunicaciones (ARCOTEL), 2023, pág. 8](https://www.arcotel.gob.ec/wp-content/uploads/2023/12/Boletin-cierre-de-a%C3%B1o.pdf).
 >
 > *Cita textual:* «En diciembre del año 2022 en la modalidad pospago se registraron 3.743.849 y en la modalidad prepago 13.740.159 líneas activas.»
 
-**Resumen en inglés:** In Paján, 80.48% of households have cell phones, but only 22.64% have fixed internet (a 57.84 percentage point gap).  
+**Resumen en inglés:** In Paján, 80.48% of households own cellphones but only 22.64% have fixed internet (57.84 percentage point gap).  
 
-**Cifra clave:** `57.84 puntos porcentuales (% celular - % internet fijo)` (Fuente: *INEC CPV 2022, categories/canton/13.parquet (canton='1310')*)
+**Cifra clave:** `57.84 puntos porcentuales de diferencia` (Fuente: *INEC CPV 2022, categories/canton/13.parquet (H1002 vs H1004)*)
 
 ```sql
-SELECT canton_key, sum(n) FILTER (WHERE variable='H1002' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1002') AS pct_celular, sum(n) FILTER (WHERE variable='H1004' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1004') AS pct_fijo, (sum(n) FILTER (WHERE variable='H1002' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1002')) - (sum(n) FILTER (WHERE variable='H1004' AND category='1') * 100.0 / sum(n) FILTER (WHERE variable='H1004')) AS brecha_puntos FROM 'data/derived/counts/v1b1/categories/canton/13.parquet' WHERE canton_key = '1310' GROUP BY canton_key;
+SELECT unit_key, sum(CASE WHEN variable='H1002' AND category='1' THEN n ELSE 0 END) * 100.0 / sum(CASE WHEN variable='H1002' THEN n ELSE 0 END) AS pct_celular, sum(CASE WHEN variable='H1004' AND category='1' THEN n ELSE 0 END) * 100.0 / sum(CASE WHEN variable='H1004' THEN n ELSE 0 END) AS pct_fijo, (sum(CASE WHEN variable='H1002' AND category='1' THEN n ELSE 0 END) * 100.0 / sum(CASE WHEN variable='H1002' THEN n ELSE 0 END)) - (sum(CASE WHEN variable='H1004' AND category='1' THEN n ELSE 0 END) * 100.0 / sum(CASE WHEN variable='H1004' THEN n ELSE 0 END)) AS brecha_puntos FROM 'data/derived/counts/v1b1/categories/canton/13.parquet' WHERE unit_key = '1310' GROUP BY unit_key;
 ```
 
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -80.43,
+    -80.42,
     -1.55
   ],
-  "zoom": 9.5,
+  "zoom": 10.0,
   "indicador": "fixed_internet",
   "filtro": "unit_key IN ('1310', '0908')",
-  "capa_extra": "bivariate_gap",
+  "capa_extra": null,
   "resaltados": [
     "1310",
     "0908"
@@ -144,29 +144,29 @@ SELECT canton_key, sum(n) FILTER (WHERE variable='H1002' AND category='1') * 100
 
 ---
 
-## Paso 5: La brecha intraurbana: Iñaquito frente a Pacto
+## Paso 5: La fractura parroquial dentro del mismo cantón
 
-**English Title:** *Intra-urban Divide: Iñaquito vs Pacto in Quito*
+**English Title:** *Parish-Level Fracture Within the Same Canton*
 
-La desigualdad digital persiste incluso dentro del cantón Quito al comparar personas con personas. En la parroquia urbana Iñaquito, el 91,99% de la población de 5 años y más reporta usar internet. En la parroquia rural Pacto, perteneciente al mismo cantón, la proporción desciende al 50,54%. En una sola circunscripción cantonal conviven brechas territoriales de más de 40 puntos.
+La desigualdad digital se reproduce con fuerza al interior de los municipios. En el cantón Quito, la parroquia urbana Iñaquito alcanza un 91,99% de población de 5 años y más que usa internet. A corta distancia, en la parroquia noroccidental Pacto, el indicador se desploma al 50,54%. En una misma jurisdicción cantonal conviven estándares de conectividad diametralmente dispares.
 
-**Resumen en inglés:** Within Quito, internet usage reaches 91.99% of people in urban Iñaquito, but only 50.54% in rural Pacto.  
+**Resumen en inglés:** Within Quito, Iñaquito parish reaches 91.99% individual internet use, while rural Pacto drops to 50.54%.  
 
-**Cifra clave:** `41.45 puntos porcentuales de diferencia en personas 5+ años` (Fuente: *INEC CPV 2022, cross_counts analítica 1B-2 (unit_keys: '170157', '170161')*)
+**Cifra clave:** `41.45 puntos porcentuales de diferencia` (Fuente: *INEC CPV 2022, cross_counts Fase 1B-2 (parroquias: 170157, 170161)*)
 
 ```sql
-SELECT parish_key, internet_person_5 * 100.0 / internet_response_5 AS pct_users FROM cross_counts_v1b2 WHERE parish_key IN ('170157', '170161');
+SELECT parish_key, internet_users * 100.0 / pop_5_plus AS pct_internet FROM cross_counts_v1b2 WHERE parish_key IN ('170157', '170161');
 ```
 
 ```json
 {
   "nivel": "parroquia",
   "centro": [
-    -78.55,
-    -0.05
+    -78.6,
+    0.05
   ],
   "zoom": 10.2,
-  "indicador": "digital_exclusion",
+  "indicador": "fixed_internet",
   "filtro": "canton_key = '1701'",
   "capa_extra": null,
   "resaltados": [
@@ -178,29 +178,29 @@ SELECT parish_key, internet_person_5 * 100.0 / internet_response_5 AS pct_users 
 
 ---
 
-## Paso 6: La brecha generacional: jóvenes urbanos vs adultos mayores rurales
+## Paso 6: La doble exclusión: edad y territorio
 
-**English Title:** *The Generational Gap: Urban Youth vs Rural Seniors*
+**English Title:** *Double Exclusion: Age and Geography*
 
-Al cruzar grupos de edad censales, la desigualdad digital alcanza su mayor distancia. Mientras el 88,85% de jóvenes de 15 a 29 años en Quito utiliza internet de manera habitual, en cantones rurales como Eloy Alfaro (Esmeraldas), apenas el 8,72% de adultos mayores de 65 años declara utilizar la red, configurando una distancia de 80,13 puntos porcentuales.
+La brecha digital combina factores generacionales y geográficos. En áreas metropolitanas como Quito, el 88,85% de jóvenes de 15 a 29 años utiliza internet. En contraste, en cantones rurales dispersos como Eloy Alfaro (Esmeraldas), el uso de internet entre personas de 65 años y más apenas alcanza el 8,72%, configurando una exclusión casi absoluta de las tecnologías digitales.
 
-**Resumen en inglés:** 88.85% of urban youth in Quito use the internet, compared to only 8.72% of rural seniors in Eloy Alfaro.  
+**Resumen en inglés:** Extreme generational divide: 88.85% of Quito youth are online vs only 8.72% of seniors in rural Eloy Alfaro.  
 
-**Cifra clave:** `80.13 puntos porcentuales (Quito jóvenes vs Eloy Alfaro mayores)` (Fuente: *INEC CPV 2022, cross_counts analítica 1B-2*)
+**Cifra clave:** `8.72 % de adultos mayores conectados` (Fuente: *INEC CPV 2022, cross_counts Fase 1B-2 (canton_keys: '1701', '0802')*)
 
 ```sql
-SELECT (SELECT digital_youth_yes * 100.0 / digital_youth_n FROM cross_counts WHERE canton_key='1701') - (SELECT digital_senior_yes * 100.0 / digital_senior_n FROM cross_counts WHERE canton_key='0802') AS gap;
+SELECT canton_key, senior_internet_users * 100.0 / senior_pop AS pct_senior_internet FROM cross_counts_v1b2 WHERE canton_key IN ('1701', '0802');
 ```
 
 ```json
 {
   "nivel": "canton",
   "centro": [
-    -78.5,
-    0.4
+    -78.9,
+    0.5
   ],
-  "zoom": 8.0,
-  "indicador": "digital_exclusion",
+  "zoom": 8.5,
+  "indicador": "fixed_internet",
   "filtro": "unit_key IN ('1701', '0802')",
   "capa_extra": null,
   "resaltados": [
@@ -212,13 +212,13 @@ SELECT (SELECT digital_youth_yes * 100.0 / digital_youth_n FROM cross_counts WHE
 
 ---
 
-## Paso 7: ¿Es el internet un derecho universal o un privilegio geográfico?
+## Paso 7: ¿Hacia una ciudadanía digital o una nueva desigualdad?
 
-**English Title:** *Is the Internet a Universal Right or a Geographic Privilege?*
+**English Title:** *Towards Digital Citizenship or Deepening Inequality?*
 
-Cuando el acceso a trámites del Estado, educación virtual y empleo depende de una conexión fija que no llega a 4 de cada 10 hogares ecuatorianos, la conectividad condiciona el ejercicio de derechos. ¿Qué políticas públicas deben implementarse para que la inclusión digital no dependa del cantón en el que se nace?
+Con el 87% de los hogares conectados mediante telefonía móvil pero una persistente exclusión de redes fijas en la ruralidad, la brecha de calidad compromete la educación remota, el teletrabajo y los trámites públicos. ¿Cómo garantizar un acceso equitativo a servicios digitales avanzados para las comunidades que dependen exclusivamente de recargas telefónicas?
 
-**Resumen en inglés:** Final policy reflection on universal digital connectivity and geographic equity.  
+**Resumen en inglés:** Policy inquiry on closing structural digital quality gaps beyond mobile phone penetration.  
 
 **Cifra clave:** `N/A reflexión analítica` (Fuente: *Censo Ecuador 2022*)
 

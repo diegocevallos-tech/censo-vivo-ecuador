@@ -50,7 +50,7 @@ Se aplicaron rigurosamente las 7 reglas editoriales acordadas sobre los guiones 
 ## 3. Estado de Entrega
 
 - Rama: `feat/historias-guion`
-- PR: Draft PR #47 (mantenido en borrador según solicitud)
+- PR: PR #47 (marcado como Listo para revisión / Ready for review hacia `main`, sin fusionar)
 - Archivos en PR:
   - `docs/historias/01_ecuador_envejece.md`
   - `docs/historias/01_ecuador_envejece.json`
@@ -64,17 +64,30 @@ Se aplicaron rigurosamente las 7 reglas editoriales acordadas sobre los guiones 
   - `docs/historias/verificacion.md`
   - `HANDOFF_ANTIGRAVITY.md`
 
+### Ajustes Finales de Verificación, Escala Editorial y Fuentes (2026-09-25)
+1. **Iñaquito calculado directamente desde agregados de Release data-derived (Paso 5):**
+   - Se agruparon los 282 sectores censales que configuran la parroquia urbana Iñaquito en `sector/17.parquet`:
+     - Población total: 107.734 habitantes.
+     - Adultos mayores (65+): 18.712.
+     - Menores (0-14): 13.221.
+     - **Índice de envejecimiento exacto = 141,53** mayores por cada 100 menores.
+   - En contraste, la parroquia Calderón (`170155` en `parroquia/data.parquet`) tiene 250.877 habitantes (17.578 mayores vs 58.379 niños), con un **índice = 30,11**.
+   - El índice de Iñaquito casi quintuplica (4,70x) al de Calderón a la misma escala parroquial.
+   - En `docs/historias/verificacion.md` se cita el valor previo del *Diagnóstico Poblacional DMQ* (150,1) únicamente como contraste metodológico originado en el recorte vectorial municipal.
+
+2. **Comparación sectorial por percentiles con umbral censal min_n (Paso 6):**
+   - Se aplicó el filtro oficial de "pocos casos" definido en `indicators.yaml` (`pop_0_14 >= 30` en el denominador):
+     - **Iñaquito (190 sectores calificados):** percentil 90 = **217,00** mayores por cada 100 niños (mediana = 139,10, p10 = 67,14).
+     - **Calderón (526 sectores calificados):** percentil 10 = **14,83** mayores por cada 100 niños (mediana = 29,28, p90 = 55,93).
+     - La brecha entre el percentil 90 de Iñaquito y el percentil 10 de Calderón multiplica la relación generacional casi quince veces (14,63x).
+   - Se cita de forma complementaria y con sus $n$ explícitas el sector extremo del hipercentro de Iñaquito (`170150257003`: 127 mayores y 34 niños, índice 373,53) frente al sector periférico de Calderón (`170155025002`: 9 mayores y 179 niños, índice 5,03).
+
+3. **Reescritura de la hipótesis del BCE (Historia 2, Paso 5):**
+   - Se reformuló la hipótesis editorial para que refleje de manera literal lo que el informe oficial del Banco Central del Ecuador (*Informe de Resultados de Remesas IVT 2023*, pág. 8) sustenta empíricamente: la concentración territorial de la emigración coincide con la mayor densidad de hogares receptores y la disponibilidad de entidades financieras y empresas remesadoras pagadoras en Azuay y Cañar.
+   - Se eliminaron inferencias no respaldadas sobre jefatura de hogar femenina o estructura de cuidados, dejando explícito que el censo no mide los canales financieros ni flujos monetarios.
+
+4. **Estado de PR #47:** Abierto y marcado como **Listo para revisión (Ready for review)** hacia `main` (sin merge).
+
 ---
 *Fin del Handoff.*
 
-### Correcciones de Verificación y Escala Editorial (2026-09-25)
-1. **Giro 1 a la misma escala (Parroquia vs Parroquia y Sector vs Sector):**
-   - **Paso 5:** Se compara la parroquia urbana Iñaquito (índice de envejecimiento = 150,1) frente a la parroquia rural Calderón (índice = 30,11; población censada = 250.877; 58.379 niños vs 17.578 adultos mayores). Ambas pertenecen al mismo cantón Quito.
-   - **Paso 6:** Se compara a escala intraurbana sector contra sector: sectores centrales de Iñaquito (p. ej. `170150257003`, índice = 373,53) frente a sectores periféricos en expansión de Calderón (p. ej. `170155025002`, índice = 5,03).
-2. **Auditoría y Verificación Textual de Fuentes Externas:**
-   - **CEPAL (2022):** Verificado en PDF oficial LC/CRE.5/3, pág. 33, URL directa en repositorio CEPAL.
-   - **BCE (2024, datos 2023):** Verificado en *Informe de Resultados de Remesas IVT 2023*, pág. 8, URL directa en servidor BCE.
-   - **BID (2021):** No se halló cita textual ni evidencia empírica en informes BID que vincule formalmente la vacancia de viviendas en el Austro con ahorro de la diáspora. Siguiendo la instrucción editorial estricta, **se eliminó el recuadro de hipótesis de la Historia 3**.
-   - **ARCOTEL (2023, datos 2022):** Verificado en *Boletín Estadístico Cierre de Año 2022*, pág. 8 y 15, URL directa en portal ARCOTEL.
-   - Todo registrado y documentado en `docs/historias/verificacion.md` (sección 5).
-3. **Estado de PR #47:** Marcado como **Listo para revisión (Ready for review)** hacia `main`.
