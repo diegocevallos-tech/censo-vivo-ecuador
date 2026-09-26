@@ -4,7 +4,7 @@
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
 - [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) tiene 2B mediante el [deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596). El Release público vigente es [`data-derived-v2a`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2a), 436.512.440 bytes. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: documentación y capturas del smoke de producción en la rama `docs/fase-2-smoke`; después, PR `fix/1b2-auditoria`, agregado cantonal de Emigración en el próximo Release y tag `fase-2`.
+- Subtarea actual: PR `fix/1b2-auditoria` desde `main` posterior al smoke. El tag `fase-2` apunta al commit `c82b55e` de `main`. El agregado cantonal de Emigración ya está implementado; falta publicarlo en el próximo Release.
 
 ## Pasos terminados
 
@@ -24,14 +24,15 @@
 14. #48, #49 y #50 fueron rebasados sobre `main` y fusionados por squash tras CI verde. #49 se reabrió después de que GitHub lo cerrara al borrar la rama base de #48; se retargeteó a `main`, se verificó y fusionó. #50 se retargeteó antes de borrar la rama base de #49. Las ramas de fase se borraron.
 15. [Deploy 36211854596](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36211854596) exitoso. El [smoke de producción](docs/fase2_smoke_produccion.md) recorrió seis niveles, tres círculos, lazo, multiselección, 30 indicadores y URL compartida sin errores de consola; primera carga 487.698 bytes. Lighthouse escritorio: rendimiento 91, accesibilidad 94, LCP 1,26 s. Móvil: 47, 94, 4,89 s. La brecha móvil está en la [issue #51](https://github.com/diegocevallos-tech/censo-vivo-ecuador/issues/51).
 16. La auditoría [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) concluye «aprobar con correcciones»: Queen, 999 permutaciones, topología fija, seis índices canónicos, 16 grupos y gemelos a parroquia/cantón. No existe todavía el PR `fix/1b2-auditoria`. El agregado cantonal de Emigración se ensayó desde el Parquet parroquial agregado: 32.123 filas, 46.081 bytes, 124.992 emigrantes en ambos niveles.
+17. El [smoke de producción](docs/fase2_smoke_produccion.md) y sus capturas quedaron fusionados mediante el PR #52. El [tag fase-2](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/fase-2) se creó en `c82b55e`. La rama `fix/1b2-auditoria` modifica el cálculo espacial a Queen con 999 permutaciones, genera 16 tipos y perfiles de gemelos parroquiales/cantonales; [detalle](docs/qa/correcciones_1b2.md). `03b_mobility.py` genera ahora el perfil cantonal de 32.123 filas sin microdatos. Las pruebas unitarias nuevas pasan; está en curso la regeneración espacial completa.
 
 ## Siguiente comando exacto
 
 ```sh
-git add HANDOFF.md docs/fase2_smoke_produccion.md docs/capturas web/scripts/smoke-production.mjs
+python pipeline/06_qa_phase1b2.py
 ```
 
-Crear el PR de documentación del smoke y verificar CI. Luego abrir `fix/1b2-auditoria` sin tocar `feat/auditoria-1b2`; preparar el agregado cantonal en el siguiente Release y taguear `fase-2` desde el `main` documentado.
+Esperar la regeneración espacial en curso, ejecutar QA, empaquetar las salidas corregidas y el agregado cantonal en `data-derived-v2b`, abrir `fix/1b2-auditoria` sin tocar `feat/auditoria-1b2` y verificar CI.
 
 ## Archivos tocados en 1B-3
 
@@ -43,6 +44,7 @@ Crear el PR de documentación del smoke y verificar CI. Luego abrir `fix/1b2-aud
 - 2A: `pipeline/09_indicator_map_index.py`, `09_places.py`, `09_package_v2a.py`, `09_qa_indicator_map.py`, `pipeline/verify_public_artifacts.py`, `web/src/indicatorMaps.ts`, `map.ts`, `style.css`, `web/src/generated/places.json`, `docs/fase2a_report.md`, `docs/qa/fase2a_mapa.png`, `data/DERIVED_MANIFEST.json`.
 - 2B: `.github/workflows/ci.yml`, `pipeline/10_national_profile.py`, `web/package.json`, `web/package-lock.json`, `web/eslint.config.mjs`, `web/src/map.ts`, `selection.ts`, `countChunks.ts`, `analysisPanel.ts`, `style.css`, `web/src/generated/nationalProfile.json`, `docs/fase2b_report.md`, `docs/qa/fase2b_mapa.png`, `docs/qa/fase2b_movil.png`.
 - Smoke producción: `docs/fase2_smoke_produccion.md`, `docs/capturas/`, `web/scripts/smoke-production.mjs`, `HANDOFF.md`.
+- Corrección 1B-2 en curso: `pipeline/03b_mobility.py`, `04_geodemographics.py`, `05_spatial_stats.py`, `06_qa_phase1b2.py`, `twin_search.py`, `verify_public_artifacts.py`, `tests/test_phase1b2_audit.py`, `docs/qa/correcciones_1b2.md`, `HANDOFF.md`.
 
 ## Decisiones pendientes
 

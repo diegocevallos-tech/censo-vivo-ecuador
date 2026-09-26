@@ -66,6 +66,25 @@ def build(database: Path, output: Path) -> None:
     """)
     db.execute(f"""
         COPY (
+          SELECT canton_key AS unit_key, E02 AS sex,
+            TRY_CAST(E03 AS INTEGER)::USMALLINT AS age_at_departure,
+            E04 AS destination_country, COUNT(*)::UINTEGER AS emigrants,
+            'marco-2021'::VARCHAR AS geom_version
+          FROM emigracion_units
+          GROUP BY 1,2,3,4 ORDER BY 1,2,3,4
+        ) TO '{quote(output / 'emigrant_profile_canton.parquet')}'
+        (FORMAT PARQUET, COMPRESSION ZSTD, COMPRESSION_LEVEL 12)
+    """)
+    parish_total = db.execute(f"SELECT SUM(emigrants) FROM read_parquet("
+                              f"'{quote(output / 'emigrant_profile_parroquia.parquet')}')"
+                              ).fetchone()[0]
+    canton_total = db.execute(f"SELECT SUM(emigrants) FROM read_parquet("
+                              f"'{quote(output / 'emigrant_profile_canton.parquet')}')"
+                              ).fetchone()[0]
+    if parish_total != canton_total:
+        raise AssertionError("Cantonal diaspora aggregation lost emigrants")
+    db.execute(f"""
+        COPY (
           SELECT canton_key AS unit_key, M04 AS sex,
             TRY_CAST(M03 AS INTEGER)::USMALLINT AS age_at_death,
             TRY_CAST(M0202 AS INTEGER)::USMALLINT AS death_year,

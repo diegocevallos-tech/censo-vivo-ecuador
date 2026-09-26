@@ -69,6 +69,10 @@ EXTRA_PARQUET = {
         "emigrants",
         "geom_version",
     },
+    "mobility/v1b2/emigrant_profile_canton.parquet": {
+        "unit_key", "sex", "age_at_departure", "destination_country",
+        "emigrants", "geom_version",
+    },
     "geodemographics/v1b2/sector_clusters.parquet": {
         "unit_key",
         "geom_version",
@@ -185,6 +189,17 @@ def verify(root: Path) -> None:
                 allowed = required | GEOGRAPHY_FIELDS | cross_fields
                 if not required <= columns or not columns <= allowed:
                     raise ValueError(f"Unexpected cross-count columns: {relative}")
+            elif relative.startswith("geodemographics/v1b2/twin_profiles_"):
+                if (not {"unit_key", "geom_version", "rank_eligible"} <= columns
+                        or len([name for name in columns if name.startswith("z_")]) != 40
+                        or len(columns) != 43):
+                    raise ValueError(f"Unexpected twin profile schema: {relative}")
+            elif relative == "spatial/v1b2/moran_canton.parquet":
+                extra = {"regularized_sectors", "queen_islands_connected"}
+                if not EXTRA_PARQUET[relative] <= columns or not columns <= (
+                    EXTRA_PARQUET[relative] | extra
+                ):
+                    raise ValueError(f"Unexpected Moran schema: {relative}")
             elif relative in EXTRA_PARQUET:
                 if columns != EXTRA_PARQUET[relative]:
                     raise ValueError(f"Unexpected aggregate schema: {relative}")

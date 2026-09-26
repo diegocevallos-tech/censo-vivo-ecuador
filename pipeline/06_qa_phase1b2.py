@@ -61,13 +61,19 @@ def check() -> None:
         SELECT SUM(population), COUNT(DISTINCT "group"), COUNT(*)
         FROM read_parquet('{geo}/sector_clusters.parquet')
     """).fetchone()
-    if (population, groups, sectors) != (base_pop, 8, 53_513):
+    if (population, groups, sectors) != (base_pop, 16, 53_513):
         raise AssertionError("Cluster assignments are missing or duplicated")
     profiles = db.execute(
         f"SELECT COUNT(*) FROM read_parquet('{geo}/twin_profiles.parquet')"
     ).fetchone()[0]
     if profiles != sectors or len(metadata["features"]) != 40:
         raise AssertionError("Twin vectors or feature metadata are incomplete")
+    for level, expected in (("parroquia", 1_042), ("canton", 221)):
+        rows = db.execute(f"SELECT COUNT(*), COUNT(DISTINCT unit_key) "
+                          f"FROM read_parquet('{geo}/twin_profiles_{level}.parquet')"
+                          ).fetchone()
+        if rows != (expected, expected):
+            raise AssertionError(f"{level} twin profiles are incomplete: {rows}")
     sample = db.execute(f"""
         SELECT unit_key,sovi_pca FROM read_parquet('{geo}/sector_clusters.parquet')
         WHERE population>=500 AND rank_eligible ORDER BY hash(unit_key) LIMIT 10
