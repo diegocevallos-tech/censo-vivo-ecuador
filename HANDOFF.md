@@ -26,6 +26,7 @@
 16. La auditoría [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) concluye «aprobar con correcciones»: Queen, 999 permutaciones, topología fija, seis índices canónicos, 16 grupos y gemelos a parroquia/cantón. El agregado cantonal de Emigración tiene 32.123 filas, 46.081 bytes y 124.992 emigrantes, idéntico total al perfil parroquial.
 17. El [smoke de producción](docs/fase2_smoke_produccion.md) y sus capturas quedaron fusionados mediante el PR #52. El [tag fase-2](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/fase-2) se creó en `c82b55e`. El PR #53 modifica el cálculo espacial a Queen con 999 permutaciones, genera 16 tipos y perfiles de gemelos parroquiales/cantonales; [detalle](docs/qa/correcciones_1b2.md).
 18. La regeneración espacial nacional completó 221 cantones y 52.864 sectores geométricos (98,787 % de los 53.513 sectores). La QA aditiva pasó con diferencia cero, 124.992 emigrantes coinciden entre perfiles cantonales y parroquiales, y 48 chunks de análisis pasaron. `data-derived-v2b` tiene cinco assets; descarga verificada por SHA256, restauración de 397 archivos verificada, sitio 439.002.993 bytes, todos los presupuestos satisfechos. El PR #53 queda pendiente de CI y aprobación; producción permanece con `data-derived-v2a`.
+19. Verificación del Release restaurado: aditividad exacta en los seis niveles, categorías exactas en 24 provincias, 48 chunks de conteo y 48 de análisis, 52 binarios de indicadores sin error. El primer CI de #53 falló porque el runner público no instalaba GeoPandas para los tests nuevos; se añadieron dependencias espaciales al paso de instalación de `.github/workflows/ci.yml` y se reejecutará.
 
 ## Siguiente comando exacto
 
@@ -45,7 +46,7 @@ Verificar el CI del PR #53 y comentar resultados. Esperar aprobación del usuari
 - 2A: `pipeline/09_indicator_map_index.py`, `09_places.py`, `09_package_v2a.py`, `09_qa_indicator_map.py`, `pipeline/verify_public_artifacts.py`, `web/src/indicatorMaps.ts`, `map.ts`, `style.css`, `web/src/generated/places.json`, `docs/fase2a_report.md`, `docs/qa/fase2a_mapa.png`, `data/DERIVED_MANIFEST.json`.
 - 2B: `.github/workflows/ci.yml`, `pipeline/10_national_profile.py`, `web/package.json`, `web/package-lock.json`, `web/eslint.config.mjs`, `web/src/map.ts`, `selection.ts`, `countChunks.ts`, `analysisPanel.ts`, `style.css`, `web/src/generated/nationalProfile.json`, `docs/fase2b_report.md`, `docs/qa/fase2b_mapa.png`, `docs/qa/fase2b_movil.png`.
 - Smoke producción: `docs/fase2_smoke_produccion.md`, `docs/capturas/`, `web/scripts/smoke-production.mjs`, `HANDOFF.md`.
-- Corrección 1B-2 en PR #53: `pipeline/03b_mobility.py`, `04_geodemographics.py`, `05_spatial_stats.py`, `06_qa_phase1b2.py`, `10_package_v2b.py`, `twin_search.py`, `verify_public_artifacts.py`, `tests/test_phase1b2_audit.py`, `data/DERIVED_MANIFEST.json`, `docs/qa/correcciones_1b2.md`, `HANDOFF.md`.
+- Corrección 1B-2 en PR #53: `.github/workflows/ci.yml`, `pipeline/03b_mobility.py`, `04_geodemographics.py`, `05_spatial_stats.py`, `06_qa_phase1b2.py`, `10_package_v2b.py`, `twin_search.py`, `verify_public_artifacts.py`, `tests/test_phase1b2_audit.py`, `data/DERIVED_MANIFEST.json`, `docs/qa/correcciones_1b2.md`, `HANDOFF.md`.
 
 ## Decisiones pendientes
 
