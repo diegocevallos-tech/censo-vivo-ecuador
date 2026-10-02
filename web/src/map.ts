@@ -139,6 +139,19 @@ app.innerHTML = `
       <button type="button" id="toggle-units" aria-pressed="true">Unidades</button>
       <button type="button" id="toggle-3d" aria-pressed="false">3D</button>
     </div>
+    <div id="selection-guide" class="selection-guide" hidden>
+      <div class="selection-guide-copy"><strong id="selection-guide-title"></strong>
+        <span id="selection-guide-hint"></span></div>
+      <div id="circle-adjust" class="circle-adjust" hidden>
+        <label for="circle-radius">Radio <output id="circle-radius-output">—</output></label>
+        <input id="circle-radius" type="range" min="15" max="175" value="78">
+      </div>
+      <div id="selection-guide-preview" class="selection-guide-preview" aria-live="polite"></div>
+      <div class="selection-guide-actions">
+        <button type="button" id="finish-selection">Hecho</button>
+        <button type="button" id="reset-selection">Borrar selección</button>
+      </div>
+    </div>
     <div class="scale-rail"><span>NACIONAL</span><div class="rail"><i id="scale-marker"></i></div><span>MANZANA</span></div>
     <footer class="footnote"><span class="signal"></span><span>Fuente: INEC, CPV 2022 · Geometría: Marco 2021</span>
       <span class="foot-sep">/</span><span id="assignment-note">Manzanas sin polígono: población asignada a nivel de sector</span></footer>
@@ -166,6 +179,13 @@ const placeResults = document.querySelector<HTMLElement>('#place-results')!
 const breadcrumbEl = document.querySelector<HTMLElement>('#breadcrumb')!
 const languageEl = document.querySelector<HTMLButtonElement>('#language')!
 const transferEl = document.querySelector<HTMLElement>('#variable-transfer')!
+const guideEl = document.querySelector<HTMLElement>('#selection-guide')!
+const guideTitleEl = document.querySelector<HTMLElement>('#selection-guide-title')!
+const guideHintEl = document.querySelector<HTMLElement>('#selection-guide-hint')!
+const circleAdjustEl = document.querySelector<HTMLElement>('#circle-adjust')!
+const circleRadiusInput = document.querySelector<HTMLInputElement>('#circle-radius')!
+const circleRadiusOutput = document.querySelector<HTMLOutputElement>('#circle-radius-output')!
+const guidePreviewEl = document.querySelector<HTMLElement>('#selection-guide-preview')!
 const mobileShell = document.querySelector<HTMLElement>('.shell')!
 const mobilePanelButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-mobile-view]'))
 const mobileViewport = window.matchMedia('(max-width:700px)')
@@ -375,6 +395,7 @@ async function start() {
   const map: MapLibreMap = new maplibregl.Map({
     container: 'map', center: validCamera ? [camera[0], camera[1]] : [-79.45, -1.52],
     zoom: validCamera ? camera[2] : 5, minZoom: 2, maxZoom: 16.5,
+    doubleClickZoom: !mobileViewport.matches,
     attributionControl: false,
     style: {
       version: 8,
@@ -430,42 +451,41 @@ async function start() {
     for (const id of active) {
       const fill = `${id}-fill`
       const line = `${id}-outline`
-      const selectedKeys = activeTab === 'variables' && selectedHighlight.size
+      const isolate = selectedHighlight.size > 0 &&
+        (selection.mode === 'circle' || selection.mode === 'lasso')
+      const selectedKeys = activeTab === 'variables' && isolate
         ? [...selectedHighlight].filter(key => id === `${currentLevel}-${
           currentLevel === 'sector' || currentLevel === 'manzana' ? key.slice(0, 2) : 'data'}`)
         : []
-      const variableFilter = activeTab === 'variables' && selectedHighlight.size
+      const variableFilter = activeTab === 'variables' && isolate
         ? selectedKeys.length
           ? ['in', ['get', 'unit_key'], ['literal', selectedKeys]]
           : ['==', ['get', 'unit_key'], '']
         : null
-      const multiVariables = activeTab === 'variables' && selection.mode === 'multi'
-      map.setFilter(fill, multiVariables ? null : variableFilter as maplibregl.FilterSpecification | null)
+      map.setFilter(fill, variableFilter as maplibregl.FilterSpecification | null)
       map.setFilter(line, variableFilter as maplibregl.FilterSpecification | null)
-      map.setPaintProperty(line, 'line-color', multiVariables && selectedHighlight.size
-        ? '#F5B82E' : '#8da4b2')
-      map.setPaintProperty(line, 'line-width', multiVariables && selectedHighlight.size
-        ? 2 : currentLevel === 'manzana' ? 0.5 : 0.8)
+      map.setPaintProperty(line, 'line-color', selectedHighlight.size
+        ? ['case', ['==', ['feature-state', 'selected'], true], '#F5B82E', '#8da4b2'] : '#8da4b2')
+      map.setPaintProperty(line, 'line-width', currentLevel === 'manzana' ? 0.5 : 0.8)
       map.setLayoutProperty(fill, 'visibility', unitsOn ? 'visible' : 'none')
       map.setLayoutProperty(line, 'visibility', unitsOn ? 'visible' : 'none')
       const defaultOpacity: maplibregl.ExpressionSpecification | number = activeTab === 'variables'
         ? 0.82 : indicator === 'density' ? 0.79
         : ['case', ['==', ['feature-state', 'status'], 1], 0.42, 0.82]
-      const opacity: maplibregl.ExpressionSpecification | number = activeTab === 'variables' ? 0.82
-        : !densityOn && indicator === 'density'
+      const opacity: maplibregl.ExpressionSpecification | number = !densityOn && indicator === 'density'
         && activeTab === 'indicators' ? 0
         : selectedHighlight.size ? ['case', ['==', ['feature-state', 'selected'], true],
-          defaultOpacity, 0] : defaultOpacity
+          defaultOpacity, isolate ? 0 : 0.28] : defaultOpacity
       map.setPaintProperty(fill, 'fill-opacity', opacity)
-      map.setPaintProperty(line, 'line-opacity', activeTab === 'variables' ? 0.27 : selectedHighlight.size
-        ? ['case', ['==', ['feature-state', 'selected'], true], 0.4, 0] : 0.27)
+      map.setPaintProperty(line, 'line-opacity', selectedHighlight.size
+        ? ['case', ['==', ['feature-state', 'selected'], true], 0.65,
+          isolate ? 0 : 0.18] : 0.27)
       if (map.getLayer(`${id}-extrusion`)) {
-        map.setFilter(`${id}-extrusion`, multiVariables ? null
-          : variableFilter as maplibregl.FilterSpecification | null)
+        map.setFilter(`${id}-extrusion`, variableFilter as maplibregl.FilterSpecification | null)
         map.setLayoutProperty(`${id}-extrusion`, 'visibility', unitsOn && mode3d ? 'visible' : 'none')
-        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', activeTab === 'variables'
-          ? 0.65 : selectedHighlight.size
-          ? ['case', ['==', ['feature-state', 'selected'], true], 0.65, 0] : 0.65)
+        map.setPaintProperty(`${id}-extrusion`, 'fill-extrusion-opacity', selectedHighlight.size
+          ? ['case', ['==', ['feature-state', 'selected'], true], 0.65,
+            isolate ? 0 : 0.2] : 0.65)
       }
     }
   }
@@ -612,6 +632,17 @@ async function start() {
     onPreview: (population, radiusKm, computeMs) => {
       previewEl.textContent = `${integer.format(population)} ${language === 'es' ? 'personas aprox.' : 'people approx.'} · ${decimal.format(radiusKm)} km`
       previewEl.dataset.computeMs = computeMs.toFixed(2)
+      guidePreviewEl.textContent = previewEl.textContent
+    },
+    onCircleChange: (radiusPx, radiusKm) => {
+      circleAdjustEl.hidden = radiusPx <= 0
+      if (radiusPx <= 0) return
+      circleRadiusInput.max = String(Math.round(map.getCanvas().clientWidth * 0.45))
+      circleRadiusInput.value = String(Math.round(radiusPx))
+      circleRadiusOutput.textContent = `${decimal.format(radiusKm)} km`
+      guideHintEl.textContent = language === 'es'
+        ? 'Arrastra el centro o ajusta el radio. Toca Borrar para empezar de nuevo.'
+        : 'Drag the center or adjust the radius. Tap Clear to start again.'
     },
     onResult: result => {
       lastSelection = result
@@ -624,6 +655,10 @@ async function start() {
         saveHash(map)
       }
       previewEl.textContent = result ? `${integer.format(Math.round(result.aggregate.counts.population ?? 0))} ${language === 'es' ? 'personas en la selección' : 'people in selection'}` : ''
+      guidePreviewEl.textContent = result ? `${result.aggregate.quality === 'estimado' ? '≈' : ''}${
+        integer.format(Math.round(result.aggregate.counts.population ?? 0))} ${language === 'es' ? 'personas' : 'people'} · ${
+        integer.format(result.unitCount)} ${result.unitCount === 1
+        ? (language === 'es' ? 'unidad' : 'unit') : (language === 'es' ? 'unidades' : 'units')}` : ''
       if (result) previewEl.dataset.previewP95Ms = selection.previewP95Ms.toFixed(2)
       statusEl.textContent = result ? `${result.label} · ${integer.format(result.unitCount)} ${result.unitCount === 1 ? (language === 'es' ? 'unidad' : 'unit') : (language === 'es' ? 'unidades' : 'units')}` : levelName(currentLevel)
       void refreshAnalysis().catch(error => { statusEl.textContent = `Error de análisis: ${String(error)}` })
@@ -646,6 +681,64 @@ async function start() {
     },
     onStatus: message => { statusEl.textContent = message },
   })
+
+  function renderSelectionGuide(mode: SelectionMode) {
+    guideEl.hidden = mode === 'inspect'
+    const es = language === 'es'
+    const labels = {
+      circle: es ? ['Círculo', 'Toca el mapa para colocar el círculo.']
+        : ['Circle', 'Tap the map to place a circle.'],
+      lasso: es ? ['Lazo', 'Dibuja con el dedo y levanta para cerrar.']
+        : ['Lasso', 'Draw with your finger, then lift to close.'],
+      multi: es ? ['Selección múltiple', 'Toca unidades para añadirlas o quitarlas.']
+        : ['Multiple selection', 'Tap units to add or remove them.'],
+      inspect: ['', ''],
+    }[mode]
+    guideTitleEl.textContent = labels[0]
+    guideHintEl.textContent = labels[1]
+    if (mode === 'circle' && !circleAdjustEl.hidden) guideHintEl.textContent = es
+      ? 'Arrastra el centro o ajusta el radio. Toca Borrar para empezar de nuevo.'
+      : 'Drag the center or adjust the radius. Tap Clear to start again.'
+    document.querySelector<HTMLButtonElement>('#finish-selection')!.textContent = es ? 'Hecho' : 'Done'
+    document.querySelector<HTMLButtonElement>('#reset-selection')!.textContent = es
+      ? 'Borrar selección' : 'Clear selection'
+    document.querySelector<HTMLElement>('.circle-adjust label')!.firstChild!.textContent = es
+      ? 'Radio ' : 'Radius '
+  }
+
+  function activateMode(next: SelectionMode) {
+    if ((next === 'circle' || next === 'lasso') && selection.mode !== next) {
+      selection.clear()
+      selectedKey = ''
+      renderBreadcrumb()
+      saveHash(map)
+    }
+    selection.setMode(next)
+    if (next === 'inspect') guidePreviewEl.textContent = ''
+    mobileShell.dataset.selectionMode = next
+    renderSelectionGuide(next)
+    if (mobileViewport.matches) setMobilePanel('map')
+    for (const peer of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
+      const activeMode = peer.dataset.mode === next
+      peer.setAttribute('aria-pressed', String(activeMode))
+      peer.classList.toggle('active', activeMode)
+    }
+  }
+
+  function clearUserSelection() {
+    selection.clear()
+    selectedKey = ''
+    renderBreadcrumb()
+    saveHash(map)
+    activateMode('inspect')
+    statusEl.textContent = language === 'es'
+      ? 'Selección borrada · toca el mapa para inspeccionar'
+      : 'Selection cleared · tap the map to inspect'
+  }
+  circleRadiusInput.addEventListener('input', () => selection.resizeCircle(Number(circleRadiusInput.value)))
+  circleRadiusInput.addEventListener('change', () => selection.resizeCircle(Number(circleRadiusInput.value), true))
+  document.querySelector<HTMLButtonElement>('#finish-selection')!.addEventListener('click', () => activateMode('inspect'))
+  document.querySelector<HTMLButtonElement>('#reset-selection')!.addEventListener('click', clearUserSelection)
 
   function fillExpression(breaks: number[]): maplibregl.ExpressionSpecification {
     const palette = activePalette()
@@ -955,16 +1048,10 @@ async function start() {
   for (const button of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
     button.addEventListener('click', () => {
       const next = button.dataset.mode as SelectionMode
-      selection.setMode(next)
-      if (mobileViewport.matches) setMobilePanel('map')
-      for (const peer of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
-        const activeMode = peer === button
-        peer.setAttribute('aria-pressed', String(activeMode))
-        peer.classList.toggle('active', activeMode)
-      }
+      activateMode(next)
     })
   }
-  document.querySelector<HTMLButtonElement>('#clear-selection')!.addEventListener('click', () => selection.clear())
+  document.querySelector<HTMLButtonElement>('#clear-selection')!.addEventListener('click', clearUserSelection)
   document.querySelector<HTMLButtonElement>('#toggle-density')!.addEventListener('click', event => {
     densityOn = !densityOn
     const button = event.currentTarget as HTMLButtonElement
@@ -1007,6 +1094,7 @@ async function start() {
   languageEl.addEventListener('click', () => {
     language = language === 'es' ? 'en' : 'es'
     updateMobileLabels()
+    renderSelectionGuide(selection.mode)
     document.querySelector<HTMLElement>('#assignment-note')!.textContent = language === 'es'
       ? `${integer.format(catalog.assigned_manzanas_without_polygon)} manzanas sin polígono: población asignada a nivel de sector`
       : `${integer.format(catalog.assigned_manzanas_without_polygon)} blocks without polygons: population assigned at sector level`
@@ -1195,19 +1283,41 @@ async function start() {
   map.getCanvas().addEventListener('mouseleave', () => {
     hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''
   })
-  map.on('click', async event => {
+  async function selectAt(point: maplibregl.PointLike) {
     if (selection.mode === 'circle' || selection.mode === 'lasso') return
     const layers = [...active].map(id => `${id}-fill`)
     if (!layers.length) return
-    const feature = map.queryRenderedFeatures(event.point, { layers })[0]
+    const feature = map.queryRenderedFeatures(point, { layers })[0]
     const p = feature?.properties
     if (!p) return
     hoverPopup?.remove(); hoverPopup = null; hoveredSignature = ''
     await selection.click(feature)
     if (selection.mode === 'multi') return
-    selectedKey = String(p.unit_key)
+    selectedKey = selection.keys.has(String(p.unit_key)) ? String(p.unit_key) : ''
     renderBreadcrumb()
     saveHash(map)
+  }
+  let touchStart: { x: number; y: number; time: number } | null = null
+  let lastTouchSelection = 0
+  const canvas = map.getCanvas()
+  canvas.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'touch') touchStart = {
+      x: event.clientX, y: event.clientY, time: performance.now() }
+  })
+  canvas.addEventListener('pointerup', event => {
+    if (event.pointerType !== 'touch' || !touchStart) return
+    const start = touchStart
+    touchStart = null
+    if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 10 ||
+        performance.now() - start.time > 600) return
+    lastTouchSelection = performance.now()
+    const bounds = canvas.getBoundingClientRect()
+    void selectAt([event.clientX - bounds.left, event.clientY - bounds.top])
+  })
+  canvas.addEventListener('pointercancel', () => { touchStart = null })
+  map.on('click', event => {
+    if (performance.now() - lastTouchSelection < 750) return
+    void selectAt(event.point)
   })
   map.on('error', event => { statusEl.textContent = `Error de cartografía: ${event.error?.message ?? 'desconocido'}` })
 }

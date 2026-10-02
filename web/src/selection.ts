@@ -31,6 +31,7 @@ interface Options {
   onResult: (result: SelectionResult | null) => void
   onHighlight: (keys: Set<string>) => void
   onStatus: (message: string) => void
+  onCircleChange?: (radiusPx: number, radiusKm: number) => void
 }
 
 interface PointUnit { key: string; x: number; y: number; population: number }
@@ -47,6 +48,8 @@ export function createSelection(options: Options) {
   let drag: 'create' | 'center' | 'radius' | 'lasso' | null = null
   let lasso: { x: number; y: number }[] = []
   let pendingFrame = 0
+  let activePointerId: number | null = null
+  let selectionRequest = 0
   const previewTimes: number[] = []
   const overlay = document.createElement('div')
   overlay.className = 'selection-overlay'
@@ -75,6 +78,11 @@ export function createSelection(options: Options) {
     } else circle.hidden = true
     lassoPath.setAttribute('d', lasso.length
       ? `M ${lasso.map(p => `${p.x} ${p.y}`).join(' L ')}${drag ? '' : ' Z'}` : '')
+    if (circleCenter && radius > 0 && mode === 'circle') {
+      const center = map.unproject([circleCenter.x, circleCenter.y])
+      const edge = map.unproject([circleCenter.x + radius, circleCenter.y])
+      options.onCircleChange?.(radius, turf.distance([center.lng, center.lat], [edge.lng, edge.lat]))
+    } else options.onCircleChange?.(0, 0)
   }
 
   function rebuildIndex() {
@@ -98,7 +106,7 @@ export function createSelection(options: Options) {
 
   function preview() {
     pendingFrame = 0
-    if (!drag || !circleCenter || !index || radius <= 0) return
+    if (mode !== 'circle' || !circleCenter || !index || radius <= 0) return
     const start = performance.now()
     let population = 0
     for (const row of index.within(circleCenter.x, circleCenter.y, radius)) {
@@ -178,12 +186,14 @@ export function createSelection(options: Options) {
 
   async function countSelection(coverages: Map<string, number>, label: string,
                                 officialUnitKey?: string, density?: number) {
+    const request = ++selectionRequest
     const level = options.getLevel()
     const provinceKeys = level === 'nacion'
       ? Array.from({ length: 24 }, (_, index) => String(index + 1).padStart(2, '0'))
       : [...new Set([...coverages.keys()].map(key => key.slice(0, 2)))]
     const sourceLevel = level === 'manzana' ? 'finest' : 'sector'
     const chunks = await Promise.all(provinceKeys.map(province => countChunk(base, province, sourceLevel)))
+    if (request !== selectionRequest) return
     const byProvince = new Map(provinceKeys.map((province, i) => [province, chunks[i]]))
     const rows: SelectedUnit[] = []
     const selectedKeys = [...coverages.keys()]
@@ -238,13 +248,15 @@ export function createSelection(options: Options) {
     } catch (error) { options.onStatus(`Error de selección: ${String(error)}`) }
   }
 
-  function beginDrag(kind: 'create' | 'center' | 'radius' | 'lasso', event: MouseEvent | PointerEvent) {
+  function beginDrag(kind: 'create' | 'center' | 'radius' | 'lasso', event: PointerEvent) {
     // A previous variable selection may filter the fill layer. Restore it so
     // a resized circle or a new lasso can discover units outside that selection.
     for (const layer of options.getLayers()) {
       if (map.getFilter(layer)) map.setFilter(layer, null)
     }
     drag = kind
+    activePointerId = event.pointerId
+    if (event.currentTarget instanceof Element) event.currentTarget.setPointerCapture(event.pointerId)
     const cursor = point(event)
     if (kind === 'create') { circleCenter = cursor; radius = 1; redraw() }
     if (kind === 'lasso') { lasso = [cursor]; redraw() }
@@ -252,11 +264,11 @@ export function createSelection(options: Options) {
   }
 
   function move(event: PointerEvent) {
-    if (!drag) return
+    if (!drag || event.pointerId !== activePointerId) return
     const cursor = point(event)
     if (drag === 'create' || drag === 'radius') {
-      if (circleCenter) radius = Math.max(2, Math.hypot(cursor.x - circleCenter.x,
-        cursor.y - circleCenter.y))
+      if (circleCenter) radius = Math.max(2, Math.min(map.getCanvas().clientWidth * 0.45,
+        Math.hypot(cursor.x - circleCenter.x, cursor.y - circleCenter.y)))
     } else if (drag === 'center') circleCenter = cursor
     else if (drag === 'lasso') {
       if (!lasso.length || Math.hypot(cursor.x - lasso.at(-1)!.x,
@@ -266,12 +278,16 @@ export function createSelection(options: Options) {
     schedulePreview()
   }
 
-  async function end() {
-    if (!drag) return
+  async function end(event: PointerEvent) {
+    if (!drag || event.pointerId !== activePointerId) return
     const finished = drag
     drag = null
+    activePointerId = null
     if (pendingFrame) cancelAnimationFrame(pendingFrame)
     pendingFrame = 0
+    if (finished === 'create' && radius < 8 && window.matchMedia('(max-width:700px)').matches) {
+      radius = Math.min(80, map.getCanvas().clientWidth * 0.2)
+    }
     redraw()
     if (finished === 'lasso' || (circleCenter && radius >= 5)) await finishShape()
   }
@@ -284,7 +300,16 @@ export function createSelection(options: Options) {
   centerHandle.addEventListener('pointerdown', event => beginDrag('center', event))
   radiusHandle.addEventListener('pointerdown', event => beginDrag('radius', event))
   window.addEventListener('pointermove', move)
-  window.addEventListener('pointerup', () => { void end() })
+  window.addEventListener('pointerup', event => { void end(event) })
+  window.addEventListener('pointercancel', event => {
+    if (event.pointerId !== activePointerId) return
+    if (pendingFrame) cancelAnimationFrame(pendingFrame)
+    pendingFrame = 0
+    if (drag === 'create') { circleCenter = null; radius = 0 }
+    if (drag === 'lasso') lasso = []
+    drag = null; activePointerId = null
+    redraw()
+  })
   map.on('moveend', () => { rebuildIndex(); redraw() })
   map.on('idle', rebuildIndex)
 
@@ -298,28 +323,48 @@ export function createSelection(options: Options) {
     setMode(next: SelectionMode) {
       mode = next
       options.onHighlight(selected)
-      if (next === 'circle' || next === 'lasso') map.dragPan.disable()
-      else map.dragPan.enable()
+      if (next === 'circle' || next === 'lasso') {
+        map.dragPan.disable()
+        map.touchZoomRotate.disable()
+        map.doubleClickZoom.disable()
+      } else {
+        map.dragPan.enable()
+        map.touchZoomRotate.enable()
+        if (!window.matchMedia('(max-width:700px)').matches) map.doubleClickZoom.enable()
+      }
       shell.classList.toggle('drawing', next === 'circle' || next === 'lasso')
       if (next !== 'circle') { circleCenter = null; radius = 0 }
       if (next !== 'lasso') lasso = []
       redraw()
     },
     clear() {
+      selectionRequest++
       selected = new Set()
+      drag = null; activePointerId = null
       circleCenter = null; radius = 0; lasso = []
       redraw()
       options.onHighlight(selected)
       options.onResult(null)
     },
+    resizeCircle(radiusPx: number, commit = false) {
+      if (mode !== 'circle' || !circleCenter) return
+      radius = Math.max(15, Math.min(map.getCanvas().clientWidth * 0.45, radiusPx))
+      redraw()
+      schedulePreview()
+      if (commit) void finishShape()
+    },
     async click(feature: MapGeoJSONFeature) {
       if (mode === 'circle' || mode === 'lasso') return
       const key = String(feature.properties.unit_key)
+      if (mode === 'inspect' && selected.size === 1 && selected.has(key)) {
+        this.clear(); return
+      }
       if (mode === 'multi') {
         if (selected.has(key)) selected.delete(key)
         else selected.add(key)
       } else selected = new Set([key])
       if (!selected.size) { this.clear(); return }
+      options.onHighlight(selected)
       options.onStatus(options.getLanguage() === 'es' ? 'Cargando conteos oficiales…' : 'Loading official counts…')
       try { await countSelection(new Map([...selected].map(item => [item, 1])),
         mode === 'multi' ? (options.getLanguage() === 'es' ? 'Multiselección' : 'Multiple units')
