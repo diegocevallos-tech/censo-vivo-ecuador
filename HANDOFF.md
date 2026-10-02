@@ -4,7 +4,7 @@
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
 - [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) sirve el Release público [`data-derived-v2e`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2e), 424.478.505 bytes. El [deploy 36268990316](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36268990316) está verde. Incluye zona censal I04 y el catálogo de variables. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: la corrección visual móvil [#62](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/62) está fusionada y desplegada. El [PR #61](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/61) de parroquias urbanas municipales sigue abierto y requiere aprobación; #62 no tocó su rama ni sus datos. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
+- Subtarea actual: corrección de selección táctil en `fix/mobile-selection-controls`, desde `main`. La corrección visual móvil [#62](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/62) está fusionada y desplegada. El [PR #61](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/61) de parroquias urbanas municipales sigue abierto y requiere aprobación; esta rama no toca sus datos. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
 
 ## Pasos terminados
 
@@ -46,19 +46,25 @@
 36. En `fix/tooltip-compacto`, el hover se redujo a ≤240 px y sigue el cursor; el clic deja el detalle en el panel. [Informe](docs/qa/tooltip_compacto.md) y siete E2E locales verdes (provincia, cantón, parroquia, zona, sector, nota `min_level` y variable). El PR de corrección visual está pendiente de abrir y, tras CI verde, puede fusionarse y desplegarse bajo la regla de autonomía. No cambian datos, indicadores, metodología, agregación ni alcance.
 37. El tooltip compacto se fusionó mediante [PR #60](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/60) y está en producción. El usuario pidió revisar el móvil: a 390 × 844 px, explorador y análisis simultáneos dejaban solo una franja del mapa. En el [PR #62](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/62), el mapa es la vista inicial y los paneles se alternan con altura limitada; una selección queda visible y señala que su detalle está en Análisis. [Informe y capturas](docs/qa/mobile_mapa_visible.md). La prueba local pasó en 390 × 844, 360 × 640 y escritorio 1280 × 800 sin errores JavaScript. Build, lint y 13 Vitest pasaron. No cambian datos, métodos, indicadores ni fuentes.
 38. #62 pasó [CI pública](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/37043534938) y devcontainer, se fusionó con squash en `585a574` y su rama remota se borró. El [deploy de producción](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/37044036627) pasó. El mismo E2E se ejecutó contra Pages en 390 × 844, 360 × 640 y escritorio 1280 × 800: mapa visible, paneles alternos, selección por toque, lazo e idioma, sin errores JavaScript. #61 sigue abierto y sin cambios. La issue #51 sigue pendiente para rendimiento móvil.
+39. En `fix/mobile-selection-controls`, Inspeccionar permite tocar dos veces para seleccionar y quitar una unidad; Círculo se coloca con un toque y se ajusta con asa de 44 px o deslizador; Lazo y Multi responden al tacto; Limpiar vuelve a Inspeccionar. Se procesan toques breves directamente para evitar la pérdida de clic tras dibujar, sin activar selecciones durante un arrastre del mapa. La guía muestra radio y población; al dibujar oculta la búsqueda y deja más mapa. Se invalidan cálculos pendientes al borrar. [Informe y capturas](docs/qa/seleccion_movil.md). Esta rama solo cambia UI y pruebas, sin datos, metodología, indicadores ni alcance. PR y CI pendientes.
 
 ## Siguiente comando exacto
 
 ```sh
-gh pr view 61 -R diegocevallos-tech/censo-vivo-ecuador --json state,headRefName
+node web/scripts/test-mobile-selection.mjs
 ```
 
-Esperar la aprobación del usuario para fusionar #61. Mantener #53 abierto y no tocar `feat/auditoria-1b2`. La carga inicial y Lighthouse móvil permanecen en #51.
+Ejecutar desde `web/` antes de abrir el PR de selección táctil; después, comprobar CI, fusionar y desplegar bajo la regla de autonomía del usuario. #61 conserva su aprobación pendiente; mantener #53 abierto y no tocar `feat/auditoria-1b2`. La carga inicial y Lighthouse móvil permanecen en #51.
 
 ## Archivos tocados en la corrección móvil
 
 - `web/src/map.ts`, `web/src/style.css`, `web/scripts/test-mobile-layout.mjs`.
 - `docs/qa/mobile_mapa_visible.md`, `docs/capturas/mobile-*.png`, `HANDOFF.md`.
+
+## Archivos tocados en la selección táctil
+
+- `web/src/map.ts`, `web/src/selection.ts`, `web/src/style.css`, `web/scripts/test-mobile-selection.mjs`.
+- `docs/qa/seleccion_movil.md`, `docs/capturas/mobile-circulo-*.png`, `docs/capturas/mobile-lazo-control.png`, `docs/capturas/mobile-multi-control.png`, `HANDOFF.md`.
 
 ## Archivos tocados en 2C
 
