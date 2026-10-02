@@ -21,5 +21,7 @@ Las asas tienen un objetivo táctil de 44 × 44 px. Mientras se dibuja, el mapa 
 - `npm run build`: correcto.
 - `node scripts/test-mobile-layout.mjs`: mapa, explorador, análisis, barra y escritorio, correctos.
 - `node scripts/test-mobile-selection.mjs`: 390 × 844 y 360 × 640, inspección y deselección, círculo con radio, lazo, multiselección, limpiar y ausencia de errores JavaScript, correctos.
+- [CI pública](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/37049414704) y [build del devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/37049414793): correctos.
+- [Despliegue a Pages](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/37050038443): correcto. Se repitió el mismo E2E contra [producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) en 390 × 844 y 360 × 640; pasó sin errores JavaScript.
 
 Capturas: [círculo en Quito a 360 px](../capturas/mobile-circulo-quito.png), [control de radio](../capturas/mobile-circulo-control.png), [lazo](../capturas/mobile-lazo-control.png) y [multiselección](../capturas/mobile-multi-control.png).
