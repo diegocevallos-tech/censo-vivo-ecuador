@@ -69,7 +69,7 @@ const app = document.querySelector<HTMLElement>('#app')
 if (!app) throw new Error('Missing app root')
 const shell = app
 app.innerHTML = `
-  <div class="shell">
+  <div class="shell" data-mobile-panel="map">
     <div id="map" role="application" aria-label="Mapa de densidad del Censo de Ecuador 2022"></div>
     <header class="masthead">
       <div class="mark" aria-hidden="true">✳</div>
@@ -81,7 +81,7 @@ app.innerHTML = `
       <input id="place-search" type="search" autocomplete="off" placeholder="Buscar provincia, cantón, parroquia o código" aria-controls="place-results" aria-expanded="false">
       <div id="place-results" class="search-results" role="listbox" hidden></div></div>
     <button id="language" class="language" type="button" aria-label="Cambiar idioma">EN</button>
-    <section class="data-card" aria-label="Indicador activo">
+    <section id="analysis-panel" class="data-card" aria-label="Indicador activo">
       <div class="card-head"><span class="eyebrow">01 / TERRITORIO</span><span id="level">Cargando…</span></div>
       <h2 id="indicator-title">Densidad de población</h2><p id="indicator-description">Habitantes por kilómetro cuadrado de la unidad censal.</p>
       <div class="break-control"><label for="break-mode" id="break-label">Cortes</label>
@@ -98,7 +98,7 @@ app.innerHTML = `
       <div id="selection-preview" class="selection-preview" role="status" aria-live="polite"></div>
       <div id="analysis-content" class="analysis-content"></div>
     </section>
-    <aside class="explorer-panel" aria-label="Explorador del censo">
+    <aside id="census-explorer" class="explorer-panel" aria-label="Explorador del censo">
       <div class="explorer-tabs" role="tablist">
         <button type="button" class="explorer-tab active" data-tab="indicators" role="tab" aria-selected="true">Indicadores</button>
         <button type="button" class="explorer-tab" data-tab="variables" role="tab" aria-selected="false">Variables del censo</button>
@@ -124,6 +124,11 @@ app.innerHTML = `
         <div id="variable-details"></div><p id="variable-transfer" aria-live="polite"></p>
       </div>
     </aside>
+    <nav class="mobile-panel-nav" aria-label="Vistas del visor">
+      <button type="button" data-mobile-view="map" aria-pressed="true" aria-controls="map">Mapa</button>
+      <button type="button" data-mobile-view="explore" aria-pressed="false" aria-controls="census-explorer">Explorar</button>
+      <button type="button" data-mobile-view="analysis" aria-pressed="false" aria-controls="analysis-panel">Análisis</button>
+    </nav>
     <div class="toolbar" role="toolbar" aria-label="Herramientas de análisis">
       <button type="button" data-mode="inspect" aria-pressed="true">Inspeccionar</button>
       <button type="button" data-mode="circle" aria-pressed="false">Círculo</button>
@@ -161,6 +166,36 @@ const placeResults = document.querySelector<HTMLElement>('#place-results')!
 const breadcrumbEl = document.querySelector<HTMLElement>('#breadcrumb')!
 const languageEl = document.querySelector<HTMLButtonElement>('#language')!
 const transferEl = document.querySelector<HTMLElement>('#variable-transfer')!
+const mobileShell = document.querySelector<HTMLElement>('.shell')!
+const mobilePanelButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-mobile-view]'))
+const mobileViewport = window.matchMedia('(max-width:700px)')
+type MobilePanel = 'map' | 'explore' | 'analysis'
+function updateMobileLabels() {
+  const labels: Record<MobilePanel, string> = language === 'es'
+    ? { map: 'Mapa', explore: 'Explorar', analysis: 'Análisis' }
+    : { map: 'Map', explore: 'Explore', analysis: 'Analysis' }
+  for (const button of mobilePanelButtons) {
+    button.textContent = labels[button.dataset.mobileView as MobilePanel]
+    if (button.dataset.mobileView === 'analysis') button.setAttribute('aria-label',
+      button.classList.contains('has-selection')
+        ? `${labels.analysis}, ${language === 'es' ? 'selección disponible' : 'selection available'}`
+        : labels.analysis)
+  }
+  document.querySelector<HTMLElement>('.mobile-panel-nav')!.setAttribute('aria-label',
+    language === 'es' ? 'Vistas del visor' : 'Viewer views')
+}
+function setMobilePanel(panel: MobilePanel) {
+  const focusInSheet = document.activeElement?.closest('.data-card,.explorer-panel') != null
+  mobileShell.dataset.mobilePanel = panel
+  for (const button of mobilePanelButtons) {
+    button.setAttribute('aria-pressed', String(button.dataset.mobileView === panel))
+  }
+  if (focusInSheet) mobilePanelButtons.find(button => button.dataset.mobileView === panel)?.focus()
+}
+updateMobileLabels()
+for (const button of mobilePanelButtons) {
+  button.addEventListener('click', () => setMobilePanel(button.dataset.mobileView as MobilePanel))
+}
 const names: Record<Level, string> = {
   nacion: 'Ecuador', provincia: 'Provincia', canton: 'Cantón',
   parroquia: 'Parroquia', zona: 'Zona censal', sector: 'Sector censal', manzana: 'Manzana',
@@ -580,6 +615,9 @@ async function start() {
     },
     onResult: result => {
       lastSelection = result
+      mobilePanelButtons.find(button => button.dataset.mobileView === 'analysis')
+        ?.classList.toggle('has-selection', Boolean(result))
+      updateMobileLabels()
       if (selection.mode === 'multi') {
         selectedKey = result?.officialUnitKey ?? ''
         renderBreadcrumb()
@@ -903,6 +941,7 @@ async function start() {
       button.addEventListener('click', () => {
         if (!available) return
         indicator = available.id
+        if (mobileViewport.matches) setMobilePanel('map')
         paintedKey = ''
         renderControls(currentLevel)
         renderThemes()
@@ -917,6 +956,7 @@ async function start() {
     button.addEventListener('click', () => {
       const next = button.dataset.mode as SelectionMode
       selection.setMode(next)
+      if (mobileViewport.matches) setMobilePanel('map')
       for (const peer of Array.from(document.querySelectorAll<HTMLButtonElement>('.toolbar [data-mode]'))) {
         const activeMode = peer === button
         peer.setAttribute('aria-pressed', String(activeMode))
@@ -951,6 +991,7 @@ async function start() {
   smoothEl.addEventListener('change', () => { void refreshAnalysis() })
   indicatorSelect.addEventListener('change', () => {
     indicator = indicatorSelect.value
+    if (mobileViewport.matches) setMobilePanel('map')
     paintedKey = ''
     renderControls(currentLevel)
     renderThemes()
@@ -965,6 +1006,7 @@ async function start() {
   })
   languageEl.addEventListener('click', () => {
     language = language === 'es' ? 'en' : 'es'
+    updateMobileLabels()
     document.querySelector<HTMLElement>('#assignment-note')!.textContent = language === 'es'
       ? `${integer.format(catalog.assigned_manzanas_without_polygon)} manzanas sin polígono: población asignada a nivel de sector`
       : `${integer.format(catalog.assigned_manzanas_without_polygon)} blocks without polygons: population assigned at sector level`

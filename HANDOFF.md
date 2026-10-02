@@ -4,7 +4,7 @@
 
 - Fase actual: **2 terminada y desplegada**. Los [PR #48](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/48), [#49](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/49) y [#50](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/50) se fusionaron en ese orden con squash, cada uno tras rebase sobre `main` y CI verde. La auditoría independiente [#46](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/46) sigue en borrador y su rama no se toca.
 - [Producción](https://diegocevallos-tech.github.io/censo-vivo-ecuador/) sirve el Release público [`data-derived-v2e`](https://github.com/diegocevallos-tech/censo-vivo-ecuador/releases/tag/data-derived-v2e), 424.478.505 bytes. El [deploy 36268990316](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36268990316) está verde. Incluye zona censal I04 y el catálogo de variables. Los datos pesados permanecen fuera de Git.
-- Subtarea actual: corrección visual del tooltip en `fix/tooltip-compacto`, bajo la regla de autonomía del usuario. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado. La capa municipal se hará después en un PR que requiere aprobación.
+- Subtarea actual: corrección visual del mapa móvil en `fix/mobile-map-visibility`, bajo la regla de autonomía del usuario y desde `main`. El [PR #61](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/61) de parroquias urbanas municipales sigue abierto y requiere aprobación; esta corrección no toca su rama ni sus datos. El [PR #53](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/53) de auditoría sigue abierto por separado.
 
 ## Pasos terminados
 
@@ -44,14 +44,20 @@
 34. Los [checks públicos](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36267467041) (59 s) y [devcontainer](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36267466960) (3 min 52 s) quedaron verdes con el arreglo. El cuerpo del PR #58 se actualizó con la captura de densidad y la prueba de multiselección. Falta comentar los resultados al cierre de la CI del último commit documental y esperar aprobación; producción permanece en v2d.
 35. El usuario aprobó el [PR #58](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/58). Se fusionó con squash en `d0f4b07` y se borró la rama. El [PR #56](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/56) de Antigravity, solo `docs/fuentes/parroquias_urbanas.md` y `HANDOFF_ANTIGRAVITY.md`, se marcó listo desde borrador y se fusionó con squash en `b82d8f4`, sin editar su contenido; se borró la rama. El [deploy de producción v2e](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/36268990316) pasó. HTTP 200 para `meta/variables.json`, PMTiles y Parquet de zona; Playwright mostró **ZONA CENSAL**, 137 opciones en el selector de variables (136 variables más la opción vacía) y cero errores JS.
 36. En `fix/tooltip-compacto`, el hover se redujo a ≤240 px y sigue el cursor; el clic deja el detalle en el panel. [Informe](docs/qa/tooltip_compacto.md) y siete E2E locales verdes (provincia, cantón, parroquia, zona, sector, nota `min_level` y variable). El PR de corrección visual está pendiente de abrir y, tras CI verde, puede fusionarse y desplegarse bajo la regla de autonomía. No cambian datos, indicadores, metodología, agregación ni alcance.
+37. El tooltip compacto se fusionó mediante [PR #60](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/60) y está en producción. El usuario pidió revisar el móvil: a 390 × 844 px, explorador y análisis simultáneos dejaban solo una franja del mapa. En `fix/mobile-map-visibility`, el mapa es la vista inicial y los paneles se alternan con altura limitada; una selección queda visible y señala que su detalle está en Análisis. [Informe y capturas](docs/qa/mobile_mapa_visible.md). La prueba local pasó en 390 × 844, 360 × 640 y escritorio 1280 × 800 sin errores JavaScript. Build, lint y 13 Vitest pasaron. No cambian datos, métodos, indicadores ni fuentes.
 
 ## Siguiente comando exacto
 
 ```sh
-git add HANDOFF.md docs/qa/tooltip_compacto.md docs/capturas/tooltip-* web/src/map.ts web/src/style.css web/scripts/test-tooltips.mjs && git commit -m "fix(ui): keep map hover tooltip compact" && git push -u origin fix/tooltip-compacto
+git add HANDOFF.md docs/qa/mobile_mapa_visible.md docs/capturas/mobile-*.png web/src/map.ts web/src/style.css web/scripts/test-mobile-layout.mjs
 ```
 
-Abrir el PR del tooltip, esperar CI verde, adjuntar capturas, fusionar con squash y confirmar producción. Después preparar la capa municipal de las seis ciudades y solicitar aprobación antes de fusionarla. Solo después se aborda #51 móvil. Mantener #53 abierto y no tocar `feat/auditoria-1b2`.
+Crear el commit de corrección móvil, abrir un PR, esperar CI verde, comentar con capturas y fusionar/desplegar bajo la regla de autonomía para correcciones visuales. Mantener #61 y #53 abiertos; no tocar `feat/auditoria-1b2`. La carga inicial y Lighthouse móvil permanecen en #51.
+
+## Archivos tocados en la corrección móvil
+
+- `web/src/map.ts`, `web/src/style.css`, `web/scripts/test-mobile-layout.mjs`.
+- `docs/qa/mobile_mapa_visible.md`, `docs/capturas/mobile-*.png`, `HANDOFF.md`.
 
 ## Archivos tocados en 2C
 
