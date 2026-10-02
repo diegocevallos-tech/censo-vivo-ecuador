@@ -19,3 +19,7 @@ En producción, a 390 × 844 px, el explorador ocupaba la zona superior derecha 
 Capturas: [mapa](../capturas/mobile-mapa.png), [selección](../capturas/mobile-seleccion.png), [explorador](../capturas/mobile-explorar.png) y [análisis](../capturas/mobile-analisis.png).
 
 Esta corrección aborda la visibilidad del mapa. La carga inicial y Lighthouse móvil permanecen en la [issue #51](https://github.com/diegocevallos-tech/censo-vivo-ecuador/issues/51).
+
+## Producción
+
+El [PR #62](https://github.com/diegocevallos-tech/censo-vivo-ecuador/pull/62) se fusionó con squash en `585a574`; el [deploy a Pages](https://github.com/diegocevallos-tech/censo-vivo-ecuador/actions/runs/37044036627) pasó. Se volvió a ejecutar el mismo E2E contra la URL pública: pasaron ambos tamaños móviles y escritorio, sin errores JavaScript.
